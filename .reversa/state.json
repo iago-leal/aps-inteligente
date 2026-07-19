@@ -8,14 +8,95 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "interpretacao",
-  "completed": ["reconhecimento", "escavacao"],
-  "pending": [
-    "interpretacao",
-    "geracao",
-    "revisao"
-  ],
+  "phase": "concluido",
+  "redator_progress": {
+    "plan_total": 12,
+    "done": [
+      "models-insulina/requirements.md",
+      "models-insulina/design.md",
+      "models-insulina/tasks.md",
+      "models-insulina/questions.md",
+      "interface-calculadora/requirements.md",
+      "interface-calculadora/design.md",
+      "interface-calculadora/tasks.md",
+      "pages-next/requirements.md",
+      "pages-next/design.md",
+      "pages-next/tasks.md",
+      "user-stories/prescritor-calcula-dose.md",
+      "traceability/code-spec-matrix.md"
+    ],
+    "next": null,
+    "finished_at": "2026-07-20T00:20:00Z"
+  },
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao"],
+  "pending": [],
   "checkpoints": {
+    "reviewer": {
+      "completed_at": "2026-07-20T00:45:00Z",
+      "specs_reviewed": 3,
+      "cross_review": false,
+      "reclassifications": { "amarelo_para_verde": 3, "vermelho_para_verde": 4 },
+      "questions": { "asked": 6, "answered": 4, "pending": ["G-01 caminho do PDF", "G-02 metformina/TFG", "G-03 sulfonilureia"] },
+      "confidence": "~92% verde",
+      "files": [
+        "_reversa_sdd/questions.md",
+        "_reversa_sdd/gaps.md",
+        "_reversa_sdd/confidence-report.md"
+      ]
+    },
+    "writer": {
+      "completed_at": "2026-07-20T00:20:00Z",
+      "units": ["models-insulina", "interface-calculadora", "pages-next"],
+      "files": [
+        "_reversa_sdd/models-insulina/requirements.md",
+        "_reversa_sdd/models-insulina/design.md",
+        "_reversa_sdd/models-insulina/tasks.md",
+        "_reversa_sdd/models-insulina/questions.md",
+        "_reversa_sdd/interface-calculadora/requirements.md",
+        "_reversa_sdd/interface-calculadora/design.md",
+        "_reversa_sdd/interface-calculadora/tasks.md",
+        "_reversa_sdd/pages-next/requirements.md",
+        "_reversa_sdd/pages-next/design.md",
+        "_reversa_sdd/pages-next/tasks.md",
+        "_reversa_sdd/user-stories/prescritor-calcula-dose.md",
+        "_reversa_sdd/traceability/code-spec-matrix.md"
+      ]
+    },
+    "architect": {
+      "completed_at": "2026-07-19T23:55:00Z",
+      "files": [
+        "_reversa_sdd/architecture.md",
+        "_reversa_sdd/c4-context.md",
+        "_reversa_sdd/c4-containers.md",
+        "_reversa_sdd/c4-components.md",
+        "_reversa_sdd/erd-complete.md",
+        "_reversa_sdd/traceability/spec-impact-matrix.md"
+      ]
+    },
+    "detective": {
+      "completed_at": "2026-07-19T23:30:00Z",
+      "sources": [
+        "models/insulina",
+        "interface/calculadora",
+        "git log (repo atual)",
+        "~/dev/aps-inteligente-backup.bundle (MD-0001..0011, AMB-01..10, features 001/002)"
+      ],
+      "files": [
+        "_reversa_sdd/domain.md",
+        "_reversa_sdd/state-machines.md",
+        "_reversa_sdd/permissions.md",
+        "_reversa_sdd/adrs/0001-fonte-clinica-unica-guia-sms-rio.md",
+        "_reversa_sdd/adrs/0002-privacidade-por-arquitetura-client-side.md",
+        "_reversa_sdd/adrs/0003-dominio-puro-fora-do-framework.md",
+        "_reversa_sdd/adrs/0004-erros-como-valores-excecao-so-invariante.md",
+        "_reversa_sdd/adrs/0005-motor-nao-escolhe-condutas-equivalentes.md",
+        "_reversa_sdd/adrs/0006-teto-como-alerta-limites-inviolaveis.md",
+        "_reversa_sdd/adrs/0007-telemetria-nula-fase-1.md",
+        "_reversa_sdd/adrs/0008-plataforma-hibrida-api-sem-dado-clinico.md",
+        "_reversa_sdd/adrs/0009-escopo-fase-1-o-que-o-guia-cobre.md",
+        "_reversa_sdd/adrs/0010-refundacao-2026-07.md"
+      ]
+    },
     "archaeologist": {
       "completed_at": "2026-07-19T22:05:00Z",
       "modules_analyzed": ["models/insulina", "interface/calculadora", "pages"],
