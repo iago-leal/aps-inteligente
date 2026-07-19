@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bugs — motor-insulina</title>
+<style>
+  :root { --fundo:#faf9f7; --tinta:#1a1a1a; --caixa:#fff; --borda:#d8d4cc; --medium:#b45309; --acento:#0f766e; }
+  @media (prefers-color-scheme: dark) { :root { --fundo:#16181a; --tinta:#e8e6e1; --caixa:#1f2225; --borda:#3a3f45; } }
+  body { font-family: -apple-system, "Segoe UI", sans-serif; background:var(--fundo); color:var(--tinta); margin:0; padding:2rem; line-height:1.5; }
+  main { max-width: 60rem; margin: 0 auto; }
+  h1 { font-size:1.3rem; } h2 { font-size:1.05rem; margin-top:2rem; }
+  .no { border:2px solid var(--medium); border-radius:10px; background:var(--caixa); padding:1rem 1.2rem; max-width:26rem; }
+  .no .id { font-family:ui-monospace,monospace; font-size:.8rem; opacity:.75; }
+  .badge { display:inline-block; border-radius:999px; padding:.05rem .6rem; font-size:.75rem; border:1px solid var(--borda); margin-right:.3rem; }
+  .sev-medium { border-color:var(--medium); color:var(--medium); }
+  table { border-collapse:collapse; width:100%; background:var(--caixa); font-size:.9rem; }
+  th,td { border:1px solid var(--borda); padding:.5rem .7rem; text-align:left; vertical-align:top; }
+  .rodape { margin-top:2.5rem; font-size:.8rem; opacity:.7; }
+  .wrap { overflow-x:auto; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Contexto <code>motor-insulina</code> — grafo de bugs</h1>
+  <p>View gerada em 2026-07-19 pelo protocolo do <code>/reversa-debugger-graph</code>. 1 bug aberto, 0 ativos, 0 resolvidos, 0 travados.</p>
+
+  <h2>Grafo</h2>
+  <div class="no">
+    <div class="id">BUG-20260719-RHZ5 · #1</div>
+    <strong>Motor silencioso com HbA1c ausente nos ramos residuais da intensificação</strong><br>
+    <span class="badge sev-medium">medium</span><span class="badge">P2</span><span class="badge">open · triaging</span><br>
+    <small>dominio / models-insulina / calculadora-insulina-dm2</small>
+  </div>
+  <p><small>Sem arestas: bug único no contexto.</small></p>
+
+  <h2>Bugs abertos</h2>
+  <div class="wrap">
+  <table>
+    <tr><th>#</th><th>ID</th><th>Título</th><th>Sev/Pri</th><th>Spec</th><th>Código</th></tr>
+    <tr>
+      <td>1</td>
+      <td><code>BUG-20260719-RHZ5</code></td>
+      <td>Motor silencioso com HbA1c ausente nos ramos residuais da intensificação — validado pelo usuário: deveria recomendar dosar HbA1c</td>
+      <td>medium · P2</td>
+      <td><code>models-insulina/requirements.md</code> RN-H</td>
+      <td><code>regra-intensificacao.ts:98-99</code></td>
+    </tr>
+  </table>
+  </div>
+
+  <h2>Travados (DONE.md)</h2>
+  <p>Nenhum.</p>
+
+  <p class="rodape">Source of truth: <code>bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md</code>. Não edite esta view à mão.</p>
+</main>
+</body>
+</html>

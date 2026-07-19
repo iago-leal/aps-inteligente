@@ -1,0 +1,19 @@
+# Vocabulário controlado do registro de bugs — aps-inteligente
+# Semeado de _reversa_sdd/architecture.md e domain.md em 2026-07-19.
+# Termos novos entram por proposta em Agent Notes de um bug; nunca invente fora daqui.
+
+area:
+  - dominio          # regra clínica (models/insulina)
+  - interface        # apresentação React (interface/calculadora)
+  - shell            # Next.js pages, build, deploy
+  - infra            # CI, lint, testes de plataforma
+
+module:
+  - models-insulina
+  - interface-calculadora
+  - pages-next
+
+feature:
+  - calculadora-insulina-dm2   # início, titulação, fracionamento, intensificação
+  - tema                       # preferência claro/escuro
+  - relato-de-erros            # RelatorDeErros / painel honesto
