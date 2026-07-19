@@ -1,0 +1,382 @@
+{
+  "generated_at": "2026-07-19T22:00:00Z",
+  "modules": [
+    {
+      "name": "models/insulina",
+      "path": "models/insulina",
+      "purpose": "Motor de cálculo de insulina DM2 (início, titulação basal, fracionamento, intensificação), puro e determinístico, com fonte clínica única e rastreabilidade por resultado",
+      "primary_files": [
+        "models/insulina/calculadora.ts",
+        "models/insulina/tipos.ts",
+        "models/insulina/fonte-clinica.ts",
+        "models/insulina/validacao.ts",
+        "models/insulina/regra-inicio.ts",
+        "models/insulina/regra-titulacao-basal.ts",
+        "models/insulina/regra-intensificacao.ts"
+      ],
+      "functions": [
+        {
+          "name": "CalculadoraInsulinaDM2.calcular",
+          "file": "models/insulina/calculadora.ts",
+          "params": ["entrada: EntradaCalculo"],
+          "returns": "SaidaCalculo",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "validarEntrada",
+          "file": "models/insulina/validacao.ts",
+          "params": ["entrada: EntradaCalculo"],
+          "returns": "Ofensor[]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "motivoForaDoEscopo",
+          "file": "models/insulina/validacao.ts",
+          "params": ["entrada: EntradaCalculo"],
+          "returns": "string | null",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "RegraInicio.calcular",
+          "file": "models/insulina/regra-inicio.ts",
+          "params": ["entrada: EntradaCalculo", "peso: Peso"],
+          "returns": "ResultadoInicio",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "RegraTitulacaoBasal.aplicar",
+          "file": "models/insulina/regra-titulacao-basal.ts",
+          "params": ["ajuste: AjusteEmCurso", "entrada: EntradaCalculo"],
+          "returns": "void",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "RegraTitulacaoBasal.fracionarSeIndicado",
+          "file": "models/insulina/regra-titulacao-basal.ts",
+          "params": ["ajuste: AjusteEmCurso", "entrada: EntradaCalculo", "peso: Peso"],
+          "returns": "void",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "contemDoseLimitada",
+          "file": "models/insulina/regra-titulacao-basal.ts",
+          "params": ["ajuste: AjusteEmCurso", "indice: number", "novaDoseUi: number"],
+          "returns": "number",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "RegraIntensificacao.aplicar",
+          "file": "models/insulina/regra-intensificacao.ts",
+          "params": ["ajuste: AjusteEmCurso", "entrada: EntradaCalculo"],
+          "returns": "void",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "referencia",
+          "file": "models/insulina/fonte-clinica.ts",
+          "params": ["localizacao: string"],
+          "returns": "ReferenciaClinica",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "EntradaCalculo",
+          "fields": [
+            { "name": "modo", "type": "\"inicio\" | \"titulacao\"", "required": true },
+            { "name": "pesoKg", "type": "number", "required": true },
+            { "name": "glicemias", "type": "GlicemiaAferida[]", "required": true },
+            { "name": "hba1cPercent", "type": "number", "required": false },
+            { "name": "usoSulfonilureia", "type": "boolean", "required": false },
+            { "name": "esquemaAtual", "type": "EsquemaInsulina", "required": false }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SaidaCalculo",
+          "fields": [
+            { "name": "tipo", "type": "\"resultado\" | \"erro-validacao\" | \"fora-do-escopo\"", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "ResultadoInicio",
+          "fields": [
+            { "name": "faixaDoseUi", "type": "FaixaUi", "required": true },
+            { "name": "faixaPorPesoUi", "type": "FaixaUi", "required": true },
+            { "name": "aplicacaoSugerida", "type": "{ insulina: \"NPH\", momento: \"ao_deitar\" }", "required": true },
+            { "name": "alertas", "type": "Alerta[]", "required": true },
+            { "name": "recomendacoesAoPrescritor", "type": "Recomendacao[]", "required": true },
+            { "name": "referencias", "type": "ReferenciaClinica[]", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "ResultadoTitulacao",
+          "fields": [
+            { "name": "esquemaSugerido", "type": "AplicacaoInsulina[]", "required": true },
+            { "name": "doseTotalDiaUi", "type": "number", "required": true },
+            { "name": "deltaTotalUi", "type": "number", "required": true },
+            { "name": "naMeta", "type": "boolean", "required": true },
+            { "name": "condutasAlternativas", "type": "CondutaAlternativa[]", "required": false },
+            { "name": "alertas", "type": "Alerta[]", "required": true },
+            { "name": "recomendacoesAoPrescritor", "type": "Recomendacao[]", "required": true },
+            { "name": "referencias", "type": "ReferenciaClinica[]", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "ReferenciaClinica",
+          "fields": [
+            { "name": "fonteId", "type": "string", "required": true },
+            { "name": "versaoEdicao", "type": "string", "required": true },
+            { "name": "localizacao", "type": "string", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Peso / Glicemia / DoseUi (value objects)",
+          "fields": [
+            { "name": "Peso.kg", "type": "number (0 < kg ≤ 350)", "required": true },
+            { "name": "Glicemia.valorMgDl", "type": "number (10–1000)", "required": true },
+            { "name": "DoseUi.ui", "type": "integer (1–60)", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Início devolve faixa (10–15 UI/dia e 0,1–0,2 UI/kg/dia arredondada), nunca dose única; sugestão fixa NPH ao deitar (AMB-01)",
+          "location": "models/insulina/regra-inicio.ts:54",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Indicação de insulina: HbA1c ≥ 10% ou glicemia de jejum ≥ 300 mg/dL (AMB-08)",
+          "location": "models/insulina/regra-inicio.ts:18",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Titulação basal pelo jejum agregado por média; hipoglicemia (≤ 70) prevalece sobre a média e reduz 4 UI (AMB-06)",
+          "location": "models/insulina/regra-titulacao-basal.ts:62",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Tabela de ajuste basal: ≥ 180 → +4 UI; ≥ 130 → +2 UI; 71–129 → na meta (AMB-02/05/09)",
+          "location": "models/insulina/regra-titulacao-basal.ts:78",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Ajuste basal incide na NPH mais noturna (ordem ao_deitar → antes_jantar → antes_almoco → antes_cafe)",
+          "location": "models/insulina/regra-titulacao-basal.ts:25",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Fracionamento quando NPH única > 30 UI ou > 0,4 UI/kg/dia: ½+½ preferencial, ⅔+⅓ alternativa rotulada (AMB-10); suspender sulfonilureia se em uso, manter metformina",
+          "location": "models/insulina/regra-titulacao-basal.ts:114",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Toda dose por aplicação é contida em 1–60 UI (caneta SUS) com alerta TETO_POR_APLICACAO quando o clamp atua (R-20/D-08)",
+          "location": "models/insulina/regra-titulacao-basal.ts:42",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Gate de intensificação por HbA1c: ≤ 7% mantém conduta (HbA1c 6/6 meses) ou, se já intensificado, ajusta e avalia endócrino; > 7% exige pré-prandiais antes de iniciar Regular; ausente só titula esquema já intensificado (repetir HbA1c em 3 meses)",
+          "location": "models/insulina/regra-intensificacao.ts:60",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Braços deslocados aferição→aplicação: AA→Regular antes do café, AJ→antes do almoço, AD→antes do jantar; iniciar 4 UI, ajustar ±2 UI (R-14..R-17)",
+          "location": "models/insulina/regra-intensificacao.ts:25",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Braço AJ com NPH antes do café: duas condutas equivalentes devolvidas como alternativas — o motor não escolhe (AMB-03)",
+          "location": "models/insulina/regra-intensificacao.ts:174",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Dose total > 1,0 UI/kg/dia não trava: alerta DOSE_ACIMA_FAIXA_PLENA + recomendação de compartilhar cuidado (AMB-04)",
+          "location": "models/insulina/calculadora.ts:101",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Validação coleta todos os ofensores; pré-prandiais sem Regular no esquema exigem HbA1c (EC-10); motor revalida sem confiar na UI (EC-08)",
+          "location": "models/insulina/validacao.ts:26",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Fora de escopo: qualquer insulina fora de NPH/Regular devolve orientação sem sugerir dose (NG-06)",
+          "location": "models/insulina/validacao.ts:141",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Alertas ordenados por severidade fixa (HIPOGLICEMIA primeiro); recomendações deduplicadas por tipo; referências por localização",
+          "location": "models/insulina/calculadora.ts:27",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": [],
+      "algorithms": [
+        "Agregação de glicemias por média com prevalência de hipoglicemia",
+        "Clamp de dose 1–60 UI com alerta",
+        "Fracionamento ceil(n/2) / round(2n/3)",
+        "Ordenação de alertas por severidade + deduplicação por chave"
+      ],
+      "complexity": "medium-high"
+    },
+    {
+      "name": "interface/calculadora",
+      "path": "interface/calculadora",
+      "purpose": "UI React da calculadora: formulário controlado com validação no blur espelhando o motor, painel de resultado com revisão explícita, tema claro/escuro e relator de erros nulo",
+      "primary_files": [
+        "interface/calculadora/tela.tsx",
+        "interface/calculadora/calculadora-app.tsx",
+        "interface/calculadora/formulario.tsx",
+        "interface/calculadora/resultado.tsx",
+        "interface/calculadora/preferencia-de-tema.ts",
+        "interface/calculadora/relator-de-erros.ts",
+        "interface/estilos/globais.css"
+      ],
+      "functions": [
+        {
+          "name": "CalculadoraApp",
+          "file": "interface/calculadora/calculadora-app.tsx",
+          "params": ["{ relator?, motor? }: PropsCalculadoraApp"],
+          "returns": "JSX",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "FormularioCalculadora",
+          "file": "interface/calculadora/formulario.tsx",
+          "params": ["{ onCalcular, onAlteracao }: PropsFormulario"],
+          "returns": "JSX",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "PainelResultado",
+          "file": "interface/calculadora/resultado.tsx",
+          "params": ["{ estado, desatualizado, revisaoConfirmada, onConfirmarRevisao, onNovoCalculo }"],
+          "returns": "JSX",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "interpretaDecimal",
+          "file": "interface/calculadora/formulario.tsx",
+          "params": ["bruto: string"],
+          "returns": "number | null (NaN se inválido)",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "derivaTipoEsquema",
+          "file": "interface/calculadora/formulario.tsx",
+          "params": ["aplicacoes: LinhaAplicacao[]"],
+          "returns": "\"basal\" | \"basal-plus\" | \"basal-bolus\"",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "assinarTema / lerTema / gravarTema",
+          "file": "interface/calculadora/preferencia-de-tema.ts",
+          "params": ["—"],
+          "returns": "store externo para useSyncExternalStore",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "EstadoResultado",
+          "fields": [
+            { "name": "estado", "type": "\"vazio\" | \"sucesso\" | \"erro\" | \"falha-inesperada\"", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "EventoDeErro",
+          "fields": [
+            { "name": "nome", "type": "string (apenas o nome da classe do erro)", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Qualquer edição do formulário invalida o resultado vigente: aviso 'recalcule antes de prescrever' e checkbox de revisão desmarcado/desabilitado (RN-06/EC-03)",
+          "location": "interface/calculadora/calculadora-app.tsx:50",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Bloco 'Pronto para prescrever' só habilita com revisão confirmada e resultado atualizado",
+          "location": "interface/calculadora/resultado.tsx:182",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Exceção fora do contrato do motor exibe painel honesto ('Não prescreva') e reporta somente o nome do erro (EC-07/MD-0010)",
+          "location": "interface/calculadora/calculadora-app.tsx:39",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Nenhum dado clínico sai da página: sem rede, sem storage; único localStorage é a preferência de tema (RN-02)",
+          "location": "interface/calculadora/calculadora-app.tsx:4",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Validação da UI usa as mesmas faixas do motor (importa CONSTANTES) e aceita vírgula ou ponto decimal (EC-01)",
+          "location": "interface/calculadora/formulario.tsx:57",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "'Novo cálculo' remonta o formulário limpo via key de geração (RF-10)",
+          "location": "interface/calculadora/calculadora-app.tsx:57",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["models/insulina"],
+      "algorithms": [
+        "interpretaDecimal com normalização vírgula→ponto e regex estrita",
+        "Máquina de estados do resultado com flags ortogonais (desatualizado, revisaoConfirmada)"
+      ],
+      "complexity": "medium"
+    },
+    {
+      "name": "pages",
+      "path": "pages",
+      "purpose": "Shell Next.js (Pages Router): fontes IBM Plex, CSS global, metadados e montagem da TelaCalculadora; rota de API v1 declarada porém vazia",
+      "primary_files": [
+        "pages/_app.tsx",
+        "pages/_document.tsx",
+        "pages/index.tsx",
+        "pages/api/v1/index.js"
+      ],
+      "functions": [
+        {
+          "name": "App",
+          "file": "pages/_app.tsx",
+          "params": ["{ Component, pageProps }: AppProps"],
+          "returns": "JSX",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Pagina",
+          "file": "pages/index.tsx",
+          "params": [],
+          "returns": "JSX",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "Idioma do documento fixado em pt-BR; metadados enfatizam cálculo 100% no navegador",
+          "location": "pages/_document.tsx:5",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["interface/calculadora"],
+      "algorithms": [],
+      "complexity": "low",
+      "gaps": [
+        "pages/api/v1/index.js vazio — rota sem handler (par com tests/integration/api/v1/index.js, também vazio)"
+      ]
+    }
+  ]
+}

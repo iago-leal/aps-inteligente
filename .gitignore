@@ -8,3 +8,7 @@ test-results/
 .vercel/
 *.tsbuildinfo
 .DS_Store
+
+# Configurações pessoais (não versionar)
+.reversa/config.user.toml
+.claude/settings.local.json

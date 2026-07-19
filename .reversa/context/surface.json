@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-07-19T00:00:00Z",
+  "project_root": "/Users/iagoleal/dev/aps-inteligente",
+  "languages": [
+    { "name": "TypeScript", "extensions": [".ts"], "file_count": 19 },
+    { "name": "TypeScript (React)", "extensions": [".tsx"], "file_count": 10 },
+    { "name": "JavaScript", "extensions": [".js", ".mjs"], "file_count": 3 },
+    { "name": "CSS", "extensions": [".css"], "file_count": 1 }
+  ],
+  "primary_language": "TypeScript",
+  "frameworks": [
+    { "name": "Next.js", "version": "16.2.10", "source": "package.json" },
+    { "name": "React", "version": "19.2.4", "source": "package.json" },
+    { "name": "Vitest", "version": "4.1.10", "source": "package.json" },
+    { "name": "fast-check", "version": "4.9.0", "source": "package.json" },
+    { "name": "Playwright", "version": "1.61.1", "source": "package.json" },
+    { "name": "TypeScript", "version": "6.0.3", "source": "package.json" }
+  ],
+  "package_manager": "npm",
+  "entry_points": [
+    { "path": "pages/_app.tsx", "type": "app_entry" },
+    { "path": "pages/index.tsx", "type": "page" },
+    { "path": "pages/api/v1/index.js", "type": "api_placeholder_empty" }
+  ],
+  "config_files": [
+    "next.config.ts",
+    "tsconfig.json",
+    "vitest.config.ts",
+    "eslint.config.mjs",
+    ".env",
+    ".env.local"
+  ],
+  "ci_cd": [],
+  "docker": {
+    "compose": "infra/compose.yaml (vazio — placeholder)"
+  },
+  "database_hints": [],
+  "test_framework": "Vitest",
+  "test_file_count": 13,
+  "modules": [
+    "models/insulina",
+    "interface/calculadora",
+    "pages"
+  ],
+  "total_files": 34,
+  "organization_suggestion": {
+    "granularity": "module",
+    "rationale": "A estrutura top-level separa domínio (models/insulina), apresentação (interface/calculadora) e shell Next.js (pages), cada um com fronteira e responsabilidade próprias.",
+    "signals": [
+      {
+        "type": "top_level_domain_folders",
+        "evidence": ["models/insulina/", "interface/calculadora/", "pages/"]
+      }
+    ],
+    "features": []
+  }
+}
