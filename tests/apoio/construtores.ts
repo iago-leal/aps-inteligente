@@ -12,7 +12,7 @@ import type {
   ResultadoInicio,
   ResultadoTitulacao,
   SaidaCalculo,
-} from "@/dominio/insulina/tipos";
+} from "models/insulina/tipos";
 
 export function jejum(...valores: number[]): GlicemiaAferida[] {
   return valores.map((valorMgDl) => ({ valorMgDl, momento: "jejum" as const }));

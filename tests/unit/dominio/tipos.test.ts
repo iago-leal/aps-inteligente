@@ -6,7 +6,7 @@ import {
   ErroDeInvariante,
   Glicemia,
   Peso,
-} from "@/dominio/insulina/tipos";
+} from "models/insulina/tipos";
 
 describe("Peso — > 0 e ≤ 350 kg (RF-05)", () => {
   it.each([80, 0.5, 350])("aceita %s kg e é imutável", (kg) => {

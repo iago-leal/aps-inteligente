@@ -1,0 +1,699 @@
+/* Tokens e estilos da tela da calculadora, portados fielmente do design
+   "Tela de calculadora de insulina" (claude.ai/design). Os nomes das variáveis
+   e os valores hexadecimais são os do design; alterá-los aqui desalinha a tela
+   da fonte visual aprovada. */
+
+:root {
+  --fundo: #efeee9;
+  --cartao: #ffffff;
+  --campo: #fdfdfb;
+  --tinta: #22302e;
+  --tinta2: #3b4744;
+  --sec: #5a6663;
+  --mudo: #8a918e;
+  --borda: #dfdcd2;
+  --borda2: #eceae2;
+  --suave: #faf9f5;
+  --bordacampo: #c9c5b9;
+  --acento-texto: #0e5f53;
+  --acento-forte: #0e5f53;
+  --acento-forte-hover: #0b4c42;
+  --acento-suave: #ebf3f0;
+  --verde-texto: #1c6b4c;
+  --verde-suave: #e7f2ec;
+  --verde-borda: #c4e0d2;
+  --painel-verde: #f2f7f4;
+  --pronto-borda: #7fb89a;
+  --alerta-bg: #fbf1ec;
+  --alerta-borda: #e3b8aa;
+  --alerta-texto: #6e2e1f;
+  --alerta-icone: #b5502f;
+  --erro: #8a3b27;
+  --ambar-bg: #fcf6e8;
+  --ambar-borda: #e8d9ae;
+  --ambar-texto: #7a5b12;
+  --regular: #c98a2b;
+}
+
+[data-tema="escuro"] {
+  --fundo: #161c1a;
+  --cartao: #1f2624;
+  --campo: #171e1c;
+  --tinta: #e6ebe8;
+  --tinta2: #c2ccc7;
+  --sec: #93a09a;
+  --mudo: #6f7b76;
+  --borda: #37413d;
+  --borda2: #2c3532;
+  --suave: #242c29;
+  --bordacampo: #46524d;
+  --acento-texto: #58bba6;
+  --acento-forte: #157a69;
+  --acento-forte-hover: #1e8e7b;
+  --acento-suave: #1f2e2a;
+  --verde-texto: #7ecda9;
+  --verde-suave: #1e332a;
+  --verde-borda: #35594a;
+  --painel-verde: #20302c;
+  --pronto-borda: #3e7a5e;
+  --alerta-bg: #362320;
+  --alerta-borda: #6e4237;
+  --alerta-texto: #ebb39f;
+  --alerta-icone: #c4633c;
+  --erro: #e09a82;
+  --ambar-bg: #332b18;
+  --ambar-borda: #665728;
+  --ambar-texto: #e0c577;
+  --regular: #d9a855;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--fundo);
+}
+
+/* As variáveis de fonte são declaradas pelo next/font no contêiner de `_app`, e
+   variável CSS só desce na árvore: por isso a tipografia é ancorada aqui, e não
+   em `body`, que é ancestral do contêiner e não enxergaria a declaração. */
+.app-raiz {
+  font-family: var(--fonte-texto), sans-serif;
+}
+
+a {
+  color: var(--acento-texto);
+}
+
+a:hover {
+  color: var(--acento-forte-hover);
+}
+
+input,
+select,
+button {
+  font-family: var(--fonte-texto), sans-serif;
+}
+
+input,
+select {
+  color: var(--tinta);
+  width: 100%;
+  min-width: 0;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--acento-texto);
+}
+
+::placeholder {
+  color: var(--mudo);
+  opacity: 1;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--acento-texto);
+  outline-offset: 1px;
+}
+
+/* ── Moldura da página ─────────────────────────────────────────────────── */
+
+/* A cor do texto é resolvida aqui, e não num ancestral: `data-tema` redefine os
+   tokens neste elemento, e `color` declarada acima dele seria computada com os
+   valores do tema claro e herdada já concretizada, ignorando a troca de tema. */
+.pagina {
+  min-height: 100vh;
+  background: var(--fundo);
+  color: var(--tinta);
+}
+
+.cabecalho {
+  background: var(--cartao);
+  border-bottom: 1px solid var(--borda);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cabecalho-identidade {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cabecalho-identidade h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cabecalho-identidade p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sec);
+}
+
+.cabecalho-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selo-privacidade {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--verde-texto);
+  background: var(--verde-suave);
+  border: 1px solid var(--verde-borda);
+  border-radius: 999px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+
+.botao-tema {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  color: var(--sec);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.botao-tema:hover {
+  border-color: var(--acento-texto);
+  color: var(--acento-texto);
+}
+
+.calc-regioes {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 32px 56px;
+  display: grid;
+  grid-template-columns: minmax(360px, 460px) 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Formulário ───────────────────────────────────────────────────────── */
+
+.form-calculadora {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.form-calculadora fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-calculadora fieldset + fieldset {
+  padding-top: 18px;
+  border-top: 1px solid var(--borda2);
+}
+
+.form-calculadora legend {
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sec);
+  margin-bottom: 2px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.campo label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta2);
+}
+
+.campo input,
+.campo select {
+  border: 1px solid var(--bordacampo);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 15px;
+  background: var(--campo);
+}
+
+.confirmacao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.erro-campo {
+  margin: 0;
+  font-size: 13px;
+  color: var(--erro);
+}
+
+.linha-dinamica {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--suave);
+  border: 1px solid var(--borda2);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* ── Botões ───────────────────────────────────────────────────────────── */
+
+.botao {
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.botao-primario {
+  background: var(--acento-forte);
+  color: #ffffff;
+  border: 0;
+  padding: 13px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  width: 100%;
+}
+
+.botao-primario:hover {
+  background: var(--acento-forte-hover);
+}
+
+.botao-secundario {
+  background: var(--cartao);
+  border: 1px solid var(--acento-texto);
+  color: var(--acento-texto);
+}
+
+.botao-secundario:hover {
+  background: var(--acento-suave);
+}
+
+.botao-terciario {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  font-size: 13px;
+  color: var(--erro);
+  text-decoration: underline;
+}
+
+/* ── Painel de resultado ──────────────────────────────────────────────── */
+
+.painel-resultado {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 24px;
+}
+
+.resultado-desatualizado {
+  opacity: 0.88;
+}
+
+.painel-resultado h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sec);
+}
+
+.painel-resultado h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tinta2);
+}
+
+.aviso-desatualizado {
+  margin: 0;
+  background: var(--ambar-bg);
+  border: 1px solid var(--ambar-borda);
+  color: var(--ambar-texto);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.resultado-vazio {
+  margin: 0;
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--sec);
+}
+
+.painel-falha,
+.bloco-erros {
+  background: var(--alerta-bg);
+  border: 1px solid var(--alerta-borda);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--alerta-texto);
+}
+
+.painel-falha strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.painel-falha p,
+.bloco-erros p {
+  margin: 0;
+}
+
+.bloco-erros ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.conteudo-resultado {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bloco-alertas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alerta-clinico {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--alerta-bg);
+  border: 1px solid var(--alerta-borda);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--alerta-texto);
+}
+
+.alerta-clinico .icone {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--alerta-icone);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.faixa-inicial {
+  background: var(--painel-verde);
+  border: 1px solid var(--verde-borda);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faixa-inicial p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tinta2);
+}
+
+.faixa-inicial > .valor {
+  font-family: var(--fonte-dados), monospace;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--acento-texto);
+}
+
+.faixa-inicial .valor {
+  font-family: var(--fonte-dados), monospace;
+  font-weight: 600;
+  color: var(--acento-texto);
+}
+
+.referencia-inline {
+  font-size: 13px;
+  color: var(--sec);
+  font-style: italic;
+}
+
+.resumo-dose {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.resumo-dose > span {
+  flex: 1;
+  min-width: 150px;
+  background: var(--painel-verde);
+  border: 1px solid var(--verde-borda);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sec);
+}
+
+.resumo-dose .valor {
+  font-family: var(--fonte-dados), monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--acento-texto);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.selo-na-meta {
+  flex: none;
+  align-self: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--verde-texto);
+  background: var(--verde-suave);
+  border: 1px solid var(--verde-borda);
+  border-radius: 999px;
+  padding: 5px 12px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.linha-prescricao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.linha-prescricao .tampa {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--acento-texto);
+}
+
+.linha-prescricao[data-insulina="Regular"] .tampa {
+  background: var(--regular);
+}
+
+.linha-prescricao .insulina {
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 70px;
+}
+
+.linha-prescricao .momento {
+  font-size: 14px;
+  color: var(--sec);
+  flex: 1;
+}
+
+.linha-prescricao .dose {
+  font-family: var(--fonte-dados), monospace;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--acento-texto);
+}
+
+.bloco-condutas {
+  border: 1px dashed var(--bordacampo);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.bloco-recomendacoes h3,
+.bloco-referencias h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sec);
+}
+
+.bloco-condutas ul,
+.bloco-recomendacoes ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--tinta2);
+}
+
+.bloco-referencias {
+  background: var(--suave);
+  border: 1px solid var(--borda2);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.bloco-referencias h3 {
+  margin-bottom: 6px;
+}
+
+.bloco-referencias ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--sec);
+}
+
+.bloco-revisao {
+  border-top: 1px solid var(--borda2);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bloco-revisao .confirmacao {
+  font-weight: 600;
+}
+
+.bloco-final {
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--pronto-borda);
+  background: var(--verde-suave);
+}
+
+.bloco-final[aria-disabled="true"] {
+  border-color: var(--borda2);
+  background: var(--suave);
+  opacity: 0.6;
+}
+
+.bloco-final strong {
+  display: block;
+  font-size: 15px;
+  color: var(--verde-texto);
+}
+
+.bloco-final p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--tinta2);
+}
+
+.disclaimer {
+  margin: 0;
+  font-size: 12px;
+  color: var(--mudo);
+  border-top: 1px solid var(--borda2);
+  padding-top: 12px;
+}
+
+/* ── Responsivo ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .calc-regioes {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 40px;
+  }
+
+  .painel-resultado {
+    position: static;
+  }
+
+  .cabecalho {
+    padding: 16px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

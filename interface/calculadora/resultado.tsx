@@ -11,7 +11,7 @@ import type {
   ResultadoCalculo,
   ResultadoInicio,
   ResultadoTitulacao,
-} from "@/dominio/insulina/tipos";
+} from "models/insulina/tipos";
 
 export type EstadoResultado =
   | { estado: "vazio" }

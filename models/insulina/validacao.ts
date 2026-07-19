@@ -1,7 +1,11 @@
 // Validação de entrada com coleta de TODOS os ofensores (RF-05; RN-03; EC-01..08/10).
 // Defesa em profundidade: o motor revalida tudo, sem confiar na UI (EC-08).
 import { CONSTANTES } from "./fonte-clinica";
-import type { CodigoErro, EntradaCalculo, Ofensor } from "./tipos";
+import type {
+  CodigoErro,
+  EntradaCalculo,
+  Ofensor,
+} from "./tipos";
 
 const { plausibilidade } = CONSTANTES;
 

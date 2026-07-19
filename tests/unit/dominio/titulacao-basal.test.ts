@@ -1,7 +1,7 @@
 // T008 — Validação da titulação basal (RF-02 do motor; R-05..R-07 da spec §6.1).
 // Fonte: Figura 4 p. 62; decisões AMB-02, AMB-05, AMB-06 e AMB-09.
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
 import {
   comoResultadoTitulacao,
   doseDe,

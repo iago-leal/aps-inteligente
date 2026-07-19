@@ -3,8 +3,8 @@
 // invalidação por edição (RN-06; EC-03) e painel honesto para falha inesperada (EC-07).
 // Nenhum dado clínico sai deste componente: sem rede, sem storage (RN-02).
 import { useMemo, useState } from "react";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
-import type { EntradaCalculo, SaidaCalculo } from "@/dominio/insulina/tipos";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
+import type { EntradaCalculo, SaidaCalculo } from "models/insulina/tipos";
 import { FormularioCalculadora } from "./formulario";
 import { relatorNulo, type RelatorDeErros } from "./relator-de-erros";
 import { PainelResultado, type EstadoResultado } from "./resultado";

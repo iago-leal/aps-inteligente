@@ -3,14 +3,14 @@
 // Valida no blur com as MESMAS faixas do motor e aceita vírgula ou ponto decimal;
 // nenhuma regra clínica vive aqui (RNF-05 da UI).
 import { useId, useState } from "react";
-import { CONSTANTES } from "@/dominio/insulina/fonte-clinica";
+import { CONSTANTES } from "models/insulina/fonte-clinica";
 import type {
   EntradaCalculo,
   GlicemiaAferida,
   MomentoAfericao,
   MomentoAplicacao,
   NomeInsulina,
-} from "@/dominio/insulina/tipos";
+} from "models/insulina/tipos";
 
 export interface PropsFormulario {
   onCalcular: (entrada: EntradaCalculo) => void;

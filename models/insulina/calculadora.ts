@@ -8,7 +8,10 @@ import {
   RegraTitulacaoBasal,
   type AjusteEmCurso,
 } from "./regra-titulacao-basal";
-import { motivoForaDoEscopo, validarEntrada } from "./validacao";
+import {
+  motivoForaDoEscopo,
+  validarEntrada,
+} from "./validacao";
 import {
   DoseUi,
   Peso,

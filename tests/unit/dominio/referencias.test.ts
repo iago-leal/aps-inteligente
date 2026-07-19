@@ -1,7 +1,7 @@
 // T012 — Rastreabilidade clínica (RF-03 do motor; RN-01): dose → fonte, sempre.
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
-import type { ReferenciaClinica, SaidaCalculo } from "@/dominio/insulina/tipos";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
+import type { ReferenciaClinica, SaidaCalculo } from "models/insulina/tipos";
 import {
   afericao,
   comoResultadoTitulacao,

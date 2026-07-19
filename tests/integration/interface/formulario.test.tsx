@@ -2,7 +2,7 @@
 // T013 — Formulário da calculadora (RF-05/RF-06/RF-07 do requirements; RF-01..RF-03/RF-11 da UI).
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { FormularioCalculadora } from "@/interface/calculadora/formulario";
+import { FormularioCalculadora } from "interface/calculadora/formulario";
 
 afterEach(cleanup);
 

@@ -5,12 +5,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   PainelResultado,
   type EstadoResultado,
-} from "@/interface/calculadora/resultado";
+} from "interface/calculadora/resultado";
 import type {
   ErroValidacao,
   ForaDoEscopoDaFonte,
   ResultadoTitulacao,
-} from "@/dominio/insulina/tipos";
+} from "models/insulina/tipos";
 
 afterEach(cleanup);
 

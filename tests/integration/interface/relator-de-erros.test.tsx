@@ -3,11 +3,11 @@
 // a implementação nula não faz nada; o painel honesto assume a tela (EC-07).
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CalculadoraApp } from "@/interface/calculadora/calculadora-app";
+import { CalculadoraApp } from "interface/calculadora/calculadora-app";
 import {
   relatorNulo,
   type EventoDeErro,
-} from "@/interface/calculadora/relator-de-erros";
+} from "interface/calculadora/relator-de-erros";
 
 afterEach(cleanup);
 

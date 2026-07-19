@@ -1,7 +1,7 @@
 // T010 — Validação de entrada e erros nomeados (RF-05, RF-07; RN-03, RN-04; EC-01..08/10).
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
-import type { EntradaCalculo } from "@/dominio/insulina/tipos";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
+import type { EntradaCalculo } from "models/insulina/tipos";
 import {
   codigosDe,
   comoErroValidacao,

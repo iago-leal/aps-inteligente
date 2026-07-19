@@ -1,7 +1,7 @@
 // T007 — Validação do início de insulinização (RF-01 do motor; R-01..R-04 da spec §6.1).
 // Fonte: Guia Rápido DM SMS-Rio 2023, p. 60 e Figura 4 p. 62; decisões AMB-01 e AMB-08.
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
 import {
   comoResultadoInicio,
   entradaInicio,

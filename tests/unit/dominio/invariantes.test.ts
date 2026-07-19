@@ -1,7 +1,7 @@
 // T011 — Invariantes property-based (RF-06, RF-08 do motor; D-08; AMB-04).
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
 import {
   comoResultadoTitulacao,
   entradaTitulacao,
@@ -9,7 +9,7 @@ import {
   jejum,
   tiposDeAlerta,
 } from "../../apoio/construtores";
-import type { EntradaCalculo } from "@/dominio/insulina/tipos";
+import type { EntradaCalculo } from "models/insulina/tipos";
 
 const calculadora = new CalculadoraInsulinaDM2();
 

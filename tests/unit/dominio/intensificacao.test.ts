@@ -1,7 +1,7 @@
 // T009 — Fracionamento e intensificação (RF-02 do motor; R-08..R-19 da spec §6.1).
 // Fonte: p. 61, 64 e Figura 4 p. 62–63; decisões AMB-03, AMB-07 e AMB-10.
 import { describe, expect, it } from "vitest";
-import { CalculadoraInsulinaDM2 } from "@/dominio/insulina/calculadora";
+import { CalculadoraInsulinaDM2 } from "models/insulina/calculadora";
 import {
   afericao,
   comoErroValidacao,
