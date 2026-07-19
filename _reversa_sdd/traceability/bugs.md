@@ -1,20 +1,18 @@
+<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-19T23:08:14Z a partir de 1 bug -->
+
 # Rastreabilidade BUG↔SPEC — espelho global
 
-> View gerada pelo Time Reversa Bugs em 2026-07-19 (atualizada no fechamento do
-> BUG-20260719-RHZ5). NÃO editar à mão.
-> Source of truth: `_reversa_bugs/<contexto>/bugs/*/bug.md`.
+Source of truth: `_reversa_bugs/<contexto>/bugs/*/bug.md`. Bugs `restricted` ficam fora deste espelho (nenhum no momento). Mudança de conteúdo de spec é assunto dos adendos em `_reversa_sdd/addenda/`.
 
-## Bugs abertos por spec
+## `models-insulina/requirements.md` § 3 Regras de Negócio (RN-H)
 
-Nenhum bug aberto.
+- BUG-20260719-RHZ5 (resolved/fixed, P2): Motor silencioso com HbA1c ausente nos ramos residuais da intensificação — `_reversa_bugs/motor-insulina/bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/`
+  - Leitura efetiva da RN-H regida pelo adendo `_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md` (veredito `spec-desatualizada`, vigente desde 2026-07-19).
 
-## Bugs resolvidos por spec
+## `domain.md` § 3.3 Intensificação (regra 9)
 
-| Spec | Bug | Contexto | Resolution | Adendo |
-|---|---|---|---|---|
-| `models-insulina/requirements.md` RN-H | BUG-20260719-RHZ5 (#1) — Motor silencioso com HbA1c ausente nos ramos residuais da intensificação | `motor-insulina` | fixed · 2026-07-19 · travado (`DONE.md`) | `addenda/bug-BUG-20260719-RHZ5-v001.md` (`spec-desatualizada`: leitura efetiva da RN-H regida pelo adendo) |
-| `domain.md` §3.3 (regra 9) | BUG-20260719-RHZ5 (#1) | `motor-insulina` | idem | idem |
+- BUG-20260719-RHZ5 (resolved/fixed, P2): mesmo defeito, refletido na regra 9 do gate — `_reversa_bugs/motor-insulina/bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/`
 
-## Specs sem bug registrado
+## Demais artefatos de spec
 
-`interface-calculadora/*`, `pages-next/*`, demais seções de `models-insulina` e artefatos globais: nenhum bug registrado.
+`interface-calculadora/*`, `pages-next/*`, demais seções de `models-insulina` e artefatos globais: nenhum bug registrado. Nenhum bug com `spec-gap`.

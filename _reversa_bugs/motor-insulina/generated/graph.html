@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bugs — motor-insulina</title>
+<title>Grafo de Bugs · motor-insulina</title>
 <style>
-  /* Tokens portados de interface/estilos/globais.css (design "Tela de calculadora
-     de insulina", claude.ai/design). Não alterar valores: fonte visual aprovada. */
+  /* GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-19T23:08:14Z
+     a partir de 1 bug. Tokens portados de interface/estilos/globais.css (design aprovado
+     "Tela de calculadora de insulina"); não alterar valores. */
   :root {
     --fundo: #efeee9; --cartao: #ffffff; --campo: #fdfdfb; --tinta: #22302e;
     --tinta2: #3b4744; --sec: #5a6663; --mudo: #8a918e; --borda: #dfdcd2;
@@ -14,6 +15,7 @@
     --acento-texto: #0e5f53; --verde-texto: #1c6b4c; --verde-suave: #e7f2ec;
     --verde-borda: #c4e0d2; --painel-verde: #f2f7f4; --pronto-borda: #7fb89a;
     --ambar-bg: #fcf6e8; --ambar-borda: #e8d9ae; --ambar-texto: #7a5b12;
+    --alerta-texto: #6e2e1f; --alerta-borda: #e3b8aa; --alerta-bg: #fbf1ec;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -23,6 +25,7 @@
       --acento-texto: #58bba6; --verde-texto: #7ecda9; --verde-suave: #1e332a;
       --verde-borda: #35594a; --painel-verde: #20302c; --pronto-borda: #3e7a5e;
       --ambar-bg: #332b18; --ambar-borda: #665728; --ambar-texto: #e0c577;
+      --alerta-texto: #ebb39f; --alerta-borda: #6e4237; --alerta-bg: #362320;
     }
   }
   *, *::before, *::after { box-sizing: border-box; }
@@ -33,17 +36,25 @@
   code { font-family: "IBM Plex Mono", ui-monospace, monospace; }
   .cabecalho {
     background: var(--cartao); border-bottom: 1px solid var(--borda);
-    padding: 18px 32px; display: flex; align-items: center;
+    padding: 18px 32px; display: flex; align-items: baseline;
     justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
   .cabecalho h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
   .cabecalho p { margin: 0; font-size: 13px; color: var(--sec); }
-  .selo {
-    font-size: 12px; font-weight: 600; border-radius: 999px; padding: 5px 12px;
-    white-space: nowrap; border: 1px solid var(--verde-borda);
-    color: var(--verde-texto); background: var(--verde-suave);
-  }
   main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 18px; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; }
+  .card {
+    flex: 1; min-width: 150px; background: var(--painel-verde);
+    border: 1px solid var(--verde-borda); border-radius: 10px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  .card .valor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 24px;
+    font-weight: 600; color: var(--acento-texto); text-transform: none; letter-spacing: normal;
+  }
+  .card.neutro { background: var(--suave); border-color: var(--borda2); }
   .cartao {
     background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px;
     padding: 24px; display: flex; flex-direction: column; gap: 12px;
@@ -54,19 +65,6 @@
   }
   .cartao p { margin: 0; font-size: 14px; color: var(--tinta2); }
   a { color: var(--acento-texto); }
-  .no {
-    border: 1px solid var(--pronto-borda); background: var(--painel-verde);
-    border-radius: 10px; padding: 14px 16px; max-width: 30rem;
-  }
-  .no .id { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--sec); }
-  .no strong { font-size: 15px; color: var(--tinta); }
-  .no small { color: var(--sec); }
-  .badge {
-    display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px;
-    font-weight: 600; border: 1px solid var(--borda); color: var(--sec); margin: 6px 6px 0 0;
-  }
-  .b-verde { border-color: var(--verde-borda); color: var(--verde-texto); background: var(--verde-suave); }
-  .b-ambar { border-color: var(--ambar-borda); color: var(--ambar-texto); background: var(--ambar-bg); }
   .wrap { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
   th, td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; color: var(--tinta2); }
@@ -74,60 +72,77 @@
     background: var(--suave); font-size: 12px; text-transform: uppercase;
     letter-spacing: 0.06em; color: var(--sec);
   }
+  svg text { font-family: "IBM Plex Sans", -apple-system, sans-serif; }
+  svg .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
   .rodape { font-size: 12px; color: var(--mudo); border-top: 1px solid var(--borda2); padding-top: 12px; }
   @media (max-width: 900px) { main { padding: 20px 16px 40px; } .cabecalho { padding: 16px 20px; } }
 </style>
 </head>
 <body>
   <header class="cabecalho">
-    <div>
-      <h1>Contexto <code>motor-insulina</code> — grafo de bugs</h1>
-      <p>View gerada em 2026-07-19 pelo protocolo do <code>/reversa-debugger-graph</code>
-      (atualizada no fechamento do BUG-20260719-RHZ5)</p>
-    </div>
-    <span class="selo">0 abertos · 0 ativos · 1 resolvido · 1 travado</span>
+    <h1>Grafo de Bugs · <code>motor-insulina</code></h1>
+    <p>Gerado por <code>/reversa-debugger-graph</code> em 2026-07-19T23:08:14Z · 1 bug ·
+    0 inconsistências · arestas tracejadas = relação <em>proposed</em> (hipótese)</p>
   </header>
 
   <main>
+    <div class="cards">
+      <span class="card">Total de bugs<span class="valor">1</span></span>
+      <span class="card">Resolved · fixed<span class="valor">1</span></span>
+      <span class="card neutro">Abertos / ativos<span class="valor">0</span></span>
+      <span class="card">Adendos de spec<span class="valor">1</span></span>
+      <span class="card neutro">Inconsistências<span class="valor">0</span></span>
+    </div>
+
     <section class="cartao">
       <h2>Grafo</h2>
-      <div class="no">
-        <div class="id">BUG-20260719-RHZ5 · #1 · 🔒</div>
-        <strong><a href="../bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md">Motor
-        silencioso com HbA1c ausente nos ramos residuais da intensificação</a></strong><br>
-        <span class="badge b-ambar">medium</span><span class="badge">P2</span>
-        <span class="badge b-verde">resolved · fixed</span><br>
-        <small>dominio / models-insulina / calculadora-insulina-dm2</small>
+      <div class="wrap">
+      <svg viewBox="0 0 560 150" width="560" height="150" role="img"
+           aria-label="Grafo com um único nó: BUG-20260719-RHZ5, resolvido">
+        <a href="../bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md">
+          <rect x="20" y="20" width="520" height="110" rx="10"
+                fill="var(--painel-verde)" stroke="var(--ambar-borda)" stroke-width="2"/>
+          <text x="40" y="48" font-size="12" class="mono" fill="var(--sec)">#1 · RHZ5 · 🔒</text>
+          <text x="40" y="72" font-size="14" font-weight="700" fill="var(--tinta)">Motor silencioso com HbA1c ausente (intensificação)</text>
+          <text x="40" y="94" font-size="12" fill="var(--sec)">medium · dominio / models-insulina</text>
+          <text x="40" y="116" font-size="12" font-weight="700" fill="var(--verde-texto)">resolved · fixed</text>
+        </a>
+      </svg>
       </div>
-      <p><small>Sem arestas: bug único no contexto.</small></p>
+      <p>O grafo tem um único nó, e ele é o seu centro por ausência de concorrência: o
+      BUG-20260719-RHZ5, primeiro e único registro do contexto, nasceu da validação clínica do
+      Reviewer, foi corrigido com recomendação <code>DOSAR_HBA1C</code> e encerrou travado no
+      mesmo dia. Não há relações confirmadas a contar: nenhuma cadeia causal, nenhum bloqueio,
+      nenhuma regressão.</p>
     </section>
 
     <section class="cartao">
-      <h2>Bugs abertos</h2>
-      <p>Nenhum.</p>
+      <h2>Bugs abertos / ativos</h2>
+      <p>Nenhum. O registro está limpo.</p>
     </section>
 
     <section class="cartao">
-      <h2>Resolvidos e travados (DONE.md)</h2>
+      <h2>Concluídos (travados)</h2>
       <div class="wrap">
       <table>
-        <tr><th>#</th><th>ID</th><th>Título</th><th>Resolution</th><th>Spec efetiva</th><th>Prova</th></tr>
+        <tr><th>#</th><th>ID</th><th>Título</th><th>Encerrado em</th><th>resolution_kind</th><th>Spec efetiva</th></tr>
         <tr>
           <td>1</td>
-          <td><code>BUG-20260719-RHZ5</code></td>
-          <td>Motor silencioso com HbA1c ausente nos ramos residuais da intensificação — corrigido:
-          recomendação <code>DOSAR_HBA1C</code> nos dois ramos alcançáveis</td>
-          <td>fixed · 2026-07-19 · closure <code>local-software</code> satisfeita</td>
-          <td>RN-H + adendo <code>addenda/bug-BUG-20260719-RHZ5-v001.md</code></td>
-          <td><code>tests/regression/BUG-20260719-RHZ5.test.ts</code> (131/131 verde)</td>
+          <td><a href="../bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md"><code>BUG-20260719-RHZ5</code></a></td>
+          <td>Motor silencioso com HbA1c ausente nos ramos residuais da intensificação</td>
+          <td>2026-07-19</td>
+          <td>fixed</td>
+          <td>RN-H + adendo <code>bug-BUG-20260719-RHZ5-v001.md</code></td>
         </tr>
       </table>
       </div>
+      <p><small>Registro central de conclusão, derivado das travas <code>DONE.md</code>; nunca
+      editado à mão.</small></p>
     </section>
 
-    <p class="rodape">Source of truth:
-    <code>bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md</code>. Não edite esta view à mão.
-    Identidade visual: tokens do design aprovado (<code>interface/estilos/globais.css</code>).</p>
+    <p class="rodape">Source of truth: <code>bugs/*/bug.md</code>. Bugs <code>restricted</code>
+    ficam fora desta view (nenhum no momento). Identidade visual: tokens do design aprovado
+    (<code>interface/estilos/globais.css</code>).</p>
   </main>
 </body>
 </html>

@@ -1,26 +1,34 @@
+<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-19T23:08:14Z a partir de 1 bug -->
+
 # Índice de bugs — contexto `motor-insulina`
 
-> View gerada pelo protocolo do /reversa-debugger-graph em 2026-07-19 (atualizada no fechamento
-> do BUG-20260719-RHZ5). NÃO editar à mão. Source of truth: `../bugs/*/bug.md`.
+Source of truth: `../bugs/*/bug.md`. Inconsistências encontradas: **0**.
 
-## Por status
+## Resumo por status e phase
 
-### open (0)
+| Status | Phase | Quantidade |
+|---|---|---|
+| resolved | resolved | 1 |
+| open / active | — | 0 |
 
-Nenhum.
+## Bugs abertos / ativos
 
-### active (0)
+Nenhum. `is_blocked`: n/a.
 
-Nenhum.
+## Resolvidos
 
-### resolved (1)
+Por `resolution_kind`: **fixed: 1**.
 
-| # | ID | Título | Severidade | Prioridade | Resolution | Módulo |
-|---|----|--------|-----------|-----------|-----------|--------|
-| 1 | BUG-20260719-RHZ5 | Motor silencioso com HbA1c ausente nos ramos residuais da intensificação | medium | P2 | fixed (2026-07-19) | models-insulina |
+| # | ID | Título | Sev/Pri | area/module/feature | Caminho |
+|---|----|--------|---------|---------------------|---------|
+| 1 | BUG-20260719-RHZ5 | Motor silencioso com HbA1c ausente nos ramos residuais da intensificação | medium · P2 | dominio / models-insulina / calculadora-insulina-dm2 | `../bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/` |
 
 ## Travados (DONE.md)
 
 | # | ID | Encerrado em | resolution_kind |
 |---|----|--------------|-----------------|
 | 1 | BUG-20260719-RHZ5 | 2026-07-19 | fixed |
+
+## Restritos
+
+Nenhum bug com `visibility: restricted`.

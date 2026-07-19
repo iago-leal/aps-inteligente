@@ -1,9 +1,8 @@
+<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-19T23:08:14Z a partir de 1 bug -->
+
 # Matriz de relações BUG↔BUG — contexto `motor-insulina`
 
-> View gerada em 2026-07-19. NÃO editar à mão.
+Lista esparsa de arestas (`origem | tipo | destino | state | evidência`).
 
-Nenhuma relação registrada: o contexto tem um único bug (BUG-20260719-RHZ5), sem arestas.
-
-| De \ Para | BUG-20260719-RHZ5 |
-|---|---|
-| **BUG-20260719-RHZ5** | — |
+Nenhuma aresta registrada: o contexto tem um único bug (BUG-20260719-RHZ5), sem relações
+próprias nem cruzando contextos. Nenhuma inversa derivada. Nenhum cluster.
