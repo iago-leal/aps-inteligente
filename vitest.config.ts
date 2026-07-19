@@ -12,6 +12,7 @@ export default defineConfig({
     include: [
       "tests/unit/**/*.test.ts",
       "tests/integration/**/*.test.{ts,tsx}",
+      "tests/regression/**/*.test.ts",
     ],
     environment: "node",
     coverage: {

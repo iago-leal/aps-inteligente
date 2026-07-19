@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de correção — BUG-20260719-RHZ5</title>
+<style>
+  /* Tokens portados de interface/estilos/globais.css (design "Tela de calculadora
+     de insulina", claude.ai/design). Não alterar valores: fonte visual aprovada. */
+  :root {
+    --fundo: #efeee9; --cartao: #ffffff; --campo: #fdfdfb; --tinta: #22302e;
+    --tinta2: #3b4744; --sec: #5a6663; --mudo: #8a918e; --borda: #dfdcd2;
+    --borda2: #eceae2; --suave: #faf9f5; --bordacampo: #c9c5b9;
+    --acento-texto: #0e5f53; --acento-forte: #0e5f53; --acento-forte-hover: #0b4c42;
+    --acento-suave: #ebf3f0; --verde-texto: #1c6b4c; --verde-suave: #e7f2ec;
+    --verde-borda: #c4e0d2; --painel-verde: #f2f7f4; --pronto-borda: #7fb89a;
+    --alerta-bg: #fbf1ec; --alerta-borda: #e3b8aa; --alerta-texto: #6e2e1f;
+    --alerta-icone: #b5502f; --erro: #8a3b27; --ambar-bg: #fcf6e8;
+    --ambar-borda: #e8d9ae; --ambar-texto: #7a5b12; --regular: #c98a2b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #161c1a; --cartao: #1f2624; --campo: #171e1c; --tinta: #e6ebe8;
+      --tinta2: #c2ccc7; --sec: #93a09a; --mudo: #6f7b76; --borda: #37413d;
+      --borda2: #2c3532; --suave: #242c29; --bordacampo: #46524d;
+      --acento-texto: #58bba6; --acento-forte: #157a69; --acento-forte-hover: #1e8e7b;
+      --acento-suave: #1f2e2a; --verde-texto: #7ecda9; --verde-suave: #1e332a;
+      --verde-borda: #35594a; --painel-verde: #20302c; --pronto-borda: #3e7a5e;
+      --alerta-bg: #362320; --alerta-borda: #6e4237; --alerta-texto: #ebb39f;
+      --alerta-icone: #c4633c; --erro: #e09a82; --ambar-bg: #332b18;
+      --ambar-borda: #665728; --ambar-texto: #e0c577; --regular: #d9a855;
+    }
+  }
+  * , *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--fundo); color: var(--tinta);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.55;
+  }
+  code, pre, .dado { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .cabecalho {
+    background: var(--cartao); border-bottom: 1px solid var(--borda);
+    padding: 18px 32px; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .cabecalho h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .cabecalho p { margin: 0; font-size: 13px; color: var(--sec); }
+  .selos { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .selo {
+    font-size: 12px; font-weight: 600; border-radius: 999px; padding: 5px 12px;
+    white-space: nowrap; border: 1px solid var(--borda); color: var(--sec);
+    background: var(--cartao);
+  }
+  .selo-medium { color: var(--ambar-texto); background: var(--ambar-bg); border-color: var(--ambar-borda); }
+  .selo-verde { color: var(--verde-texto); background: var(--verde-suave); border-color: var(--verde-borda); }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 18px; }
+  .cartao {
+    background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px;
+    padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .cartao h2 {
+    margin: 0; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sec);
+  }
+  .cartao p, .cartao li { margin: 0; font-size: 14px; color: var(--tinta2); }
+  .cartao ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+  a { color: var(--acento-texto); }
+  a:hover { color: var(--acento-forte-hover); }
+  pre {
+    margin: 0; background: var(--campo); border: 1px solid var(--bordacampo);
+    border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 13px;
+    color: var(--tinta);
+  }
+  .destaque-alerta {
+    background: var(--alerta-bg); border: 1px solid var(--alerta-borda);
+    border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--alerta-texto);
+  }
+  .destaque-verde {
+    background: var(--painel-verde); border: 1px solid var(--verde-borda);
+    border-radius: 10px; padding: 14px 16px; font-size: 14px; color: var(--tinta2);
+  }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; color: var(--tinta2); }
+  th {
+    background: var(--suave); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  .no {
+    border: 1px solid var(--ambar-borda); background: var(--ambar-bg);
+    border-radius: 10px; padding: 14px 16px; max-width: 30rem;
+  }
+  .no .id { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--sec); }
+  .no strong { font-size: 15px; color: var(--tinta); }
+  .no small { color: var(--sec); }
+  .rodape { font-size: 12px; color: var(--mudo); border-top: 1px solid var(--borda2); padding-top: 12px; }
+  em.redacao { color: var(--acento-texto); font-style: normal; font-weight: 600; }
+  @media (max-width: 900px) { main { padding: 20px 16px 40px; } .cabecalho { padding: 16px 20px; } }
+</style>
+</head>
+<body>
+  <header class="cabecalho">
+    <div>
+      <h1>Plano de correção — <code>BUG-20260719-RHZ5</code> (#1)</h1>
+      <p>Contexto <code>motor-insulina</code> · gerado em 2026-07-19 pelo <code>/reversa-debugger-fix</code></p>
+    </div>
+    <div class="selos">
+      <span class="selo selo-medium">medium</span>
+      <span class="selo">P2</span>
+      <span class="selo">active · diagnosing</span>
+      <span class="selo selo-verde">causa raiz confirmada</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="cartao">
+      <h2>1 · O defeito e a causa raiz</h2>
+      <p>
+        Com HbA1c ausente e sem glicemias pré-prandiais, o gate de intensificação retorna sem emitir
+        recomendação alguma: o prescritor recebe "na meta" sem saber que falta o exame que dirige a
+        intensificação. Reprodução determinística 2/2 no commit <code>dc1d9fd</code>
+        (<a href="../evidence/reproduction.md">evidence/reproduction.md</a>); os controles confirmam
+        que o defeito vive só nos dois ramos alcançáveis.
+      </p>
+      <p class="destaque-alerta">
+        <strong>Causa raiz (confirmed):</strong> a guard clause de
+        <code>models/insulina/regra-intensificacao.ts:99</code> confunde encerramento de fluxo com
+        silêncio clínico. A Figura 4 (p. 62–63) só desenha os caminhos explícitos; os ramos residuais
+        ficaram sem tratamento desde a implementação original da feature 001, anterior à refundação.
+        Não é regressão deste repositório; bisect inaplicável.
+      </p>
+      <pre>} else if (hba1c === undefined) {
+  if (!temRegular || prePrandiais.length === 0) return;   // ← silêncio</pre>
+    </section>
+
+    <section class="cartao">
+      <h2>2 · Estratégia escolhida</h2>
+      <p>
+        <strong>Correção direta</strong>, aprovada pelo usuário em 2026-07-19: causa única e
+        confirmada, sem hipóteses concorrentes que justificassem debate. A menor correção coerente é
+        aditiva — emitir a recomendação de dosar HbA1c nos dois ramos hoje silenciosos, antes do
+        <code>return</code>, sem tocar nenhuma lógica de dose.
+      </p>
+    </section>
+
+    <section class="cartao">
+      <h2>3 · Correction Change Set proposto</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>CHG</th><th>Tipo</th><th>Gate</th><th>Artefato</th><th>Propósito</th></tr>
+        <tr>
+          <td><code>CHG-001</code></td><td>code</td><td>2</td>
+          <td><code>models/insulina/tipos.ts</code></td>
+          <td>Acrescentar <code>"DOSAR_HBA1C"</code> à union <code>TipoRecomendacao</code>. Tipo novo,
+          e não reuso de <code>REPETIR_HBA1C_3_MESES</code>, porque a semântica difere: dosar agora um
+          exame que falta ≠ repetir em 3 meses um exame que dirige esquema já intensificado.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-002</code></td><td>code</td><td>2</td>
+          <td><code>models/insulina/regra-intensificacao.ts</code></td>
+          <td>No ramo <code>hba1c === undefined</code>, emitir <code>DOSAR_HBA1C</code> com
+          <code>REFERENCIAS.gateIntensificacao</code> (Figura 4, p. 62–63) antes do <code>return</code>.
+          Redação proposta (decisão clínica do usuário, ajustável no adendo):
+          <em class="redacao">"HbA1c não informada: solicitar HbA1c para dirigir a intensificação do
+          esquema (meta ≤ 7,0%)."</em></td>
+        </tr>
+        <tr>
+          <td><code>CHG-003</code></td><td>test</td><td>1</td>
+          <td><code>tests/regression/BUG-20260719-RHZ5.test.ts</code> (novo)</td>
+          <td>Teste de reprodução (2 ramos alcançáveis, falha no código atual) + testes de regressão
+          (ramos corrigidos passam a recomendar; controles EC-10, gate com HbA1c presente e ramo com
+          pré-prandiais permanecem intactos).</td>
+        </tr>
+        <tr>
+          <td><code>CHG-004</code></td><td>configuration</td><td>1</td>
+          <td><code>vitest.config.ts</code></td>
+          <td>Incluir <code>tests/regression/**/*.test.ts</code> no <code>include</code> — hoje o runner
+          só enxerga <code>unit</code> e <code>integration</code>; sem isso o teste de regressão não roda.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-005</code></td><td>specification</td><td>veredito</td>
+          <td><code>_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md</code> (novo)</td>
+          <td>Adendo versionado sobre RN-H: o silêncio as-is dá lugar à recomendação de dosar HbA1c.
+          Recomendação de veredito: <code>spec-desatualizada</code> (a spec documentava o as-is com nota
+          de divergência já validada). A spec original não é editada.</td>
+        </tr>
+      </table>
+      </div>
+      <p><small>Sem <code>data-repair</code>: o motor é puro e client-side, não há estado histórico
+      corrompido. Sem mudança de UI: <code>resultado.tsx</code> renderiza recomendações genericamente
+      pela mensagem.</small></p>
+    </section>
+
+    <section class="cartao">
+      <h2>4 · Testes planejados e o que cada um prova</h2>
+      <ul>
+        <li><strong>Reprodução (ramo a):</strong> basal puro, só jejum, sem HbA1c → resultado deve conter
+          <code>DOSAR_HBA1C</code>. Falha hoje (recomendações: <code class="dado">[]</code>): prova o defeito.</li>
+        <li><strong>Reprodução (ramo b):</strong> basal-plus sem pré-prandiais, sem HbA1c → idem.</li>
+        <li><strong>Regressão (não recorrência):</strong> os dois casos acima entram em
+          <code>tests/regression/</code> como sentinelas permanentes (BUG_VIRA_TESTE, Princípio VII).</li>
+        <li><strong>Regressão (vizinhança do gate):</strong> HbA1c presente ≤ 7 / &gt; 7 e o ramo
+          intensificado com pré-prandiais não ganham <code>DOSAR_HBA1C</code>; EC-10 continua barrando o
+          terceiro ramo. Prova que a correção não vaza para os demais caminhos.</li>
+        <li><strong>Invariante preservado:</strong> a recomendação nova carrega
+          <code>ReferenciaClinica</code> válida — a suíte property-based existente
+          (<code>invariantes.test.ts</code>) segue verde.</li>
+      </ul>
+    </section>
+
+    <section class="cartao">
+      <h2>5 · Riscos e o que fica de fora</h2>
+      <p class="destaque-verde"><strong>change_risk: baixa.</strong> Correção aditiva e reversível,
+      sem lógica de dose, sem UI, sem estado histórico.</p>
+      <ul>
+        <li><strong>Blast radius:</strong> só o array <code>recomendacoesAoPrescritor</code> em dois
+          cenários hoje silenciosos; nenhuma dose muda. Asserções existentes usam
+          <code>toContain</code>, não listas fechadas — a suíte atual não quebra.</li>
+        <li><strong>Contrato externo:</strong> a union <code>TipoRecomendacao</code> ganha um membro; a
+          UI não discrimina por tipo. Sem consumidor externo (fase 1, ADR 0007/0008).</li>
+        <li><strong>Fora do escopo (Agent Notes):</strong> nenhuma refatoração do gate; as 4
+          divergências de design (metformina, TFG, sulfonilureia ampliada, glicemias por momento)
+          seguem no ciclo forward, não nesta correção.</li>
+      </ul>
+    </section>
+
+    <section class="cartao">
+      <h2>6 · Mini-grafo do bug</h2>
+      <div class="no">
+        <div class="id">BUG-20260719-RHZ5 · #1</div>
+        <strong><a href="../bug.md">Motor silencioso com HbA1c ausente nos ramos residuais da
+        intensificação</a></strong><br>
+        <small>dominio / models-insulina / calculadora-insulina-dm2 · medium · P2 · active</small>
+      </div>
+      <p><small>Sem arestas: bug único no contexto; nenhuma relação proposta ou confirmada.
+      Matriz de relações vazia. Sessão de bug único — sem ordem de correção a derivar.</small></p>
+    </section>
+
+    <p class="rodape">
+      Gerado pelo <code>/reversa-debugger-fix</code> com os tokens do design aprovado
+      (<code>interface/estilos/globais.css</code>). A aprovação deste plano precede o Gate 1 (testes)
+      e o Gate 2 (change set). Source of truth: <a href="../bug.md">bug.md</a>.
+    </p>
+  </main>
+</body>
+</html>

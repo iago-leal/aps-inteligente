@@ -1,0 +1,12 @@
+diff --git a/vitest.config.ts b/vitest.config.ts
+index 0a6067a..8cb2124 100644
+--- a/vitest.config.ts
++++ b/vitest.config.ts
+@@ -12,6 +12,7 @@ export default defineConfig({
+     include: [
+       "tests/unit/**/*.test.ts",
+       "tests/integration/**/*.test.{ts,tsx}",
++      "tests/regression/**/*.test.ts",
+     ],
+     environment: "node",
+     coverage: {

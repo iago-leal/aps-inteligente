@@ -3,8 +3,8 @@ schema_version: 1
 id: BUG-20260719-RHZ5
 display_number: 1
 title: Motor silencioso com HbA1c ausente nos ramos residuais da intensificação
-status: open
-phase: triaging
+status: resolved
+phase: resolved
 severity: medium
 priority: P2
 created: 2026-07-19
@@ -24,7 +24,7 @@ security_suspected: false
 
 reproduction:
   classification: deterministic
-  rate: "não executada ainda (análise estática do fluxo; determinístico por construção)"
+  rate: "2/2 cenários na primeira tentativa (evidence/reproduction.md, commit dc1d9fd)"
   suspected_triggers: []
 
 blocking: []
@@ -37,18 +37,56 @@ traceability:
     - "_reversa_sdd/domain.md#33-intensificação-regra-intensificacaots (regra 9)"
   affected_code:
     - "models/insulina/regra-intensificacao.ts:98-99"
-  root_cause: null
-  reproduction_tests: []
-  regression_tests: []
+  root_cause:
+    state: confirmed
+    where: "models/insulina/regra-intensificacao.ts:99 — guard clause do gate de HbA1c (R-13)"
+    born: "implementação original da feature 001 (anterior à refundação; o arquivo já chega pronto em 26f3bc9). Não é regressão deste repositório; bisect inaplicável (não existe commit bom conhecido)."
+    summary: >-
+      A guard clause confunde encerramento de fluxo com silêncio clínico: quando a HbA1c
+      está ausente e não há pré-prandiais, o gate conclui corretamente que não pode dirigir
+      a intensificação, mas retorna sem transferir ao prescritor a informação de que falta
+      o exame. A Figura 4 (p. 62-63) só desenha os caminhos explícitos; os ramos residuais
+      ficaram sem tratamento na implementação e a spec as-is documentou o silêncio (RN-H).
+    evidence:
+      - "evidence/reproduction.md — reprodução determinística 2/2 nos ramos (a) e (b); controles (c) e (d) íntegros"
+      - "leitura do fluxo: nos ramos alcançáveis, nenhum ponto de emissão de recomendação é atingido após o return da linha 99 (únicas emissões do gate estão nos ramos com HbA1c presente ou com pré-prandiais)"
+  reproduction_tests:
+    - "tests/regression/BUG-20260719-RHZ5.test.ts — 'reprodução (ramo a)' e 'reprodução (ramo b)' (vermelhos em dc1d9fd: Gate 1 aprovado 2026-07-19)"
+  regression_tests:
+    - "tests/regression/BUG-20260719-RHZ5.test.ts — describe 'vizinhança do gate permanece intacta' (4 sentinelas) + os dois casos de reprodução como não-recorrência"
 
-spec_verdict: null
+spec_verdict:
+  verdict: spec-desatualizada
+  addendum: "_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md"
+  decided_by: iago
+  decided_at: 2026-07-19
 
-change_set: []
+change_set:
+  - id: CHG-001
+    kind: code
+    artifact: "models/insulina/tipos.ts"
+    diff: "fix/CHG-001.diff"
+  - id: CHG-002
+    kind: code
+    artifact: "models/insulina/regra-intensificacao.ts"
+    diff: "fix/CHG-002.diff"
+  - id: CHG-003
+    kind: test
+    artifact: "tests/regression/BUG-20260719-RHZ5.test.ts"
+    diff: "fix/CHG-003.diff"
+  - id: CHG-004
+    kind: configuration
+    artifact: "vitest.config.ts"
+    diff: "fix/CHG-004.diff"
+  - id: CHG-005
+    kind: specification
+    artifact: "_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md"
+    diff: null
 
 closure:
   policy: local-software
-  satisfied: false
-resolution_kind: null
+  satisfied: true
+resolution_kind: fixed
 ---
 
 # Motor silencioso com HbA1c ausente nos ramos residuais da intensificação
@@ -124,11 +162,55 @@ HbA1c, o que tocaria também `tipos.ts`, `fonte-clinica.ts` e a exibição em
 | Spec (as-is + divergência) | `_reversa_sdd/models-insulina/requirements.md` RN-H; `_reversa_sdd/domain.md` §3.3 regra 9 |
 | Código onde aparece | `models/insulina/regra-intensificacao.ts:98-99` |
 | Testes existentes relacionados | `tests/unit/dominio/` (suíte de intensificação; nenhum caso cobre os ramos silenciosos — a confirmar no fix) |
-| Causa raiz | pendente (fase de diagnóstico do fix) |
+| Causa raiz | `regra-intensificacao.ts:99` — guard clause do gate R-13 encerra o fluxo sem emitir a orientação pendente (confirmed; ver front matter e `evidence/reproduction.md`) |
 
 ## Resolution
 
-Pendente. Preenchida pelo `/reversa-debugger-fix`.
+Resolvido em 2026-07-19 pelo `/reversa-debugger-fix`, closure policy `local-software` satisfeita
+(testes de regressão passando + veredito de spec com decisão humana).
+
+**Causa raiz (confirmed):** a guard clause de `models/insulina/regra-intensificacao.ts:99`
+confundia encerramento de fluxo com silêncio clínico — nos ramos residuais com HbA1c ausente,
+retornava sem transferir ao prescritor a informação de que faltava o exame. Nascida na
+implementação original da feature 001 (anterior à refundação); não é regressão deste repositório.
+
+**Veredito de spec:** `spec-desatualizada` (decisão do usuário, 2026-07-19). A RN-H documentava o
+as-is; a leitura efetiva passa a ser regida pelo adendo
+`_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md` (imutável; spec original intocada).
+
+**`resolution_kind: fixed`** — causa confirmada + regressão + veredito.
+
+### Correction Change Set
+
+| CHG | Tipo | Artefato | Diff |
+|---|---|---|---|
+| CHG-001 | code | `models/insulina/tipos.ts` — union ganha `"DOSAR_HBA1C"` | `fix/CHG-001.diff` |
+| CHG-002 | code | `models/insulina/regra-intensificacao.ts` — emissão da recomendação nos ramos residuais antes do `return` | `fix/CHG-002.diff` |
+| CHG-003 | test | `tests/regression/BUG-20260719-RHZ5.test.ts` — 2 reproduções + 4 sentinelas de vizinhança | `fix/CHG-003.diff` |
+| CHG-004 | configuration | `vitest.config.ts` — `tests/regression/**` incluído no runner | `fix/CHG-004.diff` |
+| CHG-005 | specification | `_reversa_sdd/addenda/bug-BUG-20260719-RHZ5-v001.md` — adendo do veredito | (arquivo novo, sem diff) |
+
+Sem `data-repair`: motor puro e client-side, nenhum estado histórico corrompido. Sem mudança de
+UI: `resultado.tsx` renderiza recomendações genericamente.
+
+### Prova vermelho → verde
+
+Antes do fix (commit `dc1d9fd`, Gate 1):
+
+```text
+FAIL  tests/regression/BUG-20260719-RHZ5.test.ts
+  reprodução (ramo a) … AssertionError: expected undefined to be defined
+  reprodução (ramo b) … AssertionError: expected [] to include 'DOSAR_HBA1C'
+Tests  2 failed | 4 passed (6)
+```
+
+Depois do fix (Gate 2, suíte completa + typecheck + lint):
+
+```text
+Test Files  11 passed (11)
+Tests  131 passed (131)
+tsc --noEmit  ✓   eslint  ✓
+```
 
 ## Agent Notes
 

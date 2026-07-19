@@ -1,0 +1,23 @@
+diff --git a/models/insulina/regra-intensificacao.ts b/models/insulina/regra-intensificacao.ts
+index 1e9c9d0..a8d38f9 100644
+--- a/models/insulina/regra-intensificacao.ts
++++ b/models/insulina/regra-intensificacao.ts
+@@ -96,7 +96,17 @@ export class RegraIntensificacao {
+         return;
+       }
+     } else if (hba1c === undefined) {
+-      if (!temRegular || prePrandiais.length === 0) return;
++      // Ramos residuais sem HbA1c (adendo bug-20260719-RHZ5): a falta do exame
++      // vira recomendação ao prescritor, nunca silêncio.
++      if (!temRegular || prePrandiais.length === 0) {
++        ajuste.recomendacoes.push({
++          tipo: "DOSAR_HBA1C",
++          mensagem:
++            "HbA1c não informada: solicitar HbA1c para dirigir a intensificação do esquema (meta ≤ 7,0%).",
++          referencia: REFERENCIAS.gateIntensificacao,
++        });
++        return;
++      }
+       ajuste.recomendacoes.push({
+         tipo: "REPETIR_HBA1C_3_MESES",
+         mensagem:
