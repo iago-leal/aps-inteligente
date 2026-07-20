@@ -1,0 +1,74 @@
+# CI da feature 002 (RF-06; D-07 do roadmap), reconstituído de ad231bd e ampliado:
+# job 1 verificação em todo push; job 2 contrato contra o build de produção (CSP ativa);
+# job 3 deploy de produção via CLI do provedor, só em main e só com os jobs 1–2 verdes.
+# O auto-deploy por push do provedor está desligado (vercel.json, D-08): o CI é o
+# único caminho para produção.
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verificacao:
+    name: Lint, typecheck e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+
+  contrato:
+    name: Contrato contra build de produção
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Subir build de produção
+        run: npm start &
+      - name: Aguardar o status responder (timeout 60s)
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fs http://localhost:3000/api/v1/status > /dev/null; then
+              echo "servidor de pé após ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::servidor não respondeu em 60s"
+          exit 1
+      - run: npm run test:api
+
+  deploy:
+    name: Deploy de produção (Vercel)
+    needs: [verificacao, contrato]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Exigir secrets do provedor (falha barulhenta)
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::error::Secrets VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID ausentes; deploy manual: npx vercel@56 deploy --prod (roadmap 002 §4, premissa 1)"
+            exit 1
+          fi
+      - name: Deploy
+        run: npx vercel@56 deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
