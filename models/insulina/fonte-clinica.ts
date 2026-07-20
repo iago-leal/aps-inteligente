@@ -2,6 +2,8 @@
 // Origem: RF-03 do motor e tabela canônica R-01..R-20 da spec (§6.1), extraída do
 // Guia Rápido DM — SMS-Rio, 2.ª ed. atualizada, 2023 (páginas impressas).
 // Decisões de ambiguidade AMB-01..10: `_reversa_forward/001-calculadora-insulina-dm2/requirements.md` §9.
+// Feature 001-integrar-design-claude (RF-01/RF-02/RF-03/RF-05): grupos metformina/TFG,
+// referências p. 28/58/59 e redação única da sulfonilureia (D-02/D-05/D-09).
 import type { ReferenciaClinica } from "./tipos";
 
 export const FONTE_ID = "guia-rapido-dm-sms-rio";
@@ -36,6 +38,18 @@ export const REFERENCIAS = Object.freeze({
   ),
   suspenderSulfonilureia: referencia(
     "p. 61; Figura 4, p. 62 (ao fracionar: suspender sulfonilureia, manter metformina)",
+  ),
+  sulfonilureiaComTfg: referencia(
+    "p. 59 (sulfonilureias utilizáveis com TFG > 30 mL/min/1,73 m² — apoio à redação condicional)",
+  ),
+  metforminaOtimizada: referencia(
+    "p. 28 (otimizar metformina, máx. 2000–2550 mg/dia); p. 58 (posologia 1000–2550 mg/dia)",
+  ),
+  tfgReducaoMetformina: referencia(
+    "p. 58 (TFG 30–45 mL/min/1,73 m²: reduzir a dose de metformina em 50%)",
+  ),
+  tfgSuspensaoMetformina: referencia(
+    "p. 28; p. 58 (TFG < 30 mL/min/1,73 m²: interromper metformina — risco de acidose lática)",
   ),
   faixaPlena: referencia(
     "p. 61 (insulinização plena 0,5–1,0 UI/kg/dia; conduta acima da faixa — decisão AMB-04)",
@@ -99,10 +113,38 @@ export const CONSTANTES = Object.freeze({
   // R-20 (D-08): realizabilidade nos dispositivos do SUS.
   dosePorAplicacaoUi: Object.freeze({ min: 1, max: 60 }),
   cadenciaDias: 3,
-  // RF-05: faixas de plausibilidade de entrada (peso/glicemia da spec 1.0; HbA1c técnica).
+  // RN-01 (feature 001-integrar-design-claude): dose de metformina — valores clínicos do guia.
+  metformina: Object.freeze({
+    doseMinMgDia: 1000, // posologia mínima (p. 58)
+    doseOtimizadaMinMgDia: 2000, // piso da dose otimizada (p. 28)
+    doseMaxMgDia: 2550, // teto posológico (p. 28, 58)
+  }),
+  // RN-02: limiares de TFG para ajuste/contraindicação da metformina (mL/min/1,73 m²).
+  tfg: Object.freeze({
+    limiarReducao50: 45, // 30–45: reduzir a dose em 50% (p. 58)
+    limiarSuspensao: 30, // < 30: interromper (p. 28, 58)
+  }),
+  // RF-05: faixas de plausibilidade de entrada (peso/glicemia da spec 1.0; HbA1c técnica;
+  // metformina/TFG são decisão técnica D-09, não conteúdo do guia — faixas largas que
+  // rejeitam apenas o fisiologicamente implausível).
   plausibilidade: Object.freeze({
     pesoKg: Object.freeze({ maxExclusivo0: 0, max: 350 }),
     glicemiaMgDl: Object.freeze({ min: 10, max: 1000 }),
     hba1cPercent: Object.freeze({ min: 3, max: 20 }),
+    metforminaMgDia: Object.freeze({ min: 100, max: 3000 }),
+    tfg: Object.freeze({ min: 1, max: 200 }),
   }),
+});
+
+// RN-03 (D-05): redação única da recomendação de suspender sulfonilureia, com
+// variante por contexto (ao fracionar / esquema já fracionado) e por estado do
+// uso (explícito → direta; não informado → condicional, fiel à p. 62: "se estiver em uso").
+export const TEXTO_SUSPENDER_SULFONILUREIA = Object.freeze({
+  diretaAoFracionar: "Ao fracionar a NPH, suspender a sulfonilureia.",
+  diretaEsquemaFracionado:
+    "Esquema com NPH já fracionada: suspender a sulfonilureia.",
+  condicionalAoFracionar:
+    "Uso de sulfonilureia não informado: se estiver em uso, suspender ao fracionar a NPH.",
+  condicionalEsquemaFracionado:
+    "Uso de sulfonilureia não informado: se estiver em uso, suspender — a NPH já está fracionada.",
 });

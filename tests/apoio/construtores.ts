@@ -53,6 +53,17 @@ export function esquema(
   return { tipo, aplicacoes };
 }
 
+/** Esquema basal com NPH já fracionada em duas aplicações (gatilho D-04 da RN-03). */
+export function esquemaNphFracionada(
+  doseCafeUi: number,
+  doseNoiteUi: number,
+): EsquemaInsulina {
+  return {
+    tipo: "basal",
+    aplicacoes: [nph(doseCafeUi, "antes_cafe"), nph(doseNoiteUi, "ao_deitar")],
+  };
+}
+
 export function entradaInicio(
   pesoKg = 80,
   extras: Partial<EntradaCalculo> = {},

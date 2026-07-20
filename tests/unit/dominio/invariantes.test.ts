@@ -28,6 +28,7 @@ const arbTitulacaoBasalSimples = fc
   );
 
 // Entradas de titulação quaisquer (podem fracionar), ainda válidas.
+// Feature 001: os campos opcionais de antidiabéticos orais entram no sorteio.
 const arbTitulacaoValida = fc
   .record({
     dose: fc.integer({ min: 1, max: 60 }),
@@ -36,9 +37,17 @@ const arbTitulacaoValida = fc
       minLength: 1,
       maxLength: 6,
     }),
+    doseMetforminaMgDia: fc.option(fc.integer({ min: 100, max: 3000 }), {
+      nil: undefined,
+    }),
+    tfg: fc.option(fc.integer({ min: 1, max: 200 }), { nil: undefined }),
   })
-  .map(({ dose, pesoKg, glicemias }) =>
-    entradaTitulacao(esquemaBasal(dose), jejum(...glicemias), { pesoKg }),
+  .map(({ dose, pesoKg, glicemias, doseMetforminaMgDia, tfg }) =>
+    entradaTitulacao(esquemaBasal(dose), jejum(...glicemias), {
+      pesoKg,
+      ...(doseMetforminaMgDia === undefined ? {} : { doseMetforminaMgDia }),
+      ...(tfg === undefined ? {} : { tfg }),
+    }),
   );
 
 describe("Determinismo (RF-06, G-02)", () => {
@@ -127,6 +136,25 @@ describe("Referência clínica obrigatória em todo resultado (RF-03, RN-01)", (
         const saida = calculadora.calcular(entrada);
         if (saida.tipo !== "resultado") return;
         expect(saida.referencias.length).toBeGreaterThanOrEqual(1);
+      }),
+    );
+  });
+
+  // Feature 001 (T007): as saídas novas de antidiabéticos orais também obedecem
+  // ao invariante — todo alerta e toda recomendação com página do guia (regra 20).
+  it("todo alerta e toda recomendação carregam ReferenciaClinica com localização", () => {
+    fc.assert(
+      fc.property(arbTitulacaoValida, (entrada: EntradaCalculo) => {
+        const saida = calculadora.calcular(entrada);
+        if (saida.tipo !== "resultado") return;
+        for (const alerta of saida.alertas) {
+          expect(alerta.referencia.localizacao.trim().length).toBeGreaterThan(
+            0,
+          );
+        }
+        for (const rec of saida.recomendacoesAoPrescritor) {
+          expect(rec.referencia.localizacao.trim().length).toBeGreaterThan(0);
+        }
       }),
     );
   });

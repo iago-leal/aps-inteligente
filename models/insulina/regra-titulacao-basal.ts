@@ -1,6 +1,12 @@
 // RegraTitulacaoBasal — titulação da NPH pela glicemia de jejum e fracionamento
 // (RF-02 do motor; R-05..R-12 da spec §6.1; decisões AMB-02/05/06/09/10).
-import { CONSTANTES, REFERENCIAS } from "./fonte-clinica";
+// Feature 001-integrar-design-claude (RF-03): gatilhos ampliados da sulfonilureia
+// (RN-03; D-04/D-05) — uso não informado e esquema que já chega fracionado.
+import {
+  CONSTANTES,
+  REFERENCIAS,
+  TEXTO_SUSPENDER_SULFONILUREIA,
+} from "./fonte-clinica";
 import type {
   Alerta,
   AplicacaoInsulina,
@@ -157,17 +163,59 @@ export class RegraTitulacaoBasal {
     ajuste.referencias.push(REFERENCIAS.fracionamento);
     ajuste.houveAjuste = true;
 
-    if (entrada.usoSulfonilureia === true) {
-      ajuste.recomendacoes.push({
-        tipo: "SUSPENDER_SULFONILUREIA",
-        mensagem: "Ao fracionar a NPH, suspender a sulfonilureia.",
-        referencia: REFERENCIAS.suspenderSulfonilureia,
-      });
-    }
+    this.recomendarSuspensaoSulfonilureia(ajuste, entrada, "ao-fracionar");
     ajuste.recomendacoes.push({
       tipo: "MANTER_METFORMINA",
       mensagem: "Manter a metformina ao fracionar a NPH.",
       referencia: REFERENCIAS.suspenderSulfonilureia,
     });
+  }
+
+  /** RN-03, gatilho D-04: esquema que já chega com NPH fracionada (≥ 2 aplicações). */
+  suspenderSulfonilureiaSeJaFracionado(
+    ajuste: AjusteEmCurso,
+    entrada: EntradaCalculo,
+  ): void {
+    const aplicacoesNph = (entrada.esquemaAtual?.aplicacoes ?? []).filter(
+      (a) => a.insulina === "NPH",
+    );
+    if (aplicacoesNph.length < 2) return;
+    this.recomendarSuspensaoSulfonilureia(
+      ajuste,
+      entrada,
+      "esquema-fracionado",
+    );
+  }
+
+  /**
+   * RN-03 (D-05): redação única com variante por contexto e por estado do uso —
+   * explícito → direta; não informado → condicional; negado → nada.
+   */
+  private recomendarSuspensaoSulfonilureia(
+    ajuste: AjusteEmCurso,
+    entrada: EntradaCalculo,
+    contexto: "ao-fracionar" | "esquema-fracionado",
+  ): void {
+    const uso = entrada.usoSulfonilureia;
+    if (uso === false) return;
+
+    const texto =
+      uso === true
+        ? contexto === "ao-fracionar"
+          ? TEXTO_SUSPENDER_SULFONILUREIA.diretaAoFracionar
+          : TEXTO_SUSPENDER_SULFONILUREIA.diretaEsquemaFracionado
+        : contexto === "ao-fracionar"
+          ? TEXTO_SUSPENDER_SULFONILUREIA.condicionalAoFracionar
+          : TEXTO_SUSPENDER_SULFONILUREIA.condicionalEsquemaFracionado;
+
+    ajuste.recomendacoes.push({
+      tipo: "SUSPENDER_SULFONILUREIA",
+      mensagem: texto,
+      referencia: REFERENCIAS.suspenderSulfonilureia,
+    });
+    // Apoio à redação condicional (data-delta §4): p. 59 entra nas referências.
+    if (uso === undefined) {
+      ajuste.referencias.push(REFERENCIAS.sulfonilureiaComTfg);
+    }
   }
 }

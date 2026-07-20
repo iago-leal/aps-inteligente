@@ -111,6 +111,60 @@ describe("RN-03 — todos os ofensores reportados de uma vez", () => {
   });
 });
 
+// T006 (001-integrar-design-claude) — plausibilidade dos campos novos (RF-05; D-09).
+describe("Feature 001 — dose de metformina fora da faixa de plausibilidade", () => {
+  it.each([99, 3001, Number.NaN])(
+    "dose %s mg/dia retorna METFORMINA_FORA_DE_FAIXA",
+    (doseMetforminaMgDia) => {
+      const erro = comoErroValidacao(
+        calculadora.calcular(entradaInicio(80, { doseMetforminaMgDia })),
+      );
+      expect(codigosDe(erro)).toContain("METFORMINA_FORA_DE_FAIXA");
+    },
+  );
+
+  it.each([100, 3000])("dose %s mg/dia é aceita (bordas da faixa)", (dose) => {
+    const saida = calculadora.calcular(
+      entradaInicio(80, { doseMetforminaMgDia: dose }),
+    );
+    expect(saida.tipo).toBe("resultado");
+  });
+
+  it("dose ausente não gera ofensor", () => {
+    expect(calculadora.calcular(entradaInicio(80)).tipo).toBe("resultado");
+  });
+});
+
+describe("Feature 001 — TFG fora da faixa de plausibilidade", () => {
+  it.each([0, 201, Number.NaN])("TFG %s retorna TFG_FORA_DE_FAIXA", (tfg) => {
+    const erro = comoErroValidacao(
+      calculadora.calcular(entradaInicio(80, { tfg })),
+    );
+    expect(codigosDe(erro)).toContain("TFG_FORA_DE_FAIXA");
+  });
+
+  it.each([1, 200])("TFG %s é aceita (bordas da faixa)", (tfg) => {
+    expect(calculadora.calcular(entradaInicio(80, { tfg })).tipo).toBe(
+      "resultado",
+    );
+  });
+});
+
+describe("Feature 001 — ofensores novos coletados junto aos existentes (RN-03)", () => {
+  it("peso 400 + metformina 50 + TFG 300 reportam três ofensores de uma vez", () => {
+    const erro = comoErroValidacao(
+      calculadora.calcular(
+        entradaInicio(400, { doseMetforminaMgDia: 50, tfg: 300 }),
+      ),
+    );
+    const codigos = codigosDe(erro);
+    expect(codigos).toContain("PESO_FORA_DE_FAIXA");
+    expect(codigos).toContain("METFORMINA_FORA_DE_FAIXA");
+    expect(codigos).toContain("TFG_FORA_DE_FAIXA");
+    expect(erro.ofensores.length).toBeGreaterThanOrEqual(3);
+  });
+});
+
 describe("EC-08 — defesa em profundidade contra entrada corrompida", () => {
   it("glicemia com valor não numérico vindo da UI é rejeitada", () => {
     const entrada = entradaTitulacao(esquemaBasal(20), [

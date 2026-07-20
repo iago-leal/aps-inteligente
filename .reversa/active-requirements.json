@@ -1,0 +1,10 @@
+{
+  "schema-version": 1,
+  "feature-dir": "_reversa_forward/001-integrar-design-claude",
+  "feature-id": "001",
+  "short-name": "integrar-design-claude",
+  "started-at": "2026-07-19T23:27:20Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
+  "paused-features": []
+}

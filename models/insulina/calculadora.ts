@@ -1,17 +1,17 @@
 // Fachada CalculadoraInsulinaDM2 — API pública única da camada de domínio
 // (RF-06..RF-08 do motor; G-01..G-04): validação → estratégia → invariantes →
 // alertas ordenados → referências. Pura e determinística; erro esperado é valor.
+// Feature 001-integrar-design-claude (RF-01/RF-02/RF-03): regra transversal de
+// antidiabéticos orais nos dois modos e gatilho do esquema já fracionado (D-01/D-04).
 import { CONSTANTES, REFERENCIAS } from "./fonte-clinica";
 import { RegraInicio } from "./regra-inicio";
 import { RegraIntensificacao } from "./regra-intensificacao";
+import { RegraMetformina } from "./regra-metformina";
 import {
   RegraTitulacaoBasal,
   type AjusteEmCurso,
 } from "./regra-titulacao-basal";
-import {
-  motivoForaDoEscopo,
-  validarEntrada,
-} from "./validacao";
+import { motivoForaDoEscopo, validarEntrada } from "./validacao";
 import {
   DoseUi,
   Peso,
@@ -19,6 +19,7 @@ import {
   type EntradaCalculo,
   type Recomendacao,
   type ReferenciaClinica,
+  type ResultadoInicio,
   type ResultadoTitulacao,
   type SaidaCalculo,
   type TipoAlerta,
@@ -30,7 +31,22 @@ const SEVERIDADE: Record<TipoAlerta, number> = {
   FRACIONAR_DOSE: 2,
   TETO_POR_APLICACAO: 3,
   INDICACAO_INSULINA: 4,
+  // D-08 (001-integrar-design-claude): abaixo de INDICACAO_INSULINA.
+  METFORMINA_NAO_OTIMIZADA: 5,
 };
+
+// Feature 001 (precedência clínica, Notas de execução do actions.md): TFG < 30
+// suspende a metformina — "manter metformina" seria contraditório na mesma saída.
+function semManterMetforminaSeSuspensa(
+  recomendacoes: readonly Recomendacao[],
+): Recomendacao[] {
+  const suspensa = recomendacoes.some(
+    (r) => r.tipo === "SUSPENDER_METFORMINA_TFG",
+  );
+  return suspensa
+    ? recomendacoes.filter((r) => r.tipo !== "MANTER_METFORMINA")
+    : [...recomendacoes];
+}
 
 function semDuplicatas<
   T extends { readonly tipo?: string; readonly localizacao?: string },
@@ -48,6 +64,7 @@ export class CalculadoraInsulinaDM2 {
   private readonly regraInicio = new RegraInicio();
   private readonly regraTitulacaoBasal = new RegraTitulacaoBasal();
   private readonly regraIntensificacao = new RegraIntensificacao();
+  private readonly regraMetformina = new RegraMetformina();
 
   calcular(entrada: EntradaCalculo): SaidaCalculo {
     const ofensores = validarEntrada(entrada);
@@ -67,9 +84,47 @@ export class CalculadoraInsulinaDM2 {
 
     const peso = new Peso(entrada.pesoKg);
     if (entrada.modo === "inicio") {
-      return this.regraInicio.calcular(entrada, peso);
+      return this.comAntidiabeticosOrais(
+        this.regraInicio.calcular(entrada, peso),
+        entrada,
+      );
     }
     return this.calcularTitulacao(entrada, peso);
+  }
+
+  /** Feature 001 (D-01): aplica a regra transversal de antidiabéticos orais ao início. */
+  private comAntidiabeticosOrais(
+    resultado: ResultadoInicio,
+    entrada: EntradaCalculo,
+  ): ResultadoInicio {
+    const orais = this.regraMetformina.avaliar(entrada);
+    if (orais.alertas.length === 0 && orais.recomendacoes.length === 0) {
+      return resultado;
+    }
+    const alertas = [...resultado.alertas, ...orais.alertas].sort(
+      (a, b) => SEVERIDADE[a.tipo] - SEVERIDADE[b.tipo],
+    );
+    const recomendacoes = semDuplicatas(
+      semManterMetforminaSeSuspensa([
+        ...resultado.recomendacoesAoPrescritor,
+        ...orais.recomendacoes,
+      ]),
+      (r) => r.tipo,
+    );
+    const referencias = semDuplicatas(
+      [
+        ...resultado.referencias,
+        ...orais.alertas.map((a) => a.referencia),
+        ...orais.recomendacoes.map((r) => r.referencia),
+      ],
+      (r) => r.localizacao,
+    );
+    return {
+      ...resultado,
+      alertas,
+      recomendacoesAoPrescritor: recomendacoes,
+      referencias,
+    };
   }
 
   private calcularTitulacao(
@@ -89,7 +144,22 @@ export class CalculadoraInsulinaDM2 {
 
     this.regraTitulacaoBasal.aplicar(ajuste, entrada);
     this.regraTitulacaoBasal.fracionarSeIndicado(ajuste, entrada, peso);
+    // RN-03 (D-04): esquema que já chega com NPH fracionada.
+    this.regraTitulacaoBasal.suspenderSulfonilureiaSeJaFracionado(
+      ajuste,
+      entrada,
+    );
     this.regraIntensificacao.aplicar(ajuste, entrada);
+
+    // Feature 001 (D-01): antidiabéticos orais no pós-processamento, antes da
+    // ordenação de alertas e da deduplicação.
+    const orais = this.regraMetformina.avaliar(entrada);
+    ajuste.alertas.push(...orais.alertas);
+    ajuste.recomendacoes.push(...orais.recomendacoes);
+    ajuste.referencias.push(
+      ...orais.alertas.map((a) => a.referencia),
+      ...orais.recomendacoes.map((r) => r.referencia),
+    );
 
     const doseTotalDiaUi = ajuste.aplicacoes.reduce((s, a) => s + a.doseUi, 0);
     const doseTotalAnteriorUi = esquemaAtual.aplicacoes.reduce(
@@ -130,7 +200,7 @@ export class CalculadoraInsulinaDM2 {
       (a, b) => SEVERIDADE[a.tipo] - SEVERIDADE[b.tipo],
     );
     const recomendacoes: Recomendacao[] = semDuplicatas(
-      ajuste.recomendacoes,
+      semManterMetforminaSeSuspensa(ajuste.recomendacoes),
       (r) => r.tipo,
     );
     const referencias: ReferenciaClinica[] = semDuplicatas(

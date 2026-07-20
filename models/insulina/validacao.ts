@@ -1,11 +1,8 @@
 // Validação de entrada com coleta de TODOS os ofensores (RF-05; RN-03; EC-01..08/10).
 // Defesa em profundidade: o motor revalida tudo, sem confiar na UI (EC-08).
+// Feature 001-integrar-design-claude (RF-05): plausibilidade de metformina/TFG (D-09).
 import { CONSTANTES } from "./fonte-clinica";
-import type {
-  CodigoErro,
-  EntradaCalculo,
-  Ofensor,
-} from "./tipos";
+import type { CodigoErro, EntradaCalculo, Ofensor } from "./tipos";
 
 const { plausibilidade } = CONSTANTES;
 
@@ -73,6 +70,44 @@ export function validarEntrada(entrada: EntradaCalculo): Ofensor[] {
           "hba1cPercent",
           "HBA1C_FORA_DE_FAIXA",
           `HbA1c fora da faixa plausível: informe um valor entre ${plausibilidade.hba1cPercent.min}% e ${plausibilidade.hba1cPercent.max}%.`,
+        ),
+      );
+    }
+  }
+
+  // Feature 001 (RF-05; D-09): campos opcionais de antidiabéticos orais —
+  // ausentes não geram ofensor; presentes precisam ser plausíveis.
+  if (entrada.doseMetforminaMgDia !== undefined) {
+    const dose = entrada.doseMetforminaMgDia;
+    if (
+      typeof dose !== "number" ||
+      !Number.isFinite(dose) ||
+      dose < plausibilidade.metforminaMgDia.min ||
+      dose > plausibilidade.metforminaMgDia.max
+    ) {
+      ofensores.push(
+        ofensor(
+          "doseMetforminaMgDia",
+          "METFORMINA_FORA_DE_FAIXA",
+          `Dose de metformina fora da faixa plausível: informe um valor entre ${plausibilidade.metforminaMgDia.min} e ${plausibilidade.metforminaMgDia.max} mg/dia.`,
+        ),
+      );
+    }
+  }
+
+  if (entrada.tfg !== undefined) {
+    const tfg = entrada.tfg;
+    if (
+      typeof tfg !== "number" ||
+      !Number.isFinite(tfg) ||
+      tfg < plausibilidade.tfg.min ||
+      tfg > plausibilidade.tfg.max
+    ) {
+      ofensores.push(
+        ofensor(
+          "tfg",
+          "TFG_FORA_DE_FAIXA",
+          `TFG fora da faixa plausível: informe um valor entre ${plausibilidade.tfg.min} e ${plausibilidade.tfg.max} mL/min/1,73 m².`,
         ),
       );
     }

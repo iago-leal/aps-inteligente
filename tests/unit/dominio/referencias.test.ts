@@ -51,6 +51,19 @@ const cenarios: Array<{ nome: string; saida: () => SaidaCalculo }> = [
         }),
       ),
   },
+  // Feature 001 (T008): saídas novas de antidiabéticos orais.
+  {
+    nome: "metformina não otimizada",
+    saida: () =>
+      calculadora.calcular(entradaInicio(80, { doseMetforminaMgDia: 1500 })),
+  },
+  {
+    nome: "contraindicação de metformina por TFG",
+    saida: () =>
+      calculadora.calcular(
+        entradaTitulacao(esquemaBasal(20), jejum(150), { tfg: 25 }),
+      ),
+  },
 ];
 
 describe("Todo ResultadoCalculo carrega ≥ 1 ReferenciaClinica completa (RF-03)", () => {
@@ -103,5 +116,41 @@ describe("Inferências decididas citam a decisão além da página (spec §6.1)"
     }
     const alerta = saida.alertas.find((a) => a.tipo === "HIPOGLICEMIA");
     expect(alerta?.referencia.localizacao).toMatch(/62/);
+  });
+});
+
+// Feature 001 (T008) — entradas novas do catálogo: p. 28, 58 e 59 (data-delta §4).
+describe("Feature 001 — páginas novas do guia citadas nas saídas", () => {
+  it("o alerta de metformina não otimizada cita a p. 28", () => {
+    const saida = calculadora.calcular(
+      entradaInicio(80, { doseMetforminaMgDia: 1500 }),
+    );
+    if (saida.tipo !== "resultado") throw new Error("esperava resultado");
+    const alerta = saida.alertas.find(
+      (a) => a.tipo === "METFORMINA_NAO_OTIMIZADA",
+    );
+    expect(alerta?.referencia.localizacao).toMatch(/28/);
+  });
+
+  it("a suspensão da metformina por TFG cita a p. 58", () => {
+    const r = comoResultadoTitulacao(
+      calculadora.calcular(
+        entradaTitulacao(esquemaBasal(20), jejum(150), { tfg: 25 }),
+      ),
+    );
+    const rec = r.recomendacoesAoPrescritor.find(
+      (x) => x.tipo === "SUSPENDER_METFORMINA_TFG",
+    );
+    expect(rec?.referencia.localizacao).toMatch(/58/);
+  });
+
+  it("a redação condicional da sulfonilureia agrega a p. 59 às referências do resultado", () => {
+    // Fracionamento com uso de sulfonilureia não informado → redação condicional.
+    const r = comoResultadoTitulacao(
+      calculadora.calcular(entradaTitulacao(esquemaBasal(30), jejum(200))),
+    );
+    expect(r.referencias.some((ref) => ref.localizacao.includes("59"))).toBe(
+      true,
+    );
   });
 });

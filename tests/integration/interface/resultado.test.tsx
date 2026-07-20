@@ -166,6 +166,65 @@ describe("Erros do motor com apresentação própria (RF-09 do requirements; RF-
   });
 });
 
+// T018 (feature 001-integrar-design-claude) — saídas novas de antidiabéticos orais.
+describe("Feature 001 — alerta e recomendações de metformina/TFG renderizados", () => {
+  const referenciaMetformina = {
+    fonteId: "guia-rapido-dm-sms-rio",
+    versaoEdicao: "2.ª ed. atualizada, 2023",
+    localizacao: "p. 28; p. 58",
+  } as const;
+
+  const resultadoComAntidiabeticos: ResultadoTitulacao = {
+    ...resultadoComHipoglicemia,
+    alertas: [
+      {
+        tipo: "METFORMINA_NAO_OTIMIZADA",
+        mensagem:
+          "Dose de metformina abaixo da faixa otimizada (2000–2550 mg/dia).",
+        referencia: referenciaMetformina,
+      },
+    ],
+    recomendacoesAoPrescritor: [
+      {
+        tipo: "SUSPENDER_METFORMINA_TFG",
+        mensagem: "TFG abaixo de 30: suspender a metformina.",
+        referencia: referenciaMetformina,
+      },
+      {
+        tipo: "SUSPENDER_SULFONILUREIA",
+        mensagem:
+          "Uso de sulfonilureia não informado: se estiver em uso, suspender ao fracionar a NPH.",
+        referencia: referenciaMetformina,
+      },
+    ],
+    referencias: [referencia, referenciaMetformina],
+  };
+
+  it("o alerta novo aparece no bloco de alertas", () => {
+    renderizaSucesso({
+      estado: { estado: "sucesso", saida: resultadoComAntidiabeticos },
+    });
+    expect(screen.getByText(/abaixo da faixa otimizada/i)).toBeTruthy();
+  });
+
+  it("as recomendações novas aparecem na lista ao prescritor", () => {
+    renderizaSucesso({
+      estado: { estado: "sucesso", saida: resultadoComAntidiabeticos },
+    });
+    expect(screen.getByText(/suspender a metformina/i)).toBeTruthy();
+    expect(
+      screen.getByText(/se estiver em uso, suspender ao fracionar/i),
+    ).toBeTruthy();
+  });
+
+  it("a referência nova (p. 28; p. 58) aparece na fonte clínica", () => {
+    renderizaSucesso({
+      estado: { estado: "sucesso", saida: resultadoComAntidiabeticos },
+    });
+    expect(screen.getByText(/p\. 28; p\. 58/)).toBeTruthy();
+  });
+});
+
 describe("Disclaimer permanente e novo cálculo (RF-08/RF-10 do requirements)", () => {
   it("o disclaimer de apoio à decisão está sempre visível", () => {
     for (const estado of [

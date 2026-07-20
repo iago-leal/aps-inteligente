@@ -1,6 +1,8 @@
 // Contrato do motor de cálculo de insulina DM2.
 // Origem: RF-01..RF-09 e §9 da spec `_reversa_sdd/sdd/motor-calculo-insulina.md` (v2.0);
 // RNF-06 (value objects imutáveis com invariantes no construtor).
+// Feature 001-integrar-design-claude (RF-01/RF-02): campos opcionais de
+// antidiabéticos orais em EntradaCalculo e tipos de saída novos (D-03/D-08).
 
 export type MomentoAfericao =
   "jejum" | "antes_almoco" | "antes_jantar" | "ao_deitar";
@@ -35,6 +37,10 @@ export interface EntradaCalculo {
   readonly hba1cPercent?: number;
   readonly usoSulfonilureia?: boolean;
   readonly esquemaAtual?: EsquemaInsulina;
+  /** Dose diária atual de metformina em mg/dia (RN-01); ausente = não informado. */
+  readonly doseMetforminaMgDia?: number;
+  /** Taxa de filtração glomerular em mL/min/1,73 m² (RN-02); ausente = não informado. */
+  readonly tfg?: number;
 }
 
 export interface ReferenciaClinica {
@@ -48,7 +54,8 @@ export type TipoAlerta =
   | "DOSE_ACIMA_FAIXA_PLENA"
   | "FRACIONAR_DOSE"
   | "TETO_POR_APLICACAO"
-  | "INDICACAO_INSULINA";
+  | "INDICACAO_INSULINA"
+  | "METFORMINA_NAO_OTIMIZADA";
 
 export interface Alerta {
   readonly tipo: TipoAlerta;
@@ -60,6 +67,8 @@ export type TipoRecomendacao =
   | "MANTER_METFORMINA"
   | "MANTER_SULFONILUREIA"
   | "SUSPENDER_SULFONILUREIA"
+  | "REDUZIR_METFORMINA_TFG"
+  | "SUSPENDER_METFORMINA_TFG"
   | "AFERIR_JEJUM_3X_SEMANA_15_DIAS"
   | "REPETIR_HBA1C_3_MESES"
   | "REPETIR_HBA1C_6_MESES"
@@ -123,7 +132,9 @@ export type CodigoErro =
   | "HBA1C_OBRIGATORIA"
   | "ESQUEMA_OBRIGATORIO"
   | "GLICEMIAS_AUSENTES"
-  | "DOSE_FORA_DE_FAIXA";
+  | "DOSE_FORA_DE_FAIXA"
+  | "METFORMINA_FORA_DE_FAIXA"
+  | "TFG_FORA_DE_FAIXA";
 
 export interface Ofensor {
   readonly campo: string;
