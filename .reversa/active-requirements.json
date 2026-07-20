@@ -1,9 +1,9 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/001-integrar-design-claude",
-  "feature-id": "001",
-  "short-name": "integrar-design-claude",
-  "started-at": "2026-07-19T23:27:20Z",
+  "feature-dir": "_reversa_forward/002-producao-pagina-e-api-status",
+  "feature-id": "002",
+  "short-name": "producao-pagina-e-api-status",
+  "started-at": "2026-07-20T00:42:37Z",
   "current-stage": "requirements",
   "stages-completed": [],
   "paused-features": []
