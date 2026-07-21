@@ -1,9 +1,9 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/002-producao-pagina-e-api-status",
-  "feature-id": "002",
-  "short-name": "producao-pagina-e-api-status",
-  "started-at": "2026-07-20T00:42:37Z",
+  "feature-dir": "_reversa_forward/003-banco-de-dados-psql-pg",
+  "feature-id": "003",
+  "short-name": "banco-de-dados-psql-pg",
+  "started-at": "2026-07-21T22:05:00Z",
   "current-stage": "requirements",
   "stages-completed": [],
   "paused-features": []
