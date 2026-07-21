@@ -14,6 +14,27 @@ npm run dev     # desenvolvimento (CSP desligada para o HMR)
 
 Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.
 
+## Banco de dados (fundação, feature 003)
+
+PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)
+e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta
+`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por
+`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).
+Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).
+
+```bash
+cp .env.example .env.local   # configurar: DATABASE_URL local (ajuste a porta se a 5432 estiver ocupada)
+npm run db:up                # subir (idempotente; aguarda o healthcheck)
+npm run test:api             # verificar saúde: inclui tests/contract/infra/banco.test.ts
+npm run db:psql              # sessão interativa (psql de dentro do container)
+npm run db:down              # derrubar e remover o volume (próxima subida parte do zero)
+```
+
+A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar
+a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira
+conexão pode sofrer cold start (autosuspend do plano Free) — limites e roteiro completo em
+`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.
+
 ## Como verificar saúde
 
 Local, contra o build de produção (CSP ativa):

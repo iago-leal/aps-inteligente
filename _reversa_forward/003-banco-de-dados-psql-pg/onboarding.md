@@ -18,8 +18,8 @@ cp .env.example .env.local        # gabarito com DATABASE_URL local; ajuste a po
 ## 2. Subir o banco local
 
 ```bash
-npm run db:up                     # docker compose -f infra/compose.yaml up -d, com healthcheck
-docker compose -f infra/compose.yaml ps   # serviço "db" deve constar como healthy
+npm run db:up                     # docker compose --env-file .env.local up -d --wait (healthcheck)
+docker compose --env-file .env.local -f infra/compose.yaml ps   # "banco" deve constar como healthy
 ```
 
 ## 3. Verificar a saúde (o mesmo teste que roda no CI)
@@ -41,19 +41,29 @@ npm run db:psql                   # abre o cliente psql de dentro do container
 ## 5. Derrubar (e, se quiser, limpar)
 
 ```bash
-npm run db:down                   # para o serviço, preserva o volume
-npm run db:down -- -v             # para e remove o volume: próxima subida parte do zero
+npm run db:down                   # para o serviço E remove o volume (RF-06): próxima subida parte do zero
 ```
 
 ## 6. Produção (uma vez, no encerramento da feature)
 
-1. Provisionar a Neon pelo marketplace: `npx vercel@56 install neon` (ou painel do projeto → Storage → Neon, plano gratuito). A integração injeta `DATABASE_URL` nos ambientes do projeto.
+1. Provisionar a Neon pelo marketplace: `npx vercel@56 integration add neon` (exige aceitar os termos do marketplace no navegador na primeira vez; plano gratuito). A integração injeta `DATABASE_URL` nos ambientes do projeto.
 2. Puxar a variável para a máquina local: `npx vercel@56 env pull .env.producao.local`.
 3. Rodar o smoke contra a instância gerenciada: `DATABASE_URL=$(grep '^DATABASE_URL=' .env.producao.local | cut -d= -f2-) npm run test:api -- tests/contract/infra/banco.test.ts`.
    - Primeira conexão pode demorar alguns segundos (autosuspend do plano gratuito); o teste tolera até o tempo-limite documentado.
 4. Apagar `.env.producao.local` após o smoke (não deixar credencial em disco além do necessário).
 
-## 7. Sinais de problema e leitura
+## 7. Limites do plano Free da Neon (consulta em 2026-07-21, neon.com/pricing)
+
+| Recurso | Limite | Implicação operacional |
+|---|---|---|
+| Armazenamento | 0,5 GB/projeto | Irrelevante nesta fase: banco sem esquema |
+| Compute | 100 CU-hours/mês; autoscaling até 2 CU | Fumaça `SELECT 1` consome frações mínimas |
+| Autosuspend | após 5 min ocioso | Cold start na primeira conexão — ver §6.3 |
+| Egress | 5 GB/mês | Irrelevante sem carga |
+| Branches | 10/projeto | Sem uso previsto nesta feature |
+| Estouro de teto | compute suspenso até o mês seguinte | Falha barulhenta, sem cobrança automática; upgrade só se demanda futura justificar (Launch: pay-as-you-go) |
+
+## 8. Sinais de problema e leitura
 
 | Sintoma | Leitura |
 |---|---|

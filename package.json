@@ -16,12 +16,16 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:api": "vitest run --config vitest.api.config.ts",
+    "db:up": "docker compose --env-file .env.local -f infra/compose.yaml up -d --wait",
+    "db:down": "docker compose --env-file .env.local -f infra/compose.yaml down -v",
+    "db:psql": "docker compose --env-file .env.local -f infra/compose.yaml exec banco psql -U aps -d aps_inteligente",
     "test:e2e": "playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
     "next": "16.2.10",
+    "pg": "8.22.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -30,6 +34,7 @@
     "@playwright/test": "1.61.1",
     "@testing-library/react": "16.3.2",
     "@types/node": "26.1.1",
+    "@types/pg": "8.20.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitest/coverage-v8": "4.1.10",

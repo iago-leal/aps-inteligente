@@ -1,0 +1,24 @@
+# Serviço PostgreSQL local da fundação de dados (feature 003; RF-01; D-01 do roadmap).
+# Paridade de major com a instância gerenciada de produção (D-05: major 17).
+# Operação pelo manifesto: npm run db:up · npm run db:down (remove o volume) · npm run db:psql
+# Porta do host parametrizável: POSTGRES_PORT (default 5432), para conviver com outro Postgres local.
+services:
+  banco:
+    image: postgres:17.10-alpine
+    container_name: aps-inteligente-banco
+    environment:
+      POSTGRES_USER: aps
+      POSTGRES_PASSWORD: aps
+      POSTGRES_DB: aps_inteligente
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - dados-banco:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aps -d aps_inteligente"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  dados-banco:

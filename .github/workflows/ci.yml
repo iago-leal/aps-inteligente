@@ -28,6 +28,25 @@ jobs:
   contrato:
     name: Contrato contra build de produção
     runs-on: ubuntu-latest
+    # Feature 003 (D-08): o teste de saúde do banco roda no gate contra um service
+    # container efêmero — mesma imagem pinada de infra/compose.yaml —, sem acoplar
+    # o CI à instância gerenciada de produção. Jobs de verificação e deploy intocados.
+    services:
+      banco:
+        image: postgres:17.10-alpine
+        env:
+          POSTGRES_USER: aps
+          POSTGRES_PASSWORD: aps
+          POSTGRES_DB: aps_inteligente
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U aps -d aps_inteligente"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://aps:aps@localhost:5432/aps_inteligente
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
