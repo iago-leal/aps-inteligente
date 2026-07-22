@@ -2,6 +2,8 @@
 // Painel de resultado (RF-03/RF-04/RF-08/RF-09/RF-10 do requirements; RF-04..RF-09/EC-07 da UI).
 // Ordem fixa: alertas → dose/delta → fonte → revisão explícita → disclaimer (RN-06).
 // Feature 004: componentes Primer (RF-02); textos clínicos e máquina de estados intocados.
+// Feature 005 (RF-01/RF-02): recomendações agrupadas — redução por TFG como
+// subitem da manutenção da metformina; textos e saída do motor intocados.
 import {
   Button,
   Checkbox,
@@ -10,6 +12,7 @@ import {
   Heading,
   Text,
 } from "@primer/react";
+import { agruparRecomendacoes } from "./agrupar-recomendacoes";
 import type {
   Alerta,
   AplicacaoInsulina,
@@ -84,8 +87,17 @@ function Recomendacoes({ itens }: { itens: readonly Recomendacao[] }) {
     <div className="bloco-recomendacoes">
       <Heading as="h3">Recomendações ao prescritor</Heading>
       <ul>
-        {itens.map((rec) => (
-          <li key={rec.tipo}>{rec.mensagem}</li>
+        {agruparRecomendacoes(itens).map((grupo) => (
+          <li key={grupo.principal.tipo}>
+            {grupo.principal.mensagem}
+            {grupo.subitens.length > 0 ? (
+              <ul>
+                {grupo.subitens.map((sub) => (
+                  <li key={sub.tipo}>{sub.mensagem}</li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
         ))}
       </ul>
     </div>

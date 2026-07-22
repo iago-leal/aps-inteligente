@@ -1,0 +1,6 @@
+{"ts":"2026-07-22T18:02:30Z","action":"T001","status":"done","files":["tests/unit/interface/agrupar-recomendacoes.test.ts"],"note":"nasce falhando: modulo agrupar-recomendacoes inexistente (TDD)"}
+{"ts":"2026-07-22T18:02:30Z","action":"T002","status":"done","files":["tests/integration/interface/resultado.test.tsx"],"note":"cenario RF-01 falhando (lista ainda plana); contraprovas ja verdes"}
+{"ts":"2026-07-22T18:03:10Z","action":"T003","status":"done","files":["interface/calculadora/agrupar-recomendacoes.ts"],"note":"teste de unidade 5/5 verde"}
+{"ts":"2026-07-22T18:03:20Z","action":"T004","status":"done","files":["interface/calculadora/resultado.tsx"],"note":"lista aninhada; integracao 20/20 verde; sem CSS novo (padding-left 18px do seletor descendente ja recua a ul interna)"}
+{"ts":"2026-07-22T18:12:40Z","action":"T005","status":"done","files":["e2e/calculadora.spec.ts"],"note":"npm test 202/202; test:api 16/16 (db 5433 + next start locais); test:e2e 4/4 com axe na linha de base (0); lint e tsc limpos; git diff models/ vazio (nenhuma string clinica mudou); screenshot confirma subitem recuado 18px"}
+{"ts":"2026-07-22T18:16:00Z","action":"T006","status":"done","files":["_reversa_forward/005-redacao-metformina-tfg/relatorio.md"],"note":"relatorio consolidado; legacy-impact.md e regression-watch.md (W001-W003) gerados"}

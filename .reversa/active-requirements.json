@@ -1,10 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/004-estilo-primer-nas-telas",
-  "feature-id": "004",
-  "short-name": "estilo-primer-nas-telas",
-  "started-at": "2026-07-21T23:18:49Z",
-  "current-stage": "to-do",
-  "stages-completed": ["requirements", "clarify", "plan", "to-do"],
+  "feature-dir": "_reversa_forward/005-redacao-metformina-tfg",
+  "feature-id": "005",
+  "short-name": "redacao-metformina-tfg",
+  "started-at": "2026-07-22T17:40:30Z",
+  "current-stage": "sync",
+  "stages-completed": ["requirements", "clarify", "plan", "to-do", "coding", "sync"],
   "paused-features": []
 }

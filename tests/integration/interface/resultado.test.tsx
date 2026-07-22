@@ -9,6 +9,7 @@ import {
 import type {
   ErroValidacao,
   ForaDoEscopoDaFonte,
+  ResultadoInicio,
   ResultadoTitulacao,
 } from "models/insulina/tipos";
 
@@ -222,6 +223,154 @@ describe("Feature 001 — alerta e recomendações de metformina/TFG renderizado
       estado: { estado: "sucesso", saida: resultadoComAntidiabeticos },
     });
     expect(screen.getByText(/p\. 28; p\. 58/)).toBeTruthy();
+  });
+});
+
+// T002 (feature 005-redacao-metformina-tfg) — adjacência subordinada do par
+// metformina × TFG (RF-01/RF-03 da feature; cenários Gherkin do requirements §7).
+// Nenhuma asserção de texto de mensagem clínica muda: só a estrutura da lista.
+describe("Feature 005 — recomendação de TFG subordinada à de manutenção", () => {
+  const referenciaInicio = {
+    fonteId: "guia-rapido-dm-sms-rio",
+    versaoEdicao: "2.ª ed. atualizada, 2023",
+    localizacao: "p. 60; Figura 4, p. 62",
+  } as const;
+
+  const referenciaTfg = {
+    fonteId: "guia-rapido-dm-sms-rio",
+    versaoEdicao: "2.ª ed. atualizada, 2023",
+    localizacao: "p. 58",
+  } as const;
+
+  const manterMetformina = {
+    tipo: "MANTER_METFORMINA",
+    mensagem: "Manter a metformina ao iniciar a insulina NPH.",
+    referencia: referenciaInicio,
+  } as const;
+
+  const manterSulfonilureia = {
+    tipo: "MANTER_SULFONILUREIA",
+    mensagem: "Manter a sulfonilureia ao iniciar a insulina NPH.",
+    referencia: referenciaInicio,
+  } as const;
+
+  const aferirJejum = {
+    tipo: "AFERIR_JEJUM_3X_SEMANA_15_DIAS",
+    mensagem:
+      "Orientar aferição de glicemia capilar em jejum três vezes por semana, com registro, durante 15 dias.",
+    referencia: referenciaInicio,
+  } as const;
+
+  const reduzirPorTfg = {
+    tipo: "REDUZIR_METFORMINA_TFG",
+    mensagem:
+      "TFG entre 30 e 45 mL/min/1,73 m²: reduzir a dose de metformina em 50%.",
+    referencia: referenciaTfg,
+  } as const;
+
+  const suspenderPorTfg = {
+    tipo: "SUSPENDER_METFORMINA_TFG",
+    mensagem:
+      "TFG abaixo de 30 mL/min/1,73 m²: suspender a metformina, pelo risco de acidose lática.",
+    referencia: referenciaTfg,
+  } as const;
+
+  const resultadoInicioBase: ResultadoInicio = {
+    tipo: "resultado",
+    modo: "inicio",
+    faixaDoseUi: { minUi: 10, maxUi: 15 },
+    faixaPorPesoUi: { minUi: 8, maxUi: 16 },
+    aplicacaoSugerida: { insulina: "NPH", momento: "ao_deitar" },
+    alertas: [],
+    recomendacoesAoPrescritor: [
+      manterMetformina,
+      manterSulfonilureia,
+      aferirJejum,
+    ],
+    referencias: [referenciaInicio],
+  };
+
+  function itemDaLista(padrao: RegExp): HTMLElement {
+    const item = screen.getByText(padrao).closest("li");
+    if (!item) throw new Error(`Recomendação fora de <li>: ${padrao}`);
+    return item as HTMLElement;
+  }
+
+  it("com TFG em faixa de redução, o item de redução aninha sob o de manutenção (RF-01)", () => {
+    renderizaSucesso({
+      estado: {
+        estado: "sucesso",
+        saida: {
+          ...resultadoInicioBase,
+          recomendacoesAoPrescritor: [
+            manterMetformina,
+            manterSulfonilureia,
+            aferirJejum,
+            reduzirPorTfg,
+          ],
+          referencias: [referenciaInicio, referenciaTfg],
+        },
+      },
+    });
+
+    const itemManter = itemDaLista(/manter a metformina ao iniciar/i);
+    const itemReduzir = itemDaLista(/reduzir a dose de metformina em 50%/i);
+    expect(itemManter.contains(itemReduzir)).toBe(true);
+    expect(itemManter.querySelector("ul")).not.toBeNull();
+    expect(
+      itemDaLista(/manter a sulfonilureia/i).contains(itemReduzir),
+    ).toBe(false);
+  });
+
+  it("sem TFG em faixa de redução, a lista permanece plana (RF-03)", () => {
+    renderizaSucesso({
+      estado: { estado: "sucesso", saida: resultadoInicioBase },
+    });
+
+    const itemManter = itemDaLista(/manter a metformina ao iniciar/i);
+    expect(itemManter.querySelector("ul")).toBeNull();
+    expect(
+      screen.queryByText(/reduzir a dose de metformina/i),
+    ).toBeNull();
+  });
+
+  it("com TFG de suspensão, a supressão da feature 001 segue valendo e nada aninha", () => {
+    renderizaSucesso({
+      estado: {
+        estado: "sucesso",
+        saida: {
+          ...resultadoInicioBase,
+          recomendacoesAoPrescritor: [
+            manterSulfonilureia,
+            aferirJejum,
+            suspenderPorTfg,
+          ],
+          referencias: [referenciaInicio, referenciaTfg],
+        },
+      },
+    });
+
+    expect(
+      screen.queryByText(/manter a metformina ao iniciar/i),
+    ).toBeNull();
+    const itemSuspender = itemDaLista(/suspender a metformina/i);
+    expect(itemSuspender.parentElement?.closest("li")).toBeNull();
+  });
+
+  it("redução por TFG sem item de manutenção permanece no topo (fallback, titulação sem fracionamento)", () => {
+    renderizaSucesso({
+      estado: {
+        estado: "sucesso",
+        saida: {
+          ...resultadoComHipoglicemia,
+          recomendacoesAoPrescritor: [reduzirPorTfg],
+          referencias: [referencia, referenciaTfg],
+        },
+      },
+    });
+
+    const itemReduzir = itemDaLista(/reduzir a dose de metformina em 50%/i);
+    expect(itemReduzir.parentElement?.closest("li")).toBeNull();
   });
 });
 
