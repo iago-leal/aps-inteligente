@@ -14,6 +14,28 @@ npm run dev     # desenvolvimento (CSP desligada para o HMR)
 
 Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.
 
+## Estilo das telas (Primer, feature 004)
+
+A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`
+(componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos
+pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa
+(CSP intocada). O CSS próprio (`interface/estilos/globais.css`) é resíduo de layout:
+cores sempre por `var(--*)` do Primer, nunca hexadecimal local. `@primer/css` e
+`@primer/view-components` são vetados (sem manutenção plena).
+
+Para **criar uma tela nova**:
+
+1. O provider já está no shell (`pages/_app.tsx` → `interface/calculadora/provedor-tema.tsx`,
+   que liga a preferência persistida em `localStorage["aps-inteligente:tema"]` ao color
+   mode do Primer). Nenhum setup adicional por página.
+2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,
+   `TextInput`, `Flash`, `Heading`…); recorra ao `globais.css` apenas para cola de
+   layout, usando variáveis funcionais do Primer.
+3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`
+   (contrato `role="alert"` asserido pelos testes).
+4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de
+   acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.
+
 ## Banco de dados (fundação, feature 003)
 
 PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)
@@ -42,6 +64,7 @@ Local, contra o build de produção (CSP ativa):
 ```bash
 npm run build && npm start          # http://localhost:3000
 npm run test:api                    # suíte de contrato (tests/contract/)
+npm run test:e2e                    # e2e Playwright + axe (sobe o build sozinho)
 curl -i http://localhost:3000/api/v1/status
 ```
 

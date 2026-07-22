@@ -20,6 +20,9 @@ const config: NextConfig = {
   // Sem isto o Turbopack sobe a árvore procurando lockfile, encontra o de ~/ e
   // infere a raiz errada do workspace. Fixar aqui mantém o build determinístico.
   turbopack: { root: import.meta.dirname },
+  // O @primer/react importa .css internamente; sem transpilar, o SSR tenta
+  // carregá-lo como ESM externo e o Node rejeita a extensão (feature 004, RF-01).
+  transpilePackages: ["@primer/react"],
   async headers() {
     return [
       {

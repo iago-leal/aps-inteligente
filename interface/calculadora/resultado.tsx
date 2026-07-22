@@ -1,6 +1,15 @@
 "use client";
 // Painel de resultado (RF-03/RF-04/RF-08/RF-09/RF-10 do requirements; RF-04..RF-09/EC-07 da UI).
 // Ordem fixa: alertas → dose/delta → fonte → revisão explícita → disclaimer (RN-06).
+// Feature 004: componentes Primer (RF-02); textos clínicos e máquina de estados intocados.
+import {
+  Button,
+  Checkbox,
+  Flash,
+  FormControl,
+  Heading,
+  Text,
+} from "@primer/react";
 import type {
   Alerta,
   AplicacaoInsulina,
@@ -45,15 +54,14 @@ function Alertas({ alertas }: { alertas: readonly Alerta[] }) {
   return (
     <div role="alert" className="bloco-alertas">
       {alertas.map((alerta) => (
-        <p key={alerta.tipo + alerta.mensagem} className="alerta-clinico">
-          <span className="icone" aria-hidden="true">
-            !
-          </span>
-          <span>
-            <strong>{alerta.tipo.replaceAll("_", " ")}</strong> —{" "}
-            {alerta.mensagem}
-          </span>
-        </p>
+        <Flash
+          key={alerta.tipo + alerta.mensagem}
+          variant="warning"
+          className="alerta-clinico"
+        >
+          <strong>{alerta.tipo.replaceAll("_", " ")}</strong> —{" "}
+          {alerta.mensagem}
+        </Flash>
       ))}
     </div>
   );
@@ -74,7 +82,7 @@ function Recomendacoes({ itens }: { itens: readonly Recomendacao[] }) {
   if (itens.length === 0) return null;
   return (
     <div className="bloco-recomendacoes">
-      <h3>Recomendações ao prescritor</h3>
+      <Heading as="h3">Recomendações ao prescritor</Heading>
       <ul>
         {itens.map((rec) => (
           <li key={rec.tipo}>{rec.mensagem}</li>
@@ -87,7 +95,7 @@ function Recomendacoes({ itens }: { itens: readonly Recomendacao[] }) {
 function Referencias({ resultado }: { resultado: ResultadoCalculo }) {
   return (
     <div className="bloco-referencias">
-      <h3>Fonte clínica</h3>
+      <Heading as="h3">Fonte clínica</Heading>
       <ul>
         {resultado.referencias.map((ref) => (
           <li key={ref.localizacao}>
@@ -103,24 +111,24 @@ function Referencias({ resultado }: { resultado: ResultadoCalculo }) {
 function CorpoInicio({ resultado }: { resultado: ResultadoInicio }) {
   return (
     <div className="faixa-inicial">
-      <p>
+      <Text as="p">
         Insulina {resultado.aplicacaoSugerida.insulina}{" "}
         {ROTULO_MOMENTO[resultado.aplicacaoSugerida.momento]} — dose inicial
         pela fonte:
-      </p>
-      <p className="valor">
+      </Text>
+      <Text as="p" className="valor">
         {resultado.faixaDoseUi.minUi} a {resultado.faixaDoseUi.maxUi} UI/dia
-      </p>
-      <p>
+      </Text>
+      <Text as="p">
         Equivalente por peso (0,1 a 0,2 UI/kg/dia):{" "}
         <span className="valor">
           {resultado.faixaPorPesoUi.minUi} a {resultado.faixaPorPesoUi.maxUi}{" "}
           UI/dia
         </span>
-      </p>
-      <p className="referencia-inline">
+      </Text>
+      <Text as="p" size="small" className="referencia-inline">
         O guia informa a faixa; a dose exata é fixada pelo prescritor.
-      </p>
+      </Text>
     </div>
   );
 }
@@ -152,7 +160,9 @@ function CorpoTitulacao({ resultado }: { resultado: ResultadoTitulacao }) {
       {resultado.condutasAlternativas &&
       resultado.condutasAlternativas.length > 0 ? (
         <div className="bloco-condutas">
-          <h3>Condutas alternativas do guia — a escolha é do prescritor</h3>
+          <Heading as="h3">
+            Condutas alternativas do guia — a escolha é do prescritor
+          </Heading>
           <ul>
             {resultado.condutasAlternativas.map((conduta) => (
               <li key={conduta.rotulo}>
@@ -186,33 +196,33 @@ export function PainelResultado({
       className={`painel-resultado${desatualizado ? " resultado-desatualizado" : ""}`}
       aria-label="Resultado do cálculo"
     >
-      <h2>Resultado</h2>
+      <Heading as="h2">Resultado</Heading>
 
       {desatualizado ? (
-        <p className="aviso-desatualizado" role="status">
+        <Flash variant="warning" role="status" className="aviso-desatualizado">
           Os dados mudaram — recalcule antes de prescrever.
-        </p>
+        </Flash>
       ) : null}
 
       {estado.estado === "vazio" ? (
-        <p className="resultado-vazio">
+        <Text as="p" className="resultado-vazio">
           Preencha os dados do paciente e acione Calcular.
-        </p>
+        </Text>
       ) : null}
 
       {estado.estado === "falha-inesperada" ? (
-        <div className="painel-falha" role="alert">
+        <Flash variant="danger" role="alert" className="painel-falha">
           <strong>Não foi possível calcular.</strong>
           <p>
             Ocorreu uma falha inesperada. <strong>Não prescreva</strong> a
             partir desta tela: recarregue a página e, se persistir, faça o
             cálculo manualmente pela fonte clínica.
           </p>
-        </div>
+        </Flash>
       ) : null}
 
       {estado.estado === "erro" && estado.saida.tipo === "erro-validacao" ? (
-        <div className="bloco-erros" role="alert">
+        <Flash variant="danger" role="alert" className="bloco-erros">
           <strong>
             Entradas fora da faixa plausível — nenhuma dose foi calculada:
           </strong>
@@ -221,15 +231,15 @@ export function PainelResultado({
               <li key={ofensor.campo + ofensor.codigo}>{ofensor.mensagem}</li>
             ))}
           </ul>
-        </div>
+        </Flash>
       ) : null}
 
       {estado.estado === "erro" && estado.saida.tipo === "fora-do-escopo" ? (
-        <div className="bloco-erros" role="alert">
+        <Flash variant="danger" role="alert" className="bloco-erros">
           <strong>Cenário fora do escopo da fonte clínica:</strong>
           <p>{estado.saida.motivo}</p>
           <p>{estado.saida.orientacao}.</p>
-        </div>
+        </Flash>
       ) : null}
 
       {estado.estado === "sucesso" ? (
@@ -247,15 +257,13 @@ export function PainelResultado({
 
       {estado.estado === "sucesso" ? (
         <div className="bloco-revisao">
-          <label className="confirmacao">
-            <input
-              type="checkbox"
+          <FormControl disabled={desatualizado}>
+            <Checkbox
               checked={revisaoValida}
-              disabled={desatualizado}
               onChange={(evento) => onConfirmarRevisao(evento.target.checked)}
-            />{" "}
-            Revisei a dose e a fonte
-          </label>
+            />
+            <FormControl.Label>Revisei a dose e a fonte</FormControl.Label>
+          </FormControl>
           <div
             className="bloco-final"
             data-testid="bloco-pronto-para-prescrever"
@@ -270,20 +278,16 @@ export function PainelResultado({
         </div>
       ) : null}
 
-      <p className="disclaimer">
+      <Text as="p" size="small" className="disclaimer">
         Ferramenta de apoio à decisão: não substitui o julgamento do médico, que
         permanece responsável pela prescrição.
-      </p>
+      </Text>
 
       {estado.estado !== "vazio" ? (
         <div>
-          <button
-            type="button"
-            className="botao botao-secundario"
-            onClick={onNovoCalculo}
-          >
+          <Button type="button" onClick={onNovoCalculo}>
             Novo cálculo
-          </button>
+          </Button>
         </div>
       ) : null}
     </section>

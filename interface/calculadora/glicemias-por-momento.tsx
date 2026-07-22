@@ -5,8 +5,11 @@
 // valem como decimal dentro de cada valor; campo vazio = momento não aferido; sem
 // máximo de aferições. O parsing vive na UI: o domínio segue recebendo
 // `GlicemiaAferida[]` inalterado (Spec Impact Matrix §4, divergência 4).
+// Feature 004: campos em componentes Primer (RF-02); rótulos e mensagens intocados.
+import { FormControl, Text, TextInput } from "@primer/react";
 import { CONSTANTES } from "models/insulina/fonte-clinica";
 import type { GlicemiaAferida, MomentoAfericao } from "models/insulina/tipos";
+import { ErroDeCampo } from "./erro-de-campo";
 import { interpretaDecimal } from "./validacao-campos";
 
 export const MOMENTOS_AFERICAO: ReadonlyArray<{
@@ -77,37 +80,33 @@ export interface PropsGlicemiasPorMomento {
 }
 
 export function GlicemiasPorMomento({
-  prefixo,
   valores,
   erros,
   onMudanca,
   onBlur,
 }: PropsGlicemiasPorMomento) {
   return (
-    <fieldset>
+    <fieldset className="grupo-campos">
       <legend>Glicemias capilares por momento</legend>
-      <p className="ajuda-campo">
+      <Text as="p" size="small" className="ajuda-campo">
         Registre uma ou mais aferições por campo, separadas por espaço (ex.:
         98,5 130 210). Deixe em branco o momento não aferido.
-      </p>
+      </Text>
       {MOMENTOS_AFERICAO.map(({ valor: momento, rotulo }) => {
         const chave = `glicemias-${momento}`;
         return (
           <div key={momento} className="campo">
-            <label htmlFor={`${prefixo}-${chave}`}>{rotulo} (mg/dL)</label>
-            <input
-              id={`${prefixo}-${chave}`}
-              inputMode="decimal"
-              value={valores[momento]}
-              aria-invalid={erros[chave] ? "true" : undefined}
-              onChange={(e) => onMudanca(momento, e.target.value)}
-              onBlur={() => onBlur(momento)}
-            />
-            {erros[chave] ? (
-              <p role="alert" className="erro-campo">
-                {erros[chave]}
-              </p>
-            ) : null}
+            <FormControl>
+              <FormControl.Label>{rotulo} (mg/dL)</FormControl.Label>
+              <TextInput
+                inputMode="decimal"
+                value={valores[momento]}
+                validationStatus={erros[chave] ? "error" : undefined}
+                onChange={(e) => onMudanca(momento, e.target.value)}
+                onBlur={() => onBlur(momento)}
+              />
+            </FormControl>
+            <ErroDeCampo mensagem={erros[chave]} />
           </div>
         );
       })}

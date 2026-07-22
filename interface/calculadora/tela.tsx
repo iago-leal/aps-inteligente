@@ -1,7 +1,9 @@
 "use client";
 // Moldura da tela da calculadora: cabeçalho, selo de privacidade e alternador de
 // tema. Só cuida de apresentação — nenhuma regra clínica nem estado de cálculo
-// vive aqui (o cálculo é do CalculadoraApp).
+// vive aqui (o cálculo é do CalculadoraApp). Feature 004: componentes Primer
+// (RF-02); o data-tema permanece como marcador observável da preferência (RN-04).
+import { Button, Heading, Label, Text } from "@primer/react";
 import { useSyncExternalStore } from "react";
 import { CalculadoraApp } from "./calculadora-app";
 import {
@@ -18,21 +20,23 @@ export function TelaCalculadora() {
     <div className="pagina" data-tema={tema}>
       <header className="cabecalho">
         <div className="cabecalho-identidade">
-          <h1>Calculadora de Insulina — DM2</h1>
-          <p>
+          <Heading as="h1">Calculadora de Insulina — DM2</Heading>
+          <Text as="p" size="small">
             APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus —
             SMS-Rio, 2.ª ed. atualizada, 2023
-          </p>
+          </Text>
         </div>
         <div className="cabecalho-acoes">
-          <span className="selo-privacidade">Nada é salvo nem enviado</span>
-          <button
+          <Label variant="success" size="large">
+            Nada é salvo nem enviado
+          </Label>
+          <Button
             type="button"
-            className="botao-tema"
+            size="small"
             onClick={() => gravarTema(tema === "escuro" ? "claro" : "escuro")}
           >
             {tema === "escuro" ? "Tema claro" : "Tema escuro"}
-          </button>
+          </Button>
         </div>
       </header>
       <main>

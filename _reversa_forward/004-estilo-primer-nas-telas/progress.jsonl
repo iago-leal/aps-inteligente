@@ -1,0 +1,16 @@
+{"ts":"2026-07-21T23:59:00Z","action":"T001","status":"done","files":["playwright.config.ts"]}
+{"ts":"2026-07-21T23:59:30Z","action":"T002","status":"done","files":["e2e/calculadora.spec.ts","e2e/axe-baseline.json"]}
+{"ts":"2026-07-22T00:14:00Z","action":"T003","status":"done","files":["_reversa_forward/004-estilo-primer-nas-telas/baseline.md","e2e/axe-baseline.json"]}
+{"ts":"2026-07-22T00:22:00Z","action":"T004","status":"done","files":["package.json","package-lock.json"],"nota":"@primer/react@38.33.0 + @primer/primitives@11.9.0 pinados; vetados ausentes; caminhos CSS confirmados no pacote (base/* + functional/* + themes/light|dark.css) — resolve o amarelo do D-02"}
+{"ts":"2026-07-22T00:26:00Z","action":"T005","status":"done","files":["tests/integration/interface/provedor-tema.test.tsx"],"nota":"teste nasce vermelho por TDD; verde no T006"}
+{"ts":"2026-07-22T00:40:00Z","action":"T006","status":"done","files":["interface/calculadora/provedor-tema.tsx","pages/_app.tsx","vitest.config.ts","next.config.ts"],"nota":"transpilePackages no next.config.ts (bundling, CSP intocada — substancia do D-09 preservada); inline de @primer no vitest; suite 193/193, build e e2e verdes"}
+{"ts":"2026-07-22T00:48:00Z","action":"T007","status":"done","files":["interface/calculadora/tela.tsx"]}
+{"ts":"2026-07-22T00:55:00Z","action":"T008","status":"done","files":["interface/calculadora/resultado.tsx"]}
+{"ts":"2026-07-22T01:00:00Z","action":"T009","status":"done","files":["interface/calculadora/formulario.tsx"]}
+{"ts":"2026-07-22T01:10:00Z","action":"T010","status":"done","files":["interface/calculadora/antidiabeticos-orais.tsx","interface/calculadora/glicemias-por-momento.tsx","interface/calculadora/esquema-atual.tsx","interface/calculadora/erro-de-campo.tsx"],"nota":"ErroDeCampo extraido para arquivo proprio (evita ciclo de import); suite 193/193 e e2e 4/4 sem alterar assercao alguma"}
+{"ts":"2026-07-22T01:12:00Z","action":"T011","status":"done","files":["pages/_app.tsx"]}
+{"ts":"2026-07-22T01:25:00Z","action":"T012","status":"done","files":["interface/estilos/globais.css"],"nota":"699 -> 397 linhas; zero cor propria, tudo em var() do Primer; prettier ok; e2e 4/4; troca de tema provada por cor computada"}
+{"ts":"2026-07-22T01:45:00Z","action":"T013","status":"failed","files":["_reversa_forward/004-estilo-primer-nas-telas/baseline.md","next.config.ts"],"nota":"gate D-08 disparado: first load 126.3 -> 279.1 kB gzip (+152.8, limiar 100). Resto verde: suite 193/193, contrato 16/16, e2e 4/4, axe 0 (era 1), lint/typecheck ok. optimizePackageImports sem efeito. Aguarda decisao do usuario no roadmap; T014/T015 pendentes"}
+{"ts":"2026-07-22T02:05:00Z","action":"T013","status":"corrected","files":["_reversa_forward/004-estilo-primer-nas-telas/roadmap.md","_reversa_forward/004-estilo-primer-nas-telas/baseline.md"],"nota":"gate D-08 resolvido pelo usuario (opcao 1: delta aceito, D-10 no roadmap); verificacao integrada ja estava verde em todo o resto -> T013 concluida"}
+{"ts":"2026-07-22T02:15:00Z","action":"T014","status":"done","files":["README.md"]}
+{"ts":"2026-07-22T02:16:00Z","action":"T015","status":"done","files":["_reversa_forward/004-estilo-primer-nas-telas/relatorio.md"],"nota":"design Claude arquivado como referencia historica (RN-05); medicoes consolidadas"}

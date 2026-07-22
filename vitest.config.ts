@@ -9,6 +9,9 @@ export default defineConfig({
     },
   },
   test: {
+    // O @primer/react importa .css de dentro do pacote; inliná-lo faz o Vite
+    // processar esses imports (viram no-op no jsdom) em vez do ESM do Node falhar.
+    server: { deps: { inline: [/@primer\//] } },
     include: [
       "tests/unit/**/*.test.ts",
       "tests/integration/**/*.test.{ts,tsx}",

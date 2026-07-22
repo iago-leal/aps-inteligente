@@ -2,8 +2,19 @@
 // Formulário da calculadora (RF-05/RF-06/RF-07 do requirements; RF-01..RF-03/RF-11 da UI).
 // Feature 001-integrar-design-claude: entrada de glicemias por momento (RF-04) e
 // bloco de antidiabéticos orais (RF-01/RF-02), compostos como subcomponentes (D-07).
+// Feature 004: campos e botões em componentes Primer (RF-02); as mensagens de erro
+// permanecem parágrafos próprios com role="alert" — contrato observável dos testes.
 // Valida no blur com as MESMAS faixas do motor e aceita vírgula ou ponto decimal;
 // nenhuma regra clínica vive aqui (RNF-05 da UI).
+import {
+  Button,
+  FormControl,
+  Radio,
+  RadioGroup,
+  Select,
+  TextInput,
+} from "@primer/react";
+import { ErroDeCampo } from "./erro-de-campo";
 import { useId, useState } from "react";
 import type { EntradaCalculo, MomentoAfericao } from "models/insulina/tipos";
 import {
@@ -150,88 +161,77 @@ export function FormularioCalculadora({
 
   return (
     <form className="form-calculadora" onSubmit={submeter} noValidate>
-      <fieldset>
-        <legend>Modo de cálculo</legend>
-        {(
-          [
-            { valor: "inicio", rotulo: "Início de insulinização" },
-            { valor: "titulacao", rotulo: "Titulação de dose" },
-          ] as const
-        ).map((opcao) => (
-          <label key={opcao.valor} className="confirmacao">
-            <input
-              type="radio"
-              name={`${prefixo}-modo`}
-              value={opcao.valor}
-              checked={modo === opcao.valor}
-              onChange={() => {
-                setModo(opcao.valor);
-                registraEdicao();
-              }}
-            />{" "}
-            {opcao.rotulo}
-          </label>
-        ))}
-      </fieldset>
+      <RadioGroup
+        name={`${prefixo}-modo`}
+        onChange={(selecionado) => {
+          if (selecionado === "inicio" || selecionado === "titulacao") {
+            setModo(selecionado);
+            registraEdicao();
+          }
+        }}
+      >
+        <RadioGroup.Label>Modo de cálculo</RadioGroup.Label>
+        <FormControl>
+          <Radio value="inicio" checked={modo === "inicio"} />
+          <FormControl.Label>Início de insulinização</FormControl.Label>
+        </FormControl>
+        <FormControl>
+          <Radio value="titulacao" checked={modo === "titulacao"} />
+          <FormControl.Label>Titulação de dose</FormControl.Label>
+        </FormControl>
+      </RadioGroup>
 
-      <fieldset>
+      <fieldset className="grupo-campos">
         <legend>Dados do paciente</legend>
         <div className="campo">
-          <label htmlFor={`${prefixo}-peso`}>Peso (kg)</label>
-          <input
-            id={`${prefixo}-peso`}
-            inputMode="decimal"
-            value={pesoBruto}
-            aria-invalid={errosVisiveis.peso ? "true" : undefined}
-            onChange={(e) => {
-              setPesoBruto(e.target.value);
-              registraEdicao();
-            }}
-            onBlur={() => validaCampo("peso", erroDoPeso(pesoBruto))}
-          />
-          {errosVisiveis.peso ? (
-            <p role="alert" className="erro-campo">
-              {errosVisiveis.peso}
-            </p>
-          ) : null}
+          <FormControl>
+            <FormControl.Label>Peso (kg)</FormControl.Label>
+            <TextInput
+              inputMode="decimal"
+              value={pesoBruto}
+              validationStatus={errosVisiveis.peso ? "error" : undefined}
+              onChange={(e) => {
+                setPesoBruto(e.target.value);
+                registraEdicao();
+              }}
+              onBlur={() => validaCampo("peso", erroDoPeso(pesoBruto))}
+            />
+          </FormControl>
+          <ErroDeCampo mensagem={errosVisiveis.peso} />
         </div>
 
         <div className="campo">
-          <label htmlFor={`${prefixo}-hba1c`}>HbA1c (%) — opcional</label>
-          <input
-            id={`${prefixo}-hba1c`}
-            inputMode="decimal"
-            value={hba1cBruta}
-            aria-invalid={errosVisiveis.hba1c ? "true" : undefined}
-            onChange={(e) => {
-              setHba1cBruta(e.target.value);
-              registraEdicao();
-            }}
-            onBlur={() => validaCampo("hba1c", erroDaHba1c(hba1cBruta))}
-          />
-          {errosVisiveis.hba1c ? (
-            <p role="alert" className="erro-campo">
-              {errosVisiveis.hba1c}
-            </p>
-          ) : null}
+          <FormControl>
+            <FormControl.Label>HbA1c (%) — opcional</FormControl.Label>
+            <TextInput
+              inputMode="decimal"
+              value={hba1cBruta}
+              validationStatus={errosVisiveis.hba1c ? "error" : undefined}
+              onChange={(e) => {
+                setHba1cBruta(e.target.value);
+                registraEdicao();
+              }}
+              onBlur={() => validaCampo("hba1c", erroDaHba1c(hba1cBruta))}
+            />
+          </FormControl>
+          <ErroDeCampo mensagem={errosVisiveis.hba1c} />
         </div>
 
         <div className="campo">
-          <label htmlFor={`${prefixo}-sulfonilureia`}>
-            Uso de sulfonilureia
-          </label>
-          <select
-            id={`${prefixo}-sulfonilureia`}
-            value={sulfonilureia}
-            onChange={(e) => {
-              setSulfonilureia(e.target.value as typeof sulfonilureia);
-              registraEdicao();
-            }}
-          >
-            <option value="nao_informado">Não informado</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
+          <FormControl>
+            <FormControl.Label>Uso de sulfonilureia</FormControl.Label>
+            <Select
+              value={sulfonilureia}
+              onChange={(e) => {
+                setSulfonilureia(e.target.value as typeof sulfonilureia);
+                registraEdicao();
+              }}
+            >
+              <Select.Option value="nao_informado">Não informado</Select.Option>
+              <Select.Option value="sim">Sim</Select.Option>
+              <Select.Option value="nao">Não</Select.Option>
+            </Select>
+          </FormControl>
         </div>
       </fieldset>
 
@@ -304,9 +304,9 @@ export function FormularioCalculadora({
       ) : null}
 
       <div>
-        <button type="submit" className="botao botao-primario">
+        <Button type="submit" variant="primary">
           Calcular
-        </button>
+        </Button>
       </div>
     </form>
   );

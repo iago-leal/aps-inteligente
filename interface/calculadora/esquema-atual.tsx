@@ -2,7 +2,10 @@
 // Fieldset do esquema atual de insulina (titulação). Extraído de formulario.tsx
 // na feature 001-integrar-design-claude (D-07: manter cada arquivo ≤ 400 linhas).
 // O estado permanece no formulário; aqui vive apenas a apresentação.
+// Feature 004: campos e botões em componentes Primer (RF-02); rótulos intocados.
+import { Button, FormControl, Select, TextInput } from "@primer/react";
 import type { MomentoAplicacao, NomeInsulina } from "models/insulina/tipos";
+import { ErroDeCampo } from "./erro-de-campo";
 
 export interface LinhaAplicacao {
   id: number;
@@ -39,7 +42,6 @@ export interface PropsEsquemaAtual {
 }
 
 export function EsquemaAtual({
-  prefixo,
   aplicacoes,
   erros,
   onMudanca,
@@ -48,87 +50,74 @@ export function EsquemaAtual({
   onBlurDose,
 }: PropsEsquemaAtual) {
   return (
-    <fieldset>
+    <fieldset className="grupo-campos">
       <legend>Esquema atual de insulina</legend>
-      {erros.esquema ? (
-        <p role="alert" className="erro-campo">
-          {erros.esquema}
-        </p>
-      ) : null}
+      <ErroDeCampo mensagem={erros.esquema} />
       {aplicacoes.map((linha, indice) => (
         <div key={linha.id} className="linha-dinamica">
           <div className="campo">
-            <label htmlFor={`${prefixo}-insulina-${linha.id}`}>Insulina</label>
-            <select
-              id={`${prefixo}-insulina-${linha.id}`}
-              value={linha.insulina}
-              onChange={(e) =>
-                onMudanca(linha.id, {
-                  insulina: e.target.value as NomeInsulina,
-                })
-              }
-            >
-              <option value="NPH">NPH</option>
-              <option value="Regular">Regular</option>
-            </select>
+            <FormControl>
+              <FormControl.Label>Insulina</FormControl.Label>
+              <Select
+                value={linha.insulina}
+                onChange={(e) =>
+                  onMudanca(linha.id, {
+                    insulina: e.target.value as NomeInsulina,
+                  })
+                }
+              >
+                <Select.Option value="NPH">NPH</Select.Option>
+                <Select.Option value="Regular">Regular</Select.Option>
+              </Select>
+            </FormControl>
           </div>
           <div className="campo">
-            <label htmlFor={`${prefixo}-aplicacao-${linha.id}`}>
-              Momento da aplicação
-            </label>
-            <select
-              id={`${prefixo}-aplicacao-${linha.id}`}
-              value={linha.momento}
-              onChange={(e) =>
-                onMudanca(linha.id, {
-                  momento: e.target.value as MomentoAplicacao,
-                })
-              }
-            >
-              {MOMENTOS_APLICACAO.map((m) => (
-                <option key={m.valor} value={m.valor}>
-                  {m.rotulo}
-                </option>
-              ))}
-            </select>
+            <FormControl>
+              <FormControl.Label>Momento da aplicação</FormControl.Label>
+              <Select
+                value={linha.momento}
+                onChange={(e) =>
+                  onMudanca(linha.id, {
+                    momento: e.target.value as MomentoAplicacao,
+                  })
+                }
+              >
+                {MOMENTOS_APLICACAO.map((m) => (
+                  <Select.Option key={m.valor} value={m.valor}>
+                    {m.rotulo}
+                  </Select.Option>
+                ))}
+              </Select>
+            </FormControl>
           </div>
           <div className="campo">
-            <label htmlFor={`${prefixo}-dose-${linha.id}`}>Dose (UI)</label>
-            <input
-              id={`${prefixo}-dose-${linha.id}`}
-              inputMode="numeric"
-              value={linha.doseBruta}
-              aria-invalid={erros[`dose-${linha.id}`] ? "true" : undefined}
-              onChange={(e) =>
-                onMudanca(linha.id, { doseBruta: e.target.value })
-              }
-              onBlur={() => onBlurDose(linha)}
-            />
+            <FormControl>
+              <FormControl.Label>Dose (UI)</FormControl.Label>
+              <TextInput
+                inputMode="numeric"
+                value={linha.doseBruta}
+                validationStatus={
+                  erros[`dose-${linha.id}`] ? "error" : undefined
+                }
+                onChange={(e) =>
+                  onMudanca(linha.id, { doseBruta: e.target.value })
+                }
+                onBlur={() => onBlurDose(linha)}
+              />
+            </FormControl>
           </div>
           {aplicacoes.length > 1 ? (
-            <button
-              type="button"
-              className="botao botao-terciario"
-              onClick={() => onRemover(linha.id)}
-            >
+            <Button type="button" onClick={() => onRemover(linha.id)}>
               Remover aplicação {indice + 1}
-            </button>
+            </Button>
           ) : null}
-          {erros[`dose-${linha.id}`] ? (
-            <p role="alert" className="erro-campo">
-              {erros[`dose-${linha.id}`]}
-            </p>
-          ) : null}
+          <ErroDeCampo mensagem={erros[`dose-${linha.id}`]} />
         </div>
       ))}
       <div>
-        <button
-          type="button"
-          className="botao botao-secundario"
-          onClick={onAdicionar}
-        >
+        <Button type="button" onClick={onAdicionar}>
           Adicionar aplicação
-        </button>
+        </Button>
       </div>
     </fieldset>
   );

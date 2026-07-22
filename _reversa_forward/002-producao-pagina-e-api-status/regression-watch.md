@@ -20,7 +20,7 @@
 - O-01 (D-08 🟡): `vercel.json` mantém `git.deploymentEnabled: false`; se o arquivo sumir, o auto-deploy por push volta e anula o gate. Verificar também no painel do provedor.
 - O-02 (premissa 2 do roadmap §4): `commit: "local"` **em produção** indica variável `VERCEL_GIT_COMMIT_SHA` não exposta ao runtime — degradação, não bug do handler.
 - O-03 (risco 5 do roadmap §9): a parte e2e da dívida 3 (`test:e2e` sem config) permanece aberta, para feature própria.
-- O-04 (desvio registrado do T011): o `VERCEL_TOKEN` gravado como secret é o token da sessão da CLI local do mantenedor (decisão do usuário em 2026-07-19); revogá-lo desloga a CLI e quebra o job de deploy — substituir por token dedicado quando conveniente.
+- O-04 (desvio registrado do T011): ~~o `VERCEL_TOKEN` gravado como secret é o token da sessão da CLI local do mantenedor (decisão do usuário em 2026-07-19)~~ **Resolvido em 2026-07-21**: secret substituído por token dedicado `aps-inteligente-ci` (escopo restrito a "iago-leal's projects", expira em 2027-07-22 — renovar antes disso); a sessão antiga da CLI foi revogada, e o deploy do CI voltou verde na re-execução do run 29875523030.
 
 ## Histórico de re-extrações
 

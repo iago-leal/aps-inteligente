@@ -1,27 +1,34 @@
 import type { AppProps } from "next/app";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+
+// Feature 004 (RF-01/RN-05): fundação de estilo Primer — tokens de base e temas
+// claro/escuro entram pelo bundle próprio, dentro da CSP sem terceiros (RN-02).
+// A tipografia é a pilha de fontes do sistema do próprio Primer: nenhum arquivo
+// de fonte é baixado (D-04).
+import "@primer/primitives/dist/css/base/motion/motion.css";
+import "@primer/primitives/dist/css/base/size/size.css";
+import "@primer/primitives/dist/css/base/size/z-index.css";
+import "@primer/primitives/dist/css/base/typography/typography.css";
+import "@primer/primitives/dist/css/functional/motion/motion.css";
+import "@primer/primitives/dist/css/functional/size/border.css";
+import "@primer/primitives/dist/css/functional/size/breakpoints.css";
+import "@primer/primitives/dist/css/functional/size/radius.css";
+import "@primer/primitives/dist/css/functional/size/size.css";
+import "@primer/primitives/dist/css/functional/size/viewport.css";
+import "@primer/primitives/dist/css/functional/size/z-index.css";
+import "@primer/primitives/dist/css/functional/spacing/space.css";
+import "@primer/primitives/dist/css/functional/typography/typography.css";
+import "@primer/primitives/dist/css/functional/themes/light.css";
+import "@primer/primitives/dist/css/functional/themes/dark.css";
 import "interface/estilos/globais.css";
 
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--fonte-texto",
-  display: "swap",
-});
-
-// Monoespaçada reservada aos números clínicos (doses, faixas, médias): alinha as
-// grandezas em coluna e as distingue do texto corrido.
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--fonte-dados",
-  display: "swap",
-});
+import { ProvedorTemaPrimer } from "interface/calculadora/provedor-tema";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={`app-raiz ${plexSans.variable} ${plexMono.variable}`}>
-      <Component {...pageProps} />
+    <div className="app-raiz">
+      <ProvedorTemaPrimer>
+        <Component {...pageProps} />
+      </ProvedorTemaPrimer>
     </div>
   );
 }

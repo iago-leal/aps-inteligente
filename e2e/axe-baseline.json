@@ -1,0 +1,6 @@
+{
+  "comentario": "Linha de base de acessibilidade (RF-05, feature 004). Capturada sobre a tela ANTES da migração de estilo; o teste e2e falha se a contagem de violações axe exceder estes valores. Reduzir é permitido e bem-vindo; aumentar, nunca.",
+  "capturadaEm": "2026-07-21",
+  "telaInicial": 1,
+  "telaComResultado": 1
+}

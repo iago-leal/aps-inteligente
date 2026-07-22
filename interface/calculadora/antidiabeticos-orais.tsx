@@ -2,7 +2,10 @@
 // Bloco de antidiabéticos orais (feature 001-integrar-design-claude: RF-01/RF-02;
 // D-03/D-07): dose diária de metformina e TFG, ambos opcionais, com validação no
 // blur espelhada nas faixas únicas do motor (`CONSTANTES.plausibilidade`, D-09).
+// Feature 004: campos em componentes Primer (RF-02); rótulos e mensagens intocados.
+import { FormControl, TextInput } from "@primer/react";
 import { CONSTANTES } from "models/insulina/fonte-clinica";
+import { ErroDeCampo } from "./erro-de-campo";
 import { interpretaDecimal } from "./validacao-campos";
 
 const FAIXAS = CONSTANTES.plausibilidade;
@@ -43,7 +46,6 @@ export interface PropsAntidiabeticosOrais {
 }
 
 export function AntidiabeticosOrais({
-  prefixo,
   doseMetforminaBruta,
   tfgBruta,
   erros,
@@ -53,43 +55,35 @@ export function AntidiabeticosOrais({
   onBlurTfg,
 }: PropsAntidiabeticosOrais) {
   return (
-    <fieldset>
+    <fieldset className="grupo-campos">
       <legend>Antidiabéticos orais e função renal</legend>
       <div className="campo">
-        <label htmlFor={`${prefixo}-metformina`}>
-          Dose atual de metformina (mg/dia) — opcional
-        </label>
-        <input
-          id={`${prefixo}-metformina`}
-          inputMode="decimal"
-          value={doseMetforminaBruta}
-          aria-invalid={erros.metformina ? "true" : undefined}
-          onChange={(e) => onMudancaMetformina(e.target.value)}
-          onBlur={onBlurMetformina}
-        />
-        {erros.metformina ? (
-          <p role="alert" className="erro-campo">
-            {erros.metformina}
-          </p>
-        ) : null}
+        <FormControl>
+          <FormControl.Label>
+            Dose atual de metformina (mg/dia) — opcional
+          </FormControl.Label>
+          <TextInput
+            inputMode="decimal"
+            value={doseMetforminaBruta}
+            validationStatus={erros.metformina ? "error" : undefined}
+            onChange={(e) => onMudancaMetformina(e.target.value)}
+            onBlur={onBlurMetformina}
+          />
+        </FormControl>
+        <ErroDeCampo mensagem={erros.metformina} />
       </div>
       <div className="campo">
-        <label htmlFor={`${prefixo}-tfg`}>
-          TFG (mL/min/1,73 m²) — opcional
-        </label>
-        <input
-          id={`${prefixo}-tfg`}
-          inputMode="decimal"
-          value={tfgBruta}
-          aria-invalid={erros.tfg ? "true" : undefined}
-          onChange={(e) => onMudancaTfg(e.target.value)}
-          onBlur={onBlurTfg}
-        />
-        {erros.tfg ? (
-          <p role="alert" className="erro-campo">
-            {erros.tfg}
-          </p>
-        ) : null}
+        <FormControl>
+          <FormControl.Label>TFG (mL/min/1,73 m²) — opcional</FormControl.Label>
+          <TextInput
+            inputMode="decimal"
+            value={tfgBruta}
+            validationStatus={erros.tfg ? "error" : undefined}
+            onChange={(e) => onMudancaTfg(e.target.value)}
+            onBlur={onBlurTfg}
+          />
+        </FormControl>
+        <ErroDeCampo mensagem={erros.tfg} />
       </div>
     </fieldset>
   );
