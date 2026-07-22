@@ -317,9 +317,9 @@ describe("Feature 005 — recomendação de TFG subordinada à de manutenção",
     const itemReduzir = itemDaLista(/reduzir a dose de metformina em 50%/i);
     expect(itemManter.contains(itemReduzir)).toBe(true);
     expect(itemManter.querySelector("ul")).not.toBeNull();
-    expect(
-      itemDaLista(/manter a sulfonilureia/i).contains(itemReduzir),
-    ).toBe(false);
+    expect(itemDaLista(/manter a sulfonilureia/i).contains(itemReduzir)).toBe(
+      false,
+    );
   });
 
   it("sem TFG em faixa de redução, a lista permanece plana (RF-03)", () => {
@@ -329,9 +329,7 @@ describe("Feature 005 — recomendação de TFG subordinada à de manutenção",
 
     const itemManter = itemDaLista(/manter a metformina ao iniciar/i);
     expect(itemManter.querySelector("ul")).toBeNull();
-    expect(
-      screen.queryByText(/reduzir a dose de metformina/i),
-    ).toBeNull();
+    expect(screen.queryByText(/reduzir a dose de metformina/i)).toBeNull();
   });
 
   it("com TFG de suspensão, a supressão da feature 001 segue valendo e nada aninha", () => {
@@ -350,9 +348,7 @@ describe("Feature 005 — recomendação de TFG subordinada à de manutenção",
       },
     });
 
-    expect(
-      screen.queryByText(/manter a metformina ao iniciar/i),
-    ).toBeNull();
+    expect(screen.queryByText(/manter a metformina ao iniciar/i)).toBeNull();
     const itemSuspender = itemDaLista(/suspender a metformina/i);
     expect(itemSuspender.parentElement?.closest("li")).toBeNull();
   });
@@ -371,6 +367,88 @@ describe("Feature 005 — recomendação de TFG subordinada à de manutenção",
 
     const itemReduzir = itemDaLista(/reduzir a dose de metformina em 50%/i);
     expect(itemReduzir.parentElement?.closest("li")).toBeNull();
+  });
+});
+
+// T003 (feature 006-checkbox-revisao-redundante) — o ritual de revisão ganha
+// função: copiar o plano ao prontuário (RF-01/RF-03/RF-04; D-02/D-03 do roadmap).
+// O adaptador de área de transferência entra como dublê injetável.
+describe("Feature 006 — revisão habilita a cópia do plano", () => {
+  it("sem revisão confirmada não há botão de copiar (RF-01, caso negativo)", () => {
+    renderizaSucesso();
+    expect(screen.queryByRole("button", { name: /copiar plano/i })).toBeNull();
+  });
+
+  it("desatualizado não há botão, mesmo com revisão anterior (RF-04)", () => {
+    renderizaSucesso({ desatualizado: true, revisaoConfirmada: true });
+    expect(screen.queryByRole("button", { name: /copiar plano/i })).toBeNull();
+  });
+
+  it("com revisão válida o botão copia o plano e anuncia sucesso (RF-01/RF-03)", async () => {
+    const copiar = vi.fn().mockResolvedValue({ ok: true });
+    renderizaSucesso({ revisaoConfirmada: true, copiarPlano: copiar });
+
+    fireEvent.click(screen.getByRole("button", { name: /copiar plano/i }));
+
+    const confirmacao = await screen.findByText(/plano copiado/i);
+    expect(confirmacao.closest("[role=status]")).not.toBeNull();
+    expect(copiar).toHaveBeenCalledTimes(1);
+    const textoCopiado = copiar.mock.calls[0][0] as string;
+    expect(textoCopiado).toContain("Conduta: Reduzir 4 UI.");
+    expect(textoCopiado).toContain("responsabilidade do médico");
+    expect(textoCopiado.startsWith("Plano:")).toBe(false);
+  });
+
+  it("falha do adaptador vira alerta com orientação manual (RF-03/RN-05)", async () => {
+    const copiar = vi.fn().mockResolvedValue({ ok: false });
+    renderizaSucesso({ revisaoConfirmada: true, copiarPlano: copiar });
+
+    fireEvent.click(screen.getByRole("button", { name: /copiar plano/i }));
+
+    const falha = await screen.findByText(/transcreva o plano manualmente/i);
+    expect(falha.closest("[role=alert]")).not.toBeNull();
+  });
+
+  it("edição zera o retorno: refazer a revisão não ressuscita 'copiado' (RF-04)", async () => {
+    const copiar = vi.fn().mockResolvedValue({ ok: true });
+    const props = {
+      estado: {
+        estado: "sucesso",
+        saida: resultadoComHipoglicemia,
+      } as EstadoResultado,
+      onConfirmarRevisao: vi.fn(),
+      onNovoCalculo: vi.fn(),
+      copiarPlano: copiar,
+    };
+    const { rerender } = render(
+      <PainelResultado
+        {...props}
+        desatualizado={false}
+        revisaoConfirmada={true}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /copiar plano/i }));
+    await screen.findByText(/plano copiado/i);
+
+    rerender(
+      <PainelResultado
+        {...props}
+        desatualizado={true}
+        revisaoConfirmada={false}
+      />,
+    );
+    expect(screen.queryByText(/plano copiado/i)).toBeNull();
+    expect(screen.queryByRole("button", { name: /copiar plano/i })).toBeNull();
+
+    rerender(
+      <PainelResultado
+        {...props}
+        desatualizado={false}
+        revisaoConfirmada={true}
+      />,
+    );
+    expect(screen.getByRole("button", { name: /copiar plano/i })).toBeTruthy();
+    expect(screen.queryByText(/plano copiado/i)).toBeNull();
   });
 });
 

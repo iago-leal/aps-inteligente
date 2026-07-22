@@ -43,6 +43,52 @@ test("fluxo de início de insulinização com ritual de revisão", async ({
   ).toBeVisible();
 });
 
+// T007 (feature 006-checkbox-revisao-redundante) — a revisão habilita a cópia
+// do plano; conteúdo lido de volta da área de transferência real (RF-02; D-07).
+test("copiar plano põe o plano completo na área de transferência", async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/");
+  await calculaCasoValidoDeInicio(page);
+
+  // Sem revisão confirmada, a ação não existe (RF-01, caso negativo).
+  const botao = page.getByRole("button", { name: "Copiar plano" });
+  await expect(botao).toBeHidden();
+
+  await page.getByLabel("Revisei a dose e a fonte").check();
+  await botao.click();
+  await expect(
+    page.getByText("Plano copiado — cole no prontuário."),
+  ).toBeVisible();
+
+  const texto = await page.evaluate(() => navigator.clipboard.readText());
+  expect(texto.startsWith("Plano:")).toBe(false);
+  expect(texto).toContain("dose inicial pela fonte: 10 a 15 UI/dia.");
+  expect(texto).toContain(
+    "Equivalente por peso (0,1 a 0,2 UI/kg/dia): 8 a 16 UI/dia.",
+  );
+  expect(texto).toContain("Fonte clínica:");
+  expect(texto).toContain(
+    "Plano elaborado com apoio de ferramenta de decisão clínica; a prescrição é responsabilidade do médico.",
+  );
+  const ordem = [
+    texto.indexOf("dose inicial pela fonte"),
+    texto.indexOf("Fonte clínica:"),
+    texto.indexOf("Plano elaborado com apoio"),
+  ];
+  expect(ordem[0]).toBeGreaterThanOrEqual(0);
+  expect([...ordem].sort((a, b) => a - b)).toEqual(ordem);
+
+  // Edição invalida o resultado e retira ação e retorno (RF-04).
+  await page.getByLabel("Peso (kg)").fill("81");
+  await expect(botao).toBeHidden();
+  await expect(
+    page.getByText("Plano copiado — cole no prontuário."),
+  ).toBeHidden();
+});
+
 test("tema escuro persiste após recarga da página", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Tema escuro" }).click();

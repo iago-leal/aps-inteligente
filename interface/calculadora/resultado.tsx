@@ -4,6 +4,9 @@
 // Feature 004: componentes Primer (RF-02); textos clínicos e máquina de estados intocados.
 // Feature 005 (RF-01/RF-02): recomendações agrupadas — redução por TFG como
 // subitem da manutenção da metformina; textos e saída do motor intocados.
+// Feature 006 (RF-01/RF-03/RF-04): o ritual de revisão ganha função — com
+// revisão válida, o bloco final oferece copiar o plano ao prontuário.
+import { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -13,12 +16,14 @@ import {
   Text,
 } from "@primer/react";
 import { agruparRecomendacoes } from "./agrupar-recomendacoes";
+import { copiarParaAreaDeTransferencia } from "./area-de-transferencia";
+import { formatarPlano } from "./formatar-plano";
+import { ROTULO_MOMENTO, textoDoDelta } from "./rotulos";
 import type {
   Alerta,
   AplicacaoInsulina,
   ErroValidacao,
   ForaDoEscopoDaFonte,
-  MomentoAplicacao,
   Recomendacao,
   ResultadoCalculo,
   ResultadoInicio,
@@ -37,19 +42,56 @@ export interface PropsResultado {
   revisaoConfirmada: boolean;
   onConfirmarRevisao: (confirmada: boolean) => void;
   onNovoCalculo: () => void;
+  /** Injetável nos testes; em produção, o adaptador real (D-02). */
+  copiarPlano?: typeof copiarParaAreaDeTransferencia;
 }
 
-const ROTULO_MOMENTO: Record<MomentoAplicacao, string> = {
-  antes_cafe: "antes do café",
-  antes_almoco: "antes do almoço",
-  antes_jantar: "antes do jantar",
-  ao_deitar: "ao deitar",
-};
+type EstadoCopia = "ocioso" | "copiado" | "falhou";
 
-function textoDoDelta(deltaUi: number): string {
-  if (deltaUi > 0) return `Aumentar ${deltaUi} UI`;
-  if (deltaUi < 0) return `Reduzir ${Math.abs(deltaUi)} UI`;
-  return "Manter a dose";
+/**
+ * Montado somente com revisão válida: o desmonte na invalidação (RF-04/RN-02)
+ * zera o retorno da cópia por construção — nada de "Plano copiado" sobrevivendo
+ * a um resultado desatualizado.
+ */
+function AcaoCopiarPlano({
+  saida,
+  copiar,
+}: {
+  saida: ResultadoCalculo;
+  copiar: typeof copiarParaAreaDeTransferencia;
+}) {
+  const [estadoCopia, setEstadoCopia] = useState<EstadoCopia>("ocioso");
+  return (
+    <div
+      style={{
+        marginTop: "0.75rem",
+        display: "grid",
+        gap: "0.5rem",
+        justifyItems: "start",
+      }}
+    >
+      <Button
+        type="button"
+        onClick={async () => {
+          const copia = await copiar(formatarPlano(saida));
+          setEstadoCopia(copia.ok ? "copiado" : "falhou");
+        }}
+      >
+        Copiar plano
+      </Button>
+      {estadoCopia === "copiado" ? (
+        <Flash variant="success" role="status">
+          Plano copiado — cole no prontuário.
+        </Flash>
+      ) : null}
+      {estadoCopia === "falhou" ? (
+        <Flash variant="danger" role="alert">
+          Não foi possível copiar. Transcreva o plano manualmente a partir desta
+          tela.
+        </Flash>
+      ) : null}
+    </div>
+  );
 }
 
 function Alertas({ alertas }: { alertas: readonly Alerta[] }) {
@@ -200,6 +242,7 @@ export function PainelResultado({
   revisaoConfirmada,
   onConfirmarRevisao,
   onNovoCalculo,
+  copiarPlano = copiarParaAreaDeTransferencia,
 }: PropsResultado) {
   const revisaoValida = revisaoConfirmada && !desatualizado;
 
@@ -286,6 +329,9 @@ export function PainelResultado({
               Transcreva o esquema ao prontuário/receituário. Nada é salvo nem
               enviado por esta página.
             </p>
+            {revisaoValida ? (
+              <AcaoCopiarPlano saida={estado.saida} copiar={copiarPlano} />
+            ) : null}
           </div>
         </div>
       ) : null}
