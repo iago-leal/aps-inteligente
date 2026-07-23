@@ -1,0 +1,19 @@
+{"ts":"2026-07-23T12:45:46Z","action":"T001","status":"done","files":["models/gestacao/tipos.ts","models/gestacao/fonte-clinica.ts"]}
+{"ts":"2026-07-23T12:45:46Z","action":"T002","status":"done","files":["interface/inicio/catalogo.ts"]}
+{"ts":"2026-07-23T12:49:47Z","action":"T003","status":"done","files":["tests/unit/dominio-gestacao/datacao.test.ts"],"nota":"suite nasce falhando (TDD)"}
+{"ts":"2026-07-23T12:49:47Z","action":"T004","status":"done","files":["tests/unit/dominio-gestacao/validacao.test.ts"],"nota":"suite nasce falhando (TDD)"}
+{"ts":"2026-07-23T12:49:47Z","action":"T005","status":"done","files":["tests/unit/dominio-gestacao/invariantes.test.ts"],"nota":"suite nasce falhando (TDD)"}
+{"ts":"2026-07-23T12:49:47Z","action":"T006","status":"done","files":["tests/integration/interface/gestacao.test.tsx"],"nota":"suite nasce falhando (TDD)"}
+{"ts":"2026-07-23T12:49:47Z","action":"T007","status":"done","files":["tests/integration/interface/inicio.test.tsx"],"nota":"suite nasce falhando (TDD)"}
+{"ts":"2026-07-23T12:52:10Z","action":"T008","status":"done","files":["models/gestacao/datas.ts","models/gestacao/datacao.ts"],"nota":"T003 verde"}
+{"ts":"2026-07-23T12:52:10Z","action":"T009","status":"done","files":["models/gestacao/validacao.ts"],"nota":"T004 verde"}
+{"ts":"2026-07-23T12:52:10Z","action":"T010","status":"done","files":["models/gestacao/calculadora.ts"],"nota":"T005 verde; 42/42 na unidade"}
+{"ts":"2026-07-23T12:56:30Z","action":"T011","status":"done","files":["interface/comum/moldura.tsx","interface/calculadora/tela.tsx"],"nota":"refactor byte a byte; oraculo 56/56 verde"}
+{"ts":"2026-07-23T12:56:30Z","action":"T012","status":"done","files":["interface/gestacao/app.tsx","interface/gestacao/formulario.tsx"]}
+{"ts":"2026-07-23T12:56:30Z","action":"T013","status":"done","files":["interface/gestacao/resultado.tsx","interface/gestacao/tela.tsx"],"nota":"gestacao.test 12/12; duas assercoes de T006 precisadas para getByRole heading (colisao legitima de texto)"}
+{"ts":"2026-07-23T12:56:30Z","action":"T014","status":"done","files":["interface/inicio/tela.tsx"],"nota":"inicio.test 5/5"}
+{"ts":"2026-07-23T13:01:35Z","action":"T015","status":"done","files":["pages/index.tsx","pages/dm2/insulina.tsx","pages/pre-natal/idade-gestacional.tsx"]}
+{"ts":"2026-07-23T13:01:35Z","action":"T016","status":"done","files":["e2e/calculadora.spec.ts","e2e/plataforma.spec.ts","e2e/axe-baseline.json"],"nota":"e2e 10/10; servidor stale na porta 3000 encerrado; harness tem um viewport (Desktop Chrome), nao dois"}
+{"ts":"2026-07-23T13:03:35Z","action":"T017","status":"done","files":["_reversa_forward/007-idade-gestacional-e-home"],"nota":"lint+typecheck ok; 274/274 unidade+integracao; cobertura models 97,5% (gestacao 93,75%); contrato 16/16 (banco db:up + next start); e2e 10/10; git diff models/insulina vazio; maior arquivo novo 183 linhas"}
+{"ts":"2026-07-23T13:04:47Z","action":"T018","status":"done","files":["_reversa_forward/007-idade-gestacional-e-home/relatorio.md"]}
+{"ts":"2026-07-23T13:04:47Z","action":"T019","status":"done","files":["README.md"]}

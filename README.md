@@ -1,9 +1,16 @@
 # APS Inteligente
 
-Plataforma web dedicada à prática médica na APS. O primeiro módulo é a **calculadora de
-insulina para DM2**, 100% client-side: nenhum dado clínico sai do navegador (ADR 0002;
-fonte clínica única: Guia SMS-Rio). Next.js (Pages Router) com domínio puro em
-`models/insulina/`, interface em `interface/calculadora/` e shell em `pages/`.
+Plataforma web dedicada à prática médica na APS, 100% client-side: nenhum dado clínico
+sai do navegador (ADR 0002). A raiz (`/`) é a **página inicial por seções** (feature 007);
+as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citável:
+
+| Seção | Calculadora | Rota | Fonte | Domínio |
+|---|---|---|---|---|
+| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |
+| Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |
+
+Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
+em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).
 
 ## Como rodar
 
@@ -35,6 +42,21 @@ Para **criar uma tela nova**:
    (contrato `role="alert"` asserido pelos testes).
 4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de
    acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.
+
+## Como adicionar uma calculadora nova (feature 007)
+
+1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em
+   `interface/inicio/catalogo.ts` — a home renderiza a partir dele; seção nova só nasce
+   com pelo menos uma calculadora.
+2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,
+   `fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),
+   `validacao.ts` (coleta total de ofensores) e fachada; erros como valores, sem ler o
+   relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).
+3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)
+   e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho
+   declarado no catálogo.
+4. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
+   carregando `ReferenciaClinica` com página/seção.
 
 ## Banco de dados (fundação, feature 003)
 
@@ -76,8 +98,9 @@ curl -i https://aps-inteligente.vercel.app/api/v1/status
 
 Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em
 produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar
-a calculadora. Roteiro completo de verificação:
-`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md`.
+a home com as duas seções, e cada calculadora deve abrir na sua rota. Roteiro completo:
+`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e
+`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.
 
 ## Como publicar
 

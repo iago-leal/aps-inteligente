@@ -12,3 +12,6 @@ test-results/
 # Configurações pessoais (não versionar)
 .reversa/config.user.toml
 .claude/settings.local.json
+
+# Fontes clínicas (PDFs fora do versionamento — MD-0008)
+referencias/

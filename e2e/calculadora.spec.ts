@@ -13,7 +13,7 @@ async function calculaCasoValidoDeInicio(page: Page) {
 test("fluxo de início de insulinização com ritual de revisão", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/dm2/insulina");
   await calculaCasoValidoDeInicio(page);
 
   // Faixa da fonte (10–15 UI/dia) e equivalente por peso (0,1–0,2 × 80 kg).
@@ -50,7 +50,7 @@ test("copiar plano põe o plano completo na área de transferência", async ({
   context,
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-  await page.goto("/");
+  await page.goto("/dm2/insulina");
   await calculaCasoValidoDeInicio(page);
 
   // Sem revisão confirmada, a ação não existe (RF-01, caso negativo).
@@ -90,7 +90,7 @@ test("copiar plano põe o plano completo na área de transferência", async ({
 });
 
 test("tema escuro persiste após recarga da página", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/dm2/insulina");
   await page.getByRole("button", { name: "Tema escuro" }).click();
   await expect(page.locator("[data-tema=escuro]")).toBeVisible();
 
@@ -109,7 +109,7 @@ test("nenhuma requisição sai para origem externa (RN-02)", async ({ page }) =>
     }
   });
 
-  await page.goto("/");
+  await page.goto("/dm2/insulina");
   await calculaCasoValidoDeInicio(page);
   await page.getByLabel("Revisei a dose e a fonte").check();
   await page.getByRole("button", { name: "Tema escuro" }).click();
@@ -120,7 +120,7 @@ test("nenhuma requisição sai para origem externa (RN-02)", async ({ page }) =>
 test("acessibilidade: violações axe não excedem a linha de base", async ({
   page,
 }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/dm2/insulina");
   const inicial = await new AxeBuilder({ page }).analyze();
   await testInfo.attach("axe-tela-inicial", {
     body: JSON.stringify(inicial.violations, null, 2),

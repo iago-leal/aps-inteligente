@@ -1,17 +1,16 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/006-checkbox-revisao-redundante",
-  "feature-id": "006",
-  "short-name": "checkbox-revisao-redundante",
-  "started-at": "2026-07-22T18:22:49Z",
-  "current-stage": "sync",
+  "feature-dir": "_reversa_forward/007-idade-gestacional-e-home",
+  "feature-id": "007",
+  "short-name": "idade-gestacional-e-home",
+  "started-at": "2026-07-23T11:53:01Z",
+  "current-stage": "coding",
   "stages-completed": [
     "requirements",
     "clarify",
     "plan",
     "to-do",
-    "coding",
-    "sync"
+    "coding"
   ],
   "paused-features": []
 }

@@ -1,18 +1,20 @@
+// Raiz da plataforma (feature 007: RF-05/RF-06; decisão do usuário de 2026-07-23:
+// quem acessa a raiz vê a home; a calculadora de insulina vive em /dm2/insulina).
 import Head from "next/head";
-import { TelaCalculadora } from "interface/calculadora/tela";
+import { TelaInicio } from "interface/inicio/tela";
 
 export default function Pagina() {
   return (
     <>
       <Head>
-        <title>Calculadora de Insulina — DM2 · APS Inteligente</title>
+        <title>APS Inteligente — Calculadoras clínicas para a APS</title>
         <meta
           name="description"
-          content="Apoio à decisão para insulinização no DM2 pelo Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. 2023). Cálculo 100% no navegador: nada é salvo nem enviado."
+          content="Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2 e Pré-natal. Cálculo 100% no navegador: nada é salvo nem enviado."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <TelaCalculadora />
+      <TelaInicio />
     </>
   );
 }
