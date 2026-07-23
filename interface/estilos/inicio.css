@@ -5,14 +5,19 @@
 
    Composição: coluna clínica única de 720px compartilhada pelo hero (variante
    "destaque" da moldura, D-05) e pelas seções — o padding-inline do hero usa
-   max() para alinhar seu conteúdo à mesma coluna do miolo (720/2 − 32 = 328). */
+   max() para alinhar seu conteúdo à mesma coluna do miolo (720/2 − 32 = 328).
+
+   Feature 015 (RF-03, D-02): o alinhamento vertical da barra de ações migrou
+   para cabecalho.css como regra-única (align-items: flex-start, válida para as
+   duas variantes). A variante "destaque" fica reduzida ao que a justifica — o
+   peso tipográfico do hero (h1/subtítulo maiores, coluna de 720px, borda muted)
+   e seu breakpoint — sem regra própria de alinhamento de controles. */
 
 /* ── Hero: moldura na variante destaque (RF-04) ───────────────────────── */
 
 .pagina[data-apresentacao="destaque"] .cabecalho {
   padding: 44px max(32px, calc(50% - 328px)) 36px;
   border-bottom: 1px solid var(--borderColor-muted);
-  align-items: flex-end;
 }
 
 .pagina[data-apresentacao="destaque"] .cabecalho-identidade {

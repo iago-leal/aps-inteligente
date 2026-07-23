@@ -1,0 +1,4 @@
+{"ts":"2026-07-23T22:07:02Z","action":"T001","status":"done","files":["e2e/cabecalho.spec.ts"],"note":"guarda TDD escrita; falha esperada no estado atual (divergencia 41.5px)"}
+{"ts":"2026-07-23T22:07:56Z","action":"T002","status":"done","files":["interface/estilos/cabecalho.css"],"note":"align-items: center -> flex-start como regra-unica (D-01)"}
+{"ts":"2026-07-23T22:07:56Z","action":"T003","status":"done","files":["interface/estilos/inicio.css"],"note":"removido override align-items: flex-end; hero mantido (D-02)"}
+{"ts":"2026-07-23T22:10:30Z","action":"T004","status":"done","files":[],"note":"breakpoints conferidos sob flex-start: media queries so tocam padding/tipografia, sem reintroduzir align-items; e2e movel (375px) sem transbordo e axe base zero; nenhum ajuste necessario. Suite: vitest 423/423, e2e 25/25, lint+typecheck limpos"}

@@ -1,10 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/014-risco-cardiovascular-pce",
-  "feature-id": "014",
-  "short-name": "risco-cardiovascular-pce",
-  "started-at": "2026-07-23T20:00:00Z",
-  "current-stage": "coding",
-  "stages-completed": ["requirements", "plan", "to-do", "coding"],
+  "feature-dir": "_reversa_forward/015-cabecalho-unificado",
+  "feature-id": "015",
+  "short-name": "cabecalho-unificado",
+  "started-at": "2026-07-23T21:51:45Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
   "paused-features": []
 }

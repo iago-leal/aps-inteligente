@@ -10,7 +10,13 @@
    1180px centrados com gutter de 32px) pela mesma técnica de padding com max() já
    provada no hero de inicio.css; o respiro vertical volta ao ritmo da home (44/36);
    e a logo (.cabecalho-marca) deixa de ser "um degrau menor" e iguala a altura do
-   wordmark da home. Só apresentação: a semântica do cabeçalho é intocada. */
+   wordmark da home. Só apresentação: a semântica do cabeçalho é intocada.
+   Feature 015 (RF-01/RF-02/RF-03, D-01): o alinhamento vertical da barra de ações
+   passa a ser regra-única aqui, válida para "padrao" e "destaque" — ancorado ao
+   topo (align-items: flex-start). Como a logo tem altura fixa e igual (34px) nas
+   duas telas (guarda 013), ancorar ao topo faz os IconButton coincidirem entre home
+   e calculadora, invariante à altura maior do hero da home; inicio.css deixa de
+   sobrescrever align-items. */
 
 /* ── Layout base ──────────────────────────────────────────────────────── */
 
@@ -24,7 +30,12 @@
      sobrescreve este padding por maior especificidade — a home fica intocada. */
   padding: 44px max(32px, calc(50% - 558px)) 36px;
   display: flex;
-  align-items: center;
+  /* Feature 015 (RF-01/RF-02, D-01): regra-única do alinhamento vertical da barra
+     de ações, válida para as duas variantes. Ancora ao topo — a logo tem 34px
+     fixos em ambas as telas (guarda 013), então os IconButton assentam à altura
+     do logotipo e coincidem entre home e calculadora, independentemente de a home
+     ter identidade mais alta (hero). A variante destaque não sobrescreve isto. */
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
