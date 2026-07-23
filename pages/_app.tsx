@@ -20,6 +20,7 @@ import "@primer/primitives/dist/css/functional/typography/typography.css";
 import "@primer/primitives/dist/css/functional/themes/light.css";
 import "@primer/primitives/dist/css/functional/themes/dark.css";
 import "interface/estilos/globais.css";
+import "interface/estilos/inicio.css";
 
 import { ProvedorTemaPrimer } from "interface/calculadora/provedor-tema";
 

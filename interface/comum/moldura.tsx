@@ -3,6 +3,10 @@
 // cabeçalho com identidade, selo de privacidade e alternador de tema — extraída
 // byte a byte de interface/calculadora/tela.tsx (feature 004: componentes Primer;
 // data-tema como marcador observável da preferência, RN-04 daquela feature).
+// Feature 008 (RF-04/RF-07, D-05): variante de apresentação opcional — "destaque"
+// dá ao cabeçalho peso de porta de entrada (usada pela home); "padrao" preserva
+// as calculadoras. A variante é só CSS via data-apresentacao: a semântica (h1,
+// selo, alternador) é idêntica nas duas (RN-02).
 // Nota: preferencia-de-tema.ts permanece em interface/calculadora/ porque o
 // provedor de tema e sua suíte apontam para lá; realocação fica para re-extração.
 import { Button, Heading, Label, Text } from "@primer/react";
@@ -17,14 +21,20 @@ import {
 export interface PropsMoldura {
   readonly titulo: string;
   readonly subtitulo: string;
+  readonly apresentacao?: "padrao" | "destaque";
   readonly children: ReactNode;
 }
 
-export function Moldura({ titulo, subtitulo, children }: PropsMoldura) {
+export function Moldura({
+  titulo,
+  subtitulo,
+  apresentacao = "padrao",
+  children,
+}: PropsMoldura) {
   const tema = useSyncExternalStore(assinarTema, lerTema, lerTemaNoServidor);
 
   return (
-    <div className="pagina" data-tema={tema}>
+    <div className="pagina" data-tema={tema} data-apresentacao={apresentacao}>
       <header className="cabecalho">
         <div className="cabecalho-identidade">
           <Heading as="h1">{titulo}</Heading>

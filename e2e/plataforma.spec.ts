@@ -175,3 +175,47 @@ test("acessibilidade: telas novas permanecem na linha de base zero", async ({
     linhaDeBase.telaIdadeGestacionalComResultado,
   );
 });
+
+// T005 (feature 008-design-mais-bonito-da-home) — acréscimos: cartão inteiro
+// clicável (RF-05) e viewport móvel (RF-03). Asserções anteriores byte a byte.
+test("cartão inteiro clicável: clique na descrição navega para a calculadora (RF-05)", async ({
+  page,
+}) => {
+  await page.goto("/");
+  // O stretched link (::after do <a>) cobre o cartão: um clique sobre a área da
+  // descrição é entregue ao link e navega. force ignora o actionability check do
+  // Playwright — aqui o overlay "interceptar" o clique É o comportamento sob teste.
+  const descricao = page.getByText(
+    "Idade gestacional, data provável do parto e trimestre",
+    { exact: false },
+  );
+  await descricao.click({ force: true });
+  await expect(page).toHaveURL(/\/pre-natal\/idade-gestacional$/);
+});
+
+test("viewport móvel: home sem transbordo horizontal, cartões navegáveis e axe na base (RF-03)", async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Diabetes Mellitus tipo 2" }),
+  ).toBeVisible();
+
+  const semTransbordo = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth <=
+      document.documentElement.clientWidth,
+  );
+  expect(semTransbordo).toBe(true);
+
+  const axeMovel = await new AxeBuilder({ page }).analyze();
+  await testInfo.attach("axe-home-movel", {
+    body: JSON.stringify(axeMovel.violations, null, 2),
+    contentType: "application/json",
+  });
+  expect(axeMovel.violations.length).toBeLessThanOrEqual(linhaDeBase.home);
+
+  await page.getByRole("link", { name: "Calculadora de insulina" }).click();
+  await expect(page).toHaveURL(/\/dm2\/insulina$/);
+});

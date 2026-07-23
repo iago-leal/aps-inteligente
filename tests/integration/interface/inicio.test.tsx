@@ -55,3 +55,39 @@ describe("Estrutura acessível (RNF de acessibilidade)", () => {
     expect(screen.getByText(/nada é salvo nem enviado/i)).toBeTruthy();
   });
 });
+
+// T004 (feature 008-design-mais-bonito-da-home) — acréscimos de apresentação
+// (RF-04/RF-05; RN-01/RN-02): asserções anteriores permanecem byte a byte.
+describe("Apresentação da home (feature 008)", () => {
+  it("usa a moldura na variante destaque como área introdutória (RF-04)", () => {
+    const { container } = render(<TelaInicio />);
+    expect(
+      container.querySelector('[data-apresentacao="destaque"]'),
+    ).toBeTruthy();
+  });
+
+  it("ícones de seção são decorativos e não alteram os nomes acessíveis", () => {
+    const { container } = render(<TelaInicio />);
+    const svgs = container.querySelectorAll("svg");
+    expect(svgs.length).toBeGreaterThan(0);
+    for (const svg of svgs) {
+      expect(svg.getAttribute("aria-hidden")).toBe("true");
+    }
+    for (const secao of CATALOGO) {
+      for (const calculadora of secao.calculadoras) {
+        expect(
+          screen.getByRole("link", { name: calculadora.titulo }),
+        ).toBeTruthy();
+      }
+    }
+  });
+
+  it("cada cartão continua com um único link (stretched link não duplica âncoras, RF-05)", () => {
+    const { container } = render(<TelaInicio />);
+    const cartoes = container.querySelectorAll(".inicio-cartao");
+    expect(cartoes.length).toBeGreaterThan(0);
+    for (const cartao of cartoes) {
+      expect(cartao.querySelectorAll("a").length).toBe(1);
+    }
+  });
+});

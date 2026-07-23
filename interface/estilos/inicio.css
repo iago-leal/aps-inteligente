@@ -1,0 +1,188 @@
+/* Estilos da página inicial (feature 008, RF-01..RF-04; D-01 do roadmap).
+   Arquivo próprio para não estourar o limite de 400 linhas do globais.css.
+   Mesma doutrina da feature 004 (RN-01): apenas cola de layout sobre var(--*)
+   do Primer — nenhuma cor, fonte ou sombra própria fora dos tokens.
+
+   Composição: coluna clínica única de 720px compartilhada pelo hero (variante
+   "destaque" da moldura, D-05) e pelas seções — o padding-inline do hero usa
+   max() para alinhar seu conteúdo à mesma coluna do miolo (720/2 − 32 = 328). */
+
+/* ── Hero: moldura na variante destaque (RF-04) ───────────────────────── */
+
+.pagina[data-apresentacao="destaque"] .cabecalho {
+  padding: 44px max(32px, calc(50% - 328px)) 36px;
+  border-bottom: 1px solid var(--borderColor-muted);
+  align-items: flex-end;
+}
+
+.pagina[data-apresentacao="destaque"] .cabecalho-identidade {
+  gap: 6px;
+}
+
+.pagina[data-apresentacao="destaque"] .cabecalho-identidade h1 {
+  font-size: 28px;
+  line-height: var(--text-title-lineHeight-large, 1.25);
+  letter-spacing: -0.01em;
+}
+
+.pagina[data-apresentacao="destaque"] .cabecalho-identidade p {
+  font-size: var(--text-body-size-medium, 14px);
+  max-width: 60ch;
+}
+
+/* ── Coluna das seções (RF-02) ────────────────────────────────────────── */
+
+.inicio-secoes {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.inicio-secao-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inicio-secao-cabecalho h2 {
+  margin: 0;
+  font-size: 16px;
+  line-height: var(--text-title-lineHeight-small, 1.5);
+}
+
+/* Assinatura da home: chip de ícone da seção — acento semântico do Primer,
+   decorativo (aria-hidden), com fallback sem chip para seção futura. */
+.inicio-secao-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--borderRadius-medium);
+  background: var(--bgColor-accent-muted);
+  color: var(--fgColor-accent);
+}
+
+/* ── Cartões (RF-01) em grade responsiva (RF-03) ──────────────────────── */
+
+/* auto-fit (não auto-fill): trilhas vazias colapsam e um cartão único estica
+   até a largura da coluna, evitando o cartão pequeno e solitário à esquerda;
+   dois ou mais ficam lado a lado quando couberem (RF-03). */
+.inicio-cartoes {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 16px;
+}
+
+.inicio-cartao {
+  position: relative; /* âncora do stretched link (D-02) */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--bgColor-default);
+  border: 1px solid var(--borderColor-default);
+  border-radius: var(--borderRadius-medium);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.inicio-cartao:hover {
+  border-color: var(--borderColor-accent-emphasis);
+  box-shadow: var(--shadow-resting-medium);
+}
+
+/* Foco visível no cartão inteiro: o outline do link é substituído pelo do
+   cartão via :focus-within (affordance da área clicável estendida). */
+.inicio-cartao:focus-within {
+  outline: 2px solid var(--focus-outlineColor);
+  outline-offset: 2px;
+}
+
+.inicio-cartao-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.inicio-cartao-titulo a {
+  color: var(--fgColor-default);
+  font-size: 16px;
+  font-weight: var(--base-text-weight-semibold, 600);
+  text-decoration: none;
+}
+
+.inicio-cartao-titulo a:focus-visible {
+  outline: none; /* substituído pelo :focus-within do cartão acima */
+}
+
+/* Stretched link (D-02): o único <a> do cartão expande a área de clique ao
+   cartão inteiro (RF-05) sem duplicar âncoras nem JavaScript. */
+.inicio-cartao-titulo a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.inicio-cartao:hover .inicio-cartao-titulo a {
+  color: var(--fgColor-accent);
+}
+
+.inicio-cartao-seta {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--fgColor-muted);
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.inicio-cartao:hover .inicio-cartao-seta {
+  transform: translateX(3px);
+  color: var(--fgColor-accent);
+}
+
+.inicio-cartao p {
+  margin: 0;
+  color: var(--fgColor-muted);
+}
+
+/* ── Móvel (RF-03): coluna única, respiro reduzido, nada transborda ───── */
+
+@media (max-width: 544px) {
+  .pagina[data-apresentacao="destaque"] .cabecalho {
+    padding: 32px 16px 24px;
+  }
+
+  .pagina[data-apresentacao="destaque"] .cabecalho-identidade h1 {
+    font-size: 24px;
+  }
+
+  .inicio-secoes {
+    padding: 24px 16px 48px;
+    gap: 32px;
+  }
+}
+
+/* ── Movimento reduzido: a assinatura fica estática ───────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .inicio-cartao,
+  .inicio-cartao-seta {
+    transition: none;
+  }
+
+  .inicio-cartao:hover .inicio-cartao-seta {
+    transform: none;
+  }
+}

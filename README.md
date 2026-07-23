@@ -26,9 +26,12 @@ Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.
 A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`
 (componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos
 pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa
-(CSP intocada). O CSS próprio (`interface/estilos/globais.css`) é resíduo de layout:
-cores sempre por `var(--*)` do Primer, nunca hexadecimal local. `@primer/css` e
-`@primer/view-components` são vetados (sem manutenção plena).
+(CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,
+nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das
+calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008),
+mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e
+`@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,
+vêm de `@primer/octicons-react` (mesma família, pinado).
 
 Para **criar uma tela nova**:
 
@@ -55,7 +58,10 @@ Para **criar uma tela nova**:
 3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)
    e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho
    declarado no catálogo.
-4. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
+4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em
+   `interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).
+   O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.
+5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
    carregando `ReferenciaClinica` com página/seção.
 
 ## Banco de dados (fundação, feature 003)
