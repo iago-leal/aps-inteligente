@@ -104,3 +104,22 @@ describe("Seção Cardiologia na home (feature 010; RF-08)", () => {
     expect(link.getAttribute("href")).toBe("/cardiologia/dor-toracica");
   });
 });
+
+// T020 (feature 014-risco-cardiovascular-pce) — a seção Cardiologia ganha a
+// segunda ficha (risco cardiovascular). A ficha de dor torácica permanece byte a
+// byte (asserção acima intocada).
+describe("Segunda ficha de Cardiologia na home (feature 014; RF-08)", () => {
+  it("exibe a calculadora de risco cardiovascular com a rota correspondente", () => {
+    render(<TelaInicio />);
+    const link = screen.getByRole("link", {
+      name: /risco cardiovascular em 10 anos/i,
+    });
+    expect(link.getAttribute("href")).toBe("/cardiologia/risco-cardiovascular");
+  });
+
+  it("a seção Cardiologia passa a ter exatamente duas calculadoras", () => {
+    render(<TelaInicio />);
+    const regiao = screen.getByRole("region", { name: /^cardiologia$/i });
+    expect(within(regiao).getAllByRole("link")).toHaveLength(2);
+  });
+});

@@ -1,10 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/013-cabecalho-proporcoes",
-  "feature-id": "013",
-  "short-name": "cabecalho-proporcoes",
-  "started-at": "2026-07-23T19:07:05Z",
-  "current-stage": "requirements",
-  "stages-completed": [],
+  "feature-dir": "_reversa_forward/014-risco-cardiovascular-pce",
+  "feature-id": "014",
+  "short-name": "risco-cardiovascular-pce",
+  "started-at": "2026-07-23T20:00:00Z",
+  "current-stage": "coding",
+  "stages-completed": ["requirements", "plan", "to-do", "coding"],
   "paused-features": []
 }

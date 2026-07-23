@@ -1,0 +1,8 @@
+/* Feature 014 (RF-08/roadmap D adendo 009): estilo das peças novas da tela de risco
+   cardiovascular, sobre tokens Primer (zero cor própria). globais.css permanece
+   intocado — folha própria, importada em _app.tsx após os globais. Classes genéricas
+   (formulario, grupo-campos, painel-resultado, bloco-fonte) vêm de globais/cardiologia. */
+
+.proveniencia {
+  margin-block: var(--stack-gap-normal, 1rem);
+}

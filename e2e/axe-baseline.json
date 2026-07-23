@@ -7,5 +7,7 @@
   "telaIdadeGestacional": 0,
   "telaIdadeGestacionalComResultado": 0,
   "telaCardiologia": 0,
-  "telaCardiologiaComResultado": 0
+  "telaCardiologiaComResultado": 0,
+  "telaRiscoCardiovascular": 0,
+  "telaRiscoCardiovascularComResultado": 0
 }

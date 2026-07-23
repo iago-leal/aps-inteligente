@@ -433,3 +433,111 @@ test("acessibilidade: a tela de cardiologia permanece na linha de base zero", as
     linhaDeBase.telaCardiologiaComResultado,
   );
 });
+
+// T021 (feature 014-risco-cardiovascular-pce) — e2e da segunda calculadora de
+// Cardiologia: navegação da home (RF-08), estimativa de um golden case (RF-06/RF-07)
+// e recusa fora do escopo (RF-05), com axe na linha de base zero.
+async function estimaRisco(
+  page: Page,
+  opcoes: {
+    sexo: RegExp;
+    raca: RegExp;
+    idade: string;
+    colesterol: string;
+    hdl: string;
+    pas: string;
+    dcvPrevia?: boolean;
+  },
+) {
+  await page.getByLabel(opcoes.sexo).check();
+  await page.getByLabel(opcoes.raca).check();
+  await page.getByLabel(/idade/i).fill(opcoes.idade);
+  await page.getByLabel(/colesterol total/i).fill(opcoes.colesterol);
+  await page.getByLabel(/HDL/i).fill(opcoes.hdl);
+  await page.getByLabel(/sistólica/i).fill(opcoes.pas);
+  if (opcoes.dcvPrevia) {
+    await page.getByLabel(/doença cardiovascular já estabelecida/i).check();
+  }
+  await page.getByRole("button", { name: /estimar risco/i }).click();
+  return page.getByRole("complementary", { name: "Resultado" });
+}
+
+test("home: a seção Cardiologia leva à calculadora de risco cardiovascular (RF-08)", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("link", { name: /risco cardiovascular em 10 anos/i })
+    .click();
+  await expect(page).toHaveURL(/\/cardiologia\/risco-cardiovascular$/);
+  await expect(
+    page.getByRole("heading", {
+      name: /Risco Cardiovascular em 10 anos \(Pooled Cohort Equations\)/i,
+    }),
+  ).toBeVisible();
+});
+
+test("golden case: homem branco baseline → ~5,4% e categoria limítrofe (RF-06/RF-07)", async ({
+  page,
+}) => {
+  await page.goto("/cardiologia/risco-cardiovascular");
+  const painel = await estimaRisco(page, {
+    sexo: /^masculino$/i,
+    raca: /^branca$/i,
+    idade: "55",
+    colesterol: "213",
+    hdl: "50",
+    pas: "120",
+  });
+  await expect(painel.getByRole("heading", { name: /5[.,]4%/ })).toBeVisible();
+  await expect(painel.getByText(/limítrofe/i)).toBeVisible();
+});
+
+test("risco cardiovascular: idade fora de 40–79 é fora do escopo (RF-05)", async ({
+  page,
+}) => {
+  await page.goto("/cardiologia/risco-cardiovascular");
+  const painel = await estimaRisco(page, {
+    sexo: /^masculino$/i,
+    raca: /^branca$/i,
+    idade: "35",
+    colesterol: "213",
+    hdl: "50",
+    pas: "120",
+  });
+  await expect(painel.getByText(/fora do escopo da fonte/i)).toBeVisible();
+  await expect(painel.getByText(/40 a 79/)).toBeVisible();
+});
+
+test("acessibilidade: a tela de risco cardiovascular permanece na linha de base zero", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/cardiologia/risco-cardiovascular");
+  const tela = await new AxeBuilder({ page }).analyze();
+  await testInfo.attach("axe-tela-risco-cardiovascular", {
+    body: JSON.stringify(tela.violations, null, 2),
+    contentType: "application/json",
+  });
+
+  const painel = await estimaRisco(page, {
+    sexo: /^masculino$/i,
+    raca: /^branca$/i,
+    idade: "55",
+    colesterol: "213",
+    hdl: "50",
+    pas: "120",
+  });
+  await expect(painel.getByRole("heading", { name: /risco de ascvd/i })).toBeVisible();
+  const comResultado = await new AxeBuilder({ page }).analyze();
+  await testInfo.attach("axe-tela-risco-cardiovascular-com-resultado", {
+    body: JSON.stringify(comResultado.violations, null, 2),
+    contentType: "application/json",
+  });
+
+  expect(tela.violations.length).toBeLessThanOrEqual(
+    linhaDeBase.telaRiscoCardiovascular,
+  );
+  expect(comResultado.violations.length).toBeLessThanOrEqual(
+    linhaDeBase.telaRiscoCardiovascularComResultado,
+  );
+});

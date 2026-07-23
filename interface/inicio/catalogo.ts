@@ -50,6 +50,12 @@ export const CATALOGO: readonly SecaoDaPlataforma[] = Object.freeze([
           "Classificação da dor torácica, probabilidade pré-teste de doença arterial coronariana e conduta de investigação, pelo TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017).",
         rota: "/cardiologia/dor-toracica",
       }),
+      Object.freeze({
+        titulo: "Calculadora de risco cardiovascular em 10 anos",
+        descricao:
+          "Risco de doença cardiovascular aterosclerótica (ASCVD) em 10 anos pelas Pooled Cohort Equations (ACC/AHA 2013, Goff et al.).",
+        rota: "/cardiologia/risco-cardiovascular",
+      }),
     ]),
   }),
 ]);
