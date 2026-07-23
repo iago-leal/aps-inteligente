@@ -219,3 +219,44 @@ test("viewport móvel: home sem transbordo horizontal, cartões navegáveis e ax
   await page.getByRole("link", { name: "Calculadora de insulina" }).click();
   await expect(page).toHaveURL(/\/dm2\/insulina$/);
 });
+
+// T005 (feature 009-logo-apsi-no-cabecalho) — logo no cabeçalho e identidade PWA
+// (RF-01/RF-02/RF-03/RF-05; RN-02/RN-05). Asserções anteriores byte a byte.
+test("home: a logo APSi ocupa o wordmark do cabeçalho preservando o nome acessível (RF-01)", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const h1 = page.getByRole("heading", { level: 1, name: "APS Inteligente" });
+  await expect(h1).toBeVisible();
+  const logo = h1.getByRole("img", { name: "APS Inteligente" });
+  await expect(logo).toBeVisible();
+  await expect(logo).toHaveAttribute("src", "/apsi-light.png");
+
+  // Alternar para escuro troca a variante da logo (RF-02).
+  await page.getByRole("button", { name: "Tema escuro" }).click();
+  await expect(logo).toHaveAttribute("src", "/apsi-dark.png");
+});
+
+test("calculadora: logo é marca decorativa, sem virar heading nem link novo (RF-05, RN-05)", async ({
+  page,
+}) => {
+  await page.goto("/dm2/insulina");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Calculadora de Insulina — DM2" }),
+  ).toBeVisible();
+  // A marca decorativa não expõe nome acessível de imagem e não é link.
+  await expect(page.getByRole("img", { name: "APS Inteligente" })).toHaveCount(0);
+  const marca = page.locator(".cabecalho-marca");
+  await expect(marca).toBeVisible();
+  await expect(marca).toHaveAttribute("aria-hidden", "true");
+});
+
+test("documento declara favicon e manifesto PWA (RF-03)", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(
+    "href",
+    "/manifest.webmanifest",
+  );
+  await expect(page.locator('link[rel="icon"]').first()).toHaveCount(1);
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveCount(1);
+});

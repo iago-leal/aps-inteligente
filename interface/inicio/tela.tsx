@@ -18,6 +18,7 @@ export function TelaInicio() {
       titulo="APS Inteligente"
       subtitulo="Calculadoras clínicas para a Atenção Primária à Saúde · cálculo 100% no navegador"
       apresentacao="destaque"
+      logoComoTitulo
     >
       <div className="inicio-secoes">
         {CATALOGO.map((secao) => (

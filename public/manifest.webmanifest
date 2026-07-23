@@ -1,0 +1,24 @@
+{
+  "name": "APS Inteligente",
+  "short_name": "APSi",
+  "description": "Calculadoras clínicas para a Atenção Primária à Saúde · cálculo 100% no navegador",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#0969da",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/apsi-tile-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apsi-tile.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

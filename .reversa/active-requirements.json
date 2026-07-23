@@ -1,16 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/008-design-mais-bonito-da-home",
-  "feature-id": "008",
-  "short-name": "design-mais-bonito-da-home",
-  "started-at": "2026-07-23T13:15:56Z",
-  "current-stage": "coding",
-  "stages-completed": [
-    "requirements",
-    "clarify",
-    "plan",
-    "to-do",
-    "coding"
-  ],
+  "feature-dir": "_reversa_forward/009-logo-apsi-no-cabecalho",
+  "feature-id": "009",
+  "short-name": "logo-apsi-no-cabecalho",
+  "started-at": "2026-07-23T14:07:12Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
   "paused-features": []
 }

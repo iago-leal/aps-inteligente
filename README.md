@@ -28,10 +28,20 @@ A base de estilo é o **Primer** (design system do GitHub) pela via React: `@pri
 pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa
 (CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,
 nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das
-calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008),
+calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e
+`interface/estilos/cabecalho.css` a camada de logo do cabeçalho (feature 009), ambos
 mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e
 `@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,
 vêm de `@primer/octicons-react` (mesma família, pinado).
+
+### Identidade da marca (logo APSi, feature 009)
+
+A logo vive em `public/` como ativo estático same-origin (sob a CSP, fora do bundle JS):
+`apsi-light.png`/`apsi-dark.png` para o cabeçalho claro/escuro, `apsi-tile.png` (512) e
+`apsi-tile-192.png` para favicon, `apple-touch-icon` e o `manifest.webmanifest` (PWA
+instalável, declarado em `pages/_document.tsx`). `apsi-white.png`/`apsi-navy.png` ficam
+versionadas para sobre-foto/impressão, sem uso na web. A `Moldura` troca a variante da
+logo pelo tema já lido no componente.
 
 Para **criar uma tela nova**:
 
@@ -57,7 +67,9 @@ Para **criar uma tela nova**:
    relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).
 3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)
    e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho
-   declarado no catálogo.
+   declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho
+   por padrão; a prop `logoComoTitulo` (só a home) faz a logo substituir o texto do `<h1>`
+   — não a use em telas cujo `<h1>` é o nome da calculadora (feature 009).
 4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em
    `interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).
    O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.

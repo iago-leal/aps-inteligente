@@ -1,0 +1,24 @@
+/* Feature 009 (RF-01/RF-05; roadmap D-07): camada de logo do cabeçalho.
+   O layout base do cabeçalho (.cabecalho, .cabecalho-identidade, .cabecalho-acoes)
+   permanece em globais.css, que estava no teto de 400 linhas — a identidade da
+   marca ganha folha própria em vez de inflar o arquivo. Importada em _app.tsx
+   após globais.css. Sobre tokens Primer, sem cor própria.
+
+   Altura fixa e largura automática preservam a proporção do PNG (314×138). Como
+   wordmark (home), a logo ocupa o h1; como marca (calculadoras), fica um degrau
+   menor, acima do h1 textual. */
+.cabecalho-identidade h1 .cabecalho-logo {
+  display: block;
+  height: 34px;
+  width: auto;
+}
+
+.cabecalho-marca {
+  display: block;
+  height: 24px;
+  width: auto;
+  /* .cabecalho-identidade é flex-column com align-items:stretch — sem isto a
+     imagem width:auto estica à largura do container e distorce o wordmark. */
+  align-self: flex-start;
+  margin-bottom: 2px;
+}
