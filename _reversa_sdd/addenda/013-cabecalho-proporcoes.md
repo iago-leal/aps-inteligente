@@ -6,6 +6,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 Correção só de apresentação no cabeçalho da variante `padrao` (calculadoras). O conteúdo, que colava nas bordas da página e ficava numa faixa comprimida, passou a encaixar na coluna centrada do corpo (`.calc-regioes`, 1180px) e a respirar na vertical, tomando o cabeçalho `destaque` da home como referência; a logo APSi da calculadora, que era "um degrau menor" (24px), igualou o wordmark da home (34px). Domínio, catálogo e semântica do cabeçalho intocados. 8 de 8 ações concluídas.

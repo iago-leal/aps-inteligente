@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-23T00:00:00Z",
+  "generated_at": "2026-07-23T21:00:00Z",
   "project_root": "/Users/iagoleal/dev/aps-inteligente",
-  "re_extraction": 2,
+  "re_extraction": 3,
   "languages": [
-    { "name": "TypeScript", "extensions": [".ts", ".tsx"], "file_count": 97 },
-    { "name": "CSS", "extensions": [".css"], "file_count": 6 },
+    { "name": "TypeScript", "extensions": [".ts", ".tsx"], "file_count": 110 },
+    { "name": "CSS", "extensions": [".css"], "file_count": 5 },
     { "name": "JavaScript", "extensions": [".js", ".mjs"], "file_count": 4 }
   ],
   "primary_language": "TypeScript",
@@ -12,20 +12,23 @@
     { "name": "Next.js", "version": "16.2.10", "source": "package.json", "note": "Pages Router, Turbopack" },
     { "name": "React", "version": "19.2.4", "source": "package.json" },
     { "name": "@primer/react", "version": "38.33.0", "source": "package.json", "note": "sistema de design GitHub Primer (feature 004+)" },
+    { "name": "@primer/primitives", "version": "11.9.0", "source": "package.json" },
     { "name": "@primer/octicons-react", "version": "19.29.2", "source": "package.json" },
     { "name": "pg", "version": "8.22.0", "source": "package.json", "note": "driver PostgreSQL — so healthcheck de status (feature 003)" },
     { "name": "Vitest", "version": "4.1.10", "source": "package.json", "note": "unidade + integracao + contrato" },
     { "name": "Playwright", "version": "1.61.1", "source": "package.json", "note": "e2e + axe-core acessibilidade" },
-    { "name": "fast-check", "version": "4.9.0", "source": "package.json", "note": "property-based testing do dominio" }
+    { "name": "fast-check", "version": "4.9.0", "source": "package.json", "note": "property-based testing do dominio" },
+    { "name": "TypeScript", "version": "6.0.3", "source": "package.json" }
   ],
   "package_manager": "npm",
   "entry_points": [
-    { "path": "pages/index.tsx", "type": "app_entry", "note": "home por secoes (feature 007)" },
-    { "path": "pages/_app.tsx", "type": "app_shell", "note": "importa globais.css, inicio.css, cabecalho.css, cardiologia.css" },
+    { "path": "pages/index.tsx", "type": "app_entry", "note": "home por secoes (feature 007/008)" },
+    { "path": "pages/_app.tsx", "type": "app_shell", "note": "importa globais.css, inicio.css, cabecalho.css, cardiologia.css, risco-cardiovascular.css" },
     { "path": "pages/_document.tsx", "type": "document", "note": "links de icone/manifest/theme-color, PWA (feature 009)" },
     { "path": "pages/dm2/insulina.tsx", "type": "page_route" },
     { "path": "pages/pre-natal/idade-gestacional.tsx", "type": "page_route" },
     { "path": "pages/cardiologia/dor-toracica.tsx", "type": "page_route" },
+    { "path": "pages/cardiologia/risco-cardiovascular.tsx", "type": "page_route", "note": "NOVO — risco CV por PCE (feature 014)" },
     { "path": "pages/api/v1/status.ts", "type": "api_route", "note": "GET /api/v1/status — contrato fixo (feature 002)" }
   ],
   "config_files": [
@@ -44,14 +47,16 @@
     { "path": "infra/compose.yaml", "type": "compose_service", "note": "postgres:17.10-alpine local; producao via integracao Neon (Vercel Marketplace)" }
   ],
   "test_framework": "Vitest + Playwright",
-  "test_file_count": 33,
+  "test_file_count": 37,
   "modules": [
     "models/insulina",
     "models/gestacao",
     "models/cardiopatia-isquemica",
+    "models/risco-cardiovascular",
     "interface/calculadora",
     "interface/cardiologia",
     "interface/gestacao",
+    "interface/risco-cardiovascular",
     "interface/inicio",
     "interface/comum",
     "interface/estilos",
@@ -59,13 +64,18 @@
     "pages/api/v1/status",
     "infra"
   ],
-  "total_files": 107,
+  "total_files": 117,
+  "delta_desde_extracao_2": {
+    "novos": ["models/risco-cardiovascular", "interface/risco-cardiovascular", "pages/cardiologia/risco-cardiovascular.tsx", "interface/estilos/risco-cardiovascular.css"],
+    "alterados": ["interface/comum/moldura.tsx", "interface/estilos/cabecalho.css", "interface/inicio/catalogo.ts", "interface/inicio/icones.tsx", "pages/_app.tsx"],
+    "features_absorvidas": ["011-refatora-cabecalho", "012-dominio-proprio", "013-cabecalho-proporcoes", "014-risco-cardiovascular-pce"]
+  },
   "organization_suggestion": {
     "granularity": "module",
-    "rationale": "Pastas top-level por dominio em models/ (insulina, gestacao, cardiopatia-isquemica) e interface/ espelhadas em pages/ por rota; organizacao por modulo ja persistida em config.toml.",
+    "rationale": "Pastas top-level por dominio em models/ (agora 4: insulina, gestacao, cardiopatia-isquemica, risco-cardiovascular) e interface/ espelhadas em pages/ por rota; organizacao por modulo ja persistida em config.toml.",
     "signals": [
-      { "type": "top_level_domain_folders", "evidence": ["models/insulina/", "models/gestacao/", "models/cardiopatia-isquemica/", "interface/calculadora/", "interface/cardiologia/", "interface/gestacao/"] },
-      { "type": "route_folders", "evidence": ["pages/dm2/insulina.tsx", "pages/pre-natal/idade-gestacional.tsx", "pages/cardiologia/dor-toracica.tsx"] }
+      { "type": "top_level_domain_folders", "evidence": ["models/insulina/", "models/gestacao/", "models/cardiopatia-isquemica/", "models/risco-cardiovascular/", "interface/calculadora/", "interface/cardiologia/", "interface/risco-cardiovascular/"] },
+      { "type": "route_folders", "evidence": ["pages/dm2/insulina.tsx", "pages/pre-natal/idade-gestacional.tsx", "pages/cardiologia/dor-toracica.tsx", "pages/cardiologia/risco-cardiovascular.tsx"] }
     ],
     "features": []
   }

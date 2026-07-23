@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 Nova calculadora clínica, aditiva, que estima o risco de doença cardiovascular aterosclerótica (ASCVD) em 10 anos pelas Pooled Cohort Equations (2013 ACC/AHA Guideline, Goff et al.), classifica o resultado em categorias de risco (2019 ACC/AHA Primary Prevention) e **apenas informa** — não emite conduta (ADR 0005). A feature replica o molde da calculadora de dor torácica (feature 010): quarta unit de domínio puro, tela sobre a `Moldura` comum, rota do Pages Router, segunda ficha na seção Cardiologia do catálogo e folha CSS própria — sem tocar nos três motores existentes. A diferença de natureza é o núcleo: quatro modelos de Cox sexo- e raça-específicos com coeficientes congelados, validados por *golden cases*.

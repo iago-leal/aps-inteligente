@@ -1,7 +1,8 @@
 # Dependências — aps-inteligente
 
-> Gerado pelo Reversa Scout em 2026-07-19 · **Re-extração 2 em 2026-07-23**.
+> Gerado pelo Reversa Scout em 2026-07-19 · **Re-extração 3 em 2026-07-23** (features 011–014).
 > Fonte: `package.json` (versões pinadas, sem `^`/`~`) + `package-lock.json` commitado. Node >= 24 (`engines`).
+> 🟢 As features 011–014 **não introduziram nenhuma dependência nova**: o risco cardiovascular (PCE, feature 014) é aritmética pura em TypeScript, sem biblioteca de cálculo.
 
 ## Runtime
 
@@ -46,7 +47,7 @@
 
 🟢 **Versões pinadas exatas** (sem `^`/`~`) — build determinístico, alinhado ao Princípio nº 5.3. Lock file (`package-lock.json`) commitado.
 
-🟢 **Sem acoplamento a bibliotecas externas dentro do domínio:** `models/**` não importa nenhum pacote de terceiros; Primer/React vivem só na camada de interface, `pg` só na infraestrutura (Princípio nº 5.1, ADR 0003).
+🟢 **Sem acoplamento a bibliotecas externas dentro do domínio:** os quatro domínios em `models/**` (insulina, gestacao, cardiopatia-isquemica, risco-cardiovascular) não importam nenhum pacote de terceiros; Primer/React vivem só na camada de interface, `pg` só na infraestrutura (Princípio nº 5.1, ADR 0003).
 
 🟢 **Superfície de rede zero no cliente:** nenhuma dependência de telemetria, analytics ou fetch de terceiros; CSP sem terceiros (ADR 0002/0007). O único consumidor de rede é o servidor no `/api/v1/status`, que fala com o Postgres via `pg`.
 

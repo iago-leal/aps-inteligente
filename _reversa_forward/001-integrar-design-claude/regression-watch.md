@@ -19,6 +19,18 @@
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W002 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W003 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W004 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W005 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W006 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W007 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
 ### Re-extração 2026-07-23 14:10
 
 > `models/insulina` intocado byte a byte desde a feature 001 (`git log -1 -- models/insulina`), logo todas as regras deste domínio seguem estruturalmente preservadas no código; verificação cruzada com `_reversa_sdd/domain.md` §3 regenerado.

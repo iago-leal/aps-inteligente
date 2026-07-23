@@ -25,6 +25,19 @@
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W002 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W003 | 🟢 verde | dívida ENCERRADA: `globais.css` agora 364 linhas (< 400) após consolidação da família `.cabecalho*` em `cabecalho.css` (features 011/013); era 🟡 na re-extração 2 |
+| W004 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W005 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W006 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W007 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W008 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
 ### Re-extração 2026-07-23 14:10
 
 | ID | Veredito | Observação |

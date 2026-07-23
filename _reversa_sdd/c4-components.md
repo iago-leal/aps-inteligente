@@ -1,9 +1,9 @@
 # C4 — Nível 3: Componentes — aps-inteligente
 
-> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 2).
+> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 3).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
-🟢 Dois recortes: a **aplicação web** (home → três telas → três domínios puros, sobre a `Moldura` comum) e a **fatia de observabilidade** (Function → infra → banco). As três camadas mantêm dependência unidirecional `pages → interface → models` (ADR 0003); o domínio não importa framework.
+🟢 Dois recortes: a **aplicação web** (home → quatro telas → quatro domínios puros, sobre a `Moldura` comum) e a **fatia de observabilidade** (Function → infra → banco). As três camadas mantêm dependência unidirecional `pages → interface → models` (ADR 0003); o domínio não importa framework.
 
 ## Recorte 1 — Aplicação web (home, telas e domínios)
 
@@ -13,47 +13,53 @@ C4Component
 
     Container_Boundary(pages, "pages (shell Next.js)") {
         Component(index, "index.tsx", "Next.js", "Raiz serve a home (sem redirect)")
-        Component(rotas, "dm2/ · pre-natal/ · cardiologia/", "Next.js", "Uma casca <Head> por rota → tela")
+        Component(rotas, "dm2/ · pre-natal/ · cardiologia/ (2 rotas)", "Next.js", "Uma casca <Head> por rota → tela")
     }
 
     Container_Boundary(comum, "interface/comum + inicio (casca)") {
-        Component(moldura, "moldura.tsx", "React", "Cabeçalho, logo por tema, selo de privacidade, alternador de tema")
+        Component(moldura, "moldura.tsx", "React", "Cabeçalho refatorado (011/013): logo por tema, selo de privacidade na identidade, comando de início (só calculadoras), alternador de tema-alvo")
         Component(home, "tela.tsx (TelaInicio)", "React", "Home por seções; cartões stretched-link")
-        Component(catalogo, "catalogo.ts", "TS", "Fonte única tipada das seções/rotas (anti-drift, D-07)")
+        Component(catalogo, "catalogo.ts", "TS", "Fonte única tipada das seções/rotas (anti-drift, D-07); cardiologia com 2 calculadoras")
     }
 
-    Container_Boundary(telas, "interface/{calculadora,gestacao,cardiologia}") {
+    Container_Boundary(telas, "interface/{calculadora,gestacao,cardiologia,risco-cardiovascular}") {
         Component(appIns, "calculadora-app.tsx", "React", "EstadoResultado + ritual de revisão + Copiar plano (insulina)")
         Component(appGes, "app.tsx (IG)", "React", "EstadoIg; injeta data do dispositivo; SEM ritual")
         Component(appCar, "app.tsx (Cardio)", "React", "EstadoCardiologia (+ fora-do-escopo); SEM ritual")
+        Component(appRcv, "app.tsx (Risco CV)", "React", "EstadoRiscoCardiovascular (+ fora-do-escopo); proveniência; SEM ritual")
         Component(tema, "preferencia-de-tema.ts", "TS", "useSyncExternalStore sobre localStorage")
         Component(rel, "relator-de-erros.ts", "TS", "Contrato; implementação nula (ADR 0007)")
     }
 
-    Container_Boundary(dom, "models/* (três domínios puros)") {
+    Container_Boundary(dom, "models/* (quatro domínios puros)") {
         Component(facIns, "CalculadoraInsulinaDM2", "TS puro", "valida → escopo → regras → pós-processa")
         Component(facGes, "CalculadoraIdadeGestacional", "TS puro", "IG/DPP/trimestre; comparação DUM×USG")
         Component(facCar, "CalculadoraCardiopatiaIsquemica", "TS puro", "classifica → estima → ajusta → conduz → adverte")
-        Component(fontes, "fonte-clinica.ts ×3", "TS puro", "REFERENCIAS + CONSTANTES congeladas por domínio")
+        Component(facRcv, "CalculadoraRiscoCardiovascular", "TS puro", "valida → escopo → clamp → equação PCE → categoria")
+        Component(fontes, "fonte-clinica.ts ×4", "TS puro", "REFERENCIAS + CONSTANTES congeladas por domínio")
     }
 
     Rel(index, home, "monta")
     Rel(rotas, appIns, "monta")
     Rel(rotas, appGes, "monta")
     Rel(rotas, appCar, "monta")
+    Rel(rotas, appRcv, "monta")
     Rel(home, moldura, "compõe (destaque, logoComoTitulo)")
     Rel(home, catalogo, "lê seções/rotas")
     Rel(appIns, moldura, "compõe")
     Rel(appGes, moldura, "compõe")
     Rel(appCar, moldura, "compõe")
+    Rel(appRcv, moldura, "compõe")
     Rel(appIns, facIns, "calcular(entrada)")
     Rel(appGes, facGes, "calcular(entrada, dataDeHoje)")
     Rel(appCar, facCar, "avaliar(entrada)")
+    Rel(appRcv, facRcv, "estimar(entrada)")
     Rel(appIns, rel, "reporta falha inesperada (só nome da classe)")
     Rel(moldura, tema, "alterna tema")
     Rel(facIns, fontes, "referências/constantes")
     Rel(facGes, fontes, "referências/constantes")
     Rel(facCar, fontes, "referências/constantes")
+    Rel(facRcv, fontes, "referências/constantes")
 ```
 
 ## Recorte 2 — Observabilidade (Function → infra → banco)
@@ -81,7 +87,8 @@ C4Component
 | `CalculadoraInsulinaDM2` | Facade + Strategy informal | Pipeline validação → escopo → `Peso` → despacho por modo → pós (alertas ordenados, dedupe) |
 | `CalculadoraIdadeGestacional` | Facade | Datas em dias epoch UTC (ADR 0013); veredito de comparação, não escolha |
 | `CalculadoraCardiopatiaIsquemica` | Facade | Cascata classificar→estimar→ajustar→conduzir; matriz congelada de 24 células |
-| `Moldura` | Composite / casca comum | Props opcionais acumuladas por feature (`apresentacao`, `logoComoTitulo`) |
+| `CalculadoraRiscoCardiovascular` | Facade | valida→escopo→clamp→equação PCE (Cox log-linear)→categoria; PCE sobre AHA PREVENT (ADR 0014) |
+| `Moldura` | Composite / casca comum | Props opcionais acumuladas por feature (`apresentacao`, `logoComoTitulo`); cabeçalho refatorado (011/013): tema-alvo icônico + comando de início só nas calculadoras |
 | `catalogo.ts` | Registro tipado | Toda calculadora nova entra aqui primeiro (anti-drift) |
 | `preferencia-de-tema.ts` | External store | Único efeito colateral persistente da aplicação |
 | `relator-de-erros.ts` | Porta e adaptador | Implementação nula; troca futura sem tocar UI/motor |

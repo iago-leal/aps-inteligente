@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A plataforma ganhou domínio próprio, `apsinteligente.app`, apontado por configuração de

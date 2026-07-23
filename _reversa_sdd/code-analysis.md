@@ -1,19 +1,20 @@
 # Análise de Código — aps-inteligente
 
-> Regenerado pelo Reversa Archaeologist em 2026-07-23 (**re-extração nº 2** — absorve as features 001–010 do ciclo forward).
-> Substitui a análise de 2026-07-19, que cobria só `models/insulina`, a interface antiga e `pages`.
+> Regenerado pelo Reversa Archaeologist em 2026-07-23 (**re-extração nº 3** — absorve as features 011–014 sobre a base 001–010).
+> Delta desta passagem: novo domínio `models/risco-cardiovascular` (PCE, feature 014) e tela `interface/risco-cardiovascular`; cabeçalho refatorado em `interface/comum` e `interface/estilos` (features 011/013). Os três domínios anteriores permanecem intocados (reconfirmados por leitura).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
-> Módulos: `models/insulina`, `models/gestacao`, `models/cardiopatia-isquemica`, `interface/comum`, `interface/calculadora`, `interface/gestacao`, `interface/cardiologia`, `interface/inicio`, `interface/estilos`, `pages`, `pages/api/v1/status`, `infra`.
+> Módulos: `models/insulina`, `models/gestacao`, `models/cardiopatia-isquemica`, `models/risco-cardiovascular`, `interface/comum`, `interface/calculadora`, `interface/gestacao`, `interface/cardiologia`, `interface/risco-cardiovascular`, `interface/inicio`, `interface/estilos`, `pages`, `pages/api/v1/status`, `infra`.
 
 ## Visão de conjunto
 
-🟢 O sistema é uma **plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 e, pelas features 007 e 010, tornou-se uma plataforma guarda-chuva com **três domínios clínicos independentes**, cada um com **uma fonte clínica única** (padrão do ADR 0001):
+🟢 O sistema é uma **plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 e, pelas features 007, 010 e 014, tornou-se uma plataforma guarda-chuva com **quatro domínios clínicos independentes**, cada um com **uma fonte clínica única** (padrão do ADR 0001):
 
 | Domínio | Calculadora | Fonte única | Feature |
 |---|---|---|---|
 | `models/insulina` | Insulina DM2 (início, titulação, intensificação) | Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023 | 001+ |
 | `models/gestacao` | Idade gestacional, DPP, trimestre (DUM × USG) | Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025 | 007 |
 | `models/cardiopatia-isquemica` | Dor torácica e probabilidade pré-teste de DAC | TeleCondutas — Cardiopatia Isquêmica, TelessaúdeRS-UFRGS, 2017 | 010 |
+| `models/risco-cardiovascular` | Risco de ASCVD em 10 anos (Pooled Cohort Equations) | 2013 ACC/AHA Guideline on the Assessment of Cardiovascular Risk (Goff et al., 2014) | 014 |
 
 🟢 A arquitetura tem **três camadas com dependência estritamente unidirecional**:
 
@@ -135,17 +136,52 @@ infra (pool pg) — usada SÓ pelo healthcheck /api/v1/status; nunca toca dado c
 
 ---
 
+## Módulo 4 — `models/risco-cardiovascular` 🟢 (feature 014)
+
+**Propósito:** estimar o risco de doença cardiovascular aterosclerótica (ASCVD) "hard" em 10 anos pelas **Pooled Cohort Equations** (Goff et al., 2013), classificar em categoria de risco e informar a limitação de transportabilidade — sem emitir conduta (ADR 0005). Quarto membro da "família" de domínios: mesmos seis invariantes arquiteturais.
+
+### Arquitetura interna
+
+| Arquivo | LOC | Papel |
+|---|---|---|
+| `tipos.ts` | 109 | Contratos; `SaidaEstimativa = ResultadoEstimativa \| ForaDoEscopoDaFonte \| EntradaInvalida`; `Aviso` (clamp) distinto de `Ofensor` (validação) |
+| `equacao.ts` | 56 | `grupoDe(sexo,raca)` + `riscoAscvdPct(grupo,v)` — núcleo de Cox log-linear (função pura) |
+| `categoria.ts` | 12 | `categoriaDe(riscoPct)` — cortes 5 / 7,5 / 20% |
+| `elegibilidade.ts` | 39 | `foraDoEscopo` — DCV prévia ou idade fora de 40–79 → `ForaDoEscopoDaFonte` |
+| `validacao.ts` | 163 | Coleta total de ofensores + `clamparEntrada` (faixa fisiológica → `Aviso`) |
+| `fonte-clinica.ts` | 168 | `COEFICIENTES` (4 modelos), `BASELINE_SURVIVAL`, `MEANS`, `FAIXAS`, `CATEGORIAS`, `REFERENCIAS`, `NOTA_PROVENIENCIA` — tudo `Object.freeze` |
+| `calculadora.ts` | 53 | `CalculadoraRiscoCardiovascular.estimar` — fachada: validar → escopo → clamp → equação → categoria |
+
+### Algoritmos e regras
+- 🟢 **Equação PCE (RF-06/RN-03/RN-05):** `Risco₁₀ = 1 − S₀^exp(Σ(β·X) − mean_grupo)`. Variáveis contínuas (idade, colesterol total, HDL, PAS) entram como **logaritmo natural**, com termos de interação `ln(idade)×X`; a PAS entra por **um** de dois coeficientes mutuamente exclusivos (tratada × não-tratada). Quatro modelos de Cox sexo×raça (`homem-branco`, `homem-negro`, `mulher-branca`, `mulher-negra`), estrutura de coeficientes uniforme (termo ausente = 0).
+- 🟢 **Grupo PCE (RN-05, D-05):** `raca="outra"` adota os coeficientes de **branco**, como o ASCVD Risk Estimator Plus oficial; só `afro-americano` usa o modelo negro.
+- 🟢 **Precisão dos coeficientes:** `BASELINE_SURVIVAL`, `MEANS` e o modelo de mulher-negra em **precisão estendida** validada contra os pacotes R `CVrisk` e `PooledCohort` (investigation §4.1). Nota explícita no código: o `mean` de homens negros é 19.5425 (o requirements citou de memória um valor trocado, corrigido em D-04).
+- 🟢 **Dois níveis de entrada inválida (D-07):** ofensor **trava** (sexo/raça inválidos, idade não-inteira ou fora de 0–120, valor não positivo — coleta total, RN-08); valor fora da faixa fisiológica **não trava** — é **clampado** ao limite e sinalizado por `Aviso` com a direção do viés ("pode subestimar/superestimar o risco"). Faixas: colesterol 130–320, HDL 20–100, PAS 90–200 mg/dL·mmHg.
+- 🟢 **Fora de escopo (RF-05/RN-02, D-06):** DCV prévia (prevenção secundária) ou idade fora de **40–79** → `ForaDoEscopoDaFonte` com motivo distinto (`DCV_PREVIA` / `IDADE_FORA_DA_FAIXA`), sem número — recusa honesta, mesmo molde da cardiopatia.
+- 🟢 **Categoria (RF-07):** cortes do 2019 ACC/AHA Primary Prevention — `baixo` < 5%, `limítrofe` 5–<7,5%, `intermediário` 7,5–<20%, `alto` ≥ 20%.
+- 🟢 **Proveniência (RF-10/RN-09, D-09):** `NOTA_PROVENIENCIA` é texto único congelado no domínio — coorte dos EUA, categorias raciais norte-americanas, sem calibração para o Brasil. Anti-drift: a tela lê essa constante, não duplica o texto.
+
+**Complexidade:** média-alta na `equacao.ts` (aritmética densa, mas linear e pura). **Sem ritual de revisão** (D-08): estimar risco não prescreve dose.
+
+---
+
 # Camada de Interface (`interface/`)
 
-## Módulo 4 — `interface/comum` 🟢 (feature 007+)
+## Módulo 5 — `interface/comum` 🟢 (features 007, 011, 013)
 
-🟢 **`moldura.tsx` (`Moldura`)** — casca visual comum das três telas + home, extraída byte a byte da tela da insulina na feature 007. Renderiza cabeçalho (identidade + logo APSi por tema), selo "Nada é salvo nem enviado" e alternador de tema (via `useSyncExternalStore` sobre `preferencia-de-tema`). Props opcionais acumuladas por feature:
+🟢 **`moldura.tsx` (`Moldura`)** — casca visual comum das quatro telas + home, extraída byte a byte da tela da insulina na feature 007. Renderiza cabeçalho (identidade + logo APSi por tema), selo "Nada é salvo nem enviado" e a barra de ações (via `useSyncExternalStore` sobre `preferencia-de-tema`). Props opcionais acumuladas por feature:
 - `apresentacao?: "padrao" | "destaque"` (feature 008) — só CSS via `data-apresentacao`; a home usa `destaque`.
 - `logoComoTitulo?: boolean` (feature 009) — na home, a logo é uma `<img alt={titulo}>` **dentro** do `h1` (nome acessível preservado); nas calculadoras, a logo é marca decorativa (`aria-hidden`, `alt=""`) fora do heading, sem criar segundo `h1` nem link.
 
+🟢 **Cabeçalho refatorado (features 011/013, ajuste de 23/07):**
+- O alternador de tema deixou de ser botão textual e virou **`IconButton` do tema-alvo** — `SunIcon` quando o tema vigente é escuro (acionar clareia), `MoonIcon` quando é claro —, com nome acessível "Ativar tema claro/escuro" (D-01/D-02).
+- Novo **comando de início** (`IconButton as={Link} href="/"`, `HomeIcon`) na barra de ações, renderizado **só quando `logoComoTitulo` é falso** — isto é, nas calculadoras, nunca na home, onde seria redundante (D-03/D-04). É o único link do cabeçalho da calculadora (a logo segue não-link).
+- O **selo de privacidade** saiu da barra de ações e desceu para a zona de identidade, sob o subtítulo, agora com `ShieldLockIcon` (`className="cabecalho-selo"`). Só apresentação: mesmo texto e nome acessível; a barra de ações fica coesa com os dois botões irmãos (início + tema).
+- Proporções do cabeçalho `padrao` alinhadas à coluna do corpo e à logo da home (feature 013) — só CSS em `cabecalho.css`, `moldura.tsx` intocado nessa parte.
+
 🟡 **Nota de dívida (comentada no próprio arquivo):** `preferencia-de-tema.ts` permanece em `interface/calculadora/` porque o provedor e sua suíte apontam para lá; realocação adiada para re-extração futura. Acoplamento residual `comum → calculadora`.
 
-## Módulo 5 — `interface/calculadora` 🟢 (insulina; features 004–006)
+## Módulo 6 — `interface/calculadora` 🟢 (insulina; features 004–006)
 
 **Propósito:** UI da calculadora de insulina — formulário controlado, painel com **ritual de revisão explícita** e o botão **Copiar plano** (feature 006). Nenhuma regra clínica própria; faixas de validação vêm de `CONSTANTES` do domínio.
 
@@ -167,42 +203,47 @@ infra (pool pg) — usada SÓ pelo healthcheck /api/v1/status; nunca toca dado c
 🟢 **Falha inesperada (EC-07):** exceção fora do contrato → painel honesto + evento anônimo (só nome da classe).
 🟡 **Ponto de atenção residual:** `let proximoId` módulo-global mutável para ids de linhas dinâmicas — frágil sob HMR/StrictMode, funcional.
 
-## Módulo 6 — `interface/gestacao` 🟢 (feature 007)
+## Módulo 7 — `interface/gestacao` 🟢 (feature 007)
 
 🟢 Molde do `calculadora-app` da insulina, **sem ritual de revisão** (D-08: datação não prescreve). `app.tsx` (`AppIdadeGestacional`) injeta a data do dispositivo (`dataLocalDoDispositivo`), com `motor`/`dataDeHoje` injetáveis para teste. `formulario.tsx` valida semanas (0–42) e dias (0–6) do laudo no blur, espelhando `CONSTANTES` do domínio; DUM e USG opcionais, entrada dupla permitida. `resultado.tsx` exibe IG/DPP/trimestre por método e a comparação. Estado `EstadoIg`: `vazio → sucesso | erro | falha-inesperada`.
 
-## Módulo 7 — `interface/cardiologia` 🟢 (feature 010)
+## Módulo 8 — `interface/cardiologia` 🟢 (feature 010)
 
 🟢 Molde do `app.tsx` da gestação, também **sem ritual de revisão** (D-08). `app.tsx` (`AppCardiologia`): estado `EstadoCardiologia` com variante extra `fora-do-escopo` (`vazio → sucesso | fora-do-escopo | erro | falha-inesperada`). `formulario.tsx`: idade, sexo (radio), 3 características (checkbox), 4 fatores de risco (checkbox, `Set<FatorDeRisco>`), dois desvios (impedimento, instabilidade); valida idade 0–120 no blur. `resultado.tsx`: classificação, `BlocoProbabilidade` (base + faixa ajustada com "pode ultrapassar 90%"), estrato com `Label` de variante (`success`/`attention`/`danger`), conduta, causas não cardíacas e advertências em `Flash` `danger`. `referencias.tsx`: material complementar consultável (CCS I–IV, tratamento, seguimento, manejo agudo) em `<details>`, **fora do cálculo** (RF-10).
 
-## Módulo 8 — `interface/inicio` 🟢 (features 007, 008)
+## Módulo 9 — `interface/risco-cardiovascular` 🟢 (feature 014)
 
-🟢 **`catalogo.ts`** — fonte única tipada das seções e rotas (D-07, anti-drift): três seções (`dm2`, `pre-natal`, `cardiologia`), cada uma com uma `FichaCalculadora` (título, descrição, rota). Toda calculadora nova entra **aqui primeiro**. `Object.freeze` profundo.
+🟢 Molde do `app.tsx` da cardiologia, também **sem ritual de revisão** (D-08: estimar risco não prescreve). `tela.tsx` compõe a `Moldura` (título "Risco Cardiovascular em 10 anos (Pooled Cohort Equations)") com `AppRiscoCardiovascular`. `app.tsx`: estado `EstadoRiscoCardiovascular` com a variante `fora-do-escopo` (`vazio → sucesso | fora-do-escopo | erro | falha-inesperada`), invalidação por edição (`desatualizado`) e reinício por `key` de geração; motor injetável para teste, real por padrão. `formulario.tsx`: sexo, raça, idade, colesterol total, HDL, PAS, e os toggles tratamento anti-hipertensivo / diabetes / tabagismo / DCV prévia. `resultado.tsx`: risco em %, categoria com `Label` de variante, e os `Aviso` de clamp fisiológico. **Novo componente `proveniencia.tsx`:** `NotaDeProveniencia` (`Flash` warning com `NOTA_PROVENIENCIA` do domínio — texto único, anti-drift) e `ContextoDaFonte` (seção consultável "Por que Pooled Cohort Equations, e não a AHA PREVENT?", com link `<a>` nativo à PREVENT — navegação do usuário, não requisição de rede; ADR 0002 preservado), **fora do painel de resultado** e sem emitir conduta (ADR 0005).
+
+## Módulo 10 — `interface/inicio` 🟢 (features 007, 008, 014)
+
+🟢 **`catalogo.ts`** — fonte única tipada das seções e rotas (D-07, anti-drift): três seções (`dm2`, `pre-natal`, `cardiologia`); a seção **`cardiologia` passou a ter duas** `FichaCalculadora` (dor torácica + risco cardiovascular, feature 014), as demais uma. Toda calculadora nova entra **aqui primeiro**. `Object.freeze` profundo.
 🟢 **`tela.tsx`** (`TelaInicio`) — home por seções sobre a `Moldura` (`destaque`, `logoComoTitulo`); cartões clicáveis por inteiro (stretched link — um `<a>` por cartão via `next/link`, sem JavaScript), grade `inicio-cartoes`.
 🟢 **`icones.tsx`** (`IconeDaSecao`) — mapa `id → Octicon` (`dm2`→Beaker, `pre-natal`→Calendar, `cardiologia`→Heart); decorativos (`aria-hidden`); seção sem entrada → fallback `null`. `@primer/octicons-react` pinada, tree-shaken.
 
-## Módulo 9 — `interface/estilos` 🟢 (features 004–010)
+## Módulo 11 — `interface/estilos` 🟢 (features 004–013)
 
-🟢 Quatro folhas CSS, todas **sobre tokens Primer** (`var(--*)`), zero cor própria, importadas por `_app.tsx` na ordem: `globais.css` (400 linhas — **no teto** de 400 do mantenedor), `cabecalho.css` (feature 009, nasceu porque globais estava no teto), `inicio.css` (feature 008, 188 linhas), `cardiologia.css` (feature 010). Cada folha nova em vez de crescer `globais.css` é decisão deliberada de manter o teto.
+🟢 **Cinco** folhas CSS, todas **sobre tokens Primer** (`var(--*)`), zero cor própria, importadas por `_app.tsx` na ordem: `globais.css` (**364 linhas**), `inicio.css` (feature 008, 188), `cabecalho.css` (116, consolidada nas features 011/013), `cardiologia.css` (47), `risco-cardiovascular.css` (8, feature 014). Cada folha nova em vez de crescer `globais.css` é decisão deliberada de manter o teto.
+🟢 **Dívida resolvida:** na re-extração 2, `globais.css` estava **em exatamente 400 linhas** (no teto do mantenedor, item amarelo da regressão). A consolidação do cabeçalho em `cabecalho.css` (features 011/013) reduziu `globais.css` para **364** — abaixo do teto, sem folha alguma acima de 400.
 
 ---
 
 # Camada de Shell e Infraestrutura
 
-## Módulo 10 — `pages` 🟢 (shell Next.js, Pages Router)
+## Módulo 12 — `pages` 🟢 (shell Next.js, Pages Router)
 
-🟢 **`_app.tsx`** — importa a fundação Primer (primitives: motion, size, typography, temas light/dark) + as 4 folhas próprias, na ordem, e envolve tudo em `ProvedorTemaPrimer` dentro de `.app-raiz`. Tipografia é a pilha de fontes do **sistema do próprio Primer** — nenhum arquivo de fonte baixado (D-04), sob a CSP sem terceiros.
+🟢 **`_app.tsx`** — importa a fundação Primer (primitives: motion, size, typography, temas light/dark) + as **5 folhas** próprias, na ordem, e envolve tudo em `ProvedorTemaPrimer` dentro de `.app-raiz`. Tipografia é a pilha de fontes do **sistema do próprio Primer** — nenhum arquivo de fonte baixado (D-04), sob a CSP sem terceiros.
 🟢 **`_document.tsx`** (feature 009) — `<Html lang="pt-BR">` + `<Head>` com favicon (`/apsi-tile-192.png`), apple-touch-icon, `manifest.webmanifest` (PWA instalável) e `theme-color` `#0969da`. Ativos same-origin sob a CSP.
 🟢 **`index.tsx`** — raiz serve a home (`TelaInicio`) diretamente, sem redirecionamento (decisão de 2026-07-23); metadados enfatizam "nada é salvo nem enviado".
-🟢 **Rotas:** `dm2/insulina.tsx` → `TelaCalculadora`; `pre-natal/idade-gestacional.tsx` → tela IG; `cardiologia/dor-toracica.tsx` → `TelaCardiologia`. Cada rota é uma casca `<Head>` + tela.
+🟢 **Rotas:** `dm2/insulina.tsx` → `TelaCalculadora`; `pre-natal/idade-gestacional.tsx` → tela IG; `cardiologia/dor-toracica.tsx` → `TelaCardiologia`; **`cardiologia/risco-cardiovascular.tsx` → `TelaRiscoCardiovascular`** (feature 014 — a seção cardiologia passa a ter duas rotas, nomeadas pela calculadora, não pela seção). Cada rota é uma casca `<Head>` + tela.
 
 🟢 **Correção sobre a extração 1:** a "rota de API vazia" (`api/v1/index.js`) não existe mais; o handler real é `api/v1/status.ts` (abaixo).
 
-## Módulo 11 — `pages/api/v1/status` 🟢 (feature 002)
+## Módulo 13 — `pages/api/v1/status` 🟢 (feature 002)
 
 🟢 `GET /api/v1/status` — observabilidade mínima do deploy, **contrato fixo**: público, sem autenticação, sem estado, sem dado clínico (ADR 0008). Discrimina o método (405 + `Allow: GET` se não-GET, RN-04), `Cache-Control: no-store` (RN-05 — status cacheado mentiria), e devolve `{ atualizado_em, versao (do package.json), commit (VERCEL_GIT_COMMIT_SHA ?? "local") }`. Mudança incompatível do corpo exigiria `/api/v2`.
 
-## Módulo 12 — `infra` 🟢 (feature 003)
+## Módulo 14 — `infra` 🟢 (feature 003)
 
 🟢 **`database.ts`** — único ponto de acesso ao banco, usado **só** pelo healthcheck. Pool `pg` **preguiçoso** (`obterPool` lazy singleton, `max=5`, timeouts 5 s), consultas sempre parametrizadas (`query<Linha>`), erros nomeados `ErroDeBanco` com `causa` (`conexao`/`consulta`/`configuracao`) e causa original preservada (`{cause}`). Log estruturado JSON **sem URL nem credencial** — host sempre mascarado (`hostMascarado`: 4 primeiros chars + `•••`). Sem retentativa automática (falha barulhenta; retry é do chamador). `saude()` roda `SELECT 1`; `encerrar()` drena o pool.
 🟢 **`compose.yaml`** — `postgres:17.10-alpine` local (porta 5433 nesta máquina); produção via integração Neon (Vercel Marketplace).
@@ -211,12 +252,12 @@ infra (pool pg) — usada SÓ pelo healthcheck /api/v1/status; nunca toca dado c
 
 ## Testes (contexto para o Detetive)
 
-🟢 Suíte com **33 arquivos de teste** (Vitest + Playwright + fast-check + axe-core). Cobertura por domínio via property-based (fast-check): toda saída referenciada, doses sempre realizáveis, determinismo, e — na cardiopatia — oráculo das 24 células do Quadro 2. Integração via Testing Library cobre formulários/painéis das três telas; e2e Playwright + axe-baseline (0/0) por rota. Contrato do `/api/v1/status` em suíte própria (`vitest.api.config.ts`, 16/16).
+🟢 Suíte com **37 arquivos de teste** (Vitest + Playwright + fast-check + axe-core). Cobertura por domínio via property-based (fast-check): toda saída referenciada, doses sempre realizáveis, determinismo, e — na cardiopatia — oráculo das 24 células do Quadro 2. No **risco cardiovascular** (feature 014): `equacao.test.ts` (valores conhecidos das PCE contra o ASCVD Estimator) e `invariantes.test.ts` (property-based: risco em 0–100, categoria monotônica, referência não vazia). Integração via Testing Library cobre formulários/painéis das quatro telas (incl. `risco-cardiovascular.test.tsx`); e2e Playwright + axe-baseline (0/0) por rota, com `cabecalho.spec.ts` guardando geometria das features 011/013. Contrato do `/api/v1/status` em suíte própria (`vitest.api.config.ts`).
 
 ## Síntese de riscos e lacunas
 
-1. 🟡 **Premissas clínicas 🟡 a validar pelo prescritor** herdadas das features: gestação (cortes de trimestre 13+6/27+6, limites de plausibilidade DUM/laudo); cardiopatia (leitura descritiva do estrato "baixa", cap da faixa por fatores). São premissas de projeto, não bugs — o Detetive deve registrá-las como ADR/observações.
-2. 🟡 **Acoplamento residual `interface/comum` → `interface/calculadora`** (`preferencia-de-tema.ts` não realocado) — comentado no próprio código, dívida declarada.
-3. 🟡 **`globais.css` no teto de 400 linhas** — cada folha nova evita o estouro, mas o teto é um sinal a monitorar.
+1. 🟡 **Premissas clínicas 🟡 a validar pelo prescritor** herdadas das features: gestação (cortes de trimestre 13+6/27+6, limites de plausibilidade DUM/laudo); cardiopatia (leitura descritiva do estrato "baixa", cap da faixa por fatores); **risco cardiovascular** (faixas fisiológicas de clamp 130–320/20–100/90–200; cortes de categoria 5/7,5/20%; adoção dos coeficientes de branco para `raca="outra"`; transportabilidade das PCE ao Brasil — declarada na `NOTA_PROVENIENCIA`). São premissas de projeto, não bugs — o Detetive deve registrá-las como ADR/observações.
+2. 🟡 **Acoplamento residual `interface/comum` → `interface/calculadora`** (`preferencia-de-tema.ts` não realocado) — comentado no próprio código, dívida declarada; a refatoração do cabeçalho (011/013) não o resolveu.
+3. 🟢 **`globais.css` fora do teto:** a dívida amarela da re-extração 2 (globais em 400 linhas) foi **resolvida** — a consolidação em `cabecalho.css` baixou para 364; nenhuma folha acima de 400.
 4. 🟡 **`proximoId` módulo-global** em `formulario.tsx` da insulina — resíduo funcional, frágil sob StrictMode.
-5. 🟢 **Sem lacunas 🔴 estruturais nesta passagem:** os artefatos SDD referenciados nos comentários (`sdd/motor-calculo-insulina.md`, requirements das features) vivem agora em `_reversa_sdd/` e `_reversa_forward/`; a rota de API vazia foi resolvida. A extração 1 marcava esses como 🔴; a re-extração 2 os reconcilia.
+5. 🟢 **Sem lacunas 🔴 estruturais nesta passagem:** o novo domínio (feature 014) chega com fonte única, referências e testes; os artefatos SDD das features vivem em `_reversa_sdd/` e `_reversa_forward/`. Os adendos 011–014 serão reconciliados na fase de regressão.

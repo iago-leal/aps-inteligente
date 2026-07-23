@@ -1,11 +1,11 @@
 # Permissões e Papéis — aps-inteligente
 
-> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 2**).
+> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 3**).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Veredito
 
-🟢 **Não há RBAC, ACL, autenticação nem sessão.** A plataforma é um conjunto de páginas estáticas com cálculo 100% client-side (MD-0003, ADR 0002): não existe usuário identificado nem backend com estado de aplicação. A ausência é **por design** — a privacidade é resolvida por arquitetura (sem coleta, não há acesso a controlar). Vale igualmente para as três calculadoras (insulina, gestação, cardiopatia): nenhuma introduz identidade, papel ou dado durável.
+🟢 **Não há RBAC, ACL, autenticação nem sessão.** A plataforma é um conjunto de páginas estáticas com cálculo 100% client-side (MD-0003, ADR 0002): não existe usuário identificado nem backend com estado de aplicação. A ausência é **por design** — a privacidade é resolvida por arquitetura (sem coleta, não há acesso a controlar). Vale igualmente para as quatro calculadoras (insulina, gestação, cardiopatia, risco cardiovascular): nenhuma introduz identidade, papel ou dado durável. A feature 012 (domínio próprio `apsinteligente.app`) não altera este veredito — muda o hostname público, não o modelo de acesso.
 
 ## Papel único
 

@@ -10,26 +10,47 @@
   "forward_folder": "_reversa_forward",
   "phase": "concluido",
   "re_extraction": {
-    "number": 2,
+    "number": 3,
     "started_at": "2026-07-23",
-    "reason": "absorver features 001-010 do ciclo forward",
-    "previous_completed_at": "2026-07-20T00:45:00Z",
-    "completed_at": "2026-07-23T14:10:00Z"
+    "reason": "absorver features 011-014 do ciclo forward (novo domínio risco-cardiovascular PCE + refatoração do cabeçalho)",
+    "previous_completed_at": "2026-07-23T14:10:00Z",
+    "completed_at": "2026-07-23T21:42:00Z"
   },
   "regression_check": {
-    "re_extraction": 2,
-    "ran_at": "2026-07-23T14:10:00Z",
+    "re_extraction": 3,
+    "ran_at": "2026-07-23T21:40:00Z",
     "features_verificadas": 10,
-    "watch_items_com_conteudo": 44,
-    "vereditos": { "verde": 43, "amarelo": 1, "vermelho": 0 },
-    "amarelo": ["004/W003 — globais.css em exatamente 400 linhas (no teto; divida documentada, sem cor propria)"],
-    "adendos_superados": 10
+    "watch_items_com_conteudo": 60,
+    "vereditos": { "verde": 60, "amarelo": 0, "vermelho": 0 },
+    "amarelo": [],
+    "destaque": "divida amarela 004/W003 (globais.css no teto de 400) ENCERRADA: agora 364 linhas apos consolidacao em cabecalho.css (features 011/013). features 011/013/014 verificadas frescas (todas verdes); testes do dominio de risco 31/31",
+    "adendos_superados": 4,
+    "adendos_superados_ids": ["011", "012", "013", "014"],
+    "historico": {
+      "re_extraction_2": { "verde": 43, "amarelo": 1, "vermelho": 0, "adendos_superados": 10 }
+    }
   },
   "redator_progress": {
-    "plan_total": 40,
-    "re_extraction": 2,
+    "plan_total": 13,
+    "re_extraction": 3,
     "started_at": "2026-07-23",
-    "done": [
+    "finished_at_re3": "2026-07-23",
+    "done_re3": [
+      "models-risco-cardiovascular/requirements.md (nova)",
+      "models-risco-cardiovascular/design.md (nova)",
+      "models-risco-cardiovascular/tasks.md (nova)",
+      "interface-risco-cardiovascular/requirements.md (nova)",
+      "interface-risco-cardiovascular/design.md (nova)",
+      "interface-risco-cardiovascular/tasks.md (nova)",
+      "interface-comum/requirements.md (atualizado: cabecalho 011/013)",
+      "interface-inicio/requirements.md (atualizado: 2a calc cardiologia)",
+      "interface-estilos/requirements.md (atualizado: 5 folhas, divida resolvida)",
+      "pages-next/requirements.md (atualizado: rota risco + dominio proprio)",
+      "user-stories/estimativa-risco-cardiovascular.md (nova)",
+      "traceability/code-spec-matrix.md (atualizado: 4 dominios)",
+      "openapi/status.yaml (ja citava apsinteligente.app; sem mudanca)"
+    ],
+    "done_re2_historico": [
       "models-gestacao/requirements.md",
       "models-gestacao/design.md",
       "models-gestacao/tasks.md",
@@ -92,20 +113,19 @@
   "pending": [],
   "checkpoints": {
     "reviewer": {
-      "completed_at": "2026-07-23T14:10:00Z",
-      "re_extraction": 2,
-      "specs_reviewed": 12,
+      "completed_at": "2026-07-23T21:30:00Z",
+      "re_extraction": 3,
+      "specs_reviewed": 14,
       "cross_review": false,
-      "reclassifications": { "artefatos_corrigidos": 2, "premissas_promovidas": 0 },
-      "correcoes": "dois legacy-mapping.md obsoletos (pages-next, interface-calculadora) regenerados contra o codigo real (LOC 313/400, Moldura em interface/comum, status.ts realizado); models-insulina/legacy-mapping.md confirmado valido (motor intocado)",
-      "questions": { "asked": 9, "decision": "usuario optou por manter as 9 premissas clinicas como amarelo e seguir para a regressao", "pending_amarelo": ["Q-G1..G4 gestacao", "Q-C1..C5 cardiologia", "G-01 caminho do PDF"] },
+      "reclassifications": { "afirmacoes_corrigidas": 1, "dividas_encerradas": 1, "premissas_promovidas": 0 },
+      "correcoes": "valor de exemplo do caso-base do risco CV corrigido de ~5,3% para 5,4% (conferido contra oraculo equacao.test.ts) em models-risco-cardiovascular/requirements.md e user-story; divida amarela globais.css (teto 400) confirmada RESOLVIDA (364 linhas); premissas clinicas mantidas 🟡 por decisao do usuario",
+      "questions": { "asked": 13, "decision": "usuario optou por manter as 13 premissas clinicas como amarelo e seguir para a regressao (Q-R1..R4 novas)", "pending_amarelo": ["Q-G1..G4 gestacao", "Q-C1..C5 cardiologia", "Q-R1..R4 risco CV", "G-01 caminho do PDF"] },
       "confidence": "~94% verde",
       "files": [
         "_reversa_sdd/questions.md",
         "_reversa_sdd/gaps.md",
         "_reversa_sdd/confidence-report.md",
-        "_reversa_sdd/pages-next/legacy-mapping.md",
-        "_reversa_sdd/interface-calculadora/legacy-mapping.md"
+        "_reversa_sdd/models-risco-cardiovascular/questions.md"
       ]
     },
     "writer": {
@@ -127,9 +147,9 @@
       ]
     },
     "architect": {
-      "completed_at": "2026-07-23T01:40:00Z",
-      "re_extraction": 2,
-      "regeneracao": "seis artefatos regenerados cobrindo os três domínios (insulina/gestacao/cardiopatia), a plataforma guarda-chuva com Moldura comum, a Function /api/v1/status realizada (feature 002) e o banco sem dado clínico (feature 003); três containers reais em vez do container único da extração 1; matriz de impacto por módulo mostrando isolamento entre domínios e a Moldura como único acoplamento horizontal",
+      "completed_at": "2026-07-23T21:20:00Z",
+      "re_extraction": 3,
+      "regeneracao": "seis artefatos estendidos ao 4o dominio (risco CV/PCE) e ao dominio proprio apsinteligente.app (feature 012): quatro fachadas no C4-components, quarta fonte clinica no C4-context, ERD Dominio 4, matriz 12x13 com mdl-risco/if-risco isolados; dividas: globais.css (teto) RESOLVIDA, PREVENT como navegacao (nao fetch); sem novo container (motor cresceu no cliente)",
       "files": [
         "_reversa_sdd/architecture.md",
         "_reversa_sdd/c4-context.md",
@@ -140,65 +160,58 @@
       ]
     },
     "detective": {
-      "completed_at": "2026-07-23T01:10:00Z",
-      "re_extraction": 2,
+      "completed_at": "2026-07-23T21:12:00Z",
+      "re_extraction": 3,
       "sources": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
-        "interface/{calculadora,gestacao,cardiologia,inicio,comum}",
-        "git log (repo atual, features 001-010)",
-        "_reversa_sdd/addenda/001-010",
+        "models/{insulina,gestacao,cardiopatia-isquemica,risco-cardiovascular}",
+        "interface/{calculadora,gestacao,cardiologia,risco-cardiovascular,inicio,comum,estilos}",
+        "git log (features 011-014)",
+        "_reversa_sdd/addenda/011-014",
         "~/dev/aps-inteligente-backup.bundle (MD-0001..0011, AMB-01..10)"
       ],
-      "regeneracao": "domain/state-machines/permissions cobrindo três domínios; intenções da extração 1 reconciliadas (features 001/002/003 realizadas); +3 ADRs (0011 multi-fonte, 0012 ritual só na dose, 0013 datas epoch UTC)",
+      "regeneracao": "domain/state-machines/permissions estendidos ao 4o dominio (risco CV/PCE): glossario 2.5, secao 6, invariantes 'quatro dominios', EstadoRiscoCardiovascular, fronteira 40-79/DCV previa, regras de navegacao do cabecalho 011/013; +2 ADRs (0014 PCE em vez de PREVENT, 0015 dominio proprio apsinteligente.app); intencao 'dominio de marca' reconciliada",
+      "adrs_novos": ["0014-pooled-cohort-equations-em-vez-da-aha-prevent", "0015-dominio-proprio-apsinteligente-app"],
       "files": [
         "_reversa_sdd/domain.md",
         "_reversa_sdd/state-machines.md",
         "_reversa_sdd/permissions.md",
-        "_reversa_sdd/adrs/0001-fonte-clinica-unica-guia-sms-rio.md",
-        "_reversa_sdd/adrs/0002-privacidade-por-arquitetura-client-side.md",
-        "_reversa_sdd/adrs/0003-dominio-puro-fora-do-framework.md",
-        "_reversa_sdd/adrs/0004-erros-como-valores-excecao-so-invariante.md",
-        "_reversa_sdd/adrs/0005-motor-nao-escolhe-condutas-equivalentes.md",
-        "_reversa_sdd/adrs/0006-teto-como-alerta-limites-inviolaveis.md",
-        "_reversa_sdd/adrs/0007-telemetria-nula-fase-1.md",
-        "_reversa_sdd/adrs/0008-plataforma-hibrida-api-sem-dado-clinico.md",
-        "_reversa_sdd/adrs/0009-escopo-fase-1-o-que-o-guia-cobre.md",
-        "_reversa_sdd/adrs/0010-refundacao-2026-07.md",
-        "_reversa_sdd/adrs/0011-uma-fonte-clinica-por-unit-de-dominio.md",
-        "_reversa_sdd/adrs/0012-ritual-de-revisao-so-na-prescricao-de-dose.md",
-        "_reversa_sdd/adrs/0013-aritmetica-de-datas-em-dias-epoch-utc.md"
+        "_reversa_sdd/adrs/0014-pooled-cohort-equations-em-vez-da-aha-prevent.md",
+        "_reversa_sdd/adrs/0015-dominio-proprio-apsinteligente-app.md"
       ]
     },
     "archaeologist": {
-      "completed_at": "2026-07-23T00:30:00Z",
-      "re_extraction": 2,
+      "completed_at": "2026-07-23T21:05:00Z",
+      "re_extraction": 3,
       "modules_analyzed": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
         "interface/comum", "interface/calculadora", "interface/gestacao",
-        "interface/cardiologia", "interface/inicio", "interface/estilos",
+        "interface/cardiologia", "interface/risco-cardiovascular", "interface/inicio", "interface/estilos",
         "pages", "pages/api/v1/status", "infra"
       ],
       "modules_pending": [],
+      "delta": "novo dominio models/risco-cardiovascular (PCE, 7 arq, 600 LOC) + tela interface/risco-cardiovascular (5 arq, proveniencia); cabecalho refatorado em interface/comum (011/013); estilos: globais.css 400->364 (divida amarela da re-extracao 2 RESOLVIDA), 5 folhas; 14 modulos, 4 dominios; 37 testes",
       "files": [
         "_reversa_sdd/code-analysis.md",
         "_reversa_sdd/data-dictionary.md",
         "_reversa_sdd/flowcharts/models-insulina.md",
         "_reversa_sdd/flowcharts/models-gestacao.md",
         "_reversa_sdd/flowcharts/models-cardiopatia-isquemica.md",
+        "_reversa_sdd/flowcharts/models-risco-cardiovascular.md",
         "_reversa_sdd/flowcharts/interface-calculadora.md",
         "_reversa_sdd/flowcharts/pages.md",
         ".reversa/context/modules.json"
       ]
     },
     "scout": {
-      "completed_at": "2026-07-23T00:00:00Z",
-      "re_extraction": 2,
+      "completed_at": "2026-07-23T21:02:00Z",
+      "re_extraction": 3,
       "modules_identified": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
-        "interface/calculadora", "interface/cardiologia", "interface/gestacao",
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
+        "interface/calculadora", "interface/cardiologia", "interface/gestacao", "interface/risco-cardiovascular",
         "interface/inicio", "interface/comum", "interface/estilos",
         "pages", "pages/api/v1/status", "infra"
       ],
+      "delta": "novo dominio models/risco-cardiovascular (PCE, feat 014) + tela interface/risco-cardiovascular; cabecalho refatorado em interface/comum + interface/estilos (feat 011/013); 110 arq TS, 37 testes, 14 modulos",
       "files": [
         "_reversa_sdd/inventory.md",
         "_reversa_sdd/dependencies.md",

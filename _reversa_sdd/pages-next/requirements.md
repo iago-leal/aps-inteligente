@@ -1,6 +1,6 @@
 # pages/ — Shell Next.js (Pages Router)
 
-> `requirements.md` · Re-extração 2 (2026-07-23), regenerado. Superadas as premissas da extração 1 (IBM Plex, raiz montando a calculadora, `/api/v1` vazia): agora a raiz é a home, a tipografia é a pilha do sistema do Primer (feature 004), e `/api/v1/status` está realizada (feature 002, unit própria).
+> `requirements.md` · Re-extração 3 (2026-07-23), regenerado. Superadas as premissas da extração 1 (IBM Plex, raiz montando a calculadora, `/api/v1` vazia): agora a raiz é a home, a tipografia é a pilha do sistema do Primer (feature 004), e `/api/v1/status` está realizada (feature 002, unit própria). A feature 014 acrescentou a rota `/cardiologia/risco-cardiovascular`; produção sob o domínio próprio `apsinteligente.app` (feature 012).
 > Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Visão Geral
@@ -10,9 +10,9 @@ Casca do Pages Router: documento HTML base com idioma e identidade PWA, provedor
 ## Responsabilidades
 
 - Prover o documento base com `lang="pt-BR"` e a identidade instalável (favicon, apple-touch, manifest, theme-color). 🟢
-- Importar os primitivos do Primer e as folhas de estilo globais, e envolver a aplicação no `ProvedorTemaPrimer` (`.app-raiz`). 🟢
+- Importar os primitivos do Primer e as **5 folhas** de estilo globais (incl. `risco-cardiovascular.css`), e envolver a aplicação no `ProvedorTemaPrimer` (`.app-raiz`). 🟢
 - Servir a home na raiz (`/`), sem redirecionamento. 🟢
-- Montar as três calculadoras em suas rotas: `/dm2/insulina`, `/pre-natal/idade-gestacional`, `/cardiologia/dor-toracica`. 🟢
+- Montar as **quatro** calculadoras em suas rotas: `/dm2/insulina`, `/pre-natal/idade-gestacional`, `/cardiologia/dor-toracica`, `/cardiologia/risco-cardiovascular` (a seção `cardiologia` passa a ter duas rotas, nomeadas pela calculadora). 🟢
 - Declarar metadados de privacidade por página. 🟢
 - Expor a API de status em `/api/v1/status` (ver unit `pages-api-v1-status`). 🟢
 

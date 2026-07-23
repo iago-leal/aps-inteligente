@@ -1,10 +1,21 @@
 # Perguntas para Validação — aps-inteligente
 
-> Regenerado pelo Reversa Reviewer na **re-extração 2 (2026-07-23)**. `answer_mode = chat`.
-> Consolida, no nível global, as premissas clínicas 🟡 dos três domínios (detalhe por unit em `models-*/questions.md`).
-> **Decisão do usuário (2026-07-23):** manter todas como premissas 🟡 documentadas e seguir para a verificação de regressão. Nenhuma é 🔴 (bloqueante); nenhuma foi promovida a 🟢 nesta sessão.
+> Regenerado pelo Reversa Reviewer na **re-extração 3 (2026-07-23)**. `answer_mode = chat`.
+> Consolida, no nível global, as premissas clínicas 🟡 dos quatro domínios (detalhe por unit em `models-*/questions.md`).
+> **Decisão do usuário (2026-07-23):** manter todas como premissas 🟡 documentadas e seguir para a verificação de regressão. Nenhuma é 🔴 (bloqueante); nenhuma foi promovida a 🟢 nesta sessão. As premissas do risco cardiovascular (Q-R1..Q-R4) entram na mesma política.
 
 ---
+
+## Risco cardiovascular — `models/risco-cardiovascular` (feature 014)
+
+| # | Premissa | Valor atual no código | Fonte da premissa | Status |
+|---|----------|-----------------------|-------------------|--------|
+| Q-R1 | Faixas fisiológicas de clamp | colesterol 130–320, HDL 20–100, PAS 90–200 | Faixas do ASCVD Estimator; fora → clamp + aviso (não trava) | 🟡 mantida |
+| Q-R2 | Cortes de categoria de risco | 5 / 7,5 / 20% | 2019 ACC/AHA Primary Prevention | 🟡 mantida |
+| Q-R3 | `raca="outra"` → coeficientes de branco | modelo de branco correspondente ao sexo | Convenção do ASCVD Risk Estimator Plus oficial (RN-05) | 🟡 mantida |
+| Q-R4 | Transportabilidade das PCE ao Brasil | declarada na `NOTA_PROVENIENCIA`, não corrigida | Coorte dos EUA; sem calibração validada para o Brasil | 🟡 mantida |
+
+> Nota: os coeficientes das PCE (Q-R adicional implícita) foram validados contra os pacotes R `CVrisk` e `PooledCohort` (concordância cruzada) — mitiga, sem substituir, a conferência página a página do guideline (MD-0008).
 
 ## Gestação — `models/gestacao`
 

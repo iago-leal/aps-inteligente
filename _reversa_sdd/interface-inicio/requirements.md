@@ -1,14 +1,14 @@
 # interface/inicio — Página inicial por seções
 
-> `requirements.md` · Re-extração 2 (2026-07-23). Features 007 (home por seções) e 008 (design da home).
+> `requirements.md` · Re-extração 3 (2026-07-23). Features 007 (home por seções), 008 (design da home) e **014** (2.ª calculadora na seção Cardiologia).
 
 ## Visão Geral
 
-Porta de entrada da plataforma: organiza as calculadoras em seções temáticas (Diabetes Mellitus tipo 2, Pré-natal, Cardiologia) a partir de um catálogo tipado, fonte única de navegação. Renderiza hero de destaque, ícone por seção e cartões clicáveis por inteiro (stretched link). Só apresentação; o catálogo é anti-drift. 🟢
+Porta de entrada da plataforma: organiza as calculadoras em seções temáticas (Diabetes Mellitus tipo 2, Pré-natal, Cardiologia) a partir de um catálogo tipado, fonte única de navegação. Renderiza hero de destaque, ícone por seção e cartões clicáveis por inteiro (stretched link). Só apresentação; o catálogo é anti-drift. A feature 014 acrescentou a calculadora de risco cardiovascular à seção Cardiologia — **primeira seção com duas calculadoras**, exercitando a grade de múltiplos cartões por seção. 🟢
 
 ## Responsabilidades
 
-- Declarar as seções e rotas num catálogo tipado congelado (`CATALOGO`). 🟢
+- Declarar as seções e rotas num catálogo tipado congelado (`CATALOGO`); a seção `cardiologia` passa a ter duas fichas (dor torácica + risco cardiovascular). 🟢
 - Renderizar seções e cartões a partir do catálogo, sobre a Moldura em variante `destaque`. 🟢
 - Mapear cada seção a um ícone decorativo (fallback `null` para seção sem ícone). 🟢
 - Tornar o cartão inteiro clicável por um único `<a>` por cartão (stretched link, sem JS). 🟢

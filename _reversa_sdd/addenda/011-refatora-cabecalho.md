@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 O cabeçalho comum (Moldura) ganhou duas melhorias de navegabilidade, sem tocar nenhum motor de domínio nem o catálogo. O alternador de tema deixou de ser um botão textual ("Tema claro"/"Tema escuro") e passou a ser um controle icônico (`IconButton` do Primer) exibindo o glifo do tema-alvo — sol quando o tema é escuro, lua quando é claro — com nome acessível "Ativar tema claro"/"Ativar tema escuro". O cabeçalho das calculadoras passou a oferecer um comando de início (link `href="/"`, ícone casa, rótulo "Início"), ausente na home por redundância; a logo permanece decorativa e não-link. Entrega puramente de apresentação e navegação. **8 de 8 ações concluídas.**

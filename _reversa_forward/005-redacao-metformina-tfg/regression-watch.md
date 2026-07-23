@@ -17,6 +17,14 @@
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W002 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
+| W003 | 🟢 verde | re-confirmada; código da área intocado nesta 3ª passagem (features 011–014 não tocaram este módulo) |
 ### Re-extração 2026-07-23 14:10
 
 | ID | Veredito | Observação |

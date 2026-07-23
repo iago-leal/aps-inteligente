@@ -1,17 +1,18 @@
 # interface/estilos — Camada de estilo (cola de layout sobre Primer)
 
-> `requirements.md` · Re-extração 2 (2026-07-23). Nasce na feature 004 (globais) e cresce em 008 (inicio), 009 (cabecalho), 010 (cardiologia).
+> `requirements.md` · Re-extração 3 (2026-07-23). Nasce na feature 004 (globais) e cresce em 008 (inicio), 009 (cabecalho), 010 (cardiologia), **011/013 (cabeçalho consolidado)** e **014 (risco-cardiovascular)**.
 
 ## Visão Geral
 
-Quatro folhas CSS que fornecem apenas a "cola de layout" que os componentes Primer não cobrem — grade da página, cartões, cabeçalho, home e peças da cardiologia. A identidade visual é do Primer: toda regra usa `var(--*)` funcional, sem cor, fonte ou sombra própria. Arquivos separados para respeitar o teto de 400 linhas por arquivo. 🟢
+**Cinco** folhas CSS que fornecem apenas a "cola de layout" que os componentes Primer não cobrem — grade da página, cartões, cabeçalho, home e peças das telas. A identidade visual é do Primer: toda regra usa `var(--*)` funcional, sem cor, fonte ou sombra própria. Arquivos separados para respeitar o teto de 400 linhas por arquivo. **Dívida resolvida:** na re-extração 2, `globais.css` estava em exatamente 400 linhas (no teto); a consolidação da família `.cabecalho*` em `cabecalho.css` (features 011/013) baixou `globais.css` para **364** — abaixo do teto, sem folha acima de 400. 🟢
 
 ## Responsabilidades
 
-- `globais.css` — reset, grade da página, cartões, espaçamentos. 🟢
-- `cabecalho.css` — família `.cabecalho*` inteira: layout base do cabeçalho + camada da logo APSi (proporção 314×138, wordmark × marca), consolidada na re-extração 2 (O-09-04). 🟢
-- `inicio.css` — hero em variante destaque, seções, cartões e stretched link da home. 🟢
-- `cardiologia.css` — peças novas da tela de cardiologia (radios, blocos). 🟢
+- `globais.css` (364) — reset, grade da página, cartões, espaçamentos. 🟢
+- `cabecalho.css` (116) — família `.cabecalho*` inteira: layout base + logo APSi + a refatoração das features 011/013 (barra de ações icônica, `.cabecalho-selo` na identidade, proporções da variante `padrao` alinhadas à coluna do corpo e à logo da home, 44/36 de respiro). 🟢
+- `inicio.css` (188) — hero em variante destaque, seções, cartões e stretched link da home. 🟢
+- `cardiologia.css` (47) — peças da tela de cardiologia (radios, blocos). 🟢
+- `risco-cardiovascular.css` (8) — peças mínimas da tela de risco (proveniência/contexto). 🟢
 
 ## Regras de Negócio
 

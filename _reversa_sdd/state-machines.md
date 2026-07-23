@@ -1,9 +1,9 @@
 # Máquinas de Estado — aps-inteligente
 
-> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 2** — cobre as três telas e a cascata clínica da cardiopatia).
+> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 3** — cobre as quatro telas e a cascata clínica da cardiopatia).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
-Não há entidades persistidas (sistema 100% client-side). As máquinas de estado vivem na memória da UI e, implicitamente, na progressão clínica de cada domínio. As três telas compartilham o mesmo **esqueleto de estado** (`vazio → sucesso | erro | falha-inesperada`), variando pelas flags e variantes que cada domínio exige.
+Não há entidades persistidas (sistema 100% client-side). As máquinas de estado vivem na memória da UI e, implicitamente, na progressão clínica de cada domínio. As quatro telas compartilham o mesmo **esqueleto de estado** (`vazio → sucesso | erro | falha-inesperada`), variando pelas flags e variantes que cada domínio exige — cardiopatia e risco cardiovascular acrescentam a variante `fora-do-escopo`.
 
 ## 1. `EstadoResultado` — tela da insulina (`interface/calculadora`) 🟢
 
@@ -78,7 +78,31 @@ stateDiagram-v2
 
 🟢 A **advertência de angina instável** (RN-07) não é estado: é conteúdo em destaque (`Flash danger`) dentro de `sucesso`, disparado pela flag de entrada `sinaisInstabilidade`.
 
-## 4. Cascata clínica da cardiopatia (`models/cardiopatia-isquemica`) 🟢
+## 4. `EstadoRiscoCardiovascular` — tela do risco cardiovascular (`interface/risco-cardiovascular`) 🟢 (feature 014)
+
+Idêntico ao esqueleto da cardiopatia — **sem ritual de revisão** (ADR 0012, D-08) e com a variante `fora-do-escopo`, aqui disparada por **dois** motivos distintos (idade fora de 40–79 ou DCV prévia). Molde do `AppCardiologia`.
+
+```mermaid
+stateDiagram-v2
+    [*] --> vazio
+    vazio --> sucesso: estimar → "resultado"
+    vazio --> fora_do_escopo: estimar → "fora-do-escopo" (idade fora de 40–79 OU DCV prévia)
+    vazio --> erro: estimar → "erro-validacao" (coleta total de ofensores)
+    vazio --> falha_inesperada: exceção fora do contrato (EC-07)
+    sucesso --> sucesso: editar (desatualizado=true)
+    fora_do_escopo --> sucesso: recalcular elegível
+    sucesso --> fora_do_escopo: recalcular fora do escopo
+    sucesso --> erro: recalcular inválido
+    erro --> sucesso: recalcular válido
+    sucesso --> vazio: "Nova estimativa"
+    fora_do_escopo --> vazio: "Nova estimativa"
+    erro --> vazio: "Nova estimativa"
+    falha_inesperada --> vazio: "Nova estimativa"
+```
+
+🟢 Os **avisos de clamp fisiológico** (RN-07) não são estado: são conteúdo dentro de `sucesso` (o valor foi cortado à faixa e o risco, calculado), sinalizando o viés. A **nota de proveniência** e o `ContextoDaFonte` são conteúdo estático, presentes fora do painel de resultado em qualquer estado.
+
+## 5. Cascata clínica da cardiopatia (`models/cardiopatia-isquemica`) 🟢
 
 Não é máquina de estado persistida, mas um pipeline determinístico de decisão que vale documentar como fluxo — cada etapa é pura e testada por property-based (oráculo das 24 células).
 
@@ -101,7 +125,7 @@ stateDiagram-v2
 
 🟡 **Nota descritiva do estrato** (RN-04, nota ** do Quadro 2): `"baixa"` só se a dor for **não anginosa E sem fatores de risco** — qualquer fator impede "baixa", mesmo que o número tabele baixo. É decisão descritiva, não puramente numérica, marcada 🟡 para validação (O-10-03).
 
-## 5. Progressão clínica do esquema de insulina (`TipoEsquema`) 🟡
+## 6. Progressão clínica do esquema de insulina (`TipoEsquema`) 🟡
 
 O domínio não modela transições explicitamente — `derivaTipoEsquema` (UI) classifica pelo número de aplicações de Regular —, mas as regras do motor implicam a progressão do guia:
 
@@ -120,6 +144,6 @@ stateDiagram-v2
 
 🟡 `basal_fracionada` não é `TipoEsquema` próprio (continua `basal`); está no diagrama porque o fracionamento tem gatilho e conduta próprios. Transições "para trás" (retirar Regular) não existem: reduzir é o máximo da titulação (−2/−4); a desintensificação está fora do guia. 🔴 O guia não parametriza ajuste pós-prandial (NG-07) — a máquina para nos braços pré-prandiais.
 
-## 6. Tema (`preferencia-de-tema.ts`) 🟢
+## 7. Tema (`preferencia-de-tema.ts`) 🟢
 
 Trivial e transversal às três telas: `claro ⇄ escuro`, persistido em `localStorage["aps-inteligente:tema"]`, com degradação graciosa se o storage estiver bloqueado. **Único dado durável do sistema.** Sem valor clínico.

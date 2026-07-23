@@ -23,6 +23,16 @@ Itens que precisam continuar verdadeiros nas próximas extrações `/reversa`. S
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `moldura.tsx`: IconButton com ícone do tema-alvo (Sun/Moon), aria-label "Ativar tema claro/escuro"; sem rótulo textual |
+| W002 | 🟢 verde | comando de início `IconButton as={Link} href="/"` renderizado só quando `!logoComoTitulo` (calculadoras), ausente na home |
+| W003 | 🟢 verde | logo é `<img>` (não-link); o único `<a>` do cabeçalho da calculadora é o comando de início |
+| W004 | 🟢 verde | selo "Nada é salvo nem enviado" presente (movido para a zona de identidade, `.cabecalho-selo`) |
+| W005 | 🟢 verde | `useSyncExternalStore` sobre `preferencia-de-tema`; `gravarTema` alterna claro/escuro; `data-tema` observável preservado |
 <!-- Preenchido pelo agente reverso quando /reversa rodar de novo. -->
 
 ## Arquivadas

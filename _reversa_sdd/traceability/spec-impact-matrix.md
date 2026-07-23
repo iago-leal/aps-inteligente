@@ -1,33 +1,37 @@
 # Spec Impact Matrix — aps-inteligente
 
-> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 2).
-> Unidades conforme `[specs] granularity = "module"` (layout `feature-folder`): os três domínios, a casca comum, as três telas, a home, o shell e a fatia de observabilidade.
+> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 3).
+> Unidades conforme `[specs] granularity = "module"` (layout `feature-folder`): os quatro domínios, a casca comum, as quatro telas, a home, o shell e a fatia de observabilidade.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## 1. Matriz módulo × módulo
 
-Leitura: alterar a **linha** impacta as **colunas** marcadas. `∅` = nulo por dependência unidirecional.
+Leitura: alterar a **linha** impacta as **colunas** marcadas. `∅` = nulo por dependência unidirecional. (`mdl-risco` = `models/risco-cardiovascular`, `if-risco` = `interface/risco-cardiovascular`.)
 
-| Alterado ↓ / Impacta → | mdl-insulina | mdl-gestacao | mdl-cardio | if-comum | if-insulina | if-gestacao | if-cardio | if-inicio | pages | api+infra | tests |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| **mdl-insulina** | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
-| **mdl-gestacao** | ∅ | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
-| **mdl-cardio** | ∅ | ∅ | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | 🟢 alto |
-| **if-comum (Moldura)** | ∅ | ∅ | ∅ | — | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 baixo | ∅ | 🟢 médio |
-| **if-insulina** | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
-| **if-gestacao** | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
-| **if-cardio** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | 🟢 baixo | ∅ | 🟢 médio |
-| **if-inicio (home+catálogo)** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 baixo | ∅ | 🟢 baixo |
-| **pages (shell/rotas)** | ∅ | ∅ | ∅ | ∅ | 🟢 baixo | 🟢 baixo | 🟢 baixo | 🟢 baixo | — | ∅ | 🟢 baixo |
-| **api+infra** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 médio |
+| Alterado ↓ / Impacta → | mdl-insulina | mdl-gestacao | mdl-cardio | mdl-risco | if-comum | if-insulina | if-gestacao | if-cardio | if-risco | if-inicio | pages | api+infra | tests |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **mdl-insulina** | — | ∅ | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
+| **mdl-gestacao** | ∅ | — | ∅ | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
+| **mdl-cardio** | ∅ | ∅ | — | ∅ | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
+| **mdl-risco** | ∅ | ∅ | ∅ | — | ∅ | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | 🟢 alto |
+| **if-comum (Moldura)** | ∅ | ∅ | ∅ | ∅ | — | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 baixo | ∅ | 🟢 médio |
+| **if-insulina** | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | 🟡 baixo | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-gestacao** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-cardio** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-risco** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-inicio (home+catálogo)** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 baixo | ∅ | 🟢 baixo |
+| **pages (shell/rotas)** | ∅ | ∅ | ∅ | ∅ | ∅ | 🟢 baixo | 🟢 baixo | 🟢 baixo | 🟢 baixo | 🟢 baixo | — | ∅ | 🟢 baixo |
+| **api+infra** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 médio |
 
-🟢 **Leitura da matriz:** os três domínios são mutuamente isolados (features 007 e 010 foram aditivas — `git diff models/insulina` vazio). Cada tela depende só do seu domínio. A `Moldura` é o único ponto de acoplamento horizontal na interface (impacta as quatro telas + home). A fatia `api+infra` é ortogonal ao clínico: não impacta nenhum domínio nem tela.
+🟢 **Leitura da matriz:** os quatro domínios são mutuamente isolados (features 007, 010 e 014 foram aditivas — `git diff models/insulina models/gestacao models/cardiopatia-isquemica` vazio na 014). Cada tela depende só do seu domínio. A `Moldura` é o único ponto de acoplamento horizontal na interface (impacta as quatro telas + home; refatorada nas features 011/013 sem tocar domínio nem catálogo). A fatia `api+infra` é ortogonal ao clínico: não impacta nenhum domínio nem tela.
+
+🟡 **Nota `if-insulina → if-risco`:** a tela de risco reusa `relator-de-erros.ts` (e as demais telas o `preferencia-de-tema.ts`) de `interface/calculadora/` — o mesmo acoplamento residual já declarado da Moldura. Mudança na porta do relator/tema propaga às telas que a importam.
 
 ## 2. Pontos de contato precisos (por que o impacto existe)
 
 | Contato | De → Para | Natureza |
 |---|---|---|
-| `CalculadoraInsulinaDM2.calcular()` / `...IdadeGestacional` / `...CardiopatiaIsquemica.avaliar()` | tela → domínio | Fachada; única porta de entrada de cada motor |
+| `CalculadoraInsulinaDM2.calcular()` / `...IdadeGestacional` / `...CardiopatiaIsquemica.avaliar()` / `...RiscoCardiovascular.estimar()` | tela → domínio | Fachada; única porta de entrada de cada motor |
 | `Saida*` (union por `tipo`) | domínio → tela | O painel faz switch no discriminante; **nova variante quebra a UI silenciosamente** se o switch não for exaustivo |
 | `CONSTANTES` de cada `fonte-clinica.ts` | domínio → tela | O formulário espelha faixas de validação; mudar plausibilidade no motor muda a UI (acoplamento anti-drift desejado) |
 | `TipoAlerta`/`TipoRecomendacao` (insulina); `Estrato`/`TipoConduta` (cardio); `Veredito` (gestação) | domínio → tela | Textos, ícones e `Label`/`Flash` do painel dependem dos valores; novo valor exige tratamento visual |
@@ -51,7 +55,8 @@ Leitura: alterar a **linha** impacta as **colunas** marcadas. `∅` = nulo por d
 |---|---|
 | Qualquer regra clínica de um domínio | Spec do motor daquele domínio + `domain.md` + testes — spec **antes** do código (Princípio nº 6) |
 | Nova variante de saída/alerta/veredito/estrato | `data-dictionary.md`, `erd-complete.md`, painel da tela |
-| Nova calculadora (quarto domínio) | `catalogo.ts` (primeiro), nova unit `models/*` + `interface/*`, nova rota, ADR 0011 (uma fonte), `c4-*.md` |
+| Nova calculadora (5.º domínio) | `catalogo.ts` (primeiro), nova unit `models/*` + `interface/*`, nova rota, ADR 0011 (uma fonte), `c4-*.md` — padrão exercido na feature 014 (risco CV) |
+| Troca de fonte de risco (PCE → PREVENT) | ADR 0014 (revisitar), `models/risco-cardiovascular/fonte-clinica.ts`, `proveniencia.tsx`, testes da equação |
 | Mudança no contrato da API | ADR 0008, `c4-containers.md`, suíte de contrato, `permissions.md` |
 | Introdução de persistência de dado clínico | ADR 0002 (gatilho LGPD), `permissions.md` (RBAC deixa de ser n/a), ERD com esquema real |
 | Nova edição de qualquer guia clínico | Gatilho de revisão MD-0008: reconferir `CONSTANTES` do domínio afetado |
@@ -66,3 +71,6 @@ As premissas de projeto a validar pelo prescritor (herdadas das features, ver `d
 | Limites de plausibilidade DUM ≤ 44 sem / laudo 0–42 sem·0–6 d | `mdl-gestacao` (validação), `if-gestacao` (blur) | unidade |
 | Leitura descritiva do estrato "baixa" (cardio) | `mdl-cardio` (`estratoDe`) | unidade property-based |
 | Cap ×2–×3 da faixa por fatores de risco (cardio) | `mdl-cardio` (`ajustarPorFatoresDeRisco`) | unidade property-based |
+| Faixas de clamp fisiológico 130–320/20–100/90–200 (risco) | `mdl-risco` (`FAIXAS`, `clamparEntrada`) | unidade property-based |
+| Cortes de categoria 5/7,5/20% (risco) | `mdl-risco` (`CATEGORIAS`, `categoriaDe`) | unidade |
+| `raca="outra"` → coeficientes de branco (risco) | `mdl-risco` (`grupoDe`) | unidade da equação |

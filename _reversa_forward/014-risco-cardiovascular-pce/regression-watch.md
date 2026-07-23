@@ -15,6 +15,17 @@ Itens que a próxima re-extração (`/reversa`) deve reconfirmar. A feature é a
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `git diff 51168cf..4f2a334` só toca `interface/inicio/catalogo.ts` (+6); os três motores existentes byte a byte |
+| W002 | 🟢 verde | `catalogo.ts` seção `cardiologia` com 2 fichas; ficha da dor torácica preservada; nova ficha de risco adicionada |
+| W003 | 🟢 verde | `ResultadoEstimativa` não tem campo de conduta; motor informa risco % + categoria (ADR 0005) |
+| W004 | 🟢 verde | `fonte-clinica.ts` só importa `./tipos`; coeficientes PCE (Goff 2013) congelados, sem mesclar |
+| W005 | 🟢 verde | `vitest run tests/unit/dominio-risco-cardiovascular` → 31/31 passaram (golden cases + invariante de referência) |
+| W006 | 🟢 verde | tela sem `fetch`/`storage`; link à PREVENT é `<a>` nativo; `status.ts` intocado; e2e/axe verde no coding |
 <!-- Preenchido pelo agente reverso quando `/reversa` rodar de novo. -->
 
 ## Arquivadas

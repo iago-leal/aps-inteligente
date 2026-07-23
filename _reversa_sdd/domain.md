@@ -1,19 +1,20 @@
 # Domínio — aps-inteligente
 
-> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 2** — absorve as features 001–010).
+> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 3** — absorve as features 011–014 sobre a base 001–010).
 > Substitui a versão de 2026-07-19, que cobria só o domínio da insulina.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
-> Fontes: código em `models/{insulina,gestacao,cardiopatia-isquemica}/` e `interface/`; histórico git atual; adendos `_reversa_sdd/addenda/001–010`; requirements/regression-watch das features em `_reversa_forward/`; microdecisões pré-refundação (MD-0001..0011, AMB-01..10) recuperáveis no bundle `~/dev/aps-inteligente-backup.bundle`.
+> Fontes: código em `models/{insulina,gestacao,cardiopatia-isquemica,risco-cardiovascular}/` e `interface/`; histórico git atual; adendos `_reversa_sdd/addenda/001–014`; requirements/regression-watch das features em `_reversa_forward/`; microdecisões pré-refundação (MD-0001..0011, AMB-01..10) recuperáveis no bundle `~/dev/aps-inteligente-backup.bundle`.
 
 ## 1. O sistema em uma frase
 
-🟢 **Plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, dirigida ao médico prescritor, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 (feature 001+) e, pelas features 007 e 010, tornou-se uma **plataforma guarda-chuva com três domínios clínicos independentes**, cada um com **uma fonte clínica única** e um catálogo próprio de referências. A regra editorial atravessa a plataforma inteira: cada calculadora cobre exatamente o que a sua fonte cobre, nada além (MD-0009).
+🟢 **Plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, dirigida ao médico prescritor, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 (feature 001+) e, pelas features 007, 010 e 014, tornou-se uma **plataforma guarda-chuva com quatro domínios clínicos independentes**, cada um com **uma fonte clínica única** e um catálogo próprio de referências. A regra editorial atravessa a plataforma inteira: cada calculadora cobre exatamente o que a sua fonte cobre, nada além (MD-0009).
 
 | Domínio | Calculadora | Fonte clínica única | Feature |
 |---|---|---|---|
 | `models/insulina` | Insulina DM2 (início, titulação, intensificação, antidiabéticos orais) | *Guia Rápido Diabetes Mellitus* — SMS-Rio, 2.ª ed. atualizada, 2023 | 001+ |
 | `models/gestacao` | Idade gestacional, DPP, trimestre (DUM × USG) | *Guia Rápido Pré-Natal* — SMS-Rio, 4.ª ed., 2025 (pp. 31–32, 113) | 007 |
 | `models/cardiopatia-isquemica` | Dor torácica e probabilidade pré-teste de DAC | *TeleCondutas — Cardiopatia Isquêmica* — TelessaúdeRS-UFRGS, 2017 | 010 |
+| `models/risco-cardiovascular` | Risco de ASCVD em 10 anos (Pooled Cohort Equations) | *2013 ACC/AHA Guideline on the Assessment of Cardiovascular Risk* (Goff et al., 2014) | 014 |
 
 ## 2. Glossário
 
@@ -79,6 +80,19 @@
 | **Ergometria × método não invasivo** | Exame padrão é ergometria; `impedimentoErgometria` (ECG basal altera interpretação ou paciente não pode exercitar) → método não invasivo alternativo (RN-05) |
 | **Angina instável** | `sinaisInstabilidade` → advertência de encaminhamento emergencial, fora do fluxo eletivo (RN-07) |
 | **Material complementar** | CCS I–IV, tratamento + Tabela 1, seguimento, manejo agudo: referência consultável **fora do cálculo** (RN-08/RF-10) |
+
+### 2.5 Risco cardiovascular (`models/risco-cardiovascular`, feature 014)
+
+| Termo | Significado |
+|---|---|
+| **ASCVD** | Doença cardiovascular aterosclerótica; desfecho "hard" (IAM, morte coronariana, AVC fatal/não fatal) estimado em 10 anos |
+| **Pooled Cohort Equations (PCE)** | Modelos de Cox sexo- e raça-específicos (Goff et al., 2013) que estimam o risco de ASCVD em 10 anos |
+| **Grupo PCE** | `homem-branco` / `homem-negro` / `mulher-branca` / `mulher-negra` — cada um com seu conjunto de coeficientes |
+| **Coeficiente de PAS** | A pressão sistólica entra por **um** de dois coeficientes mutuamente exclusivos: tratada × não-tratada |
+| **Clamp fisiológico** | Valor válido mas fora da faixa (colesterol 130–320, HDL 20–100, PAS 90–200) é cortado ao limite e sinalizado por `Aviso`, sem travar (RN-07) |
+| **Categoria de risco** | `baixo` < 5% / `limítrofe` 5–<7,5% / `intermediário` 7,5–<20% / `alto` ≥ 20% (cortes 2019 ACC/AHA) |
+| **Fora do escopo** | Idade fora de 40–79 ou DCV prévia (prevenção secundária) → recusa honesta, sem número (RN-02) |
+| **Nota de proveniência** | Limitação de transportabilidade das PCE ao Brasil: coorte dos EUA, categorias raciais norte-americanas (RN-09) |
 
 ---
 
@@ -148,40 +162,59 @@ Cascata do TeleCondutas: classificar → estimar → ajustar → conduzir → ad
 
 ---
 
-## 6. Invariantes transversais aos três domínios 🟢
+## 6. Regras de domínio — Risco cardiovascular (`models/risco-cardiovascular`, feature 014) 🟢
 
-O que torna as três units reconhecíveis como uma "família" arquitetural (verificado por property-based testing em cada domínio):
+Estimativa das Pooled Cohort Equations: validar → escopo → clamp → equação → categoria. Feature aditiva; nenhuma regra dos outros domínios foi tocada. Fonte única: 2013 ACC/AHA Guideline (Goff et al., 2014).
+
+37. **Equação PCE (RF-06/RN-03):** `Risco₁₀ = 1 − S₀^exp(Σ(β·X) − mean_grupo)`, com idade, colesterol total, HDL e PAS em **logaritmo natural** e termos de interação `ln(idade)×X`. A PAS entra por **um** de dois coeficientes mutuamente exclusivos (tratada × não-tratada). Coeficientes, `BASELINE_SURVIVAL` e `MEANS` congelados em `fonte-clinica.ts`, transcritos da Tabela A de Goff 2013 em **precisão estendida** validada contra os pacotes R `CVrisk` e `PooledCohort`.
+38. **Seleção de grupo (RN-05, D-05) — premissa 🟡:** `raca="outra"` adota os coeficientes de **branco**, como o ASCVD Risk Estimator Plus oficial; só `afro-americano` usa o modelo negro. Escolha herdada da ferramenta de referência, a validar pelo prescritor.
+39. **Dois níveis de entrada (D-07):** ofensor **trava** (sexo/raça inválidos, idade não-inteira ou fora de 0–120, valor não positivo — coleta total, RN-08); valor fora da faixa fisiológica **não trava** — é **clampado** ao limite e sinalizado por `Aviso` com a direção do viés. Faixas 🟡: colesterol 130–320, HDL 20–100, PAS 90–200.
+40. **Fora de escopo (RF-05/RN-02, D-06):** DCV prévia (prevenção secundária) ou idade fora de **40–79** → `ForaDoEscopoDaFonte` com motivo distinto (`DCV_PREVIA` / `IDADE_FORA_DA_FAIXA`), **sem número** — recusa honesta, molde da cardiopatia (MD-0009).
+41. **Categoria (RF-07) — premissa 🟡:** cortes do 2019 ACC/AHA Primary Prevention — `baixo` < 5%, `limítrofe` 5–<7,5%, `intermediário` 7,5–<20%, `alto` ≥ 20%.
+42. **Proveniência (RF-10/RN-09, D-09):** `NOTA_PROVENIENCIA` é texto único congelado no domínio (coorte dos EUA, sem calibração para o Brasil). A tela lê a constante, não a duplica. O `ContextoDaFonte` (D-10, pós-coding) explica **por que PCE e não a AHA PREVENT** — porque a recomendação de estatina da USPSTF (2022) foi calibrada sobre as PCE; link `<a>` nativo à PREVENT, sem requisição de rede (ADR 0002 preservado). **O motor informa o risco, nunca a conduta** (ADR 0005).
+
+---
+
+## 7. Invariantes transversais aos quatro domínios 🟢
+
+O que torna as quatro units reconhecíveis como uma "família" arquitetural (verificado por property-based testing em cada domínio):
 
 1. **Domínio puro** — nenhum `import` de framework (ADR 0003).
 2. **Erros esperados são valores** (union por `tipo`); `ErroDeInvariante` só para bug (ADR 0004).
 3. **Toda saída carrega `ReferenciaClinica`** — resultado sem referência é invariante violado.
 4. **Coleta total de ofensores** na validação — nunca para no primeiro erro.
 5. **Constantes clínicas congeladas** (`Object.freeze`) em `fonte-clinica.ts`, comentadas com o RN/Quadro de origem — fonte numérica única anti-drift.
-6. **O motor informa, não escolhe** (ADR 0005): insulina devolve `condutasAlternativas`; gestação devolve `veredito` de comparação; cardiopatia devolve estrato + conduta, nunca "a decisão".
+6. **O motor informa, não escolhe** (ADR 0005): insulina devolve `condutasAlternativas`; gestação devolve `veredito` de comparação; cardiopatia devolve estrato + conduta; risco cardiovascular devolve `riscoPct` + categoria, nunca "a decisão".
 7. **Privacidade por construção** (ADR 0002): nenhum domínio nem tela faz `fetch`/`storage` de dado clínico. Único `localStorage`: a preferência de tema (`aps-inteligente:tema`). Único acesso a rede: o healthcheck `/api/v1/status`, sem dado clínico. `EventoDeErro` transporta **só o nome da classe** do erro — vazamento de payload é estruturalmente impossível.
 
-### 6.1 Regras da interface com força de domínio
-8. **Invalidação por edição:** qualquer edição de formulário marca o resultado como `desatualizado`; nas três telas. Na insulina, desfaz também o ritual de revisão.
-9. **A UI espelha as faixas do domínio** importando `CONSTANTES` — não há segunda fonte de números em nenhuma tela.
-10. **Ritual de revisão só na insulina** (ADR 0012, D-08): gestação e cardiopatia não têm checkbox de confirmação — datar e estratificar não prescrevem dose.
+### 7.1 Regras da interface com força de domínio
+8. **Invalidação por edição:** qualquer edição de formulário marca o resultado como `desatualizado`; nas quatro telas. Na insulina, desfaz também o ritual de revisão.
+9. **A UI espelha as faixas do domínio** importando as constantes — não há segunda fonte de números em nenhuma tela.
+10. **Ritual de revisão só na insulina** (ADR 0012, D-08): gestação, cardiopatia e risco cardiovascular não têm checkbox de confirmação — datar, estratificar e estimar risco não prescrevem dose.
+
+### 7.2 Regras da interface com força de navegação (features 011/013)
+11. **Comando de início só nas calculadoras** (D-03/D-04): a `Moldura` renderiza o `IconButton` de casa (`HomeIcon`, `next/link`) apenas quando `logoComoTitulo` é falso — na home seria redundante. É o único link do cabeçalho da calculadora.
+12. **Alternador de tema exibe o tema-ALVO** (D-01/D-02): `SunIcon` quando o vigente é escuro (acionar clareia), `MoonIcon` quando é claro; nome acessível "Ativar tema claro/escuro". Só apresentação; a preferência e sua semântica (`data-tema`) são idênticas às da feature 004.
 
 ---
 
-## 7. Fronteiras de escopo (o que o sistema recusa por design) 🟢
+## 8. Fronteiras de escopo (o que o sistema recusa por design) 🟢
 
 - **Insulinas fora de NPH/Regular** → `ForaDoEscopoDaFonte` (MD-0009).
 - **Idade fora de 30–69** na cardiopatia → `ForaDoEscopoDaFonte`, sem extrapolar (RN-06).
+- **Idade fora de 40–79 ou DCV prévia** no risco cardiovascular → `ForaDoEscopoDaFonte`, sem estimar (RN-02 da 014); as PCE só foram validadas em prevenção primária, 40–79 anos.
 - **3.º trimestre na comparação DUM×USG** → `sem-parametro-na-fonte` (a fonte não dá margem).
 - **Orientações ao paciente:** excluídas da fase 1; o resultado dirige-se só ao prescritor (MD-0009).
 - **Persistência de dado clínico:** excluída por arquitetura (MD-0003); rotas de API só sem dado clínico (MD-0011, realizado na feature 002).
 - **Mescla de fontes clínicas:** proibida — uma fonte por unit (ADR 0011). Nova edição de qualquer guia é gatilho de revisão registrado (MD-0008).
 - **Ajuste pós-prandial (insulina):** o guia não parametriza; o motor apenas recomenda a aferição (NG-07).
+- **Calibração das PCE ao Brasil:** não há; declarada na `NOTA_PROVENIENCIA` como limitação de transportabilidade, não corrigida no cálculo (RN-09 da 014).
 
 ---
 
-## 8. Estado das intenções da extração 1 (reconciliação) 🟢
+## 9. Estado das intenções da extração 1 (reconciliação) 🟢
 
-A extração 1 (§7 antiga) listava intenções aprovadas e ausentes do código, e três lacunas 🔴 de infraestrutura. A re-extração 2 as reconcilia:
+A extração 1 (§7 antiga) listava intenções aprovadas e ausentes do código, e três lacunas 🔴 de infraestrutura. As re-extrações 2–3 as reconciliam:
 
 | Intenção da extração 1 | Estado em 2026-07-23 |
 |---|---|
@@ -191,13 +224,14 @@ A extração 1 (§7 antiga) listava intenções aprovadas e ausentes do código,
 | Entrada de glicemias por momento em campos separados | 🟢 **Realizado** (feature 001): `glicemias-por-momento.tsx` |
 | API v1 (`/api/v1/status`, observabilidade do deploy) | 🟢 **Realizado** (feature 002): contrato fixo, ADR 0008; o `index.js` vazio não existe mais |
 | Infra (`compose.yaml`, configs de teste `test:api`/`test:e2e`) | 🟢 **Realizado** (features 002/003): `infra/database.ts`, `vitest.api.config.ts`, `playwright.config.ts`, Neon em produção |
+| Domínio próprio de marca (fora do escopo da feature 002 à época) | 🟢 **Realizado** (feature 012): `apsinteligente.app` no ar (apex → `www` 308); `*.vercel.app` segue válido; contrato do `/api/v1/status` verificado byte a byte no host novo |
 
-🟡 **Premissas de projeto ainda a validar pelo prescritor** (não são bugs; são decisões marcadas 🟡 para confirmação clínica): (a) gestação — cortes de trimestre 13+6/27+6 e limites de plausibilidade DUM ≤ 44 sem, laudo 0–42 sem/0–6 dias; (b) cardiopatia — leitura descritiva do estrato "baixa" (não anginosa E sem fatores) e o cap ×2–×3 da faixa por fatores de risco. Correspondem às observações O-07-* e O-10-01..05 dos regression-watch, sem peso de regressão.
+🟡 **Premissas de projeto ainda a validar pelo prescritor** (não são bugs; são decisões marcadas 🟡 para confirmação clínica): (a) gestação — cortes de trimestre 13+6/27+6 e limites de plausibilidade DUM ≤ 44 sem, laudo 0–42 sem/0–6 dias; (b) cardiopatia — leitura descritiva do estrato "baixa" (não anginosa E sem fatores) e o cap ×2–×3 da faixa por fatores de risco; (c) **risco cardiovascular** — faixas fisiológicas de clamp (130–320/20–100/90–200), cortes de categoria (5/7,5/20%), adoção dos coeficientes de branco para `raca="outra"`, e a transportabilidade das PCE ao contexto brasileiro (declarada, não corrigida). Correspondem às observações O-07-*, O-10-* e O-14-* dos regression-watch, sem peso de regressão.
 
 ---
 
-## 9. Lacunas 🔴
+## 10. Lacunas 🔴
 
-1. Os PDFs das três fontes (`referencias/…`) estão fora do versionamento (MD-0008); a conferência página a página das constantes depende de o usuário fornecê-los. Vale para os três domínios.
+1. Os PDFs/guidelines das quatro fontes (`referencias/…`) estão fora do versionamento (MD-0008); a conferência das constantes depende de o usuário fornecê-los. No risco cardiovascular, os coeficientes das PCE foram validados contra os pacotes R `CVrisk` e `PooledCohort` (concordância cruzada), mitigando parcialmente a lacuna, mas sem conferência página a página do guideline original.
 2. Não há logs de produção nem telemetria além do healthcheck (`RelatorDeErros` nulo, ADR 0007): nenhuma evidência de comportamento em uso real.
-3. As premissas 🟡 de gestação e cardiopatia (§8) seguem pendentes de validação clínica formal — registradas, não resolvidas.
+3. As premissas 🟡 de gestação, cardiopatia e risco cardiovascular (§8) seguem pendentes de validação clínica formal — registradas, não resolvidas.

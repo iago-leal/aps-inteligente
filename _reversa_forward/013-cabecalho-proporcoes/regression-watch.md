@@ -14,6 +14,16 @@ Itens que a próxima re-extração (`/reversa`) deve reconfirmar. Nenhuma regra 
 
 ## Histórico de re-extrações
 
+
+### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `cabecalho.css:25` padding `44px max(32px, calc(50% - 558px)) 36px` (coluna 1180px do corpo) |
+| W002 | 🟢 verde | `.cabecalho-marca` e `.cabecalho-logo` ambas `height: 34px` (igual ao wordmark da home) |
+| W003 | 🟢 verde | `moldura.tsx` sem alteração de DOM/nome acessível (só CSS mudou na 013) |
+| W004 | 🟢 verde | `cabecalho.css` só `var(--*)` do Primer; sem cor/fonte/sombra literal |
+| W005 | 🟢 verde | `inicio.css:13` home `destaque` intocada: `44px max(32px, calc(50% - 328px)) 36px`, `align-items: flex-end` |
 <!-- Preenchido pelo agente reverso quando `/reversa` rodar de novo. -->
 
 ## Arquivadas
