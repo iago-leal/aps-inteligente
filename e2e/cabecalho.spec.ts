@@ -53,3 +53,39 @@ test("alternador de tema coincide verticalmente entre home e calculadora (RF-01/
 
   expect(Math.abs(naHome - naCalculadora)).toBeLessThanOrEqual(2);
 });
+
+// T002 (feature 016-estrutura-cabecalho-home; RF-01/RF-06) — a altura do
+// cabeçalho coincide em TODA a plataforma, por construção: a home passou a ter a
+// mesma estrutura de três blocos das calculadoras (marca decorativa + h1 textual
+// + subtítulo), com o mesmo respiro vertical (44/36), então a altura emerge igual
+// sem que nenhum CSS a fixe. Guarda geométrica no molde da 015 (boundingBox,
+// tolerância 2px), estendida das duas rotas às cinco. Falha barulhenta ao
+// primeiro desvio, nomeando a rota divergente (observabilidade de regressão).
+const ROTAS_COM_CABECALHO = [
+  "/",
+  "/dm2/insulina",
+  "/pre-natal/idade-gestacional",
+  "/cardiologia/dor-toracica",
+  "/cardiologia/risco-cardiovascular",
+] as const;
+
+test("altura do cabeçalho é idêntica em todas as rotas (RF-01/RF-06)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  const alturas: { rota: string; altura: number }[] = [];
+  for (const rota of ROTAS_COM_CABECALHO) {
+    await page.goto(rota);
+    await expect(page.locator(".cabecalho")).toBeVisible();
+    const caixa = (await page.locator(".cabecalho").boundingBox())!;
+    alturas.push({ rota, altura: caixa.height });
+  }
+
+  const referencia = alturas[0];
+  for (const { rota, altura } of alturas.slice(1)) {
+    expect(
+      Math.abs(altura - referencia.altura),
+      `Altura do cabeçalho divergiu: ${rota} = ${altura}px vs ${referencia.rota} = ${referencia.altura}px (tolerância 2px)`,
+    ).toBeLessThanOrEqual(2);
+  }
+});

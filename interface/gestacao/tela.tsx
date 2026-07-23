@@ -9,6 +9,7 @@ export function TelaIdadeGestacional() {
     <Moldura
       titulo="Calculadora de Idade Gestacional"
       subtitulo="APS Inteligente · Fonte única: Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025"
+      comInicio
     >
       <AppIdadeGestacional />
     </Moldura>

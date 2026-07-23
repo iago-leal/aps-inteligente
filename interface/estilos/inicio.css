@@ -9,30 +9,24 @@
 
    Feature 015 (RF-03, D-02): o alinhamento vertical da barra de ações migrou
    para cabecalho.css como regra-única (align-items: flex-start, válida para as
-   duas variantes). A variante "destaque" fica reduzida ao que a justifica — o
-   peso tipográfico do hero (h1/subtítulo maiores, coluna de 720px, borda muted)
-   e seu breakpoint — sem regra própria de alinhamento de controles. */
+   duas variantes).
 
-/* ── Hero: moldura na variante destaque (RF-04) ───────────────────────── */
+   Feature 016 (RF-05, D-04): a variante "destaque" encolhe mais um degrau — a
+   tipografia de hero (h1/subtítulo maiores, gaps maiores) é APOSENTADA para que a
+   home ganhe a mesma estrutura e a mesma altura de cabeçalho das calculadoras,
+   por construção. Resta só o que alinha o cabeçalho ao corpo: o padding lateral
+   da coluna de 720px e a borda muted. A tipografia da identidade vem agora do
+   layout base em cabecalho.css. */
+
+/* ── Coluna do cabeçalho na variante destaque (RF-05) ─────────────────────
+   Feature 016 (RF-05, D-04): a variante guarda apenas o padding lateral que
+   encaixa o cabeçalho na coluna clínica de 720px (720/2 − 32 = 328) e a borda
+   muted de porta de entrada. A tipografia do hero foi aposentada; h1 e subtítulo
+   herdam o layout base de cabecalho.css, igualando a home às calculadoras. */
 
 .pagina[data-apresentacao="destaque"] .cabecalho {
   padding: 44px max(32px, calc(50% - 328px)) 36px;
   border-bottom: 1px solid var(--borderColor-muted);
-}
-
-.pagina[data-apresentacao="destaque"] .cabecalho-identidade {
-  gap: 6px;
-}
-
-.pagina[data-apresentacao="destaque"] .cabecalho-identidade h1 {
-  font-size: 28px;
-  line-height: var(--text-title-lineHeight-large, 1.25);
-  letter-spacing: -0.01em;
-}
-
-.pagina[data-apresentacao="destaque"] .cabecalho-identidade p {
-  font-size: var(--text-body-size-medium, 14px);
-  max-width: 60ch;
 }
 
 /* ── Coluna das seções (RF-02) ────────────────────────────────────────── */
@@ -167,10 +161,6 @@
 @media (max-width: 544px) {
   .pagina[data-apresentacao="destaque"] .cabecalho {
     padding: 32px 16px 24px;
-  }
-
-  .pagina[data-apresentacao="destaque"] .cabecalho-identidade h1 {
-    font-size: 24px;
   }
 
   .inicio-secoes {

@@ -10,6 +10,7 @@ export function TelaCalculadora() {
     <Moldura
       titulo="Calculadora de Insulina — DM2"
       subtitulo="APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023"
+      comInicio
     >
       <CalculadoraApp />
     </Moldura>

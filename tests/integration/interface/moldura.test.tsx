@@ -49,8 +49,10 @@ describe("Variante de apresentação da Moldura (RF-04/RF-07)", () => {
 });
 
 // T001/T002 (feature 011-refatora-cabecalho) — o alternador de tema vira icônico
-// (RF-01/RF-03; RN-01) e as calculadoras ganham um comando de início (RF-04; RN-03).
-describe("Cabeçalho refatorado (feature 011)", () => {
+// (RF-01/RF-03; RN-01). Feature 016 (RF-03): o comando de início passa a uma prop
+// dedicada `comInicio`, desacoplada da antiga `logoComoTitulo` (removida). O
+// comportamento da regra 11 é preservado — ⌂ nas calculadoras, ausente na home.
+describe("Cabeçalho refatorado (features 011 e 016)", () => {
   it("o alternador de tema é icônico: nome acessível pela ação, sem o texto 'Tema claro/escuro'", () => {
     renderiza();
     // Cliente nasce no tema claro; o glifo é o do tema-alvo (lua) e o nome
@@ -62,9 +64,9 @@ describe("Cabeçalho refatorado (feature 011)", () => {
     expect(screen.queryByText(/^Tema (claro|escuro)$/)).toBeNull();
   });
 
-  it("sem logoComoTitulo (calculadora): a logo segue não-link e há um comando de início para '/' (RF-04, D-06)", () => {
+  it("com comInicio (calculadoras): a marca segue não-link e há um comando de início para '/', único link (RF-03, D-06)", () => {
     const { container } = render(
-      <Moldura titulo="Calculadora de Insulina — DM2" subtitulo="Sub">
+      <Moldura titulo="Calculadora de Insulina — DM2" subtitulo="Sub" comInicio>
         <p>conteúdo</p>
       </Moldura>,
     );
@@ -78,63 +80,52 @@ describe("Cabeçalho refatorado (feature 011)", () => {
     expect(container.querySelectorAll("a").length).toBe(1);
   });
 
-  it("com logoComoTitulo (home): não há comando de início (redundante na home)", () => {
-    render(
-      <Moldura titulo="APS Inteligente" subtitulo="Sub" logoComoTitulo>
+  it("sem comInicio (home): não há comando de início e o cabeçalho não tem link algum (RN-03)", () => {
+    const { container } = render(
+      <Moldura titulo="APS Inteligente" subtitulo="Sub">
         <p>conteúdo</p>
       </Moldura>,
     );
     expect(screen.queryByRole("link", { name: "Início" })).toBeNull();
+    expect(container.querySelectorAll("a").length).toBe(0);
   });
 });
 
-// T004 (feature 009-logo-apsi-no-cabecalho) — a logo APSi no cabeçalho
-// (RF-01/RF-05; RN-02/RN-05). Asserções anteriores permanecem byte a byte.
-describe("Logo APSi no cabeçalho (feature 009)", () => {
-  it("com logoComoTitulo, a logo é uma imagem dentro do h1 e o nome acessível do heading é o título", () => {
-    render(
-      <Moldura titulo="APS Inteligente" subtitulo="Sub" logoComoTitulo>
-        <p>conteúdo</p>
-      </Moldura>,
-    );
-    const h1 = screen.getByRole("heading", { level: 1, name: "APS Inteligente" });
-    const img = within(h1).getByRole("img", { name: "APS Inteligente" });
-    expect(img.tagName).toBe("IMG");
-    expect(img.getAttribute("alt")).toBe("APS Inteligente");
-  });
-
-  it("sem logoComoTitulo (default), o h1 segue textual e a logo aparece como marca decorativa fora do heading (RN-05)", () => {
+// Identidade unificada (feature 016-estrutura-cabecalho-home; RF-02/RF-04) — a
+// logo é SEMPRE marca decorativa fora do h1 e o h1 é SEMPRE textual, em toda tela
+// (inclusive a home, cujo h1 passa a ser o texto "APS Inteligente"). Isso dá à
+// home a mesma estrutura de três blocos das calculadoras, igualando a altura do
+// cabeçalho por construção. A prop `logoComoTitulo` (feature 009) foi removida.
+describe("Identidade unificada e logo por tema (features 009 e 016)", () => {
+  it("o h1 é textual e a logo é marca decorativa fora do heading, mesmo com o título da home (RF-02/RF-04, RN-05)", () => {
     const { container } = render(
-      <Moldura titulo="Calculadora de Insulina — DM2" subtitulo="Sub">
+      <Moldura titulo="APS Inteligente" subtitulo="Sub">
         <p>conteúdo</p>
       </Moldura>,
     );
     // h1 textual: nenhuma imagem contribui para o nome acessível do heading.
-    const h1 = screen.getByRole("heading", {
-      level: 1,
-      name: "Calculadora de Insulina — DM2",
-    });
+    const h1 = screen.getByRole("heading", { level: 1, name: "APS Inteligente" });
     expect(within(h1).queryByRole("img")).toBeNull();
-    // Marca de brand presente, porém decorativa (aria-hidden, alt vazio):
-    // não vira segundo heading nem link, e não altera nomes acessíveis.
+    expect(h1.querySelector("img")).toBeNull();
+    // Marca de brand presente, porém decorativa (aria-hidden, alt vazio): fica
+    // fora do h1, não vira segundo heading nem link, e não altera nomes acessíveis.
     const marca = container.querySelector(".cabecalho-marca");
     expect(marca).toBeTruthy();
     expect(marca?.getAttribute("aria-hidden")).toBe("true");
     expect(marca?.getAttribute("alt")).toBe("");
-    // A logo segue não-link (D-04 da 009). Desde a feature 011, o cabeçalho da
-    // calculadora tem exatamente um link — o comando de início —, que NÃO é a logo.
+    expect(marca?.closest("h1")).toBeNull();
     expect(marca?.closest("a")).toBeNull();
-    expect(container.querySelectorAll("a").length).toBe(1);
   });
 
   it("a variante da logo acompanha o tema: caminho claro por padrão no cliente", () => {
-    render(
-      <Moldura titulo="APS Inteligente" subtitulo="Sub" logoComoTitulo>
+    const { container } = render(
+      <Moldura titulo="APS Inteligente" subtitulo="Sub">
         <p>conteúdo</p>
       </Moldura>,
     );
-    const img = screen.getByRole("img", { name: "APS Inteligente" });
-    // Sem preferência gravada, o cliente nasce no tema claro (preferencia-de-tema).
-    expect(img.getAttribute("src")).toBe("/apsi-light.png");
+    // A marca é decorativa (aria-hidden), logo não é exposta como role img;
+    // lê-se o src diretamente. Sem preferência gravada, nasce no tema claro.
+    const marca = container.querySelector(".cabecalho-marca");
+    expect(marca?.getAttribute("src")).toBe("/apsi-light.png");
   });
 });

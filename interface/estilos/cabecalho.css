@@ -92,15 +92,9 @@
 
 /* ── Camada da logo ───────────────────────────────────────────────────── */
 
-/* Altura fixa e largura automática preservam a proporção do PNG (314×138). Como
-   wordmark (home), a logo ocupa o h1; como marca (calculadoras), fica um degrau
-   menor, acima do h1 textual. */
-.cabecalho-identidade h1 .cabecalho-logo {
-  display: block;
-  height: 34px;
-  width: auto;
-}
-
+/* Feature 016 (RF-05): a logo é marca decorativa em TODA tela — a variante
+   wordmark-no-h1 da home foi aposentada; a regra `.cabecalho-logo` deixou de
+   existir e resta só `.cabecalho-marca`, acima de um h1 sempre textual. */
 .cabecalho-marca {
   display: block;
   /* Feature 013 (RF-07, D-07): a marca iguala a altura do wordmark da home

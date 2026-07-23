@@ -220,21 +220,27 @@ test("viewport móvel: home sem transbordo horizontal, cartões navegáveis e ax
   await expect(page).toHaveURL(/\/dm2\/insulina$/);
 });
 
-// T005 (feature 009-logo-apsi-no-cabecalho) — logo no cabeçalho e identidade PWA
-// (RF-01/RF-02/RF-03/RF-05; RN-02/RN-05). Asserções anteriores byte a byte.
-test("home: a logo APSi ocupa o wordmark do cabeçalho preservando o nome acessível (RF-01)", async ({
+// T005 (feature 009-logo-apsi-no-cabecalho) atualizado pela feature 016 — na home
+// a logo deixa de ocupar o h1: passa a marca decorativa (aria-hidden) acima de um
+// h1 textual "APS Inteligente", como nas calculadoras. O nome acessível do
+// heading é preservado; a variante da logo ainda troca com o tema (RF-02/RF-04).
+test("home: h1 textual 'APS Inteligente' com logo como marca decorativa que acompanha o tema (RF-02/RF-04)", async ({
   page,
 }) => {
   await page.goto("/");
-  const h1 = page.getByRole("heading", { level: 1, name: "APS Inteligente" });
-  await expect(h1).toBeVisible();
-  const logo = h1.getByRole("img", { name: "APS Inteligente" });
-  await expect(logo).toBeVisible();
-  await expect(logo).toHaveAttribute("src", "/apsi-light.png");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "APS Inteligente" }),
+  ).toBeVisible();
+  // A logo é marca decorativa (aria-hidden), fora do h1 e não exposta como img.
+  await expect(page.getByRole("img", { name: "APS Inteligente" })).toHaveCount(0);
+  const marca = page.locator(".cabecalho-marca");
+  await expect(marca).toBeVisible();
+  await expect(marca).toHaveAttribute("aria-hidden", "true");
+  await expect(marca).toHaveAttribute("src", "/apsi-light.png");
 
   // Alternar para escuro troca a variante da logo (RF-02).
   await page.getByRole("button", { name: "Ativar tema escuro" }).click();
-  await expect(logo).toHaveAttribute("src", "/apsi-dark.png");
+  await expect(marca).toHaveAttribute("src", "/apsi-dark.png");
 });
 
 test("calculadora: logo é marca decorativa, sem virar heading nem link novo (RF-05, RN-05)", async ({
@@ -394,13 +400,18 @@ test("logo do cabeçalho tem o mesmo tamanho na calculadora e na home (RF-07)", 
   page,
 }) => {
   await page.goto("/dm2/insulina");
+  await expect(page.locator(".cabecalho-marca")).toBeVisible();
   const alturaMarca = await page
     .locator(".cabecalho-marca")
     .evaluate((el) => Math.round(el.getBoundingClientRect().height));
 
   await page.goto("/");
+  // Feature 016: na home a logo também é `.cabecalho-marca` (a variante
+  // wordmark-no-h1 foi aposentada); ambas medem 34px, consistentes entre telas.
+  // Aguarda a marca ficar visível antes de medir — evaluate não espera o layout.
+  await expect(page.locator(".cabecalho-marca")).toBeVisible();
   const alturaLogo = await page
-    .locator(".cabecalho-identidade h1 .cabecalho-logo")
+    .locator(".cabecalho-marca")
     .evaluate((el) => Math.round(el.getBoundingClientRect().height));
 
   expect(Math.abs(alturaMarca - alturaLogo)).toBeLessThanOrEqual(1);

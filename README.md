@@ -69,8 +69,9 @@ Para **criar uma tela nova**:
 3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)
    e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho
    declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho
-   por padrão; a prop `logoComoTitulo` (só a home) faz a logo substituir o texto do `<h1>`
-   — não a use em telas cujo `<h1>` é o nome da calculadora (feature 009).
+   acima de um `<h1>` **textual** em toda tela — inclusive a home (feature 016): a identidade
+   é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`
+   nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).
 4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em
    `interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).
    O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.

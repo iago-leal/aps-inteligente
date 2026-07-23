@@ -9,11 +9,15 @@
 // selo, alternador) é idêntica nas duas (RN-02).
 // Feature 009 (RF-01/RF-02/RF-05; RN-02/RN-03/RN-05): a logo APSi entra no
 // cabeçalho de todas as telas, com a variante trocada pelo tema já lido aqui
-// (D-02). Com logoComoTitulo (só a home, cujo wordmark É o h1), a logo é uma
-// imagem DENTRO do h1 com alt igual ao título — o nome acessível do heading não
-// muda. Sem a prop (calculadoras, cujo h1 é o nome da calculadora), a logo é
-// marca decorativa (aria-hidden, alt vazio) fora do heading: não cria segundo
-// h1 nem link novo (D-04). Os PNGs vivem em public/ (same-origin, sob a CSP).
+// (D-02). Os PNGs vivem em public/ (same-origin, sob a CSP).
+// Feature 016 (RF-02/RF-03/RF-04): a identidade fica UNIFICADA — a logo é sempre
+// marca decorativa (aria-hidden, alt vazio) acima de um h1 SEMPRE textual, em
+// toda tela (a home passa a exibir o texto "APS Inteligente", com a logo já não
+// ocupando o h1). Isso dá à home a mesma estrutura de três blocos das
+// calculadoras, igualando a altura do cabeçalho por construção. A prop
+// `logoComoTitulo` — que fundia "a logo é o h1" com "o ⌂ aparece?" — é removida;
+// o comando de início passa à prop dedicada `comInicio` (uma responsabilidade
+// por prop, SRP). A marca segue não-link e não cria segundo h1 (D-04 da 009).
 // Nota: preferencia-de-tema.ts permanece em interface/calculadora/ porque o
 // provedor de tema e sua suíte apontam para lá; realocação fica para re-extração.
 // Feature 011 (RF-01/RF-03/RF-04; RN-01/RN-03): o alternador de tema deixa de ser
@@ -21,9 +25,9 @@
 // o tema vigente é escuro (acionar clareia), lua quando é claro — com nome
 // acessível "Ativar tema claro/escuro" (D-01/D-02). O cabeçalho ganha ainda um
 // comando de início (IconButton renderizado por next/link, href="/", casa),
-// exibido só quando logoComoTitulo é falso, isto é, nas calculadoras e nunca na
-// home, onde seria redundante (D-03/D-04). A logo segue não-link (D-04 da 009):
-// o único link do cabeçalho da calculadora é o comando de início.
+// exibido quando a prop `comInicio` é verdadeira (feature 016): nas calculadoras,
+// nunca na home, onde seria redundante (D-03/D-04). A logo segue não-link (D-04
+// da 009): o único link do cabeçalho da calculadora é o comando de início.
 // Ajuste de layout (23/07): o selo de privacidade sai da zona de ações — onde
 // ficava encravado entre os dois IconButtons, misturando informação passiva e
 // controles — e desce para a zona de identidade, sob o subtítulo, como garantia
@@ -50,7 +54,7 @@ export interface PropsMoldura {
   readonly titulo: string;
   readonly subtitulo: string;
   readonly apresentacao?: "padrao" | "destaque";
-  readonly logoComoTitulo?: boolean;
+  readonly comInicio?: boolean;
   readonly children: ReactNode;
 }
 
@@ -58,7 +62,7 @@ export function Moldura({
   titulo,
   subtitulo,
   apresentacao = "padrao",
-  logoComoTitulo = false,
+  comInicio = false,
   children,
 }: PropsMoldura) {
   const tema = useSyncExternalStore(assinarTema, lerTema, lerTemaNoServidor);
@@ -68,31 +72,18 @@ export function Moldura({
     <div className="pagina" data-tema={tema} data-apresentacao={apresentacao}>
       <header className="cabecalho">
         <div className="cabecalho-identidade">
-          {logoComoTitulo ? (
-            <Heading as="h1">
-              {/* eslint-disable-next-line @next/next/no-img-element -- ativo estático leve em public/, sem pipeline next/image (roadmap D-02) */}
-              <img
-                className="cabecalho-logo"
-                src={logoSrc}
-                alt={titulo}
-                width={314}
-                height={138}
-              />
-            </Heading>
-          ) : (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element -- marca decorativa; ver D-02/D-04 */}
-              <img
-                className="cabecalho-marca"
-                src={logoSrc}
-                alt=""
-                aria-hidden="true"
-                width={314}
-                height={138}
-              />
-              <Heading as="h1">{titulo}</Heading>
-            </>
-          )}
+          {/* Identidade unificada (feature 016): a logo é sempre marca decorativa
+              acima de um h1 textual, em toda tela — inclusive a home. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- marca decorativa; ver D-02/D-04 */}
+          <img
+            className="cabecalho-marca"
+            src={logoSrc}
+            alt=""
+            aria-hidden="true"
+            width={314}
+            height={138}
+          />
+          <Heading as="h1">{titulo}</Heading>
           <Text as="p" size="small">
             {subtitulo}
           </Text>
@@ -102,7 +93,7 @@ export function Moldura({
           </Label>
         </div>
         <div className="cabecalho-acoes">
-          {!logoComoTitulo && (
+          {comInicio && (
             <IconButton
               as={Link}
               href="/"
