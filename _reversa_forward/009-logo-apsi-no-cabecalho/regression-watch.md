@@ -23,7 +23,9 @@ Confidência 🟡/decisões de apresentação; não bloqueiam re-extração, mas
 
 ## Histórico de re-extrações
 
-_(vazio — a ser preenchido pelo agente reverso quando `/reversa` rodar de novo)_
+### Re-extração 2026-07-23 14:10
+
+Watch principal **vazio** (entrega de apresentação/identidade; motor, catálogo, rotas, CSP e nomes acessíveis íntegros) — nada a verificar contra regressão. A logo por tema, a marca decorativa (`aria-hidden`) e a identidade PWA estão representadas em `interface-comum`, `interface-estilos` (`cabecalho.css`) e `pages-next`. Observações O-09-01..04 seguem 🟡.
 
 ## Arquivadas
 

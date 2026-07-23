@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-21.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature materializou a intenção de infraestrutura declarada no legado (`infra/compose.yaml` vazio desde a refundação): um banco PostgreSQL local que sobe por comando único e reproduzível (imagem pinada `postgres:17.10-alpine`, volume nomeado, healthcheck, porta parametrizada), a camada de acesso programático confinada à infraestrutura (`infra/database.ts`, único ponto de acesso, erros nomeados, log com host mascarado) e a verificação de saúde com falha barulhenta dentro da suíte de contrato da API. Em produção, instância gerenciada Neon (plano Free, Vercel Marketplace) com `DATABASE_URL` injetada nos três ambientes; smoke de produção verde. É fundação pura: nenhum esquema de negócio nasceu, nenhum dado clínico ou pessoal é persistido, e o comportamento do produto (calculadora e contrato do status) não mudou.

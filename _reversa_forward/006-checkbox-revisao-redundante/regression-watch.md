@@ -21,7 +21,15 @@
 
 ## Histórico de re-extrações
 
-<!-- Preenchido pelo agente reverso quando `/reversa` rodar novamente. -->
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `domain.md` §2.2: o ritual habilita "Pronto para prescrever" **e o botão Copiar plano**; qualquer edição desfaz revisão, ação e retorno |
+| W002 | 🟢 verde | `interface-calculadora` RN-03: "Copiar plano" existe ⟺ `revisaoConfirmada && !desatualizado` |
+| W003 | 🟢 verde | RN-02: edição retira a ação de cópia e zera o retorno (não sobrevive à invalidação) |
+| W004 | 🟢 verde | cópia local; zero rede e zero storage (invariante de privacidade `domain.md` §6 invariante 7) |
+| W005 | 🟢 verde | falha da área de transferência → erro honesto com `{ok:false}` como valor (`design.md`); jamais falso sucesso |
 
 ## Arquivadas
 

@@ -1,0 +1,75 @@
+openapi: 3.1.0
+# Re-extração 2 (2026-07-23). Contrato de GET /api/v1/status (feature 002).
+# Fonte: pages/api/v1/status.ts; espelha pages-api-v1-status/contracts.md.
+info:
+  title: APS Inteligente — API de status
+  version: v1
+  description: >-
+    Health-check público da plataforma. Sem autenticação, sem estado, sem dado
+    clínico (ADR 0008). Mudança incompatível do corpo exige /api/v2.
+servers:
+  - url: https://aps-inteligente.vercel.app
+    description: Produção (Vercel)
+  - url: http://localhost:3000
+    description: Desenvolvimento local
+paths:
+  /api/v1/status:
+    get:
+      operationId: obterStatus
+      summary: Status do deploy (versão, commit, carimbo de tempo)
+      description: >-
+        Observabilidade mínima do deploy. A resposta jamais sai de cache
+        (Cache-Control: no-store, RN-05).
+      responses:
+        "200":
+          description: Status atual do deploy
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+              example:
+                atualizado_em: "2026-07-23T12:34:56.789Z"
+                versao: "1.0.0"
+                commit: "036c0b0"
+        "405":
+          description: Método não permitido (apenas GET)
+          headers:
+            Allow:
+              schema:
+                type: string
+                const: GET
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+              example:
+                erro: "Método não permitido; use GET."
+components:
+  schemas:
+    Status:
+      type: object
+      required: [atualizado_em, versao, commit]
+      properties:
+        atualizado_em:
+          type: string
+          format: date-time
+          description: Instante da resposta em ISO 8601 (UTC)
+        versao:
+          type: string
+          description: package.json.version no build (semver)
+        commit:
+          type: string
+          description: SHA do commit (VERCEL_GIT_COMMIT_SHA) ou "local" fora da Vercel
+      additionalProperties: false
+    Erro:
+      type: object
+      required: [erro]
+      properties:
+        erro:
+          type: string
+      additionalProperties: false

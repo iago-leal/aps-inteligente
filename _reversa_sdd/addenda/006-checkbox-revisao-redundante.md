@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-22.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A queixa original — o checkbox "Revisei a dose e a fonte" parecia redundante por habilitar apenas texto estático — foi resolvida por ressignificação, não remoção: com revisão confirmada e resultado atual (`revisaoValida`), o bloco "Pronto para prescrever" passa a oferecer a ação **Copiar plano**, que põe na área de transferência o plano completo em texto simples (esquema/dose → recomendações com a hierarquia da feature 005 → fonte clínica → linha de contexto de responsabilidade), sem cabeçalho "Plano:", para colar no campo Plano do prontuário. A cópia é local, por gesto explícito, sem rede e sem storage; falha degrada com orientação de transcrição manual. O motor (`models/`) permanece byte a byte intocado. Entrega: 9 de 9 ações concluídas (`progress.jsonl`), suítes 215/215 + contrato 16/16 + e2e 5/5 com axe na linha de base 0.

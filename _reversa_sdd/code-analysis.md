@@ -1,137 +1,222 @@
 # Análise de Código — aps-inteligente
 
-> Gerado pelo Reversa Archaeologist em 2026-07-19.
+> Regenerado pelo Reversa Archaeologist em 2026-07-23 (**re-extração nº 2** — absorve as features 001–010 do ciclo forward).
+> Substitui a análise de 2026-07-19, que cobria só `models/insulina`, a interface antiga e `pages`.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
-> Módulos analisados: `models/insulina`, `interface/calculadora`, `pages`.
+> Módulos: `models/insulina`, `models/gestacao`, `models/cardiopatia-isquemica`, `interface/comum`, `interface/calculadora`, `interface/gestacao`, `interface/cardiologia`, `interface/inicio`, `interface/estilos`, `pages`, `pages/api/v1/status`, `infra`.
 
 ## Visão de conjunto
 
-🟢 O sistema é uma **calculadora de apoio à decisão para insulinização no DM2**, 100% client-side, cuja fonte clínica única é o *Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023*. A arquitetura tem três camadas com dependência unidirecional:
+🟢 O sistema é uma **plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 e, pelas features 007 e 010, tornou-se uma plataforma guarda-chuva com **três domínios clínicos independentes**, cada um com **uma fonte clínica única** (padrão do ADR 0001):
+
+| Domínio | Calculadora | Fonte única | Feature |
+|---|---|---|---|
+| `models/insulina` | Insulina DM2 (início, titulação, intensificação) | Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023 | 001+ |
+| `models/gestacao` | Idade gestacional, DPP, trimestre (DUM × USG) | Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025 | 007 |
+| `models/cardiopatia-isquemica` | Dor torácica e probabilidade pré-teste de DAC | TeleCondutas — Cardiopatia Isquêmica, TelessaúdeRS-UFRGS, 2017 | 010 |
+
+🟢 A arquitetura tem **três camadas com dependência estritamente unidirecional**:
 
 ```
-pages (shell Next.js) → interface/calculadora (React) → models/insulina (domínio puro)
+pages (shell Next.js, rotas, PWA)
+  → interface/* (React + Primer: telas, formulários, painéis, home)
+    → models/* (três domínios puros, TypeScript sem framework)
+infra (pool pg) — usada SÓ pelo healthcheck /api/v1/status; nunca toca dado clínico
 ```
 
-🟢 O domínio não importa React, Next nem biblioteca externa alguma — apenas TypeScript puro. Toda saída clínica carrega referência à fonte (`ReferenciaClinica`), e erros esperados são **valores** (union types), nunca exceções; exceção (`ErroDeInvariante`) é reservada a bug interno.
+🟢 **Invariantes arquiteturais compartilhados pelos três domínios** (o que os torna reconhecíveis como "família"):
+1. **Domínio puro:** nenhum `import` de React, Next ou biblioteca externa; só TypeScript (ADR 0003).
+2. **Erros esperados são valores** (union discriminada por `tipo`), nunca exceção; exceção (`ErroDeInvariante`) é reservada a bug interno (ADR 0004).
+3. **Toda saída carrega referência clínica** (`ReferenciaClinica`); resultado sem referência é invariante violado (property-based verifica).
+4. **Coleta total de ofensores** na validação: nunca para no primeiro erro (regra 15 do `domain.md`).
+5. **Constantes clínicas congeladas** (`Object.freeze`) em `fonte-clinica.ts`, comentadas com o RN/Quadro de origem — fonte numérica única anti-drift.
+6. **O motor informa, não escolhe** entre condutas clinicamente equivalentes (ADR 0005): insulina devolve `condutasAlternativas`; gestação devolve `veredito` de comparação, não a datação vencedora.
 
-🟢 O código referencia uma rastreabilidade rica de specs anteriores: identificadores `RF-xx`, `RN-xx`, `RNF-xx`, `EC-xx`, `R-01..R-20`, `AMB-01..10`, `MD-xxxx`, `NG-xx`, apontando para `_reversa_sdd/sdd/motor-calculo-insulina.md` (v2.0) e `_reversa_forward/001-calculadora-insulina-dm2/requirements.md` — 🔴 esses artefatos não existem no working tree atual (foram removidos na refundação); os comentários são o único vestígio.
+🟢 **Privacidade por construção:** nenhum domínio nem tela faz `fetch` ou `storage` de dado clínico. O único `localStorage` é a preferência de tema (`aps-inteligente:tema`). O único acesso a rede é o healthcheck `/api/v1/status`, que não recebe nem devolve dado clínico. O `EventoDeErro` do relator carrega **somente o nome da classe** do erro — vazamento de payload clínico é estruturalmente impossível.
 
 ---
 
-## Módulo 1 — `models/insulina` (domínio)
+# Camada de Domínio (`models/`)
 
-**Propósito:** motor de cálculo de insulina DM2 — início de insulinização, titulação basal, fracionamento e intensificação — com validação defensiva e rastreabilidade clínica por resultado.
+## Módulo 1 — `models/insulina` 🟢
+
+**Propósito:** motor de cálculo de insulina DM2 — início de insulinização, titulação basal, fracionamento, intensificação e regra transversal de antidiabéticos orais — com validação defensiva e rastreabilidade clínica por resultado.
 
 ### Arquitetura interna
 
 | Arquivo | Papel |
 |---|---|
-| `tipos.ts` | Contratos (interfaces readonly), unions discriminadas de saída e value objects com invariantes |
-| `fonte-clinica.ts` | Catálogo imutável de referências (`REFERENCIAS`) e constantes clínicas (`CONSTANTES`) |
-| `validacao.ts` | Validação de entrada com coleta de todos os ofensores + detecção de fora-de-escopo |
+| `tipos.ts` | Contratos readonly, unions discriminadas de saída, value objects com invariante (`Peso`, `Glicemia`, `DoseUi`) |
+| `fonte-clinica.ts` | Catálogo imutável `REFERENCIAS` + constantes clínicas `CONSTANTES` |
+| `validacao.ts` | Coleta total de ofensores + `motivoForaDoEscopo` (insulina fora de NPH/Regular) |
 | `regra-inicio.ts` | `RegraInicio` — modo início |
 | `regra-titulacao-basal.ts` | `RegraTitulacaoBasal` — titulação da NPH pelo jejum + fracionamento |
 | `regra-intensificacao.ts` | `RegraIntensificacao` — braços AA/AJ/AD e titulação da Regular |
+| `regra-metformina.ts` | `RegraMetformina` — antidiabéticos orais (metformina × TFG), transversal aos dois modos |
 | `calculadora.ts` | `CalculadoraInsulinaDM2` — fachada que orquestra o pipeline |
 
-🟢 **Padrões:** Facade (`CalculadoraInsulinaDM2`), Strategy informal (três regras compostas sobre o estado mutável `AjusteEmCurso`), Value Objects (`Peso`, `Glicemia`, `DoseUi` com `Object.freeze` e invariante no construtor), Result type (union `SaidaCalculo = ResultadoCalculo | ErroValidacao | ForaDoEscopoDaFonte`).
+🟢 **Padrões:** Facade (`CalculadoraInsulinaDM2`), Strategy informal (regras compostas sobre o estado mutável `AjusteEmCurso`), Value Objects (`Peso`/`Glicemia`/`DoseUi` com `Object.freeze` + invariante no construtor), Result type (`SaidaCalculo = ResultadoCalculo | ErroValidacao | ForaDoEscopoDaFonte`).
 
-### Fluxo de controle da fachada (`calculadora.ts:52`)
-
-1. `validarEntrada` — coleta **todos** os ofensores; se houver algum, retorna `erro-validacao` (`calculadora.ts:53-56`).
-2. `motivoForaDoEscopo` — insulina fora do catálogo NPH/Regular → `fora-do-escopo` com orientação (`calculadora.ts:58-66`).
+### Fluxo da fachada (`calculadora.ts:69`)
+1. `validarEntrada` — coleta todos os ofensores → `erro-validacao` se houver.
+2. `motivoForaDoEscopo` — insulina fora do catálogo NPH/Regular → `fora-do-escopo` com orientação.
 3. `new Peso(...)` — invariante de plausibilidade.
-4. Despacho por modo: `inicio` → `RegraInicio.calcular`; `titulacao` → pipeline `RegraTitulacaoBasal.aplicar` → `fracionarSeIndicado` → `RegraIntensificacao.aplicar` (`calculadora.ts:90-92`).
-5. Pós-processamento: alerta de faixa plena (> 1,0 UI/kg/dia), recomendação de reavaliar em 3 dias se houve ajuste, invariante `DoseUi` por aplicação, ordenação de alertas por severidade fixa (`SEVERIDADE`, `calculadora.ts:27-33`), deduplicação de recomendações (por `tipo`) e referências (por `localizacao`).
+4. Despacho por modo: `inicio` → `RegraInicio.calcular` + `comAntidiabeticosOrais`; `titulacao` → pipeline `RegraTitulacaoBasal.aplicar` → `fracionarSeIndicado` → `suspenderSulfonilureiaSeJaFracionado` → `RegraIntensificacao.aplicar` → `RegraMetformina.avaliar`.
+5. Pós: alerta de faixa plena (> 1,0 UI/kg/dia → alerta + compartilhamento de cuidados), reavaliar em 3 dias se houve ajuste, invariante `DoseUi` por aplicação, ordenação de alertas por `SEVERIDADE` (HIPOGLICEMIA=0 … METFORMINA_NAO_OTIMIZADA=5), deduplicação de recomendações (por `tipo`) e referências (por `localizacao`).
 
-### Algoritmos e regras embutidas
+### Regras embutidas (inalteradas na re-extração, exceto onde marcado)
+- **Início:** alerta `INDICACAO_INSULINA` quando HbA1c ≥ 10% **ou** jejum ≥ 300; devolve **faixa** (10–15 UI/dia e 0,1–0,2 UI/kg), nunca dose única (AMB-01); sugestão fixa NPH ao deitar; manter metformina/sulfonilureia; aferir jejum 3×/semana por 15 dias.
+- **Titulação basal:** agrega jejum por **média**, mas hipoglicemia (≤ 70) **prevalece** (AMB-06); tabela hipo→−4/≥180→+4/≥130→+2/71–129→delta 0; incide na NPH "mais noturna"; clamp físico 1–60 UI (`TETO_POR_APLICACAO`); **fracionamento** (NPH única > 30 UI **ou** > 0,4 UI/kg): ½ café + ½ deitar (principal) e ⅔/⅓ (alternativa, AMB-10).
+- **Intensificação:** gate de HbA1c (R-13/R-18); três braços com mapeamento aferição→aplicação deslocado (AA→café, AJ→almoço, AD→jantar); **caso AJ (AMB-03):** duas condutas equivalentes devolvidas como `condutasAlternativas` (o motor não escolhe); **NG-07** pós-prandial.
+- 🟢 **`regra-metformina.ts` (feature 005 — MUDANÇA sobre a extração 1):** a regra de antidiabéticos orais, antes embutida, foi extraída para arquivo próprio e reordenada. Precedência clínica: `SUSPENDER_METFORMINA_TFG` quando TFG < 30; `REDUZIR_METFORMINA_TFG` quando 30 ≤ TFG ≤ 45; e o alerta `METFORMINA_NAO_OTIMIZADA` (otimizar dose) é **suprimido** quando a TFG está em faixa de ajuste renal (`!tfgEmFaixaDeAjuste`) — "otimizar" contradiria a conduta renal do próprio guia. A fachada ainda remove `MANTER_METFORMINA` quando há suspensão (`semManterMetforminaSeSuspensa`).
 
-**Início (`regra-inicio.ts`)** 🟢
-- Alerta `INDICACAO_INSULINA` quando HbA1c ≥ 10% **ou** jejum ≥ 300 mg/dL.
-- Recomendações: manter metformina; manter sulfonilureia (exceto se `usoSulfonilureia === false` — ausência de informação conta como "manter"); aferir jejum 3×/semana por 15 dias.
-- Devolve **faixa**, nunca dose única (decisão AMB-01): absoluta 10–15 UI/dia e por peso `Math.round(0,1..0,2 × kg)`; sugestão fixa NPH ao deitar.
-
-**Titulação basal (`regra-titulacao-basal.ts`)** 🟢
-- Agrega glicemias de jejum por **média**, mas hipoglicemia (qualquer valor ≤ 70) **prevalece** sobre a média (AMB-06).
-- Tabela de ajuste: hipo → −4 UI + alerta; média ≥ 180 → +4; média ≥ 130 → +2; 71–129 → na meta, delta 0.
-- O ajuste incide na **NPH "mais noturna"** — primeira encontrada na ordem `ao_deitar → antes_jantar → antes_almoco → antes_cafe` (`indiceDaNphNoturna`). Esquema sem NPH: jejum não titula nada.
-- `contemDoseLimitada` — clamp de qualquer dose em 1–60 UI (limite físico da caneta SUS), com alerta `TETO_POR_APLICACAO` quando o clamp atua.
-- **Fracionamento** (gatilho: NPH única > 30 UI **ou** > 0,4 UI/kg/dia): principal ½ café (`Math.ceil(total/2)`) + ½ ao deitar; alternativa rotulada ⅔ café (`Math.round(2total/3)`) + ⅓ ao deitar (AMB-10). Ao fracionar com sulfonilureia em uso explícito: recomendar suspendê-la; sempre manter metformina.
-
-**Intensificação (`regra-intensificacao.ts`)** 🟢
-- Gate de HbA1c (R-13/R-18): HbA1c ≤ 7% sem Regular → manter conduta, repetir HbA1c em 6 meses (só se nada foi ajustado antes); com Regular → ajustar e avaliar encaminhamento ao endócrino. HbA1c > 7% → pode iniciar Regular; sem pré-prandiais aferidas → recomendar aferir AA/AJ/AD e parar. HbA1c ausente: só prossegue se já intensificado **e** com pré-prandiais (recomendando repetir HbA1c em 3 meses); caso contrário retorna silenciosamente (a validação já exigiu HbA1c no cenário EC-10).
-- Três braços com mapeamento aferição→aplicação deslocado (R-14..R-17): AA (aferida antes do almoço) → Regular antes do **café**; AJ (antes do jantar) → Regular antes do **almoço**; AD (ao deitar) → Regular antes do **jantar**.
-- Por braço: hipo ≤ 70 → alerta + reduzir Regular −2 se existir; média < 130 → manter; média ≥ 130 com Regular existente → +2; sem Regular e gate aberto → iniciar Regular 4 UI.
-- **Caso especial AJ (AMB-03):** se existe NPH antes do café, o guia oferece duas condutas equivalentes — o motor **não escolhe**: devolve ambas como `condutasAlternativas` (aumentar NPH do café +2 vs. iniciar Regular 4 UI antes do almoço).
-- **NG-07:** intensificado, HbA1c acima da meta e nada ajustado → recomendar aferição pós-prandial, explicitando que o guia não parametriza esse ajuste.
-
-**Validação (`validacao.ts`)** 🟢
-- Coleta **todos** os ofensores (nunca para no primeiro): peso (0 < p ≤ 350), glicemias (10–1000), HbA1c se presente (3–20), e no modo titulação: esquema obrigatório e não vazio, doses inteiras 1–60, ao menos uma glicemia, e **EC-10**: pré-prandiais + esquema sem Regular exigem HbA1c.
-- Defesa em profundidade: o motor revalida tudo, sem confiar na UI (EC-08).
-
-### Metadados e configuração
-
-🟢 Todas as constantes clínicas vivem em `CONSTANTES` (`fonte-clinica.ts:73-108`), congeladas e comentadas com o R-xx/AMB-xx de origem. Não há feature flags nem parâmetros de ambiente — coerente com o design determinístico e client-side.
-
-**Complexidade:** média-alta (lógica clínica ramificada, mas bem fatorada; nenhuma função > 50 linhas exceto `aplicarBraco` ~90 e o gate `aplicar` ~70 da intensificação).
+**Complexidade:** média-alta. **Nenhum arquivo > 400 linhas** (maior: `regra-intensificacao.ts`, 250).
 
 ---
 
-## Módulo 2 — `interface/calculadora` (apresentação)
+## Módulo 2 — `models/gestacao` 🟢 (feature 007)
 
-**Propósito:** UI React da calculadora — formulário controlado, painel de resultado com ritual de revisão explícita e infraestrutura mínima de tema e relato de erros. Nenhuma regra clínica própria: as faixas de validação vêm de `CONSTANTES` do domínio.
+**Propósito:** datação gestacional pura — idade gestacional (IG), data provável do parto (DPP por Naegele) e trimestre, a partir de DUM, ultrassom, ou **ambos** (entrada dupla arbitrada pela margem da USG).
 
-### Componentes e fluxo
+### Arquitetura interna
 
 | Arquivo | Papel |
 |---|---|
-| `tela.tsx` | Moldura: cabeçalho, selo "Nada é salvo nem enviado", alternador de tema |
-| `calculadora-app.tsx` | Contêiner com o estado `EstadoResultado` e o ciclo calcular/invalidar/limpar |
-| `formulario.tsx` | Formulário controlado com linhas dinâmicas e validação no blur |
-| `resultado.tsx` | Painel de resultado em ordem fixa: alertas → dose → fonte → revisão → disclaimer |
-| `preferencia-de-tema.ts` | Tema claro/escuro via `useSyncExternalStore` sobre localStorage |
-| `relator-de-erros.ts` | Contrato `RelatorDeErros`; única implementação é nula (fase 1, MD-0010) |
+| `tipos.ts` | Contratos; `SaidaDatacao = ResultadoDatacao \| ErroValidacao`; `VereditoComparacao` |
+| `datas.ts` | Aritmética de datas civis em **dias epoch UTC** (sem fuso local); data inválida é `null` |
+| `datacao.ts` | Regras puras: `igEntre`, `dppPorNaegele`, `dumEquivalente`, `trimestreDaIg` |
+| `validacao.ts` | Coleta total de ofensores (DUM futura, > 44 sem, exame futuro, laudo fora de faixa, USG incompleta, nenhuma datação) |
+| `fonte-clinica.ts` | `REFERENCIAS` (pp. 31–32, 113) + `CONSTANTES` + `TEXTO_NOTAS` |
+| `calculadora.ts` | `CalculadoraIdadeGestacional` — fachada |
 
-🟢 **Máquina de estados do resultado** (`EstadoResultado`): `vazio → sucesso | erro | falha-inesperada`, com flags ortogonais `desatualizado` (qualquer edição no formulário invalida o resultado vigente — RN-06/EC-03) e `revisaoConfirmada` (checkbox "Revisei a dose e a fonte" que habilita o bloco "Pronto para prescrever"; edição posterior desmarca e desabilita).
+🟢 **Decisão de projeto central (D-02):** toda a aritmética de datas roda sobre `Date.UTC` convertido a dias epoch inteiros — fusos e horário de verão tornariam "diferença de dias" ambígua. `paraDiasEpoch` rejeita calendário impossível (ex.: 30 de fevereiro) devolvendo `null`, nunca normalizando em silêncio.
 
-🟢 **Falha inesperada (EC-07):** exceção fora do contrato do motor → painel honesto ("Não prescreva a partir desta tela") + evento anônimo ao `RelatorDeErros` contendo **somente o nome da classe do erro** — o tipo `EventoDeErro` torna estruturalmente impossível vazar payload clínico.
+### Algoritmos (`datacao.ts`)
+- **IG (RN-01, p. 31):** `Math.floor(dias/7)` semanas + `dias % 7` dias, entre DUM e data de referência.
+- **DPP (RN-02, p. 32, regra de Naegele — D-03):** `somarMeses(somarDias(dum, +7), +9)` — calendárica, dia excedente transborda ao mês seguinte.
+- **DUM equivalente do USG (RN-03):** `dataExame − (semanas×7 + dias)`.
+- **Trimestre (RN-04, premissa 🟡):** cortes convencionais **13+6 / 27+6** (`< 14×7` → 1.º; `< 28×7` → 2.º; senão 3.º). O guia usa os trimestres sem defini-los numericamente.
 
-🟢 **"Novo cálculo"** remonta o formulário via `key={geracaoFormulario}` (RF-10) — reset por reconstrução, não por limpeza campo a campo.
+### Comparação DUM × USG (`calculadora.ts:127`) — RN-11, D-04/D-05
+🟢 Com as duas datações presentes, o motor compara pela **margem do trimestre no dia do exame**: 7 dias no 1.º trimestre, 14 no 2.º; **o 3.º trimestre não tem parâmetro na fonte** → veredito `sem-parametro-na-fonte`. Se a diferença excede a margem → `dum-fora-da-margem` (a USG passa a referência, conforme a fonte); senão → `dum-confirmada`. O motor **informa o veredito, não escolhe** a datação (ADR 0005).
 
-🟢 **Privacidade por construção (RN-02):** nenhum fetch, nenhum storage de dados clínicos; o único localStorage é a preferência de tema (`aps-inteligente:tema`), com degradação graciosa se bloqueado.
+🟡 **Premissas a validar pelo prescritor** (herdadas do roadmap 007): cortes de trimestre 13+6/27+6, limites de plausibilidade (DUM ≤ 44 sem, laudo 0–42 sem e 0–6 dias).
 
-### Validação da UI (espelho do motor)
-
-🟢 `formulario.tsx` valida no blur com as **mesmas faixas** do domínio (importa `CONSTANTES`): peso, glicemia, HbA1c opcional, dose inteira 1–60. `interpretaDecimal` aceita vírgula ou ponto (EC-01). `derivaTipoEsquema` classifica o esquema por contagem de Regular: 0 → `basal`, 1 → `basal-plus`, ≥ 2 → `basal-bolus`.
-
-🟡 **Ponto de atenção:** `let proximoId = 1` é módulo-global mutável (`formulario.tsx:114`) — ids de linhas dinâmicas sobrevivem entre remontagens; funcional, mas estado global em módulo React é frágil sob HMR/StrictMode.
-
-⚠️ `formulario.tsx` tem 532 linhas — acima do limite de 400 do mantenedor; candidato a extração de subcomponentes (linha de glicemia, linha de aplicação).
-
-**Complexidade:** média.
+**Data de referência:** injetada pela UI (data do dispositivo); o motor **não lê o relógio** (RN-07). **Complexidade:** média.
 
 ---
 
-## Módulo 3 — `pages` (shell Next.js)
+## Módulo 3 — `models/cardiopatia-isquemica` 🟢 (feature 010)
 
-**Propósito:** casca mínima do Pages Router.
+**Propósito:** classificar a dor torácica pelas três características do Quadro 1, estimar a probabilidade pré-teste de DAC pelo Quadro 2 (matriz 24 células), ajustar por fatores de risco, traduzir em conduta de investigação e advertir na angina instável.
 
-🟢 `_app.tsx` — carrega fontes IBM Plex Sans (texto) e IBM Plex Mono (números clínicos, variável `--fonte-dados`) via `next/font`, importa o CSS global e envolve tudo em `.app-raiz`.
-🟢 `_document.tsx` — `<Html lang="pt-BR">`.
-🟢 `index.tsx` — metadados (title/description enfatizando "nada é salvo nem enviado") e monta `TelaCalculadora`.
-🔴 `pages/api/v1/index.js` — **vazio**. Rota `/api/v1` declarada sem handler; requisições a ela falham. Intenção futura de API não realizada (par com `tests/integration/api/v1/index.js`, também vazio).
+### Arquitetura interna
 
-**Complexidade:** baixa.
+| Arquivo | Papel |
+|---|---|
+| `tipos.ts` | Contratos; `SaidaAvaliacao = ResultadoAvaliacao \| ForaDoEscopoDaFonte \| EntradaInvalida` |
+| `classificacao.ts` | `classificarDor` — conta as 3 características (3→típica, 2→atípica, ≤1→não anginosa) |
+| `probabilidade.ts` | `faixaEtariaDe`, `probabilidadeBasePct`, `ajustarPorFatoresDeRisco`, `estratoDe` |
+| `conduta.ts` | `exameRecomendado`, `condutaPara`, `advertenciasPara` |
+| `validacao.ts` | Coleta total de ofensores (idade, sexo, fator de risco desconhecido) |
+| `fonte-clinica.ts` | `REFERENCIAS` + `PROBABILIDADE_PRE_TESTE` (matriz congelada) + `CONSTANTES` + `CAUSAS_NAO_CARDIACAS` + textos |
+| `calculadora.ts` | `CalculadoraCardiopatiaIsquemica` — fachada |
+
+### Algoritmos e regras
+- 🟢 **Classificação (RN-01, Quadro 1):** contagem booleana das 3 características → `tipica`/`atipica`/`nao-anginosa`.
+- 🟢 **Probabilidade-base (RN-02, Quadro 2):** lookup na matriz congelada `PROBABILIDADE_PRE_TESTE[classificacao][sexo][faixaEtaria]` — **24 células** (3 classes × 2 sexos × 4 faixas), transcrição fiel de DUNCAN et al., 2013. Faixas etárias `30-39`/`40-49`/`50-59`/`60-69`.
+- 🟢 **Ajuste por fatores de risco (RN-03, nota * do Quadro 2, D-03):** sem fator → sem ajuste (`undefined`); com ≥ 1 fator → faixa `base×2`–`base×3`, capada em **99%** (`PCT_MAX_EXIBIVEL`) para não exibir > 100%; `excedeAlta` sinaliza extremo > 90% (redação ">90%").
+- 🟢 **Estrato (RN-04, nota ** do Quadro 2):** decisão descritiva, não puramente numérica — `"baixa"` ⟺ dor **não anginosa E sem fatores** (uma dor não anginosa pode tabelar até 27%, mas a conduta "não investigar" vem da descrição clínica); `"alta"` ⟺ probabilidade efetiva > 90% (base sem fatores, ou piso da faixa com fatores); o resto é `"intermediaria"`. **Qualquer fator de risco impede o estrato "baixa".**
+- 🟢 **Conduta (RN-04/RN-05):** `baixa` → exame não indicado + causas não cardíacas; `intermediaria` → exame não invasivo; `alta` → estratificação + encaminhamento. O exame padrão é **ergometria**, salvo `impedimentoErgometria` (ECG basal altera interpretação ou paciente não pode exercitar) → **método não invasivo alternativo**.
+- 🟢 **Fora de escopo (RN-06):** idade plausível (0–120, ofensor de validação) mas fora de **30–69** → `ForaDoEscopoDaFonte` com `IDADE_FORA_DA_TABELA`, **sem número estimado** — recusa honesta em vez de extrapolar.
+- 🟢 **Advertência (RN-07):** `sinaisInstabilidade` → `Advertencia` de angina instável (encaminhamento emergencial, fora do fluxo eletivo).
+
+**Complexidade:** média (lógica ramificada, bem fatorada em 6 arquivos pequenos). **Sem ritual de revisão na tela** (D-08): estratificar não é prescrever dose.
+
+---
+
+# Camada de Interface (`interface/`)
+
+## Módulo 4 — `interface/comum` 🟢 (feature 007+)
+
+🟢 **`moldura.tsx` (`Moldura`)** — casca visual comum das três telas + home, extraída byte a byte da tela da insulina na feature 007. Renderiza cabeçalho (identidade + logo APSi por tema), selo "Nada é salvo nem enviado" e alternador de tema (via `useSyncExternalStore` sobre `preferencia-de-tema`). Props opcionais acumuladas por feature:
+- `apresentacao?: "padrao" | "destaque"` (feature 008) — só CSS via `data-apresentacao`; a home usa `destaque`.
+- `logoComoTitulo?: boolean` (feature 009) — na home, a logo é uma `<img alt={titulo}>` **dentro** do `h1` (nome acessível preservado); nas calculadoras, a logo é marca decorativa (`aria-hidden`, `alt=""`) fora do heading, sem criar segundo `h1` nem link.
+
+🟡 **Nota de dívida (comentada no próprio arquivo):** `preferencia-de-tema.ts` permanece em `interface/calculadora/` porque o provedor e sua suíte apontam para lá; realocação adiada para re-extração futura. Acoplamento residual `comum → calculadora`.
+
+## Módulo 5 — `interface/calculadora` 🟢 (insulina; features 004–006)
+
+**Propósito:** UI da calculadora de insulina — formulário controlado, painel com **ritual de revisão explícita** e o botão **Copiar plano** (feature 006). Nenhuma regra clínica própria; faixas de validação vêm de `CONSTANTES` do domínio.
+
+| Arquivo | Papel |
+|---|---|
+| `tela.tsx` | Composição fina: `Moldura` + `CalculadoraApp` (nenhum estado clínico) |
+| `calculadora-app.tsx` | Contêiner com `EstadoResultado` e ciclo calcular/invalidar/limpar |
+| `formulario.tsx` | Formulário controlado com linhas dinâmicas, validação no blur (313 linhas — abaixo do teto) |
+| `resultado.tsx` | Painel em ordem fixa: alertas → dose → fonte → revisão → disclaimer (353 linhas) |
+| `esquema-atual.tsx`, `glicemias-por-momento.tsx`, `antidiabeticos-orais.tsx` | Subcomponentes do formulário |
+| `agrupar-recomendacoes.ts`, `rotulos.ts` | Extração anti-drift de rótulos e hierarquia de recomendações |
+| `formatar-plano.ts` | 🟢 (feature 006) projeta `ResultadoCalculo` → texto do Plano: esquema/dose → recomendações → fonte → linha de contexto. Alertas e condutas alternativas **ficam fora** (D-04) |
+| `area-de-transferencia.ts` | 🟢 (feature 006) adaptador de clipboard com **erro como valor** (`{ok:false}` em contexto inseguro/permissão negada) |
+| `preferencia-de-tema.ts`, `provedor-tema.tsx` | Tema claro/escuro via `useSyncExternalStore` sobre localStorage |
+| `relator-de-erros.ts` | Contrato `RelatorDeErros`; única implementação é a nula (fase 1) |
+| `erro-de-campo.tsx`, `validacao-campos.ts` | Mensagem de erro por campo + espelho da validação |
+
+🟢 **Máquina de estados** (`EstadoResultado`): `vazio → sucesso | erro | falha-inesperada`, com flags ortogonais `desatualizado` (qualquer edição invalida o resultado vigente) e `revisaoConfirmada` (checkbox "Revisei a dose e a fonte" habilita o bloco "Pronto para prescrever" com o botão **Copiar plano**; edição posterior desmarca). O `AcaoCopiarPlano` só monta com `revisaoValida`; o desmonte na invalidação zera o retorno por construção.
+🟢 **Falha inesperada (EC-07):** exceção fora do contrato → painel honesto + evento anônimo (só nome da classe).
+🟡 **Ponto de atenção residual:** `let proximoId` módulo-global mutável para ids de linhas dinâmicas — frágil sob HMR/StrictMode, funcional.
+
+## Módulo 6 — `interface/gestacao` 🟢 (feature 007)
+
+🟢 Molde do `calculadora-app` da insulina, **sem ritual de revisão** (D-08: datação não prescreve). `app.tsx` (`AppIdadeGestacional`) injeta a data do dispositivo (`dataLocalDoDispositivo`), com `motor`/`dataDeHoje` injetáveis para teste. `formulario.tsx` valida semanas (0–42) e dias (0–6) do laudo no blur, espelhando `CONSTANTES` do domínio; DUM e USG opcionais, entrada dupla permitida. `resultado.tsx` exibe IG/DPP/trimestre por método e a comparação. Estado `EstadoIg`: `vazio → sucesso | erro | falha-inesperada`.
+
+## Módulo 7 — `interface/cardiologia` 🟢 (feature 010)
+
+🟢 Molde do `app.tsx` da gestação, também **sem ritual de revisão** (D-08). `app.tsx` (`AppCardiologia`): estado `EstadoCardiologia` com variante extra `fora-do-escopo` (`vazio → sucesso | fora-do-escopo | erro | falha-inesperada`). `formulario.tsx`: idade, sexo (radio), 3 características (checkbox), 4 fatores de risco (checkbox, `Set<FatorDeRisco>`), dois desvios (impedimento, instabilidade); valida idade 0–120 no blur. `resultado.tsx`: classificação, `BlocoProbabilidade` (base + faixa ajustada com "pode ultrapassar 90%"), estrato com `Label` de variante (`success`/`attention`/`danger`), conduta, causas não cardíacas e advertências em `Flash` `danger`. `referencias.tsx`: material complementar consultável (CCS I–IV, tratamento, seguimento, manejo agudo) em `<details>`, **fora do cálculo** (RF-10).
+
+## Módulo 8 — `interface/inicio` 🟢 (features 007, 008)
+
+🟢 **`catalogo.ts`** — fonte única tipada das seções e rotas (D-07, anti-drift): três seções (`dm2`, `pre-natal`, `cardiologia`), cada uma com uma `FichaCalculadora` (título, descrição, rota). Toda calculadora nova entra **aqui primeiro**. `Object.freeze` profundo.
+🟢 **`tela.tsx`** (`TelaInicio`) — home por seções sobre a `Moldura` (`destaque`, `logoComoTitulo`); cartões clicáveis por inteiro (stretched link — um `<a>` por cartão via `next/link`, sem JavaScript), grade `inicio-cartoes`.
+🟢 **`icones.tsx`** (`IconeDaSecao`) — mapa `id → Octicon` (`dm2`→Beaker, `pre-natal`→Calendar, `cardiologia`→Heart); decorativos (`aria-hidden`); seção sem entrada → fallback `null`. `@primer/octicons-react` pinada, tree-shaken.
+
+## Módulo 9 — `interface/estilos` 🟢 (features 004–010)
+
+🟢 Quatro folhas CSS, todas **sobre tokens Primer** (`var(--*)`), zero cor própria, importadas por `_app.tsx` na ordem: `globais.css` (400 linhas — **no teto** de 400 do mantenedor), `cabecalho.css` (feature 009, nasceu porque globais estava no teto), `inicio.css` (feature 008, 188 linhas), `cardiologia.css` (feature 010). Cada folha nova em vez de crescer `globais.css` é decisão deliberada de manter o teto.
+
+---
+
+# Camada de Shell e Infraestrutura
+
+## Módulo 10 — `pages` 🟢 (shell Next.js, Pages Router)
+
+🟢 **`_app.tsx`** — importa a fundação Primer (primitives: motion, size, typography, temas light/dark) + as 4 folhas próprias, na ordem, e envolve tudo em `ProvedorTemaPrimer` dentro de `.app-raiz`. Tipografia é a pilha de fontes do **sistema do próprio Primer** — nenhum arquivo de fonte baixado (D-04), sob a CSP sem terceiros.
+🟢 **`_document.tsx`** (feature 009) — `<Html lang="pt-BR">` + `<Head>` com favicon (`/apsi-tile-192.png`), apple-touch-icon, `manifest.webmanifest` (PWA instalável) e `theme-color` `#0969da`. Ativos same-origin sob a CSP.
+🟢 **`index.tsx`** — raiz serve a home (`TelaInicio`) diretamente, sem redirecionamento (decisão de 2026-07-23); metadados enfatizam "nada é salvo nem enviado".
+🟢 **Rotas:** `dm2/insulina.tsx` → `TelaCalculadora`; `pre-natal/idade-gestacional.tsx` → tela IG; `cardiologia/dor-toracica.tsx` → `TelaCardiologia`. Cada rota é uma casca `<Head>` + tela.
+
+🟢 **Correção sobre a extração 1:** a "rota de API vazia" (`api/v1/index.js`) não existe mais; o handler real é `api/v1/status.ts` (abaixo).
+
+## Módulo 11 — `pages/api/v1/status` 🟢 (feature 002)
+
+🟢 `GET /api/v1/status` — observabilidade mínima do deploy, **contrato fixo**: público, sem autenticação, sem estado, sem dado clínico (ADR 0008). Discrimina o método (405 + `Allow: GET` se não-GET, RN-04), `Cache-Control: no-store` (RN-05 — status cacheado mentiria), e devolve `{ atualizado_em, versao (do package.json), commit (VERCEL_GIT_COMMIT_SHA ?? "local") }`. Mudança incompatível do corpo exigiria `/api/v2`.
+
+## Módulo 12 — `infra` 🟢 (feature 003)
+
+🟢 **`database.ts`** — único ponto de acesso ao banco, usado **só** pelo healthcheck. Pool `pg` **preguiçoso** (`obterPool` lazy singleton, `max=5`, timeouts 5 s), consultas sempre parametrizadas (`query<Linha>`), erros nomeados `ErroDeBanco` com `causa` (`conexao`/`consulta`/`configuracao`) e causa original preservada (`{cause}`). Log estruturado JSON **sem URL nem credencial** — host sempre mascarado (`hostMascarado`: 4 primeiros chars + `•••`). Sem retentativa automática (falha barulhenta; retry é do chamador). `saude()` roda `SELECT 1`; `encerrar()` drena o pool.
+🟢 **`compose.yaml`** — `postgres:17.10-alpine` local (porta 5433 nesta máquina); produção via integração Neon (Vercel Marketplace).
 
 ---
 
 ## Testes (contexto para o Detetive)
 
-🟢 7 suítes de unidade cobrem o domínio (início, titulação, intensificação, validação, tipos, invariantes com **fast-check**, referências) com threshold de 90% em `models/**`; 3 suítes de integração cobrem formulário, resultado e relator via Testing Library; `tests/apoio/construtores.ts` fornece builders. A suíte de invariantes por propriedade sugere contratos fortes: toda saída referenciada, doses sempre realizáveis, determinismo.
+🟢 Suíte com **33 arquivos de teste** (Vitest + Playwright + fast-check + axe-core). Cobertura por domínio via property-based (fast-check): toda saída referenciada, doses sempre realizáveis, determinismo, e — na cardiopatia — oráculo das 24 células do Quadro 2. Integração via Testing Library cobre formulários/painéis das três telas; e2e Playwright + axe-baseline (0/0) por rota. Contrato do `/api/v1/status` em suíte própria (`vitest.api.config.ts`, 16/16).
 
 ## Síntese de riscos e lacunas
 
-1. 🔴 Specs referenciadas nos comentários (`motor-calculo-insulina.md` v2.0, requirements da feature 001) não existem mais no repo — esta re-extração os reconstruirá.
-2. 🔴 Rota de API vazia e scripts de teste quebrados (`test:api`, `test:e2e`) — dívida declarada.
-3. 🟡 Memória do projeto registra **quatro divergências clínicas aprovadas no design que ainda não existem no domínio** — o Detetive deve compará-las com o código atual.
-4. 🟡 `proximoId` global em `formulario.tsx`; arquivos acima de 400 linhas (`formulario.tsx`, `globais.css`).
+1. 🟡 **Premissas clínicas 🟡 a validar pelo prescritor** herdadas das features: gestação (cortes de trimestre 13+6/27+6, limites de plausibilidade DUM/laudo); cardiopatia (leitura descritiva do estrato "baixa", cap da faixa por fatores). São premissas de projeto, não bugs — o Detetive deve registrá-las como ADR/observações.
+2. 🟡 **Acoplamento residual `interface/comum` → `interface/calculadora`** (`preferencia-de-tema.ts` não realocado) — comentado no próprio código, dívida declarada.
+3. 🟡 **`globais.css` no teto de 400 linhas** — cada folha nova evita o estouro, mas o teto é um sinal a monitorar.
+4. 🟡 **`proximoId` módulo-global** em `formulario.tsx` da insulina — resíduo funcional, frágil sob StrictMode.
+5. 🟢 **Sem lacunas 🔴 estruturais nesta passagem:** os artefatos SDD referenciados nos comentários (`sdd/motor-calculo-insulina.md`, requirements das features) vivem agora em `_reversa_sdd/` e `_reversa_forward/`; a rota de API vazia foi resolvida. A extração 1 marcava esses como 🔴; a re-extração 2 os reconcilia.

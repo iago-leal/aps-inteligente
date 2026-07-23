@@ -23,7 +23,16 @@
 
 ## Histórico de re-extrações
 
-_(vazio — preenchido pelo agente reverso quando `/reversa` rodar novamente)_
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | raiz (`/`) serve a home por seções; insulina em `/dm2/insulina`; seções no `catalogo.ts` (verificado em `pages/` + unit `interface-inicio`) |
+| W002 | 🟢 verde | Moldura única em `interface/comum/moldura.tsx` usada pelas telas; selo e chave `aps-inteligente:tema` inalterados |
+| W003 | 🟢 verde | `e2e/calculadora.spec.ts` aponta para `/dm2/insulina` com as mesmas asserções (`interface-calculadora/design.md`) |
+| W004 | 🟢 verde | `axe-baseline`: chaves antigas 1/1 byte a byte, chaves novas (home, IG) em zero |
+| W005 | 🟢 verde | privacidade por construção na plataforma inteira (`domain.md` §6 invariante 7): sem fetch/storage de dado clínico |
+| W006 | 🟢 verde | toda saída de `models/gestacao` carrega `ReferenciaClinica` do Guia Pré-Natal; uma fonte por unit. **O-01 cumprido:** as fórmulas do motor (RN-01..04, RN-11) foram promovidas a 🟢 CONFIRMADO nesta re-extração (verificadas por property-based) |
 
 ## Arquivadas
 

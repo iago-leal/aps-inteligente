@@ -1,74 +1,71 @@
-# interface-calculadora — Tarefas de Implementação
+# interface/calculadora — Tarefas de Implementação
 
-> Gerado pelo Reversa Writer em 2026-07-19.
+> `tasks.md` · Re-extração 2 (2026-07-23), regenerado. Absorve 004 (Primer), 005 (redação metformina×TFG), 006 (copiar plano), 007 (Moldura extraída).
 > Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Pré-requisitos
 
-- [ ] Unit `models-insulina` implementada (fachada, tipos e `CONSTANTES` disponíveis)
-- [ ] React 19 + Testing Library + jsdom configurados (aliases `models/*`, `interface/*` no tsconfig/vitest)
-- [ ] Tokens de design de `interface/estilos/globais.css` disponíveis (projeto Claude Design com layout aprovado — ver memória `design-da-tela-calculadora`)
+- [ ] Unit `models-insulina` implementada (fachada, tipos, `CONSTANTES`)
+- [ ] `interface-comum` (Moldura) disponível
+- [ ] React 19 + Testing Library + jsdom; aliases `models/*`, `interface/*`
+- [ ] `@primer/react` e estilos (`interface/estilos/*`) carregados
 
 ## Tarefas
 
-- [ ] T-01, Store de tema: `Tema`, `useSyncExternalStore`, chave `aps-inteligente:tema`, degradação graciosa
-  - Origem no legado: `interface/calculadora/preferencia-de-tema.ts`
-  - Critério de pronto: alternância persiste; com localStorage bloqueado, funciona sem persistir
+- [ ] **T-01** Store de tema + contrato `RelatorDeErros` (nulo)
+  - Origem no legado: `preferencia-de-tema.ts`, `relator-de-erros.ts`
+  - Critério de pronto: alternância degrada bem sem localStorage; `EventoDeErro={nome}` impede payload clínico
   - Confiança: 🟢
 
-- [ ] T-02, Contrato `RelatorDeErros` + `EventoDeErro = {nome}` + implementação nula
-  - Origem no legado: `interface/calculadora/relator-de-erros.ts`
-  - Critério de pronto: tipo impede estruturalmente payload clínico; no-op chamável
-  - Confiança: 🟢
-
-- [ ] T-03, Moldura `TelaCalculadora`: cabeçalho, selo "Nada é salvo nem enviado", alternador de tema
+- [ ] **T-02** `TelaCalculadora`: composição da Moldura comum + `CalculadoraApp`
   - Origem no legado: `interface/calculadora/tela.tsx`
-  - Critério de pronto: RF-08; snapshot de integração
+  - Critério de pronto: não reimplementa cabeçalho/selo/tema (vêm da Moldura); título/subtítulo da insulina
   - Confiança: 🟢
 
-- [ ] T-04, `Formulario`: linhas dinâmicas (glicemia/aplicação) com strings brutas, validação no blur via `CONSTANTES`, `interpretaDecimal` (vírgula/ponto), `derivaTipoEsquema`, alternância de modo
+- [ ] **T-03** `Formulario`: linhas dinâmicas, validação no blur via `CONSTANTES`, `interpretaDecimal`, `derivaTipoEsquema`, modos
   - Origem no legado: `interface/calculadora/formulario.tsx`
-  - Critério de pronto: RF-01/RF-02; suíte `formulario.test.tsx` verde
+  - Critério de pronto: RF-01/RF-02; `formulario.test.tsx` verde
   - Confiança: 🟢
 
-- [ ] T-05, `CalculadoraApp`: `EstadoResultado`, try/catch da fachada, mapeamento das 4 variantes, invalidação por edição, "Novo cálculo" por `key`
+- [ ] **T-04** `CalculadoraApp`: `EstadoResultado`, try/catch da fachada, 4 variantes, invalidação, "Novo cálculo" por `key`
   - Origem no legado: `interface/calculadora/calculadora-app.tsx`
-  - Critério de pronto: máquina de `../state-machines.md` §1 coberta por testes
+  - Critério de pronto: máquina de `../state-machines.md` §1 coberta
   - Confiança: 🟢
 
-- [ ] T-06, `Resultado`: ordem fixa (alertas → dose → fonte → revisão → disclaimer), condutas alternativas rotuladas, ritual de revisão, painel honesto (EC-07)
+- [ ] **T-05** `Resultado`: ordem fixa, condutas alternativas rotuladas, ritual de revisão, painel honesto
   - Origem no legado: `interface/calculadora/resultado.tsx`
   - Critério de pronto: RF-04/RF-05/RF-06; cenários Gherkin do `requirements.md`
   - Confiança: 🟢
 
-- [ ] T-07 (dívida), Extrair subcomponentes do formulário (linha de glicemia, linha de aplicação) mantendo contrato e testes verdes
-  - Origem no legado: `formulario.tsx` (532 LOC > limite 400)
-  - Critério de pronto: nenhum arquivo > 400 LOC; suítes intactas
+- [ ] **T-06** Agrupamento de recomendações com subitem (redução metformina×TFG)
+  - Origem no legado: `interface/calculadora/agrupar-recomendacoes.ts` (feature 005)
+  - Critério de pronto: `REDUZIR_METFORMINA_TFG` como subitem de `MANTER_METFORMINA`; fallback item de topo
   - Confiança: 🟢
 
-- [ ] T-08 (dívida), Substituir `let proximoId` módulo-global por gerador local ao componente (`useRef`/`useId`)
-  - Origem no legado: `formulario.tsx:114`
-  - Critério de pronto: ids estáveis sob StrictMode/HMR; testes intactos
+- [ ] **T-07** Plano copiável: rótulos, formatador e adaptador de clipboard
+  - Origem no legado: `rotulos.ts`, `formatar-plano.ts`, `area-de-transferencia.ts` (feature 006)
+  - Critério de pronto: "Copiar plano" só com revisão válida; quatro partes; alertas/alternativas fora; erro como valor
+  - Confiança: 🟢
+
+- [ ] **T-08 (dívida)** Extrair subcomponentes do formulário; substituir `let proximoId` por gerador local
+  - Origem no legado: `formulario.tsx` (313 LOC)
+  - Critério de pronto: sem arquivo > 400 LOC; ids estáveis sob StrictMode; suítes intactas
   - Confiança: 🟢
 
 ## Tarefas de Teste
 
-- [ ] TT-01, Integração do formulário: validação no blur, linhas dinâmicas, parse decimal, modos (`tests/integration/interface/formulario.test.tsx`)
-- [ ] TT-02, Integração do resultado: 4 variantes, ordem fixa, ritual de revisão, invalidação (`resultado.test.tsx`)
-- [ ] TT-03, Integração do relator: exceção → painel honesto + evento só com nome (`relator-de-erros.test.tsx` 🟢 verificado)
-- [ ] TT-04 (adiado por decisão do usuário, 2026-07-19: "nada por enquanto"), e2e com Playwright + axe: privacidade (zero requests com dado clínico) e WCAG AA nos 2 viewports — permanece no backlog de dívidas
-
-## Tarefas de Migração de Dados
-
-n/a.
+- [ ] **TT-01** Integração do formulário: validação no blur, linhas, parse decimal, modos
+- [ ] **TT-02** Integração do resultado: 4 variantes, ordem fixa, ritual, invalidação
+- [ ] **TT-03** Relator: exceção → painel honesto + evento só com nome
+- [ ] **TT-04** Copiar plano: habilitado pela revisão; conteúdo das quatro partes; leitura real do clipboard no Chromium (e2e)
+- [ ] **TT-05** e2e/axe: privacidade (zero requests com dado clínico) e WCAG AA nos 2 viewports — **reconstituído** (features 004+)
 
 ## Ordem Sugerida
 
-1. T-01/T-02 (infra sem dependência de UI, paralelizáveis).
-2. T-04 e T-06 após T-02; T-05 integra ambos; T-03 por fim (moldura).
-3. T-07/T-08 (dívidas) só com suítes verdes — refactor sem mudança de comportamento.
+1. T-01 (infra) primeiro.
+2. T-03 e T-05 após T-01; T-04 integra; T-02 (tela) e T-06/T-07 (005/006) fecham.
+3. T-08 (dívida) só com suítes verdes.
 
 ## Lacunas Pendentes (🔴)
 
-- Divergência 4 (glicemias por momento, 4 campos): reestrutura T-04 e quebra TT-01 — spec antes do código.
-- TT-04 depende de recriar `playwright.config.ts` (existente no bundle antigo como referência).
+Nenhuma lacuna 🔴 remanescente: a divergência de "glicemias por momento" da extração 1 não foi adotada, e o e2e/axe foi reconstituído. Débito 🟡: watch D-04 (feature 006) a validar em uso; refactor do formulário (T-08).

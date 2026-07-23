@@ -1,8 +1,8 @@
 # Plano de Exploração — aps-inteligente
 
-> Criado pelo Reversa em 2026-07-19
+> Criado pelo Reversa em 2026-07-19 · **Re-extração iniciada em 2026-07-23**
 > Marque cada tarefa com ✅ quando concluída.
-> Você pode editar este plano antes de iniciar: adicione, remova ou reordene tarefas conforme necessário.
+> Esta é a 2ª passagem do núcleo: absorve as features 001–010 do ciclo forward.
 
 ---
 
@@ -14,37 +14,52 @@
 
 ## Decisão de organização das specs 🗂️
 
-> Entre o Scout e o Arqueólogo, o Reversa pergunta como você quer organizar as specs (por módulo, caso de uso, endpoint, híbrida, por features ou customizada). A escolha fica persistida em `.reversa/config.toml` na seção `[specs]` e não será reperguntada em execuções futuras. Para reapresentar o menu, remova manualmente a seção.
+> Já decidida em 2026-07-19 (`feature-folder` / `module`), persistida em `.reversa/config.toml [specs]`. Menu pulado.
 
 ## Fase 2: Escavação 🏗️
 
-> O Reversa preenche esta seção com os módulos reais após o Scout concluir o reconhecimento.
+> Módulos reais (re-extração 2): três domínios + interface + shell + infra.
 
-- [x] **Arqueólogo** — Análise do módulo `models/insulina` (domínio da calculadora de insulina DM2) ✅
-- [x] **Arqueólogo** — Análise do módulo `interface/calculadora` (componentes React + estilos) ✅
-- [x] **Arqueólogo** — Análise do módulo `pages` (shell Next.js e placeholder de API v1) ✅
+**Domínio (`models/`):**
+- [x] **Arqueólogo** — `models/insulina` (calculadora de insulina DM2) ✅
+- [x] **Arqueólogo** — `models/gestacao` (idade gestacional / DPP — feature 007) ✅
+- [x] **Arqueólogo** — `models/cardiopatia-isquemica` (dor torácica / pré-teste — feature 010) ✅
+
+**Interface (`interface/`):**
+- [x] **Arqueólogo** — `interface/comum` + `interface/calculadora` (Moldura + tela da insulina) ✅
+- [x] **Arqueólogo** — `interface/gestacao` + `interface/cardiologia` (telas 007/010) ✅
+- [x] **Arqueólogo** — `interface/inicio` + `interface/estilos` (home por seções + CSS Primer) ✅
+
+**Shell e infraestrutura:**
+- [x] **Arqueólogo** — `pages` (shell Next.js, rotas, PWA) + `pages/api/v1/status` ✅
+- [x] **Arqueólogo** — `infra` (pool pg + compose PostgreSQL) ✅
 
 ## Fase 3: Interpretação 🧠
 
-- [ ] **Detetive** — Arqueologia Git e ADRs retroativos
-- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL)
-- [ ] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
-- [ ] **Arquiteto** — ERD completo e integrações externas
-- [ ] **Arquiteto** — Spec Impact Matrix
+- [x] **Detetive** — Arqueologia Git e ADRs retroativos ✅
+- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado ✅
+- [x] **Detetive** — Matriz de permissões (RBAC/ACL) ✅
+- [x] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes) ✅
+- [x] **Arquiteto** — ERD completo e integrações externas ✅
+- [x] **Arquiteto** — Spec Impact Matrix ✅
 
 ## Fase 4: Geração 📝
 
-- [ ] **Redator** — Specs SDD por componente
-- [ ] **Redator** — OpenAPI (se aplicável)
-- [ ] **Redator** — User Stories (se aplicável)
-- [ ] **Redator** — Code/Spec Matrix
+- [x] **Redator** — Specs SDD por componente ✅ (11 units: 9 novas + 2 regeneradas)
+- [x] **Redator** — OpenAPI ✅ (`openapi/status.yaml`)
+- [x] **Redator** — User Stories ✅ (datação gestacional, estratificação de dor torácica)
+- [x] **Redator** — Code/Spec Matrix ✅ (atualizada para os 3 domínios)
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs ✅ (12 units; 2 legacy-mapping obsoletos corrigidos)
+- [x] **Revisor** — Resolução de lacunas com o usuário ✅ (9 premissas clínicas mantidas 🟡 por decisão do usuário)
+- [x] **Revisor** — Relatório de confiança final ✅ (~94% 🟢)
+
+## Fase 6: Verificação de regressão 🔁
+
+- [x] Verificar os 10 `regression-watch.md` de `_reversa_forward/` contra o SDD regenerado ✅ (44 itens: 43 🟢, 1 🟡, 0 🔴)
+- [x] Reconciliar os adendos de `_reversa_sdd/addenda/` (marcar "Superado pela re-extração") ✅ (10 adendos superados)
 
 ---
 

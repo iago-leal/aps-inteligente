@@ -27,7 +27,19 @@
 
 ## Histórico de re-extrações
 
-_(vazio — preenchido pelo agente reverso quando `/reversa` rodar novamente)_
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `infra/compose.yaml`: `postgres:17.10-alpine`, healthcheck `pg_isready`, porta `${POSTGRES_PORT:-5432}` |
+| W002 | 🟢 verde | import de `pg` só em `infra/database.ts`; nenhum em `models/`, `interface/`, `pages/` (grep) |
+| W003 | 🟢 verde | unit `infra/` descreve fundação sem esquema de negócio; `erd-complete.md` modela contratos em memória — não afirma mais "sem banco" nem esquema de negócio existente |
+| W004 | 🟢 verde | nenhuma DDL de negócio; gatilho LGPD/autenticação armado e não disparado (`permissions.md`) |
+| W005 | 🟢 verde | `pages/api/v1/status.ts` não importa `infra/database` (grep vazio) |
+| W006 | 🟢 verde | suíte de contrato cobre a saúde do banco com caso negativo e teardown (parte dos 16/16; `infra/` TT) |
+| W007 | 🟢 verde | CI com exatamente três jobs; job de deploy sem `DATABASE_URL` |
+| W008 | 🟢 verde | `infra/database.js` ausente; `infra/` só com `compose.yaml` + `database.ts` |
+| W009 | 🟢 verde | `.env.example` e `.env.test` versionados sem segredo real (git ls-files) |
 
 ## Arquivadas
 

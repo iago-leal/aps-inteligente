@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature realiza a promessa de "plataforma guarda-chuva" registrada na extração: entrega a segunda calculadora clínica — idade gestacional (IG) e data provável do parto (DPP) a partir da DUM, do último ultrassom ou de ambos, com divergência explicitada segundo a regra da p. 32 do *Guia Rápido Pré-Natal* (SMS-Rio, 4.ª ed., 2025) — e a página inicial que organiza as ferramentas em duas seções (Diabetes Mellitus tipo 2 e Pré-natal). A raiz do site deixa de montar a calculadora de insulina e passa a servir a home, sem redirecionamento; a insulina vive em `/dm2/insulina` com metadados e comportamento preservados. O motor de insulina permanece byte a byte intocado (`git diff models/insulina/` vazio).

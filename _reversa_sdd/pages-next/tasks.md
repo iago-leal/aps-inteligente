@@ -1,55 +1,52 @@
-# pages-next — Tarefas de Implementação
+# pages/ — Tarefas de Implementação
 
-> Gerado pelo Reversa Writer em 2026-07-19.
+> `tasks.md` · Re-extração 2 (2026-07-23), regenerado.
 > Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Pré-requisitos
 
-- [ ] Unit `interface-calculadora` implementada (exporta `TelaCalculadora` e o CSS global)
-- [ ] Next.js 16 + aliases `models/*`, `interface/*` configurados (tsconfig, next.config, vitest.config)
+- [ ] Units de interface implementadas (`inicio`, `calculadora`, `gestacao`, `cardiologia`, `comum`)
+- [ ] Next.js + aliases `models/*`, `interface/*` (tsconfig, next.config)
+- [ ] `@primer/primitives` e `@primer/react`; ativos PWA em `public/`
 
 ## Tarefas
 
-- [ ] T-01, `_document.tsx` com `<Html lang="pt-BR">`
+- [ ] **T-01** `_document.tsx`: `lang="pt-BR"` + identidade PWA
   - Origem no legado: `pages/_document.tsx`
-  - Critério de pronto: HTML servido com o atributo
+  - Critério de pronto: favicon, apple-touch, manifest e theme-color same-origin
   - Confiança: 🟢
 
-- [ ] T-02, `_app.tsx`: IBM Plex Sans + IBM Plex Mono via `next/font` (var `--fonte-dados`), import do CSS global, wrapper `.app-raiz`
+- [ ] **T-02** `_app.tsx`: primitivos Primer + estilos + `ProvedorTemaPrimer`
   - Origem no legado: `pages/_app.tsx`
-  - Critério de pronto: fontes servidas do próprio domínio; tipografia de dados aplicada aos números clínicos
+  - Critério de pronto: ordem primitivos→globais→cabecalho→inicio→cardiologia; `.app-raiz`; nenhuma fonte baixada
   - Confiança: 🟢
 
-- [ ] T-03, `index.tsx`: metadados de privacidade + montagem de `TelaCalculadora`
+- [ ] **T-03** `index.tsx`: home na raiz com metadados de privacidade
   - Origem no legado: `pages/index.tsx`
-  - Critério de pronto: `/` renderiza a calculadora com title/description corretos
+  - Critério de pronto: `/` monta `TelaInicio`; description declara "nada é salvo nem enviado"
   - Confiança: 🟢
 
-- [X] T-04, ~~Resolver `/api/v1`~~ — **decisão do usuário (2026-07-19): manter o placeholder como lembrete** da API futura; implementação (`GET /api/v1/status`, padrão ADR 0008, referência no bundle `e5e52a8`) fica para a etapa do banco
-  - Origem no legado: `pages/api/v1/index.js` (vazio); feature 002 no bundle
-  - Critério de pronto: decisão registrada ✅; nada a implementar nesta fase
-  - Confiança: 🟢 decidido
+- [ ] **T-04** Rotas das três calculadoras
+  - Origem no legado: `pages/dm2/insulina.tsx`, `pages/pre-natal/idade-gestacional.tsx`, `pages/cardiologia/dor-toracica.tsx`
+  - Critério de pronto: cada rota monta sua tela com `<Head>` próprio
+  - Confiança: 🟢
 
-- [X] T-05 (recuperação), ~~Avaliar reconstituir~~ — **decisão do usuário (2026-07-19): nada por enquanto**; 404 própria, CSP e registro de módulos permanecem no backlog de dívidas (`../architecture.md` §6)
-  - Origem no legado: commit `ebad6a5` (bundle)
-  - Critério de pronto: decisão registrada ✅; reavaliar na próxima feature de infraestrutura
-  - Confiança: 🟢 decidido
+- [ ] **T-05** Endpoint de status
+  - Origem no legado: `pages/api/v1/status.ts` (ver unit `pages-api-v1-status`)
+  - Critério de pronto: contrato `GET /api/v1/status` (16/16)
+  - Confiança: 🟢
 
 ## Tarefas de Teste
 
-- [ ] TT-01, Smoke: `/` renderiza a calculadora (integração leve ou e2e)
-- [ ] TT-02 (com T-04), Teste de contrato do status + guarda de privacidade de API (sem leitura de corpo, sem `Set-Cookie`)
-
-## Tarefas de Migração de Dados
-
-n/a.
+- [ ] **TT-01** Smoke: `/` renderiza a home; cada rota monta sua tela
+- [ ] **TT-02** Contrato do status + guarda de privacidade de API (sem corpo clínico, sem `Set-Cookie`)
+- [ ] **TT-03** Documento servido tem os links de ícone/manifesto (feature 009)
 
 ## Ordem Sugerida
 
-1. T-01 → T-02 → T-03 (dependência natural do shell).
-2. T-04/T-05 aguardam decisão do usuário (ver Lacunas).
+1. T-01 → T-02 (shell) primeiro.
+2. T-03 e T-04 (rotas) após as telas prontas; T-05 é independente.
 
 ## Lacunas Pendentes (🔴)
 
-- T-04: API v1 renasce ou o placeholder sai? (impacta `package.json`, `infra/compose.yaml` e a matriz).
-- T-05: quais itens da plataforma antiga (404, CSP, registro de módulos) voltam nesta fase?
+Nenhuma. As lacunas 🔴 da extração 1 (API vazia, CSP não verificada, tipografia) foram resolvidas nas features 002/004. Débito 🟡: página 404 dedicada (opcional).

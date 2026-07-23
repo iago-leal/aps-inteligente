@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-22.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature eliminou a leitura aparentemente contraditória entre "Manter a metformina..." e "TFG entre 30 e 45 mL/min/1,73 m²: reduzir a dose de metformina em 50%" na seção "Recomendações ao prescritor": quando as duas coexistem na mesma saída, a redução passa a ser renderizada como subitem recuado da manutenção, lida como conduta única (manter, com dose reduzida). A solução é integralmente de apresentação, escolhida pelo prescritor na sessão de esclarecimentos de 2026-07-22: os textos clínicos, as referências ao guia, os tipos, a ordem de saída do motor e as supressões de precedência da feature 001 permanecem byte a byte — `git diff models/` vazio. De quebra, a mesma sessão **validou clinicamente a precedência metformina×TFG** que o adendo 001 registrava como pendente ("a lógica ficou perfeita"). Beneficiário: o médico prescritor da APS. **6 de 6 ações concluídas** (T001–T006), suíte 202/202, contrato 16/16, e2e 4/4 com axe na linha de base (0).

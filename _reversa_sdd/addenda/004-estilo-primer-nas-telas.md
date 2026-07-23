@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-21.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature adota o Primer (design system do GitHub) como base de estilo integral da plataforma: a identidade visual anterior, portada do projeto Claude Design, é superada; tokens, tipografia e componentes passam a vir de `@primer/react` + `@primer/primitives`, pinados e servidos pelo bundle próprio, dentro da CSP sem terceiros. A migração cobriu a calculadora inteira sem alterar uma única asserção comportamental de teste, quitou a dívida técnica nº 4 (`globais.css` 699 → 397 linhas) e a parte e2e da dívida nº 3 (Playwright + axe funcionais, violações 1 → 0). O gate de bundle disparou (+152,8 kB gzip no first load, limiar 100) e foi resolvido por decisão do usuário (delta aceito, D-10 do roadmap).

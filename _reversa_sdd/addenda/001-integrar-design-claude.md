@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-19.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature integrou ao repositório as quatro mudanças aprovadas no design da tela da calculadora de insulina: duas regras clínicas novas (dose de metformina com alerta de otimização; TFG para ajustar ou contraindicar a metformina), a ampliação da recomendação de suspender sulfonilureia para dois gatilhos adicionais e a reestruturação da entrada de glicemias em quatro campos por momento de aferição. Beneficiário: o médico prescritor da APS. **20 de 20 ações concluídas** (T001–T020), suíte de 188 testes verde, cobertura de domínio ≥ 90% mantida.

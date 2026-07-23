@@ -1,9 +1,9 @@
 # C4 — Nível 2: Containers — aps-inteligente
 
-> Gerado pelo Reversa Architect em 2026-07-19.
+> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 2).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
-🟢 Arquitetonicamente há **um único container de runtime**: a aplicação web que a Vercel serve como estáticos e que executa no navegador. Banco de dados é ausente por design (ADR 0002); a API v1 é um container **fantasma** — declarado na estrutura de pastas, sem código.
+🟢 A superfície cresceu além do container único da extração 1. Hoje há **três containers reais** — a aplicação web, a Function do healthcheck e o banco PostgreSQL — mais o `localStorage` de borda. O banco existe (feature 003) mas **não guarda dado clínico**: serve só para o healthcheck comprovar conectividade.
 
 ```mermaid
 C4Container
@@ -12,29 +12,37 @@ C4Container
     Person(medico, "Médico prescritor da APS")
 
     System_Boundary(aps, "aps-inteligente") {
-        Container(web, "Aplicação web", "Next.js 16 (Pages Router), React 19, TypeScript strict", "Páginas estáticas + bundle client-side com o motor de cálculo embarcado")
-        Container(api, "API v1", "Next.js API route", "🔴 FANTASMA — pages/api/v1/index.js vazio; intenção: rotas sem dado clínico (ADR 0008)")
+        Container(web, "Aplicação web", "Next.js 16 (Pages Router, Turbopack), React 19, TS 6 strict, Primer 38", "Home por seções + 3 telas; motor dos 3 domínios embarcado no cliente")
+        Container(api, "Function /api/v1/status", "Vercel Function (Next.js API route)", "Healthcheck público, sem estado, sem dado clínico; contrato fixo (ADR 0008)")
+        Container(infra, "infra/database.ts", "TypeScript + driver pg 8.22", "Único ponto de acesso ao banco; pool lazy, host mascarado no log")
     }
 
     ContainerDb_Ext(ls, "localStorage", "Navegador", "Somente aps-inteligente:tema (claro/escuro)")
-    System_Ext(vercel, "Vercel", "Build + CDN")
+    ContainerDb_Ext(pg, "PostgreSQL", "Neon em produção · postgres:17.10-alpine local (:5433)", "NENHUM dado clínico — só responde SELECT 1")
+    System_Ext(vercel, "Vercel", "Build + CDN + runtime da Function")
 
-    Rel(medico, web, "Usa", "HTTPS")
+    Rel(medico, web, "Usa as calculadoras", "HTTPS")
+    Rel(medico, api, "GET /api/v1/status (observabilidade)", "HTTPS")
     Rel(web, ls, "Lê/grava preferência de tema", "Web Storage API")
-    Rel(vercel, web, "Serve", "HTTPS")
-    UpdateRelStyle(medico, web, $offsetY="-20")
+    Rel(api, infra, "saude()", "chamada de função")
+    Rel(infra, pg, "SELECT 1 (parametrizado)", "TLS / pg")
+    Rel(vercel, web, "Serve build estático", "HTTPS")
+    Rel(vercel, api, "Executa a Function", "HTTPS")
+    UpdateRelStyle(medico, web, $offsetY="-30")
 ```
 
 ## Inventário de containers
 
 | Container | Tecnologia | Estado | Observações |
 |---|---|---|---|
-| Aplicação web | Next.js 16.2.10, React 19.2.4, TS 6 strict | 🟢 ativo | Único container real; motor de cálculo roda no cliente |
-| API v1 | Next.js API route (Pages Router) | 🔴 fantasma | Arquivo vazio; requisições a `/api/v1` falham. Feature 002 (`/api/v1/status`) existiu antes da refundação e não foi reconstituída |
-| Banco de dados | — | 🟢 ausente por design | Gatilho de revisão registrado (MD-0003/ADR 0002) |
+| Aplicação web | Next.js 16.2.10, React 19.2.4, TS 6, Primer 38.33 | 🟢 ativo | Motor dos três domínios roda no cliente; nenhuma ida à rede com dado clínico |
+| Function `/api/v1/status` | Vercel Function (API route) | 🟢 ativo (feature 002) | Antes fantasma; hoje contrato fixo `{atualizado_em, versao, commit}`, `no-store`, 405 + `Allow: GET` |
+| Banco PostgreSQL | Neon (prod) · postgres:17.10-alpine (local :5433) | 🟢 ativo (feature 003) | Sem dado clínico; só `SELECT 1`. Acesso exclusivo por `infra/database.ts` |
 | localStorage | Web Storage | 🟢 ativo | Exclusivamente tema; degradação graciosa se bloqueado |
 
 ## Comunicação
 
-- 🟢 Não há comunicação entre containers em runtime além de web ↔ localStorage.
-- 🟢 CSP sem terceiros existia na versão pré-refundação (commit `ebad6a5`); 🔴 não verificada na estrutura atual — item para a Spec Impact Matrix e o Reviewer.
+- 🟢 A única comunicação com dado clínico é **médico ↔ aplicação web**, e ela não deixa o navegador (o cálculo é local).
+- 🟢 O caminho **Function → `infra/database.ts` → PostgreSQL** transporta apenas `SELECT 1`; o log é JSON estruturado **sem URL nem credencial**, com host mascarado (`hostMascarado`: 4 primeiros chars + `•••`). Sem retentativa automática — falha barulhenta (ADR 0004, Princípio nº 5.2).
+- 🟢 Sem retorno de dado clínico pela Function: o corpo é só metadado de deploy (versão, commit, timestamp).
+- 🟡 CSP e cabeçalhos de segurança são verificados pela suíte de contrato; a conferência byte a byte contra o repositório pré-refundação segue como item do Reviewer.

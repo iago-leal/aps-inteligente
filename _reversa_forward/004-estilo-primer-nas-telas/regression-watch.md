@@ -25,7 +25,18 @@
 
 ## Histórico de re-extrações
 
-_Vazio — preenchido pelo agente reverso na próxima rodada de `/reversa`._
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | paleta Claude antiga (`#0e5f53`) e `next/font`/IBM Plex ausentes de `interface/**` e `pages/**` (grep); nenhum artefato cita o Claude Design como autoridade |
+| W002 | 🟢 verde | `@primer/react` 38.33.0, `@primer/primitives` 11.9.0, `@primer/octicons-react` 19.29.2 **pinados** (sem `^`/`~`); `@primer/css` e `@primer/view-components` ausentes do manifesto |
+| W003 | 🟡 amarelo | `interface/estilos/globais.css` em **exatamente 400 linhas** — no teto, não abaixo dele; o sinal "`wc -l ≥ 400`" toca o limite. Sem cor própria (só `var(--*)`, grep confirma). Dívida 🟡 já documentada (`gaps.md`), não regressão de conteúdo. **Recomendação:** extrair layout base do cabeçalho de `globais.css` para folha própria e voltar a < 400 |
+| W004 | 🟢 verde | `e2e/axe-baseline.json` vigente; contagem real atual 0 (specs de interface: axe 0/0) |
+| W005 | 🟢 verde | chave `aps-inteligente:tema`, valores claro/escuro, `preferencia-de-tema.ts` fonte de verdade; Primer consumidor via `provedor-tema.tsx` (`domain.md` §6, `state-machines.md`) |
+| W006 | 🟢 verde | CSP inalterada em `next.config`; único acréscimo `transpilePackages: ["@primer/react"]` (grep) |
+| W007 | 🟢 verde | comportamento idêntico sob a pele nova: `EstadoResultado`, validação via `CONSTANTES`, ritual; `erro-de-campo.tsx` (14 LOC) preserva `role="alert"` |
+| W008 | 🟢 verde | sem `@primer/*` em `models/**` (grep); `models/insulina/**` intocado |
 
 ## Arquivadas
 

@@ -1,9 +1,11 @@
 # ERD Completo — aps-inteligente
 
-> Gerado pelo Reversa Architect em 2026-07-19.
+> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 2).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
-🟢 **Não há banco de dados** (ausência por design, ADR 0002): este ERD modela as **entidades em memória** do domínio (`models/insulina/tipos.ts`), efêmeras por cálculo. Não existem chaves primárias nem estrangeiras — as "relações" são composição de objetos imutáveis. Cardinalidades refletem os contratos TypeScript.
+🟢 **Não há persistência de dado clínico** (ADR 0002). O banco PostgreSQL existe (feature 003) mas responde só `SELECT 1` — não tem esquema clínico. Os ERDs abaixo modelam as **entidades em memória** dos três domínios (`models/*/tipos.ts`), efêmeras por cálculo: não há PK/FK, as "relações" são composição de objetos imutáveis, e as cardinalidades refletem os contratos TypeScript.
+
+## Domínio 1 — `models/insulina`
 
 ```mermaid
 erDiagram
@@ -11,102 +13,105 @@ erDiagram
         string modo "inicio | titulacao"
         number pesoKg "0 < p <= 350"
         number hba1cPercent "opcional; 3-20"
-        boolean usoSulfonilureia "opcional; undefined = nao informado"
+        boolean usoSulfonilureia "opcional"
+        number doseMetforminaMgDia "opcional (feature 001)"
+        number tfg "opcional; mL/min/1.73m2 (feature 001/005)"
     }
-    GLICEMIA_AFERIDA {
-        number valorMgDl "10-1000"
-        string momento "jejum | antes_almoco | antes_jantar | ao_deitar"
-    }
-    ESQUEMA_INSULINA {
-        string tipo "basal | basal-plus | basal-bolus"
-    }
-    APLICACAO_INSULINA {
-        string insulina "NPH | Regular"
-        string momento "antes_cafe | antes_almoco | antes_jantar | ao_deitar"
-        number doseUi "inteira 1-60"
-    }
-    SAIDA_CALCULO {
-        string tipo "resultado | erro-validacao | fora-do-escopo"
-    }
-    RESULTADO_INICIO {
-        string modo "inicio"
-    }
-    RESULTADO_TITULACAO {
-        string modo "titulacao"
-        number doseTotalDiaUi
-        number deltaTotalUi "pode ser negativo"
-        boolean naMeta
-    }
-    FAIXA_UI {
-        number minUi
-        number maxUi
-    }
-    ALERTA {
-        string tipo "5 valores; ordenados por SEVERIDADE"
-        string mensagem
-    }
-    RECOMENDACAO {
-        string tipo "11 valores; chave de dedupe"
-        string mensagem
-    }
-    REFERENCIA_CLINICA {
-        string fonteId "sempre guia-rapido-dm-sms-rio"
-        string versaoEdicao "2a ed. atualizada, 2023"
-        string localizacao "pagina/figura; chave de dedupe"
-    }
-    CONDUTA_ALTERNATIVA {
-        string rotulo
-    }
-    ERRO_VALIDACAO {
-        string tipo "erro-validacao"
-    }
-    OFENSOR {
-        string campo "path notation"
-        string codigo "7 valores de CodigoErro"
-        string mensagem
-    }
-    FORA_DO_ESCOPO {
-        string tipo "fora-do-escopo"
-        string orientacao
-    }
+    GLICEMIA_AFERIDA { number valorMgDl "10-1000" string momento "jejum|antes_almoco|antes_jantar|ao_deitar" }
+    ESQUEMA_INSULINA { string tipo "basal | basal-plus | basal-bolus" }
+    APLICACAO_INSULINA { string insulina "NPH | Regular" string momento "antes_cafe|antes_almoco|antes_jantar|ao_deitar" number doseUi "inteira 1-60" }
+    SAIDA_CALCULO { string tipo "resultado | erro-validacao | fora-do-escopo" }
+    RESULTADO_TITULACAO { number doseTotalDiaUi number deltaTotalUi "pode ser negativo" boolean naMeta }
+    ALERTA { string tipo "6 valores; ordenados por SEVERIDADE" }
+    RECOMENDACAO { string tipo "14 valores; chave de dedupe" }
+    REFERENCIA_CLINICA { string fonteId "guia-rapido-dm-sms-rio" string localizacao "pagina/figura; dedupe" }
+    OFENSOR { string campo string codigo "9 valores" }
 
     ENTRADA_CALCULO ||--o{ GLICEMIA_AFERIDA : "glicemias (>=1 na titulacao)"
-    ENTRADA_CALCULO ||--o| ESQUEMA_INSULINA : "esquemaAtual (obrigatorio na titulacao)"
-    ESQUEMA_INSULINA ||--|{ APLICACAO_INSULINA : "aplicacoes (nao vazio)"
-
-    SAIDA_CALCULO ||--o| RESULTADO_INICIO : "variante"
+    ENTRADA_CALCULO ||--o| ESQUEMA_INSULINA : "esquemaAtual (titulacao)"
+    ESQUEMA_INSULINA ||--|{ APLICACAO_INSULINA : "aplicacoes"
     SAIDA_CALCULO ||--o| RESULTADO_TITULACAO : "variante"
-    SAIDA_CALCULO ||--o| ERRO_VALIDACAO : "variante"
-    SAIDA_CALCULO ||--o| FORA_DO_ESCOPO : "variante"
-
-    RESULTADO_INICIO ||--|| FAIXA_UI : "faixaDoseUi (10-15)"
-    RESULTADO_INICIO ||--|| FAIXA_UI : "faixaPorPesoUi"
-    RESULTADO_INICIO ||--|| APLICACAO_INSULINA : "aplicacaoSugerida (NPH ao deitar, sem dose)"
-    RESULTADO_INICIO ||--o{ ALERTA : "alertas"
-    RESULTADO_INICIO ||--|{ RECOMENDACAO : "recomendacoesAoPrescritor"
-    RESULTADO_INICIO ||--|{ REFERENCIA_CLINICA : "referencias (>=1)"
-
     RESULTADO_TITULACAO ||--|{ APLICACAO_INSULINA : "esquemaSugerido"
-    RESULTADO_TITULACAO ||--o{ CONDUTA_ALTERNATIVA : "condutasAlternativas (so quando >=1)"
     RESULTADO_TITULACAO ||--o{ ALERTA : "alertas"
-    RESULTADO_TITULACAO ||--o{ RECOMENDACAO : "recomendacoesAoPrescritor"
+    RESULTADO_TITULACAO ||--o{ RECOMENDACAO : "recomendacoes"
     RESULTADO_TITULACAO ||--|{ REFERENCIA_CLINICA : "referencias (>=1)"
-
-    CONDUTA_ALTERNATIVA ||--|{ APLICACAO_INSULINA : "esquemaSugerido"
-    CONDUTA_ALTERNATIVA ||--|| REFERENCIA_CLINICA : "referencia"
+    SAIDA_CALCULO ||--o{ OFENSOR : "erro-validacao (>=1)"
     ALERTA ||--|| REFERENCIA_CLINICA : "referencia"
     RECOMENDACAO ||--|| REFERENCIA_CLINICA : "referencia"
-    ERRO_VALIDACAO ||--|{ OFENSOR : "ofensores (>=1)"
-    FORA_DO_ESCOPO ||--|| REFERENCIA_CLINICA : "referencia"
+```
+
+## Domínio 2 — `models/gestacao` (feature 007)
+
+```mermaid
+erDiagram
+    ENTRADA_DATACAO { string dataReferencia "AAAA-MM-DD; injetada pela UI (RN-07)" string dum "opcional*" }
+    DATACAO_ULTRASSOM { string dataExame "opcional*" number semanas "0-42" number dias "0-6" }
+    SAIDA_DATACAO { string tipo "resultado | erro-validacao" }
+    DATACAO_CALCULADA { number igSemanas number igDias string dpp "Naegele" number trimestre "1|2|3" }
+    DATACAO_POR_ULTRASSOM { string dumEquivalente "dataExame - IG do laudo" }
+    COMPARACAO_DATACOES { number diferencaDias number trimestreDaUsg number margemDias "7|14|ausente" string veredito }
+    NOTA_AO_PRESCRITOR { string tipo "CONFIABILIDADE_DUM | ESTIMATIVA_NA_DATA_DE_REFERENCIA" }
+    REFERENCIA_CLINICA { string fonteId "guia-rapido-pre-natal-sms-rio" string localizacao "pp. 31-32, 113" }
+    OFENSOR { string codigo "7 valores" }
+
+    ENTRADA_DATACAO ||--o| DATACAO_ULTRASSOM : "ultrassom (*DUM ou USG, RN-05)"
+    SAIDA_DATACAO ||--o| DATACAO_CALCULADA : "porDum (opcional)"
+    SAIDA_DATACAO ||--o| DATACAO_POR_ULTRASSOM : "porUltrassom (opcional)"
+    SAIDA_DATACAO ||--o| COMPARACAO_DATACOES : "comparacao (só com ambas)"
+    DATACAO_POR_ULTRASSOM ||--|| DATACAO_CALCULADA : "estende"
+    SAIDA_DATACAO ||--o{ NOTA_AO_PRESCRITOR : "notas"
+    SAIDA_DATACAO ||--|{ REFERENCIA_CLINICA : "referencias (>=1)"
+    SAIDA_DATACAO ||--o{ OFENSOR : "erro-validacao (>=1)"
+    COMPARACAO_DATACOES ||--|| REFERENCIA_CLINICA : "referencia"
+```
+
+🟢 **Veredito** ∈ `dum-confirmada` / `dum-fora-da-margem` / `sem-parametro-na-fonte`. O 3.º trimestre não tem margem na fonte → `sem-parametro-na-fonte`.
+
+## Domínio 3 — `models/cardiopatia-isquemica` (feature 010)
+
+```mermaid
+erDiagram
+    ENTRADA_AVALIACAO { number idadeAnos "0-120 valida; 30-69 coberta" string sexo "masculino | feminino" boolean impedimentoErgometria "opcional" boolean sinaisInstabilidade "opcional" }
+    CARACTERISTICAS_DOR { boolean retroesternal boolean provocadaPorEsforcoOuEstresse boolean aliviaComRepousoOuNitrato }
+    FATOR_DE_RISCO { string valor "diabetes|tabagismo|hipertensao|dislipidemia" }
+    SAIDA_AVALIACAO { string tipo "resultado | fora-do-escopo | entrada-invalida" }
+    RESULTADO_AVALIACAO { string classificacaoDor "tipica|atipica|nao-anginosa" string faixaEtaria "30-39..60-69" number probabilidadeBasePct string estrato "baixa|intermediaria|alta" }
+    FAIXA_PROBABILIDADE { number minPct "capado 99" number maxPct "capado 99" boolean excedeAlta "extremo >90%" }
+    CONDUTA { string tipo "4 valores" string exame "nenhum|ergometria|metodo-nao-invasivo-alternativo" }
+    ADVERTENCIA { string tipo "ANGINA_INSTAVEL" }
+    REFERENCIA_CLINICA { string fonteId "telecondutas-cardiopatia-isquemica" }
+    OFENSOR { string codigo "3 valores" }
+
+    ENTRADA_AVALIACAO ||--|| CARACTERISTICAS_DOR : "caracteristicas (3 booleanos)"
+    ENTRADA_AVALIACAO ||--o{ FATOR_DE_RISCO : "fatoresDeRisco (pode vazio)"
+    SAIDA_AVALIACAO ||--o| RESULTADO_AVALIACAO : "variante"
+    RESULTADO_AVALIACAO ||--o| FAIXA_PROBABILIDADE : "probabilidadeAjustada (só com fator)"
+    RESULTADO_AVALIACAO ||--|| CONDUTA : "conduta"
+    RESULTADO_AVALIACAO ||--o{ ADVERTENCIA : "advertencias"
+    RESULTADO_AVALIACAO ||--|{ REFERENCIA_CLINICA : "referencias (>=1)"
+    SAIDA_AVALIACAO ||--o{ OFENSOR : "entrada-invalida (>=1)"
+```
+
+🟢 **Matriz `PROBABILIDADE_PRE_TESTE`** (Quadro 2, 24 células %, congelada): não anginosa M `4/13/20/27`, F `2/3/7/14`; atípica M `34/51/65/72`, F `12/22/31/51`; típica M `76/87/93/94`, F `26/55/73/86` (faixas `30-39/40-49/50-59/60-69`). Detalhe no `data-dictionary.md`.
+
+## Infraestrutura — banco (sem dado clínico)
+
+🟢 O PostgreSQL não tem esquema clínico. A única "entidade" relevante à extração é o **erro de infraestrutura**, não uma tabela:
+
+```mermaid
+erDiagram
+    ERRO_DE_BANCO { string causa "conexao | consulta | configuracao" string message string cause "erro original preservado" }
+    LOG_ESTRUTURADO { string nivel string origem string host "MASCARADO (4 chars + bullets)" number duracao_ms }
+    ERRO_DE_BANCO ||--o| LOG_ESTRUTURADO : "emitido como (sem URL/credencial)"
 ```
 
 ## Invariantes estruturais (verificados por property-based testing)
 
-1. 🟢 Todo `Alerta`, `Recomendacao`, `CondutaAlternativa` e resultado carrega `ReferenciaClinica` — nenhuma saída sem fonte.
-2. 🟢 `AplicacaoInsulina.doseUi` é sempre inteira 1–60 (value object `DoseUi`); esquemas sugeridos são sempre realizáveis na caneta do SUS.
-3. 🟢 O motor é determinístico: mesma `EntradaCalculo` → mesma `SaidaCalculo`.
-4. 🟢 `RESULTADO_INICIO.aplicacaoSugerida` não fixa dose (AMB-01) — o par faixa absoluta + faixa por peso é quem informa.
+1. 🟢 Toda saída dos três domínios carrega ao menos uma `ReferenciaClinica` — nenhuma conduta, datação ou estrato sem fonte.
+2. 🟢 `AplicacaoInsulina.doseUi` é sempre inteira 1–60 (value object `DoseUi`) — esquemas sempre realizáveis na caneta do SUS.
+3. 🟢 Os três motores são determinísticos: mesma entrada → mesma saída (gestação recebe a data de referência como entrada, não lê o relógio).
+4. 🟢 A cardiopatia recusa idade fora de 30–69 com `ForaDoEscopoDaFonte`, **sem número estimado** — não extrapola a matriz.
 
 ## View models da interface (fora do domínio)
 
-`EstadoResultado`, `LinhaGlicemia`, `LinhaAplicacao`, `EventoDeErro`, `Tema` — descritos no `data-dictionary.md` e em `state-machines.md`; não participam do contrato do motor.
+`EstadoResultado`/`EstadoIg`/`EstadoCardiologia`, `EventoDeErro`, `Tema` — descritos em `data-dictionary.md` e `state-machines.md`; não participam do contrato dos motores.

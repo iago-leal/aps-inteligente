@@ -24,7 +24,16 @@
 
 ## Histórico de re-extrações
 
-_(vazio — preenchido pelo agente reverso na próxima execução de `/reversa`)_
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `pages/api/v1/status.ts` é a única rota da v1: GET → 200, outros → 405 com `Allow: GET` (unit `pages-api-v1-status/contracts.md`; verificado no código) |
+| W002 | 🟢 verde | `pages/api/v1/index.js` e `tests/integration/api/v1/index.js` ausentes (verificado no `ls`) |
+| W003 | 🟢 verde | `next.config` mantém CSP só em produção, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff` |
+| W004 | 🟢 verde | `vitest.api.config.ts` presente; `npm run test:api` aponta para ela |
+| W005 | 🟢 verde | `.github/workflows/ci.yml` com três jobs (verificacao/contrato/deploy); `deploy` tem `needs: [verificacao, contrato]` |
+| W006 | 🟢 verde | contrato fixo `{atualizado_em, versao, commit}`, `Cache-Control: no-store`, sem `Set-Cookie` (`contracts.md`) |
 
 ## Arquivadas
 

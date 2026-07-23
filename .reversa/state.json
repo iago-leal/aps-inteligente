@@ -9,9 +9,71 @@
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
   "phase": "concluido",
+  "re_extraction": {
+    "number": 2,
+    "started_at": "2026-07-23",
+    "reason": "absorver features 001-010 do ciclo forward",
+    "previous_completed_at": "2026-07-20T00:45:00Z",
+    "completed_at": "2026-07-23T14:10:00Z"
+  },
+  "regression_check": {
+    "re_extraction": 2,
+    "ran_at": "2026-07-23T14:10:00Z",
+    "features_verificadas": 10,
+    "watch_items_com_conteudo": 44,
+    "vereditos": { "verde": 43, "amarelo": 1, "vermelho": 0 },
+    "amarelo": ["004/W003 — globais.css em exatamente 400 linhas (no teto; divida documentada, sem cor propria)"],
+    "adendos_superados": 10
+  },
   "redator_progress": {
-    "plan_total": 12,
+    "plan_total": 40,
+    "re_extraction": 2,
+    "started_at": "2026-07-23",
     "done": [
+      "models-gestacao/requirements.md",
+      "models-gestacao/design.md",
+      "models-gestacao/tasks.md",
+      "models-gestacao/questions.md",
+      "models-cardiopatia-isquemica/requirements.md",
+      "models-cardiopatia-isquemica/design.md",
+      "models-cardiopatia-isquemica/tasks.md",
+      "models-cardiopatia-isquemica/questions.md",
+      "interface-comum/requirements.md",
+      "interface-comum/design.md",
+      "interface-comum/tasks.md",
+      "interface-cardiologia/requirements.md",
+      "interface-cardiologia/design.md",
+      "interface-cardiologia/tasks.md",
+      "interface-gestacao/requirements.md",
+      "interface-gestacao/design.md",
+      "interface-gestacao/tasks.md",
+      "interface-inicio/requirements.md",
+      "interface-inicio/design.md",
+      "interface-inicio/tasks.md",
+      "interface-estilos/requirements.md",
+      "interface-estilos/design.md",
+      "interface-estilos/tasks.md",
+      "pages-api-v1-status/requirements.md",
+      "pages-api-v1-status/design.md",
+      "pages-api-v1-status/contracts.md",
+      "pages-api-v1-status/tasks.md",
+      "infra/requirements.md",
+      "infra/design.md",
+      "infra/tasks.md",
+      "interface-calculadora/requirements.md (regenerado)",
+      "interface-calculadora/design.md (regenerado)",
+      "interface-calculadora/tasks.md (regenerado)",
+      "pages-next/requirements.md (regenerado)",
+      "pages-next/design.md (regenerado)",
+      "pages-next/tasks.md (regenerado)",
+      "openapi/status.yaml",
+      "user-stories/datacao-gestacional.md",
+      "user-stories/estratificacao-dor-toracica.md",
+      "traceability/code-spec-matrix.md (atualizado)"
+    ],
+    "next": null,
+    "finished_at": "2026-07-23",
+    "extraction_1_done": [
       "models-insulina/requirements.md",
       "models-insulina/design.md",
       "models-insulina/tasks.md",
@@ -24,24 +86,26 @@
       "pages-next/tasks.md",
       "user-stories/prescritor-calcula-dose.md",
       "traceability/code-spec-matrix.md"
-    ],
-    "next": null,
-    "finished_at": "2026-07-20T00:20:00Z"
+    ]
   },
-  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao"],
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao", "regressao"],
   "pending": [],
   "checkpoints": {
     "reviewer": {
-      "completed_at": "2026-07-20T00:45:00Z",
-      "specs_reviewed": 3,
+      "completed_at": "2026-07-23T14:10:00Z",
+      "re_extraction": 2,
+      "specs_reviewed": 12,
       "cross_review": false,
-      "reclassifications": { "amarelo_para_verde": 3, "vermelho_para_verde": 4 },
-      "questions": { "asked": 6, "answered": 4, "pending": ["G-01 caminho do PDF", "G-02 metformina/TFG", "G-03 sulfonilureia"] },
-      "confidence": "~92% verde",
+      "reclassifications": { "artefatos_corrigidos": 2, "premissas_promovidas": 0 },
+      "correcoes": "dois legacy-mapping.md obsoletos (pages-next, interface-calculadora) regenerados contra o codigo real (LOC 313/400, Moldura em interface/comum, status.ts realizado); models-insulina/legacy-mapping.md confirmado valido (motor intocado)",
+      "questions": { "asked": 9, "decision": "usuario optou por manter as 9 premissas clinicas como amarelo e seguir para a regressao", "pending_amarelo": ["Q-G1..G4 gestacao", "Q-C1..C5 cardiologia", "G-01 caminho do PDF"] },
+      "confidence": "~94% verde",
       "files": [
         "_reversa_sdd/questions.md",
         "_reversa_sdd/gaps.md",
-        "_reversa_sdd/confidence-report.md"
+        "_reversa_sdd/confidence-report.md",
+        "_reversa_sdd/pages-next/legacy-mapping.md",
+        "_reversa_sdd/interface-calculadora/legacy-mapping.md"
       ]
     },
     "writer": {
@@ -63,7 +127,9 @@
       ]
     },
     "architect": {
-      "completed_at": "2026-07-19T23:55:00Z",
+      "completed_at": "2026-07-23T01:40:00Z",
+      "re_extraction": 2,
+      "regeneracao": "seis artefatos regenerados cobrindo os três domínios (insulina/gestacao/cardiopatia), a plataforma guarda-chuva com Moldura comum, a Function /api/v1/status realizada (feature 002) e o banco sem dado clínico (feature 003); três containers reais em vez do container único da extração 1; matriz de impacto por módulo mostrando isolamento entre domínios e a Moldura como único acoplamento horizontal",
       "files": [
         "_reversa_sdd/architecture.md",
         "_reversa_sdd/c4-context.md",
@@ -74,13 +140,16 @@
       ]
     },
     "detective": {
-      "completed_at": "2026-07-19T23:30:00Z",
+      "completed_at": "2026-07-23T01:10:00Z",
+      "re_extraction": 2,
       "sources": [
-        "models/insulina",
-        "interface/calculadora",
-        "git log (repo atual)",
-        "~/dev/aps-inteligente-backup.bundle (MD-0001..0011, AMB-01..10, features 001/002)"
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
+        "interface/{calculadora,gestacao,cardiologia,inicio,comum}",
+        "git log (repo atual, features 001-010)",
+        "_reversa_sdd/addenda/001-010",
+        "~/dev/aps-inteligente-backup.bundle (MD-0001..0011, AMB-01..10)"
       ],
+      "regeneracao": "domain/state-machines/permissions cobrindo três domínios; intenções da extração 1 reconciliadas (features 001/002/003 realizadas); +3 ADRs (0011 multi-fonte, 0012 ritual só na dose, 0013 datas epoch UTC)",
       "files": [
         "_reversa_sdd/domain.md",
         "_reversa_sdd/state-machines.md",
@@ -94,27 +163,42 @@
         "_reversa_sdd/adrs/0007-telemetria-nula-fase-1.md",
         "_reversa_sdd/adrs/0008-plataforma-hibrida-api-sem-dado-clinico.md",
         "_reversa_sdd/adrs/0009-escopo-fase-1-o-que-o-guia-cobre.md",
-        "_reversa_sdd/adrs/0010-refundacao-2026-07.md"
+        "_reversa_sdd/adrs/0010-refundacao-2026-07.md",
+        "_reversa_sdd/adrs/0011-uma-fonte-clinica-por-unit-de-dominio.md",
+        "_reversa_sdd/adrs/0012-ritual-de-revisao-so-na-prescricao-de-dose.md",
+        "_reversa_sdd/adrs/0013-aritmetica-de-datas-em-dias-epoch-utc.md"
       ]
     },
     "archaeologist": {
-      "completed_at": "2026-07-19T22:05:00Z",
-      "modules_analyzed": ["models/insulina", "interface/calculadora", "pages"],
+      "completed_at": "2026-07-23T00:30:00Z",
+      "re_extraction": 2,
+      "modules_analyzed": [
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
+        "interface/comum", "interface/calculadora", "interface/gestacao",
+        "interface/cardiologia", "interface/inicio", "interface/estilos",
+        "pages", "pages/api/v1/status", "infra"
+      ],
       "modules_pending": [],
       "files": [
         "_reversa_sdd/code-analysis.md",
         "_reversa_sdd/data-dictionary.md",
         "_reversa_sdd/flowcharts/models-insulina.md",
+        "_reversa_sdd/flowcharts/models-gestacao.md",
+        "_reversa_sdd/flowcharts/models-cardiopatia-isquemica.md",
         "_reversa_sdd/flowcharts/interface-calculadora.md",
         "_reversa_sdd/flowcharts/pages.md",
-        "_reversa_sdd/models-insulina/legacy-mapping.md",
-        "_reversa_sdd/interface-calculadora/legacy-mapping.md",
-        "_reversa_sdd/pages-next/legacy-mapping.md",
         ".reversa/context/modules.json"
       ]
     },
     "scout": {
-      "completed_at": "2026-07-19T21:47:14Z",
+      "completed_at": "2026-07-23T00:00:00Z",
+      "re_extraction": 2,
+      "modules_identified": [
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica",
+        "interface/calculadora", "interface/cardiologia", "interface/gestacao",
+        "interface/inicio", "interface/comum", "interface/estilos",
+        "pages", "pages/api/v1/status", "infra"
+      ],
       "files": [
         "_reversa_sdd/inventory.md",
         "_reversa_sdd/dependencies.md",

@@ -17,7 +17,13 @@
 
 ## Histórico de re-extrações
 
-<!-- Preenchido pelo agente reverso quando `/reversa` rodar novamente. -->
+### Re-extração 2026-07-23 14:10
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `agrupar-recomendacoes.ts`: `REDUZIR_METFORMINA_TFG` como subitem sob `MANTER_METFORMINA` quando coexistem (`interface-calculadora/design.md` §Fluxos Alternativos) |
+| W002 | 🟢 verde | só apresentação; `models/insulina/` intocado byte a byte (git); textos, referências e supressão preservados (`domain.md` §3.4) |
+| W003 | 🟢 verde | `REDUZIR_METFORMINA_TFG` sem `MANTER_METFORMINA` permanece item de topo (fallback D-02, design) |
 
 ## Arquivadas
 

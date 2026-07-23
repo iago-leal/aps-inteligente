@@ -1,24 +1,35 @@
 # Gaps — aps-inteligente
 
-> Gerado pelo Reversa Reviewer em 2026-07-19. Lacunas que permaneceram após a sessão de validação.
+> Regenerado pelo Reversa Reviewer na **re-extração 2 (2026-07-23)**. Lacunas e dívidas após a sessão de validação (o usuário optou por manter as premissas clínicas como 🟡 e seguir para a regressão).
 
-## Abertas (aguardam insumo do usuário)
+## Premissas clínicas abertas (🟡, aguardam chancela do prescritor)
+
+| # | Premissa | Unit | O que destrava |
+|---|----------|------|----------------|
+| Q-G1 | Cortes de trimestre 13+6 / 27+6 | `models-gestacao` | Definição operacional de trimestre |
+| Q-G2 | Limite retroativo da DUM (44 semanas) | `models-gestacao` | Teto de plausibilidade da validação |
+| Q-G3 | Faixa do laudo de USG (0–42 semanas) | `models-gestacao` | Faixa de plausibilidade da validação |
+| Q-G4 | 3.º trimestre: só informar, sem arbitrar | `models-gestacao` | Conduta da comparação DUM×USG sem margem na fonte |
+| Q-C1 | Transcrição das 24 células do Quadro 2 | `models-cardiopatia-isquemica` | Conferência independente contra o PDF |
+| Q-C2 | Estrato "baixa" descritivo | `models-cardiopatia-isquemica` | Semântica clínica do estrato |
+| Q-C3 | Cap do ajuste em 99% e sinal ">90%" | `models-cardiopatia-isquemica` | Apresentação da incerteza |
+| Q-C4 | Ausência de ritual de revisão | `models-cardiopatia-isquemica` / `interface-cardiologia` | Confirmação da conduta de UX clínica |
+| Q-C5 | Fidelidade dos blocos complementares | `interface-cardiologia` | Nível de detalhe do material consultável |
+
+## Pendência de insumo
 
 | # | Lacuna | Origem | O que destrava |
 |---|--------|--------|----------------|
-| G-01 | Caminho do PDF do Guia Rápido DM (usuário confirmou que fornecerá) | `questions.md` P-1 | Conferência página a página das 20 referências e limiares de `fonte-clinica.ts` |
-| G-02 | Páginas/tabelas do guia sobre dose otimizada de metformina e ajuste/contraindicação por TFG | `questions.md` P-2 | Specs das divergências clínicas 1 e 2 (features futuras do ciclo forward) |
-| G-03 | Redação condicional da `SUSPENDER_SULFONILUREIA` ampliada e seu gatilho (todo cálculo fracionado vs. só com ajuste) | `questions.md` P-3 | Spec da divergência clínica 3 |
+| G-01 | Caminho do PDF do *Guia Rápido DM* (usuário fornecerá) | `questions.md` Q-I1 | Conferência página a página das 20 referências e limiares de `models/insulina/fonte-clinica.ts` |
 
-## Convertidas em ação (decididas, aguardam execução)
+## Dívidas técnicas registradas (sem bloqueio)
 
-| # | Item | Decisão do usuário (2026-07-19) | Próximo passo |
-|---|------|--------------------------------|---------------|
-| A-01 | Silêncio do motor com HbA1c ausente nos ramos residuais | Comportamento indesejado — deve recomendar dosar HbA1c | Registrar via `/reversa-debugger`; teste de regressão antes do fix |
-| A-02 | Placeholder `/api/v1` | Manter deliberadamente como lembrete | Nada nesta fase; implementar na etapa do banco (ADR 0008) |
-| A-03 | CI, lint de fronteira (D-01), e2e, CSP/404 | Nada por enquanto | Permanecem em `architecture.md` §6; reavaliar na próxima feature de infra |
+- 🟡 **Acoplamento residual de tema:** `interface/calculadora/preferencia-de-tema.ts` é consumido pela `Moldura` (`interface/comum`) — realocar para `interface/comum/` numa próxima feature (declarado no próprio código e no `design.md` da unit `interface-comum`).
+- 🟡 **`globais.css` no teto de 400 linhas:** identidade nova deve ir para folha própria (regra já seguida nas features 008/009/010).
+- 🟡 **`formulario.tsx` (313 LOC):** concentra linhas, validação e montagem — extração de subcomponentes recomendável (unit `interface-calculadora`, T-08); `let proximoId` módulo-global é frágil sob StrictMode/HMR.
+- 🔴 **Sem telemetria/logs de produção** (por design, ADR 0007) — comportamento em uso real é invisível; dívida estrutural conhecida, não defeito.
+- 🟡 **Backlog de infra da refundação** (CI, lint de fronteira de camadas D-01, página 404 própria): documentado em `architecture.md` §6; reavaliar na próxima feature de infraestrutura.
 
-## Estruturais (registradas, sem bloqueio)
+## Corrigido nesta re-extração
 
-- 🔴 Sem telemetria/logs de produção (por design, ADR 0007) — comportamento em uso real é invisível.
-- 🟡 `formulario.tsx` (532 LOC) e `globais.css` (699 LOC) acima do limite de 400; `proximoId` módulo-global — dívidas com tarefas propostas (`interface-calculadora/tasks.md` T-07/T-08).
+- ✅ **`legacy-mapping.md` obsoletos** (`pages-next/`, `interface-calculadora/`): estavam congelados na extração 1 e contradiziam os specs regenerados (IBM Plex, `/api/v1/index.js` vazio, Moldura em `tela.tsx`, LOC 532/699). Regenerados pelo Reviewer contra o código real (313/400 LOC, Moldura em `interface/comum`, `status.ts` realizado).

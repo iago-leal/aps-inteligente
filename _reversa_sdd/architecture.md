@@ -1,59 +1,83 @@
 # Arquitetura — aps-inteligente
 
-> Gerado pelo Reversa Architect em 2026-07-19.
+> Regenerado pelo Reversa Architect em 2026-07-23 (**re-extração nº 2** — absorve as features 001–010 do ciclo forward).
+> Substitui a versão de 2026-07-19, que cobria só a calculadora de insulina, a API v1 como container fantasma e o banco como ausência por design.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 > Detalhes: `c4-context.md` · `c4-containers.md` · `c4-components.md` · `erd-complete.md` · `traceability/spec-impact-matrix.md`
 
 ## 1. Estilo arquitetural
 
-🟢 **Aplicação web estática com domínio embarcado no cliente**, em três camadas com dependência unidirecional e regra clínica isolada de framework (ADR 0003):
+🟢 **Plataforma web de calculadoras clínicas com domínio embarcado no cliente**, hoje com **três domínios clínicos independentes** sob uma casca comum. A calculadora única de insulinização (extração 1) tornou-se, pelas features 007 e 010, uma **plataforma guarda-chuva**: uma home por seções despacha para três telas, cada qual sobre um domínio puro e uma fonte clínica única (ADR 0001/0011).
+
+Três camadas com dependência estritamente unidirecional e regra clínica isolada de framework (ADR 0003):
 
 ```
-pages (shell Next.js)  →  interface/calculadora (React)  →  models/insulina (TypeScript puro)
+pages (shell Next.js: home, rotas, PWA, API route)
+  → interface/* (React + Primer: Moldura comum, telas, formulários, painéis, home)
+    → models/* (três domínios puros: insulina, gestacao, cardiopatia-isquemica)
+infra/database.ts (pool pg) — usada SÓ pelo healthcheck /api/v1/status; nunca toca dado clínico
 ```
 
-Propriedades estruturais deliberadas, todas rastreáveis a decisão registrada:
+🟢 Os três domínios são reconhecíveis como uma **família arquitetural** pelos invariantes que compartilham, todos rastreáveis a decisão registrada:
 
 | Propriedade | Mecanismo | Decisão |
 |---|---|---|
-| Privacidade por arquitetura | Sem backend com estado, sem fetch, sem telemetria; `EventoDeErro` só transporta nome de classe | ADR 0002/0007 |
-| Rastreabilidade clínica | Toda saída carrega `ReferenciaClinica` (página/figura do guia); catálogo único `REFERENCIAS`/`CONSTANTES` congelado | ADR 0001 |
-| Erros como valores | `SaidaCalculo` union; exceção só para bug interno (`ErroDeInvariante` → painel honesto) | ADR 0004 |
-| Apoio à decisão, não decisão | Faixa em vez de dose no início; condutas equivalentes devolvidas sem escolha; teto como alerta | ADR 0005/0006 |
-| Escopo = fonte | Fora do guia → `ForaDoEscopoDaFonte`; NPH/Regular apenas | ADR 0009 |
-| Determinismo | Sem feature flag, sem parâmetro de ambiente, constantes congeladas | verificado por property tests |
+| Domínio puro | `models/*` não importa React, Next nem biblioteca externa | ADR 0003 |
+| Uma fonte clínica por unit | Cada calculadora cobre só o que a sua fonte cobre; mescla proibida | ADR 0001/0011 |
+| Erros como valores | `Saida*` union discriminada por `tipo`; exceção só para bug (`ErroDeInvariante` → painel honesto) | ADR 0004 |
+| Rastreabilidade clínica | Toda saída carrega `ReferenciaClinica`; catálogo `REFERENCIAS`/`CONSTANTES` congelado por `Object.freeze` | ADR 0001 |
+| Coleta total de ofensores | A validação nunca para no primeiro erro | regra 15 do `domain.md` |
+| O motor informa, não escolhe | Insulina devolve `condutasAlternativas`; gestação, `veredito`; cardiopatia, estrato + conduta | ADR 0005/0006 |
+| Escopo = fonte | Fora do guia → `ForaDoEscopoDaFonte` (insulinas não NPH/Regular; idade fora de 30–69; 3.º trimestre na comparação) | ADR 0009 |
+| Privacidade por construção | Sem `fetch`/`storage` de dado clínico; único durável é o tema; `EventoDeErro` só transporta nome de classe | ADR 0002/0007 |
+| Ritual de revisão só na insulina | Gestação e cardiopatia não têm checkbox de confirmação — datar e estratificar não prescrevem dose | ADR 0012, D-08 |
+| Aritmética de datas em dias epoch UTC | Gestação roda diferença de datas sobre `Date.UTC`, sem fuso local | ADR 0013 |
 
 ## 2. Containers e componentes
 
-🟢 Um único container de runtime (aplicação web servida pela Vercel; localStorage só para tema) e um container fantasma (`pages/api/v1/` vazio — ADR 0008). Componentes-chave: fachada `CalculadoraInsulinaDM2` orquestrando validação → escopo → regras (`inicio`, `titulacao-basal`, `intensificacao`) → pós-processamento; UI com máquina `EstadoResultado`, validação espelhada via `CONSTANTES` e ritual de revisão. Diagramas nos arquivos C4.
+🟢 A superfície de runtime cresceu além do container único da extração 1. Hoje são **três containers reais** (diagramas em `c4-containers.md`):
+
+1. **Aplicação web** — Next.js 16 (Pages Router, Turbopack) servida pela Vercel; o motor dos três domínios roda no cliente. Componentes-chave por camada em `c4-components.md`: as três fachadas de domínio (`CalculadoraInsulinaDM2`, `CalculadoraIdadeGestacional`, `CalculadoraCardiopatiaIsquemica`) e a `Moldura` comum que embala home e telas.
+2. **API route `/api/v1/status`** (feature 002) — antes fantasma, hoje realizada: Vercel Function pública, sem estado, sem dado clínico, contrato fixo (ADR 0008).
+3. **Banco PostgreSQL** (feature 003) — antes ausência por design, hoje presente **sem dado clínico**: existe só para o healthcheck comprovar conectividade (Neon em produção; `compose.yaml` local na porta 5433).
+
+Persiste um container de borda: `localStorage`, exclusivamente para a preferência de tema.
 
 ## 3. Dados
 
-🟢 Sem banco (ausência por design). O ERD (`erd-complete.md`) modela as entidades em memória: `EntradaCalculo` → `SaidaCalculo` (4 variantes) com composição imutável e invariantes por value objects. Gatilho registrado: a futura etapa de banco reabre LGPD, autenticação e specs (ADR 0002, `permissions.md`).
+🟢 **Nenhum dado clínico é persistido** (ADR 0002). As entidades de cálculo dos três domínios são estruturas em memória, efêmeras por request; o ERD (`erd-complete.md`) as modela como composição de objetos imutáveis, com invariantes por value object. O banco PostgreSQL existe (feature 003) mas **não guarda nada de clínico**: `saude()` roda apenas `SELECT 1`. O único dado durável do sistema é o tema em `localStorage`. Gatilho registrado: introduzir persistência de dado clínico reabre LGPD, autenticação e specs (ADR 0002, `permissions.md`).
 
 ## 4. Integrações externas
 
-🟢 **Nenhuma em runtime.** Vercel é build/CDN; a fonte clínica é dependência editorial (dev-time). A API v1 é intenção não realizada: quando renascer, o padrão decidido é "rotas sem dado clínico, guarda comportamental + teste de contrato" (ADR 0008).
+🟢 **Nenhuma integração de runtime toca dado clínico.** O mapa de integrações:
+
+| Integração | Natureza | Momento | Dado clínico |
+|---|---|---|---|
+| Vercel | Build, CDN e execução de Function | runtime (deploy/serve) | não |
+| Neon (Postgres, Vercel Marketplace) | Banco gerenciado do healthcheck | runtime (só `/api/v1/status`) | **não** — só `SELECT 1` |
+| 3 fontes clínicas (SMS-Rio DM, SMS-Rio Pré-Natal, TeleCondutas Cardiopatia) | Dependência **editorial** (PDFs fora do repo) | dev-time (extração determinística) | fundamenta constantes |
+
+🟢 A API v1, intenção não realizada na extração 1, é hoje um contrato explícito: `GET /api/v1/status` devolve `{atualizado_em, versao, commit}`, `Cache-Control: no-store`, 405 + `Allow: GET` para não-GET. Mudança incompatível do corpo exigiria `/api/v2` (ADR 0008).
 
 ## 5. Qualidade e testes
 
-- 🟢 Pirâmide atual: 7 suítes de unidade do domínio (inclui property-based com fast-check) + 3 de integração da UI; threshold 90% em `models/**`.
-- 🔴 Ausentes desde a refundação: e2e (Playwright configurado no `package.json`, sem config/specs), teste de contrato de API, CI (D-07), lint de fronteira de camadas (D-01).
+- 🟢 Pirâmide realizada: **33 arquivos de teste** (Vitest + Playwright + fast-check + axe-core). Unidade property-based por domínio (toda saída referenciada, doses realizáveis, determinismo, oráculo das 24 células do Quadro 2 na cardiopatia); integração via Testing Library nas três telas; e2e Playwright + axe-baseline (0/0) por rota; contrato do `/api/v1/status` em suíte própria (16/16). Threshold alto em `models/**`.
+- 🟡 Lint de fronteira de camadas (D-01) ainda confiado à disciplina — não há regra automática impedindo `models/*` de importar framework. Verificado hoje por revisão, não por ferramenta.
 
 ## 6. Dívidas técnicas
 
 | # | Dívida | Evidência | Gravidade |
 |---|---|---|---|
-| 1 | CI inexistente (lint+typecheck+testes rodam só à mão) | sem `.github/workflows/` | alta — Produto exige CI (Princípio nº 5 global) |
-| 2 | Fronteira de camadas sem verificação automática (D-01 perdida) | eslint.config.mjs sem regra de import | alta — invariante central da arquitetura confiada à disciplina |
-| 3 | Scripts quebrados `test:api` / `test:e2e` | configs inexistentes; placeholders vazios | média — falha barulhenta, mas polui o contrato do package.json |
-| 4 | `formulario.tsx` 532 LOC · `globais.css` 699 LOC | limite de 400 do mantenedor | média — sinal 5.6 do CLAUDE.md global |
-| 5 | `let proximoId` módulo-global em `formulario.tsx` | `formulario.tsx:114` | baixa — frágil sob HMR/StrictMode |
-| 6 | Rastreabilidade órfã: código cita specs que só existem no bundle | RF/RN/R/AMB/MD nos comentários | alta — matriz não fecha até o Writer reconstituir as specs |
-| 7 | Quatro divergências clínicas aprovadas no design, ausentes do domínio | memória do projeto; `domain.md` §7 | alta — mudanças de conduta clínica pendentes de spec |
-| 8 | CSP e cabeçalhos de segurança não verificados na estrutura nova | existiam no repo antigo (`ebad6a5`) | média — privacidade por arquitetura sem verificação de regressão |
+| 1 | Fronteira de camadas sem verificação automática (D-01) | `eslint.config.mjs` sem regra de import boundary | média — invariante central confiado à disciplina; hoje respeitado |
+| 2 | Acoplamento residual `interface/comum` → `interface/calculadora` | `preferencia-de-tema.ts` não realocado (comentado no código) | baixa — dívida declarada, realocação adiada |
+| 3 | `globais.css` no teto de 400 linhas | `interface/estilos/globais.css` | baixa — cada folha nova evita o estouro; teto a monitorar (sinal 5.6) |
+| 4 | `let proximoId` módulo-global em `formulario.tsx` (insulina) | ids de linhas dinâmicas | baixa — frágil sob HMR/StrictMode, funcional |
+| 5 | Premissas clínicas 🟡 pendentes de validação | gestação (cortes 13+6/27+6, limites DUM/laudo); cardiopatia (estrato "baixa", cap ×2–×3) | média — decisões de projeto, não bugs; a confirmar pelo prescritor |
+| 6 | PDFs das três fontes fora do versionamento | MD-0008 | baixa por design — conferência página a página depende do usuário |
 
-🟢 Sem dívida de dependências: stack recente (Next 16, React 19, TS 6, Vitest 4), versões pinadas, lockfile commitado. Sem duplicação de código relevante: a única "duplicação" (faixas de validação UI/motor) é espelhamento deliberado importando a mesma constante.
+🟢 **Sem dívida de dependências:** stack recente (Next 16.2.10, React 19.2.4, TS 6, Primer 38, Vitest 4, pg 8.22), versões pinadas exatas, lockfile commitado. Sem duplicação de código relevante: o único "espelhamento" (faixas de validação UI/motor) importa a mesma constante — acoplamento deliberado anti-drift.
+
+🟢 **Reconciliação da extração 1:** as três lacunas 🔴 de infraestrutura da passagem anterior (API v1 fantasma, banco ausente, rastreabilidade órfã de specs) estão resolvidas — a API foi realizada (feature 002), o banco existe sem dado clínico (feature 003) e as specs vivem em `_reversa_sdd/` e `_reversa_forward/`.
 
 ## 7. Mapa de artefatos da extração
 
@@ -61,6 +85,6 @@ Propriedades estruturais deliberadas, todas rastreáveis a decisão registrada:
 |---|---|
 | O que existe e onde | `inventory.md`, `dependencies.md` |
 | Como funciona por dentro | `code-analysis.md`, `flowcharts/`, `data-dictionary.md` |
-| Por que é assim | `domain.md`, `adrs/`, `state-machines.md`, `permissions.md` |
+| Por que é assim | `domain.md`, `adrs/` (0001–0013), `state-machines.md`, `permissions.md` |
 | Como se estrutura | `architecture.md` (este), `c4-*.md`, `erd-complete.md` |
 | O que impacta o quê | `traceability/spec-impact-matrix.md` |

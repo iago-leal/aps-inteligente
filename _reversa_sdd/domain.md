@@ -1,125 +1,203 @@
 # Domínio — aps-inteligente
 
-> Gerado pelo Reversa Detective em 2026-07-19.
+> Regenerado pelo Reversa Detective em 2026-07-23 (**re-extração nº 2** — absorve as features 001–010).
+> Substitui a versão de 2026-07-19, que cobria só o domínio da insulina.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
-> Fontes: código em `models/insulina/` e `interface/calculadora/`; histórico git atual; histórico pré-refundação recuperado do bundle `~/dev/aps-inteligente-backup.bundle` (microdecisões MD-0001..0011, requirements da feature 001 com as decisões AMB-01..10).
+> Fontes: código em `models/{insulina,gestacao,cardiopatia-isquemica}/` e `interface/`; histórico git atual; adendos `_reversa_sdd/addenda/001–010`; requirements/regression-watch das features em `_reversa_forward/`; microdecisões pré-refundação (MD-0001..0011, AMB-01..10) recuperáveis no bundle `~/dev/aps-inteligente-backup.bundle`.
 
 ## 1. O sistema em uma frase
 
-🟢 Calculadora de apoio à decisão para **insulinização no DM2 na APS**, dirigida ao médico prescritor, 100% client-side, cuja única fonte clínica é o *Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023* (MD-0008): a calculadora cobre exatamente o que o guia cobre, nada além (MD-0009).
+🟢 **Plataforma de calculadoras clínicas de apoio à decisão para a Atenção Primária à Saúde**, dirigida ao médico prescritor, 100% client-side no cálculo clínico. Nasceu como calculadora única de insulinização no DM2 (feature 001+) e, pelas features 007 e 010, tornou-se uma **plataforma guarda-chuva com três domínios clínicos independentes**, cada um com **uma fonte clínica única** e um catálogo próprio de referências. A regra editorial atravessa a plataforma inteira: cada calculadora cobre exatamente o que a sua fonte cobre, nada além (MD-0009).
+
+| Domínio | Calculadora | Fonte clínica única | Feature |
+|---|---|---|---|
+| `models/insulina` | Insulina DM2 (início, titulação, intensificação, antidiabéticos orais) | *Guia Rápido Diabetes Mellitus* — SMS-Rio, 2.ª ed. atualizada, 2023 | 001+ |
+| `models/gestacao` | Idade gestacional, DPP, trimestre (DUM × USG) | *Guia Rápido Pré-Natal* — SMS-Rio, 4.ª ed., 2025 (pp. 31–32, 113) | 007 |
+| `models/cardiopatia-isquemica` | Dor torácica e probabilidade pré-teste de DAC | *TeleCondutas — Cardiopatia Isquêmica* — TelessaúdeRS-UFRGS, 2017 | 010 |
 
 ## 2. Glossário
+
+### 2.1 Transversal à plataforma
+
+| Termo | Significado |
+|---|---|
+| **APS** | Atenção Primária à Saúde, contexto assistencial do produto (SUS) |
+| **Fonte clínica** | O documento-guia de um domínio; toda saída carrega `ReferenciaClinica` com página/quadro/figura |
+| **Uma fonte por unit** | Cada calculadora tem uma única fonte, sem mescla entre domínios (RN-06 da 007; ADR 0011) |
+| **Domínio puro** | Camada `models/*` sem `import` de React/Next/biblioteca externa; só TypeScript (ADR 0003) |
+| **Erro como valor** | Erro esperado é variante de union discriminada por `tipo`, nunca exceção (ADR 0004) |
+| **`ErroDeInvariante`** | Única exceção lançada; sinaliza **bug interno**, leva ao painel honesto na UI |
+| **Ofensor** | Violação de validação de entrada; a validação coleta **todos**, nunca para no primeiro |
+| **Fora do escopo da fonte** | Saída honesta quando o cenário é plausível mas não coberto pelo guia — recusa em vez de extrapolar |
+| **Painel honesto** | Tela de falha inesperada: "não prescreva/decida a partir desta tela" |
+| **O motor informa, não escolhe** | Diante de condutas equivalentes ou de datações divergentes, o motor devolve as opções/veredito; a decisão é do médico (ADR 0005) |
+| **Prescritor (anônimo)** | Único papel do sistema: médico usando a calculadora no navegador; nenhum dado sai do dispositivo |
+| **MD-xxxx / AMB-xx** | Microdecisões e ambiguidades do guia decididas pelo usuário médico (ver §7 e §8) |
+
+### 2.2 Insulina (DM2)
 
 | Termo | Significado |
 |---|---|
 | **DM2** | Diabetes mellitus tipo 2, condição-alvo da calculadora |
-| **APS** | Atenção Primária à Saúde, contexto assistencial do produto (SUS) |
-| **NPH** | Insulina humana de ação intermediária; a insulina **basal** do guia |
-| **Regular** | Insulina humana de ação rápida; a insulina **prandial** do guia |
-| **Início (modo)** | Primeira prescrição de insulina para paciente virgem de insulinização |
-| **Titulação (modo)** | Ajuste de esquema existente a partir de glicemias aferidas |
-| **Titulação basal** | Ajuste da NPH pela glicemia de **jejum** (+4 / +2 / 0 / −4 UI) |
-| **Fracionamento** | Divisão da NPH única em duas aplicações quando a dose cresce (> 30 UI ou > 0,4 UI/kg/dia) |
-| **Intensificação** | Introdução/ajuste da Regular guiada pelas glicemias pré-prandiais (braços AA/AJ/AD) |
-| **AA / AJ / AD** | Momentos de aferição pré-prandial: **A**ntes do **A**lmoço / do **J**antar / ao **D**eitar |
-| **Braço** | Ramo da Figura 4 do guia que liga um momento de aferição a uma aplicação de Regular deslocada (AA→café, AJ→almoço, AD→jantar) |
-| **Esquema** | Conjunto de aplicações de insulina do paciente; classificado em `basal` (0 Regular), `basal-plus` (1), `basal-bolus` (≥ 2) |
-| **NPH "mais noturna"** | A aplicação de NPH que recebe o ajuste do jejum: primeira na ordem `ao_deitar → antes_jantar → antes_almoco → antes_cafe` |
-| **Faixa plena** | Insulinização plena de 0,5–1,0 UI/kg/dia (p. 61); acima de 1,0 gera alerta, não trava (AMB-04) |
-| **Caneta SUS** | Dispositivo de aplicação disponível no SUS: 1–60 UI por aplicação, graduação de 1 UI (R-20/D-08) |
-| **Conduta alternativa** | Par de condutas clinicamente equivalentes segundo o guia, que o motor devolve **sem escolher** (AMB-03, AMB-10) |
-| **Fora do escopo da fonte** | Saída honesta quando o cenário não é coberto pelo guia (ex.: insulina que não é NPH/Regular) |
-| **Painel honesto** | Tela de falha inesperada (EC-07): "não prescreva a partir desta tela" |
-| **Ritual de revisão** | Checkbox "Revisei a dose e a fonte" que habilita o bloco "Pronto para prescrever"; qualquer edição o desfaz |
-| **Ofensor** | Violação de validação de entrada; a validação coleta **todos**, nunca para no primeiro |
-| **Fonte clínica** | O Guia Rápido DM; toda saída carrega `ReferenciaClinica` com página/figura |
-| **R-01..R-20** | Tabela canônica de regras extraída do guia página a página (spec do motor v2.0, recuperável no bundle) |
-| **AMB-01..10** | Ambiguidades do guia decididas pelo usuário médico em 2026-07-17/18 (ver §5) |
+| **NPH / Regular** | Insulina basal (ação intermediária) / prandial (ação rápida) do guia |
+| **Início / Titulação** | Primeira prescrição para virgem de insulina / ajuste de esquema existente por glicemias |
+| **Titulação basal** | Ajuste da NPH pela glicemia de jejum (+4 / +2 / 0 / −4 UI) |
+| **Fracionamento** | Divisão da NPH única em duas aplicações (NPH > 30 UI **ou** > 0,4 UI/kg/dia) |
+| **Intensificação** | Introdução/ajuste da Regular pelas pré-prandiais (braços AA/AJ/AD) |
+| **AA / AJ / AD** | **A**ntes do **A**lmoço / do **J**antar / ao **D**eitar (momentos de aferição) |
+| **Esquema** | `basal` (0 Regular) / `basal-plus` (1) / `basal-bolus` (≥ 2) |
+| **NPH "mais noturna"** | Aplicação de NPH que recebe o ajuste do jejum: 1.ª na ordem `ao_deitar → antes_jantar → antes_almoco → antes_cafe` |
+| **Faixa plena** | 0,5–1,0 UI/kg/dia (p. 61); acima de 1,0 gera alerta, não trava (AMB-04) |
+| **Caneta SUS** | 1–60 UI por aplicação, graduação de 1 UI (limite físico inviolável) |
+| **Ritual de revisão** | Checkbox "Revisei a dose e a fonte" que habilita "Pronto para prescrever" e o botão **Copiar plano**; qualquer edição o desfaz. **Específico da insulina** (ADR 0012) |
 
-## 3. Regras de domínio por modo
+### 2.3 Gestação (pré-natal)
 
-As regras abaixo estão 🟢 confirmadas no código (`models/insulina/`) e conferidas contra as constantes de `fonte-clinica.ts`, todas citando página/figura do guia.
+| Termo | Significado |
+|---|---|
+| **DUM** | Data da última menstruação; base de datação por regra de Naegele |
+| **USG / laudo** | Ultrassom obstétrico: `dataExame` + IG do laudo (semanas 0–42, dias 0–6) |
+| **IG** | Idade gestacional em semanas + dias, `⌊dias/7⌋` sem/`dias % 7` d (RN-01) |
+| **DPP** | Data provável do parto por Naegele: `DUM + 7 dias + 9 meses`, calendárica (RN-02, D-03) |
+| **DUM equivalente** | DUM retroprojetada do USG: `dataExame − (semanas×7 + dias)` (RN-03) |
+| **Trimestre** | 1.º `< 14×7 d`, 2.º `< 28×7 d`, 3.º senão — cortes 13+6/27+6 (RN-04, premissa 🟡) |
+| **Margem da USG** | Tolerância DUM×USG por trimestre no dia do exame: 7 d (1.º), 14 d (2.º), **sem parâmetro no 3.º** |
+| **Data de referência** | Data do dispositivo injetada pela UI; o motor **não lê o relógio** (RN-07) |
+| **Veredito de comparação** | `dum-confirmada` / `dum-fora-da-margem` / `sem-parametro-na-fonte` — o motor informa, não escolhe (D-04/D-05) |
+
+### 2.4 Cardiopatia isquêmica (dor torácica)
+
+| Termo | Significado |
+|---|---|
+| **DAC** | Doença arterial coronariana, condição-alvo da estimativa pré-teste |
+| **Quadro 1 (3 características)** | Dor retroesternal · provocada por esforço/estresse · alivia com repouso/nitrato |
+| **Classificação da dor** | 3 características → **típica**; 2 → **atípica**; ≤ 1 → **não anginosa** (RN-01) |
+| **Probabilidade pré-teste** | Lookup na matriz do Quadro 2: `[classificação][sexo][faixa etária]`, 24 células (RN-02) |
+| **Faixa etária** | `30-39` / `40-49` / `50-59` / `60-69` (eixo do Quadro 2) |
+| **Fatores de risco** | Diabetes · tabagismo · hipertensão · dislipidemia; ≥ 1 ajusta a probabilidade (RN-03) |
+| **Estrato** | `baixa` (< 10%) / `intermediaria` / `alta` (> 90%) — decisão descritiva, não puramente numérica (RN-04) |
+| **Ergometria × método não invasivo** | Exame padrão é ergometria; `impedimentoErgometria` (ECG basal altera interpretação ou paciente não pode exercitar) → método não invasivo alternativo (RN-05) |
+| **Angina instável** | `sinaisInstabilidade` → advertência de encaminhamento emergencial, fora do fluxo eletivo (RN-07) |
+| **Material complementar** | CCS I–IV, tratamento + Tabela 1, seguimento, manejo agudo: referência consultável **fora do cálculo** (RN-08/RF-10) |
+
+---
+
+## 3. Regras de domínio — Insulina (`models/insulina`) 🟢
+
+As regras estão 🟢 confirmadas no código e conferidas contra as constantes de `fonte-clinica.ts`, cada uma citando página/figura do guia.
 
 ### 3.1 Início de insulinização (`regra-inicio.ts`)
-
-1. A saída é **faixa, nunca dose única** (AMB-01): 10–15 UI/dia absoluta **e** `round(0,1×kg)`–`round(0,2×kg)` por peso; sugestão fixa de NPH ao deitar. O médico fixa o número.
-2. Alerta `INDICACAO_INSULINA` quando HbA1c ≥ 10% (AMB-08: "≥", leitura conservadora) **ou** jejum ≥ 300 mg/dL.
-3. Recomendações fixas: manter metformina; manter sulfonilureia — exceto se `usoSulfonilureia === false` (ausência de informação conta como "manter"); aferir jejum 3×/semana por 15 dias.
+1. Saída é **faixa, nunca dose única** (AMB-01): 10–15 UI/dia **e** `round(0,1×kg)`–`round(0,2×kg)`; sugestão fixa de NPH ao deitar. O médico fixa o número.
+2. Alerta `INDICACAO_INSULINA` quando HbA1c ≥ 10% (AMB-08, leitura conservadora "≥") **ou** jejum ≥ 300 mg/dL.
+3. Recomendações fixas: manter metformina; manter sulfonilureia salvo `usoSulfonilureia === false`; aferir jejum 3×/semana por 15 dias.
 
 ### 3.2 Titulação basal (`regra-titulacao-basal.ts`)
-
-4. Glicemias de jejum agregam-se por **média**, mas **hipoglicemia prevalece**: qualquer valor ≤ 70 mg/dL dispara −4 UI + alerta, independentemente da média (AMB-06).
-5. Tabela de ajuste sobre o jejum agregado: ≤ 70 → −4; ≥ 180 → +4 (AMB-09: em exatamente 180 vale +4); ≥ 130 e < 180 → +2; 71–129 → na meta, delta 0 (AMB-02/05: meta como faixa explícita, com piso de segurança).
+4. Jejum agrega por **média**, mas **hipoglicemia prevalece**: qualquer ≤ 70 → −4 UI + alerta, independentemente da média (AMB-06).
+5. Tabela sobre o jejum agregado: ≤ 70 → −4; ≥ 180 → +4 (AMB-09: em 180 vale +4); ≥ 130 e < 180 → +2; 71–129 → na meta, delta 0 (AMB-02/05).
 6. O ajuste incide na **NPH mais noturna**; esquema sem NPH: o jejum não titula nada.
-7. Toda dose é **clampada em 1–60 UI** (caneta SUS); quando o clamp atua, alerta `TETO_POR_APLICACAO`.
-8. **Fracionamento** quando NPH única > 30 UI ou > 0,4 UI/kg/dia: principal ½ café (`ceil`) + ½ ao deitar; alternativa rotulada ⅔ café (`round`) + ⅓ ao deitar (AMB-10 — o motor não escolhe). Ao fracionar com sulfonilureia em uso explícito: recomendar suspendê-la; sempre manter metformina.
+7. Toda dose **clampada em 1–60 UI** (caneta SUS); quando o clamp atua, alerta `TETO_POR_APLICACAO`.
+8. **Fracionamento** quando NPH única > 30 UI ou > 0,4 UI/kg/dia: principal ½ café (`ceil`) + ½ ao deitar; alternativa ⅔ café (`round`) + ⅓ ao deitar (AMB-10 — o motor não escolhe). Ao fracionar com sulfonilureia em uso explícito: recomendar suspendê-la; sempre manter metformina.
 
 ### 3.3 Intensificação (`regra-intensificacao.ts`)
-
-9. **Gate de HbA1c** (R-13/R-18): ≤ 7% sem Regular → manter conduta, repetir HbA1c em 6 meses; ≤ 7% com Regular → ajustar e avaliar encaminhamento ao endócrino; > 7% → pode iniciar Regular, mas sem pré-prandiais aferidas → recomendar aferir AA/AJ/AD e parar; HbA1c ausente → só prossegue se já intensificado **e** com pré-prandiais (recomendando repetir HbA1c em 3 meses).
+9. **Gate de HbA1c** (R-13/R-18): ≤ 7% sem Regular → manter, repetir HbA1c em 6 meses; ≤ 7% com Regular → ajustar e avaliar encaminhamento ao endócrino; > 7% → pode iniciar Regular, mas sem pré-prandiais → recomendar aferir AA/AJ/AD e parar; HbA1c ausente → só prossegue se já intensificado **e** com pré-prandiais (recomendando `DOSAR_HBA1C`/repetir em 3 meses — reforçado pela correção do BUG-20260719-RHZ5).
 10. Mapeamento **deslocado** aferição→aplicação (R-14..R-17): AA → Regular antes do **café**; AJ → antes do **almoço**; AD → antes do **jantar**.
 11. Por braço: hipo ≤ 70 → alerta + Regular −2 se existir; média < 130 → manter; ≥ 130 com Regular → +2; sem Regular e gate aberto → iniciar Regular 4 UI.
-12. **Caso especial AJ** (AMB-03): existindo NPH antes do café, o guia oferece duas condutas equivalentes; o motor devolve ambas como `condutasAlternativas` — a escolha é do prescritor.
-13. A titulação da Regular espelha a lógica do jejum (AMB-07) — **inferência espelhada**, citada como tal na referência: o guia só explicita "ajustar 2 UI a cada 3 dias".
+12. **Caso especial AJ** (AMB-03): com NPH no café, o guia oferece duas condutas equivalentes; o motor devolve ambas como `condutasAlternativas`.
+13. Titulação da Regular **espelha** a lógica do jejum (AMB-07) — inferência espelhada, citada como tal na referência.
 14. **NG-07**: intensificado, HbA1c acima da meta e nada ajustado → recomendar aferição pós-prandial, explicitando que o guia não parametriza esse ajuste.
 
-### 3.4 Regras transversais (fachada e validação)
+### 3.4 Antidiabéticos orais — metformina × TFG (`regra-metformina.ts`, feature 005) 🟢
+15. Regra transversal aos dois modos, extraída para arquivo próprio na feature 005. **Precedência por TFG:** `SUSPENDER_METFORMINA_TFG` quando TFG < 30; `REDUZIR_METFORMINA_TFG` quando 30 ≤ TFG ≤ 45; o alerta `METFORMINA_NAO_OTIMIZADA` é **suprimido** em faixa de ajuste renal (`!tfgEmFaixaDeAjuste`) — "otimizar" contradiria a conduta renal do guia. A fachada remove `MANTER_METFORMINA` quando há suspensão. Precedência clínica **validada pelo prescritor em 22/07** (pendência do adendo 001 encerrada).
 
-15. Validação coleta **todos os ofensores**: peso 0 < p ≤ 350 kg; glicemias 10–1000 mg/dL; HbA1c 3–20% se presente; na titulação, esquema obrigatório e não vazio, doses inteiras 1–60, ≥ 1 glicemia; **EC-10**: pré-prandiais + esquema sem Regular exigem HbA1c. O motor revalida tudo, sem confiar na UI (EC-08).
-16. Insulina fora do catálogo NPH/Regular → `ForaDoEscopoDaFonte` com orientação, nunca cálculo parcial.
-17. Dose total > 1,0 UI/kg/dia → alerta `DOSE_ACIMA_FAIXA_PLENA` + recomendação de compartilhar cuidado com especialista (AMB-04: alerta, não trava).
-18. Houve ajuste → recomendar reavaliar em 3 dias (cadência da Figura 4).
-19. Alertas ordenados por severidade fixa (`HIPOGLICEMIA > DOSE_ACIMA_FAIXA_PLENA > FRACIONAR_DOSE > TETO_POR_APLICACAO > INDICACAO_INSULINA`); recomendações deduplicadas por `tipo`; referências por `localizacao`.
-20. **Toda saída carrega referência à fonte** (invariante verificado por property-based testing); erros esperados são valores (union types); exceção (`ErroDeInvariante`) sinaliza bug interno e leva ao painel honesto na UI.
+### 3.5 Regras transversais da insulina (fachada e validação)
+16. Validação coleta **todos** os ofensores: peso 0 < p ≤ 350; glicemias 10–1000; HbA1c 3–20% se presente; titulação exige esquema não vazio, doses 1–60, ≥ 1 glicemia; **EC-10**: pré-prandiais + esquema sem Regular exigem HbA1c. O motor revalida tudo (EC-08).
+17. Insulina fora de NPH/Regular → `ForaDoEscopoDaFonte`, nunca cálculo parcial.
+18. Dose > 1,0 UI/kg/dia → alerta `DOSE_ACIMA_FAIXA_PLENA` + compartilhar cuidado com especialista (AMB-04).
+19. Houve ajuste → reavaliar em 3 dias (cadência da Figura 4).
+20. Alertas ordenados por severidade fixa (HIPOGLICEMIA=0 … METFORMINA_NAO_OTIMIZADA=5); recomendações deduplicadas por `tipo`, referências por `localizacao`.
 
-### 3.5 Regras da interface com força de domínio
+---
 
-21. 🟢 **Privacidade por construção** (RN-02/MD-0003): nenhum fetch, nenhum storage de dado clínico; único localStorage é o tema. O tipo `EventoDeErro` (só o nome da classe do erro) torna vazamento estruturalmente impossível.
-22. 🟢 **Invalidação por edição** (RN-06/EC-03): qualquer edição no formulário marca o resultado como `desatualizado` e desfaz a revisão confirmada.
-23. 🟢 A UI espelha as faixas de validação do domínio importando `CONSTANTES` — não há segunda fonte de números.
+## 4. Regras de domínio — Gestação (`models/gestacao`, feature 007) 🟢
 
-## 4. Constantes clínicas
+Datação gestacional pura; a comparação DUM × USG é o coração clínico. Premissas 🟡 herdadas do roadmap 007, a validar pelo prescritor, marcadas onde ocorrem.
 
-🟢 Catálogo único, congelado, em `fonte-clinica.ts:73` (`CONSTANTES`), cada grupo comentado com a regra R-xx/AMB-xx de origem. Dicionário completo em `data-dictionary.md`. Não há feature flag nem parâmetro de ambiente: o motor é determinístico por design.
+21. **IG (RN-01, p. 31):** entre DUM (ou DUM equivalente) e a data de referência, `⌊dias/7⌋` semanas + `dias % 7` dias.
+22. **DPP (RN-02, p. 32, Naegele — D-03):** `somarMeses(somarDias(DUM, +7), +9)`, calendárica; dia excedente transborda ao mês seguinte, sem normalização silenciosa.
+23. **DUM equivalente do USG (RN-03):** `dataExame − (semanas×7 + dias)`, permitindo comparar as duas datações na mesma base.
+24. **Trimestre (RN-04) — premissa 🟡:** cortes convencionais 13+6/27+6 (`< 14×7` → 1.º; `< 28×7` → 2.º; senão 3.º). O guia usa os trimestres sem defini-los numericamente.
+25. **Comparação DUM × USG (RN-11, D-04/D-05):** com as duas datações, compara pela **margem do trimestre no dia do exame** — 7 d (1.º), 14 d (2.º); **o 3.º trimestre não tem parâmetro na fonte** → veredito `sem-parametro-na-fonte`. Diferença > margem → `dum-fora-da-margem` (a USG passa a referência, conforme a fonte); senão → `dum-confirmada`. **O motor informa o veredito, não escolhe a datação** (ADR 0005).
+26. **Data de referência como entrada (RN-07):** injetada pela UI; o motor não lê o relógio — determinismo e testabilidade.
+27. **Aritmética em dias epoch UTC (D-02, ADR 0013):** toda diferença de datas roda sobre `Date.UTC` em dias inteiros; fuso e horário de verão tornariam "diferença de dias" ambígua. `paraDiasEpoch` rejeita calendário impossível (ex.: 30 de fevereiro) devolvendo `null`, nunca normalizando.
+28. **Validação — coleta total:** DUM futura, DUM > 44 semanas 🟡, exame futuro, laudo fora de 0–42 sem / 0–6 dias 🟡, USG parcial (`DATACAO_ULTRASSOM_INCOMPLETA`), nenhuma datação informada (`NENHUMA_DATACAO_INFORMADA`, RN-05 — DUM ou USG, ao menos uma).
 
-## 5. Decisões de ambiguidade (AMB-01..10) — o "porquê" clínico
+---
 
-🟢 Recuperadas do requirements da feature 001 (§9, no bundle), decididas pelo usuário médico em 2026-07-17/18. São a camada de conhecimento mais difícil de reconstruir sem o histórico:
+## 5. Regras de domínio — Cardiopatia isquêmica (`models/cardiopatia-isquemica`, feature 010) 🟢
 
-| ID | Ambiguidade no guia | Decisão |
-|---|---|---|
-| AMB-01 | Dose inicial: texto (p. 60) vs. Figura 4 (p. 62) | Exibir a **faixa** do texto (10–15 UI ou 0,1–0,2 UI/kg); o médico fixa a dose |
-| AMB-02 | Braço implícito 71–129 mg/dL da Figura 4 | Manter a dose, informando "na meta" |
-| AMB-03 | Braço AJ ≥ 130 com NPH no café: duas condutas | Devolver **ambas rotuladas**; escolha do prescritor |
-| AMB-04 | Teto de dose (p. 61) | **Sem trava numérica**: acima de 1,0 UI/kg/dia, alerta + "compartilhar cuidado com especialista"; invioláveis só o incremento por ajuste e 1–60 UI/aplicação |
-| AMB-05 | Meta do jejum: p. 60 vs. Figura 4 | Faixa-alvo explícita **71–129**, destacando o piso de segurança |
-| AMB-06 | Múltiplas glicemias de jejum | **Média**, com **hipoglicemia prevalecendo** (qualquer ≤ 70 → −4 + alerta) |
-| AMB-07 | Titulação da Regular já iniciada | **Espelhar a lógica do jejum** no momento correspondente; registrada como inferência espelhada |
-| AMB-08 | Indicação de insulina: "> 10%" (texto) vs. "≥ 10%" (figura) | **≥ 10%**, leitura conservadora do fluxograma |
-| AMB-09 | Sobreposição em exatamente 180 mg/dL | Em 180 vale **+4** (prioridade ao braço "≥ 180") |
-| AMB-10 | Proporções do fracionamento: ½+½ vs. ⅔+⅓ | **½+½ principal** (preferencial do guia), ⅔+⅓ alternativa rotulada |
+Cascata do TeleCondutas: classificar → estimar → ajustar → conduzir → advertir. Feature aditiva; nenhuma regra dos outros domínios foi tocada.
 
-## 6. Fronteiras de escopo (o que o sistema recusa por design)
+29. **Classificação (RN-01, Quadro 1):** contagem booleana das 3 características → `tipica` (3) / `atipica` (2) / `nao-anginosa` (≤ 1).
+30. **Probabilidade-base (RN-02, Quadro 2):** lookup na matriz **congelada** de 24 células `PROBABILIDADE_PRE_TESTE[classificacao][sexo][faixaEtaria]` (3 classes × 2 sexos × 4 faixas), transcrição fiel de DUNCAN et al., 2013. Tabela completa no `data-dictionary.md` §"Matriz".
+31. **Ajuste por fatores de risco (RN-03, nota * do Quadro 2, D-03):** sem fator → sem ajuste (`undefined`); com ≥ 1 fator → faixa `base×2`–`base×3`, capada em **99%** (`PCT_MAX_EXIBIVEL`) para não exibir > 100%; `excedeAlta` sinaliza extremo > 90% (redação ">90%").
+32. **Estrato (RN-04, nota ** do Quadro 2) — leitura descritiva 🟡:** `"baixa"` ⟺ dor **não anginosa E sem fatores de risco** (uma dor não anginosa pode tabelar até 27%, mas a conduta "não investigar" vem da descrição clínica, não do número); `"alta"` ⟺ probabilidade efetiva > 90%; o resto é `"intermediaria"`. **Qualquer fator de risco impede o estrato "baixa".**
+33. **Conduta (RN-04/RN-05):** `baixa` → exame não indicado + causas não cardíacas; `intermediaria` → exame não invasivo; `alta` → estratificação + encaminhamento. Exame padrão **ergometria**, salvo `impedimentoErgometria` → **método não invasivo alternativo**.
+34. **Fora de escopo (RN-06):** idade plausível (0–120, ofensor de validação) mas fora de **30–69** → `ForaDoEscopoDaFonte` com `IDADE_FORA_DA_TABELA`, **sem número estimado** — recusa honesta (MD-0009 aplicado à terceira fonte).
+35. **Advertência (RN-07):** `sinaisInstabilidade` → `Advertencia` de angina instável (encaminhamento emergencial), exibida em destaque fora do fluxo eletivo.
+36. **Material complementar (RN-08/RF-10):** CCS I–IV, tratamento + Tabela 1, seguimento na APS, manejo agudo entram como **referência textual consultável em `<details>`, fora do núcleo calculado**.
 
-- 🟢 Insulinas fora de NPH/Regular → `ForaDoEscopoDaFonte` (MD-0009: "o que o guia cobre, a calculadora cobre").
-- 🟢 Orientações ao paciente: **excluídas** da fase 1; o resultado dirige-se somente ao prescritor (MD-0009).
-- 🟢 Persistência de dado clínico: excluída por arquitetura (MD-0003); rotas de API são permitidas apenas sem dado clínico (MD-0011).
-- 🟢 Segunda fonte clínica: excluída (NG-04 do motor); nova edição do guia é gatilho de revisão registrado (MD-0008).
-- 🟢 Ajuste pós-prandial: o guia não parametriza; o motor apenas recomenda a aferição (NG-07).
+---
 
-## 7. Intenções declaradas e não realizadas
+## 6. Invariantes transversais aos três domínios 🟢
 
-- 🔴 **Quatro divergências clínicas aprovadas no design e ausentes do domínio** (memória do projeto, 19/07/2026): (1) capturar dose de metformina e alertar quando não otimizada; (2) capturar TFG para ajustar/contraindicar metformina; (3) `SUSPENDER_SULFONILUREIA` ampliada (uso "não informado" com redação condicional; esquema que já chega fracionado); (4) entrada de glicemias por momento em 4 campos. Itens 1–2 dependem de conteúdo do guia ainda não extraído. Cada uma exige spec antes do código (Princípios I, II e VI).
-- 🔴 **API v1**: `pages/api/v1/index.js` vazio. O histórico antigo revela a intenção: a feature 002 (`/api/v1/status`, observabilidade do deploy, MD-0011) chegou a ser implementada no repo pré-refundação e não foi reconstituída; os placeholders atuais são o vestígio.
-- 🔴 **Infra**: `infra/compose.yaml` vazio; scripts `test:api` e `test:e2e` referenciam configs inexistentes (existiam antes da refundação: `vitest.api.config.ts` e `playwright.config.ts` estão no bundle).
-- 🟡 Único TODO-like no código é o cabeçalho de `validacao.ts` ("coleta de TODOS os ofensores"), que é descrição, não pendência. Não há FIXMEs.
+O que torna as três units reconhecíveis como uma "família" arquitetural (verificado por property-based testing em cada domínio):
 
-## 8. Rastreabilidade órfã
+1. **Domínio puro** — nenhum `import` de framework (ADR 0003).
+2. **Erros esperados são valores** (union por `tipo`); `ErroDeInvariante` só para bug (ADR 0004).
+3. **Toda saída carrega `ReferenciaClinica`** — resultado sem referência é invariante violado.
+4. **Coleta total de ofensores** na validação — nunca para no primeiro erro.
+5. **Constantes clínicas congeladas** (`Object.freeze`) em `fonte-clinica.ts`, comentadas com o RN/Quadro de origem — fonte numérica única anti-drift.
+6. **O motor informa, não escolhe** (ADR 0005): insulina devolve `condutasAlternativas`; gestação devolve `veredito` de comparação; cardiopatia devolve estrato + conduta, nunca "a decisão".
+7. **Privacidade por construção** (ADR 0002): nenhum domínio nem tela faz `fetch`/`storage` de dado clínico. Único `localStorage`: a preferência de tema (`aps-inteligente:tema`). Único acesso a rede: o healthcheck `/api/v1/status`, sem dado clínico. `EventoDeErro` transporta **só o nome da classe** do erro — vazamento de payload é estruturalmente impossível.
 
-🟢 O código cita RF-xx, RN-xx, RNF-xx, EC-xx, R-01..R-20, AMB-01..10, MD-xxxx, NG-xx e D-xx apontando para `_reversa_sdd/sdd/motor-calculo-insulina.md` (v2.0) e `_reversa_forward/001-.../requirements.md` — artefatos removidos na refundação, porém **integralmente recuperáveis** no bundle `~/dev/aps-inteligente-backup.bundle` (clone de trabalho desta extração no scratchpad da sessão). Enquanto a re-extração não os reconstituir, os identificadores no código são referências pendentes.
+### 6.1 Regras da interface com força de domínio
+8. **Invalidação por edição:** qualquer edição de formulário marca o resultado como `desatualizado`; nas três telas. Na insulina, desfaz também o ritual de revisão.
+9. **A UI espelha as faixas do domínio** importando `CONSTANTES` — não há segunda fonte de números em nenhuma tela.
+10. **Ritual de revisão só na insulina** (ADR 0012, D-08): gestação e cardiopatia não têm checkbox de confirmação — datar e estratificar não prescrevem dose.
+
+---
+
+## 7. Fronteiras de escopo (o que o sistema recusa por design) 🟢
+
+- **Insulinas fora de NPH/Regular** → `ForaDoEscopoDaFonte` (MD-0009).
+- **Idade fora de 30–69** na cardiopatia → `ForaDoEscopoDaFonte`, sem extrapolar (RN-06).
+- **3.º trimestre na comparação DUM×USG** → `sem-parametro-na-fonte` (a fonte não dá margem).
+- **Orientações ao paciente:** excluídas da fase 1; o resultado dirige-se só ao prescritor (MD-0009).
+- **Persistência de dado clínico:** excluída por arquitetura (MD-0003); rotas de API só sem dado clínico (MD-0011, realizado na feature 002).
+- **Mescla de fontes clínicas:** proibida — uma fonte por unit (ADR 0011). Nova edição de qualquer guia é gatilho de revisão registrado (MD-0008).
+- **Ajuste pós-prandial (insulina):** o guia não parametriza; o motor apenas recomenda a aferição (NG-07).
+
+---
+
+## 8. Estado das intenções da extração 1 (reconciliação) 🟢
+
+A extração 1 (§7 antiga) listava intenções aprovadas e ausentes do código, e três lacunas 🔴 de infraestrutura. A re-extração 2 as reconcilia:
+
+| Intenção da extração 1 | Estado em 2026-07-23 |
+|---|---|
+| Capturar dose de metformina + alertar quando não otimizada | 🟢 **Realizado** (feature 001): campo `doseMetforminaMgDia`, alerta `METFORMINA_NAO_OTIMIZADA` |
+| Capturar TFG para ajustar/contraindicar metformina | 🟢 **Realizado** (features 001/005): campo `tfg`, `REDUZIR_/SUSPENDER_METFORMINA_TFG`, precedência validada pelo prescritor em 22/07 |
+| `SUSPENDER_SULFONILUREIA` ampliada (uso não informado; esquema já fracionado) | 🟢 **Realizado** (feature 001): gatilhos ampliados na fachada |
+| Entrada de glicemias por momento em campos separados | 🟢 **Realizado** (feature 001): `glicemias-por-momento.tsx` |
+| API v1 (`/api/v1/status`, observabilidade do deploy) | 🟢 **Realizado** (feature 002): contrato fixo, ADR 0008; o `index.js` vazio não existe mais |
+| Infra (`compose.yaml`, configs de teste `test:api`/`test:e2e`) | 🟢 **Realizado** (features 002/003): `infra/database.ts`, `vitest.api.config.ts`, `playwright.config.ts`, Neon em produção |
+
+🟡 **Premissas de projeto ainda a validar pelo prescritor** (não são bugs; são decisões marcadas 🟡 para confirmação clínica): (a) gestação — cortes de trimestre 13+6/27+6 e limites de plausibilidade DUM ≤ 44 sem, laudo 0–42 sem/0–6 dias; (b) cardiopatia — leitura descritiva do estrato "baixa" (não anginosa E sem fatores) e o cap ×2–×3 da faixa por fatores de risco. Correspondem às observações O-07-* e O-10-01..05 dos regression-watch, sem peso de regressão.
+
+---
 
 ## 9. Lacunas 🔴
 
-1. O PDF do guia (`referencias/…`) está fora do versionamento (MD-0008) — a verificação página a página das constantes depende de o usuário fornecê-lo novamente.
-2. Não há logs de produção nem telemetria (MD-0010, `RelatorDeErros` nulo): nenhuma evidência de comportamento em uso real.
-3. As specs v2.0 do motor ainda não foram reconstituídas no repo atual; até lá, a matriz de rastreabilidade não fecha (Princípio VI).
+1. Os PDFs das três fontes (`referencias/…`) estão fora do versionamento (MD-0008); a conferência página a página das constantes depende de o usuário fornecê-los. Vale para os três domínios.
+2. Não há logs de produção nem telemetria além do healthcheck (`RelatorDeErros` nulo, ADR 0007): nenhuma evidência de comportamento em uso real.
+3. As premissas 🟡 de gestação e cardiopatia (§8) seguem pendentes de validação clínica formal — registradas, não resolvidas.

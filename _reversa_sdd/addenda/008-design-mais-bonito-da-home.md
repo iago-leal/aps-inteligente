@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A home nascida na feature 007 organizava as calculadoras em seções, mas nunca recebera tratamento visual: as classes `inicio-secoes`, `inicio-secao`, `inicio-cartoes` e `inicio-cartao` do JSX de `interface/inicio/tela.tsx` não tinham um único seletor em `globais.css` — a raiz era uma lista crua de links sob a moldura comum. Esta feature dá à home uma apresentação de porta de entrada da plataforma: área introdutória de destaque, seções com ícone e hierarquia, cartões delimitados e clicáveis por inteiro (*stretched link*), grade responsiva e coerência nos dois temas, com refino leve da moldura comum que propaga às telas das calculadoras. Tudo estritamente dentro da identidade Primer vigente (RN-01/RN-06), conduzido pela skill `frontend-design` como método de projeto, e sem tocar catálogo, rotas, textos, semântica acessível ou o motor de nenhuma calculadora — mudança inteiramente de apresentação. O domínio permanece byte a byte intocado (`git diff models/` e `catalogo.ts` vazios).

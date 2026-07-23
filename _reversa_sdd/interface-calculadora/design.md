@@ -1,67 +1,71 @@
-# interface-calculadora — Design Técnico
+# interface/calculadora — Design Técnico
 
-> Gerado pelo Reversa Writer em 2026-07-19.
-> Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA. Fluxogramas em `../flowcharts/interface-calculadora.md`; máquina de estados em `../state-machines.md`.
+> `design.md` · Re-extração 2 (2026-07-23), regenerado. A Moldura foi extraída para `interface/comum` (feature 007); o ritual ganhou "Copiar plano" (feature 006); a redução por TFG virou subitem da manutenção (feature 005). Fluxogramas em `../flowcharts/interface-calculadora.md`; máquina de estados em `../state-machines.md`.
+> Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA.
 
 ## Interface
 
 | Símbolo | Assinatura | Retorno | Observação |
 |---------|-----------|---------|------------|
-| `TelaCalculadora` | componente sem props | JSX | Ponto de montagem usado por `pages/index.tsx` 🟢 |
-| `CalculadoraApp` | `{ relator?: RelatorDeErros; motor?: {calcular} }` | JSX | Dono do `EstadoResultado` (+ estados `desatualizado`, `revisaoConfirmada`, `geracaoFormulario`); **props são injeção para teste** — em produção, `relatorNulo` e `new CalculadoraInsulinaDM2()` 🟢 |
-| `FormularioCalculadora` | `{ onCalcular: (EntradaCalculo) => void; onAlteracao?: () => void }` | JSX | Controlado; `onAlteracao` notifica qualquer edição (EC-03) 🟢 |
-| `PainelResultado` | `{ estado; desatualizado; revisaoConfirmada; onConfirmarRevisao(boolean); onNovoCalculo() }` | JSX | Flags chegam como props separadas do `estado` (ortogonais) 🟢 |
-| `usePreferenciaDeTema` | hook | `[Tema, alternar]` | `useSyncExternalStore` sobre localStorage 🟢 |
-| `RelatorDeErros.reportar` | `(evento: EventoDeErro)` | `void` | Implementação nula na fase 1 (ADR 0007) 🟢 |
-
-Assinaturas verificadas contra o código em 2026-07-19 (`calculadora-app.tsx:12`, `formulario.tsx:15`, `resultado.tsx:22`) — reclassificadas 🟡→🟢 pelo Reviewer.
+| `TelaCalculadora` | `()` | JSX | Compõe `Moldura` (comum) + `CalculadoraApp` — não reimplementa a casca |
+| `CalculadoraApp` | `{ relator?; motor? }` | JSX | Dono de `EstadoResultado` + `desatualizado`, `revisaoConfirmada`, `geracaoFormulario`; props são injeção para teste |
+| `FormularioCalculadora` | `{ onCalcular; onAlteracao? }` | JSX | Controlado; `onAlteracao` notifica qualquer edição (EC-03) |
+| `PainelResultado` | `{ estado; desatualizado; revisaoConfirmada; onConfirmarRevisao; onNovoCalculo }` | JSX | Flags ortogonais ao `estado`; expõe "Copiar plano" com revisão válida |
+| `formatarPlano` | `(resultado: ResultadoCalculo)` | `string` | Texto do plano em quatro partes (006) |
+| `copiarParaAreaDeTransferencia` | `(texto)` | `Promise<ResultadoCopia>` | Erro como valor (`{ok:false}`), sem exceção (006) |
+| `agruparRecomendacoes` | `(itens)` | `GrupoDeRecomendacoes[]` | Subordinação de apresentação (005) |
+| `RelatorDeErros.reportar` | `(evento: EventoDeErro)` | `void` | Implementação nula na fase 1 (ADR 0007) |
 
 ## Fluxo Principal
 
-1. `pages/index.tsx` monta `TelaCalculadora` → moldura (cabeçalho, selo de privacidade, tema) + `CalculadoraApp`. 🟢
-2. `Formulario` mantém linhas dinâmicas (`LinhaGlicemia[]`, `LinhaAplicacao[]` com strings brutas) e valida no blur com `CONSTANTES`. 🟢
-3. Submissão: parse (`interpretaDecimal` — vírgula/ponto), `derivaTipoEsquema` pela contagem de Regular, montagem de `EntradaCalculo`, chamada **síncrona e em try/catch** de `CalculadoraInsulinaDM2.calcular`. 🟢
-4. Saída → `EstadoResultado`: `resultado` → `sucesso`; `erro-validacao`/`fora-do-escopo` → `erro`; exceção → `falha-inesperada` + `relator.reportar({nome: e.constructor.name})`. 🟢
-5. `Resultado` renderiza na ordem fixa; em `sucesso`, exibe checkbox de revisão; confirmada e não desatualizada, mostra "Pronto para prescrever". 🟢
-6. Qualquer `aoEditar` do formulário: seta `desatualizado`, desmarca revisão. "Novo cálculo": incrementa `geracaoFormulario` (remonta via `key`) e zera o estado. 🟢
+1. `TelaCalculadora` compõe a `Moldura` (título/subtítulo da insulina) + `CalculadoraApp`. `tela.tsx:8-16` 🟢
+2. `Formulario` mantém linhas dinâmicas (strings brutas) e valida no blur com `CONSTANTES` (espelhamento). 🟢
+3. Submissão: parse (`interpretaDecimal`), `derivaTipoEsquema` pela contagem de Regular, montagem de `EntradaCalculo`, chamada síncrona em try/catch de `CalculadoraInsulinaDM2.calcular`. 🟢
+4. Saída → `EstadoResultado`: `resultado`→`sucesso`; `erro-validacao`/`fora-do-escopo`→`erro`; exceção→`falha-inesperada` + `relator.reportar({nome})`. `calculadora-app.tsx:31-48` 🟢
+5. `Resultado` renderiza na ordem fixa (alertas→dose→fonte→revisão→disclaimer); em `sucesso` com revisão confirmada e não desatualizado, exibe "Pronto para prescrever" e "Copiar plano". 🟢
+6. Qualquer `aoAlterar`: seta `desatualizado`, desmarca revisão. "Novo cálculo": incrementa `geracaoFormulario` (remonta via `key`) e zera. `calculadora-app.tsx:50-62` 🟢
 
 ## Fluxos Alternativos
 
-- **localStorage bloqueado:** tema funciona em memória, sem persistir (try/catch no store). 🟢
+- **Recomendação subordinada (005):** `agruparRecomendacoes` põe `REDUZIR_METFORMINA_TFG` como subitem de `MANTER_METFORMINA`; subitem sem pai presente vira item de topo. `agrupar-recomendacoes.ts:16-37` 🟢
+- **Copiar plano (006):** `formatarPlano` monta esquema/dose → recomendações → fonte → contexto; `copiarParaAreaDeTransferencia` devolve `{ok:false}` na indisponibilidade, para falha honesta. 🟢
+- **Tema via Moldura:** localStorage bloqueado → tema em memória (try/catch no store). 🟢
 - **Modo início:** bloco de esquema oculto; glicemias opcionais. 🟢
-- **Condutas alternativas presentes:** painel exibe as opções rotuladas lado a lado, sem pré-seleção. 🟢
 
 ## Dependências
 
-- `models/insulina` — fachada `CalculadoraInsulinaDM2`, `CONSTANTES` (validação espelhada), tipos de saída. Direção única: `interface → models` (ADR 0003). 🟢
-- React 19 (hooks, `useSyncExternalStore`); nenhuma biblioteca de formulário ou estado externa. 🟢
+- `models/insulina` — `CalculadoraInsulinaDM2`, `CONSTANTES` (validação espelhada), tipos. Direção única `interface → models` (ADR 0003); motor byte a byte intocado. 🟢
+- `interface/comum/moldura` — casca comum (extraída na 007). 🟢
+- React 19 (hooks); `@primer/react`; nenhuma lib de formulário/estado externa. 🟢
 
 ## Decisões de Design Identificadas
 
 | Decisão | Evidência | Confiança |
 |---------|-----------|-----------|
-| Estado bruto como string até o parse na submissão (tolerância de digitação) | `formulario.tsx` (`valorBruto`, `doseBruta`) | 🟢 |
-| Reset por remontagem (`key={geracaoFormulario}`) em vez de limpeza campo a campo | `calculadora-app.tsx` — RF-10 legado | 🟢 |
-| Porta `RelatorDeErros` com implementação nula | `relator-de-erros.ts` — ADR 0007 | 🟢 |
-| Validação espelhada por import de `CONSTANTES`, nunca números duplicados | `formulario.tsx` | 🟢 |
-| Motor injetável por prop para teste (produção sempre usa o real via `useMemo`) | `calculadora-app.tsx:12-24` | 🟢 |
-| Ids de linha por contador módulo-global (`let proximoId`) | `formulario.tsx:114` | 🟢 (dívida: frágil sob HMR/StrictMode) |
+| Moldura extraída; `tela.tsx` vira composição fina (D-09) | `tela.tsx:1-7` | 🟢 |
+| Ritual funcionalizado: "Copiar plano" gated pela revisão (006) | `formatar-plano.ts:1-5` | 🟢 |
+| Alertas e alternativas fora do texto copiado (D-04; ADR 0005) | `formatar-plano.ts:3-5` | 🟢 |
+| Subordinação da redução por TFG é só apresentação (005, RF-03) | `agrupar-recomendacoes.ts:1-4` | 🟢 |
+| Rótulos como fonte única anti-drift (tela ↔ plano) | `rotulos.ts:1-3` | 🟢 |
+| Estado bruto como string até o parse (tolerância de digitação) | `formulario.tsx` | 🟢 |
+| Motor injetável por prop; produção usa o real via `useMemo` | `calculadora-app.tsx:22-25` | 🟢 |
+| Ids de linha por contador módulo-global | `formulario.tsx` | 🟢 (dívida: frágil sob HMR/StrictMode) |
 
 ## Estado Interno
 
 | Estado | Dono | Evolução |
 |---|---|---|
-| `EstadoResultado` + flags `desatualizado`/`revisaoConfirmada` | `CalculadoraApp` | máquina de `../state-machines.md` §1 |
+| `EstadoResultado` + `desatualizado`/`revisaoConfirmada` | `CalculadoraApp` | máquina de `../state-machines.md` §1; revisão desfeita a cada edição |
 | `LinhaGlicemia[]` / `LinhaAplicacao[]` | `Formulario` | adicionar/remover/editar linhas |
 | `geracaoFormulario` | `CalculadoraApp` | incrementa a cada "Novo cálculo" |
-| `Tema` | store módulo + localStorage | alternância manual |
+| `Tema` | store módulo + localStorage (lido pela Moldura) | alternância manual |
 
 ## Observabilidade
 
-🟢 Somente o contrato `RelatorDeErros` (nulo). Sem logs, analytics ou métricas — por design (ADR 0002/0007).
+🟢 Somente o contrato `RelatorDeErros` (nulo). A cópia não emite telemetria. Sem logs/analytics — por design (ADR 0002/0007).
 
 ## Riscos e Lacunas
 
-- 🔴 Sem testes e2e/acessibilidade na estrutura atual (existiam no repo antigo com axe/Playwright); regressão de WCAG AA invisível até reconstituir.
-- 🟡 `formulario.tsx` com 532 LOC concentra três responsabilidades (linhas, validação, montagem) — extração de subcomponentes recomendada sem mudança de contrato.
-- 🔴 Divergência 4 aprovada no design (entrada de glicemias por momento, 4 campos) reestrutura este formulário e quebra `tests/integration/interface/formulario.test.tsx` — exige spec antes (Princípio I).
+- 🟡 Watch D-04 (feature 006): alertas e condutas alternativas fora do texto copiado — validar em uso real.
+- 🟡 `formulario.tsx` (313 LOC) concentra linhas, validação e montagem — extração de subcomponentes recomendável sem mudar contrato.
+- 🟢 e2e/acessibilidade **reconstituídos** (features 004+): `e2e/calculadora.spec.ts` aponta para `/dm2/insulina`, axe-baseline em zero. A lacuna 🔴 da extração 1 (sem e2e) está resolvida.

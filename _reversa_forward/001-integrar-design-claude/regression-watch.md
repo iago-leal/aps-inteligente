@@ -19,7 +19,19 @@
 
 ## Histórico de re-extrações
 
-_(vazio — preenchido pelo agente reverso quando `/reversa` rodar novamente)_
+### Re-extração 2026-07-23 14:10
+
+> `models/insulina` intocado byte a byte desde a feature 001 (`git log -1 -- models/insulina`), logo todas as regras deste domínio seguem estruturalmente preservadas no código; verificação cruzada com `_reversa_sdd/domain.md` §3 regenerado.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | 3 gatilhos de suspensão e "uso negado nunca emite" preservados em `domain.md` §3.1 (regra 3) / §3.2 (regra 8); redação única no catálogo; motor intocado |
+| W002 | 🟢 verde | `domain.md` §3.4 (regra 15): a fachada remove `MANTER_METFORMINA` quando há `SUSPENDER_METFORMINA_TFG` |
+| W003 | 🟢 verde | ofensores de faixa (metformina/TFG) e coleta total em `domain.md` §3.5 (regra 16); faixas no código intocado |
+| W004 | 🟢 verde | `domain.md` §3.5 (regra 20): `METFORMINA_NAO_OTIMIZADA` na severidade 5 (última), abaixo de `INDICACAO_INSULINA` |
+| W005 | 🟢 verde | `models/insulina/regra-metformina.ts` presente; supressão do alerta em faixa de ajuste renal (TFG ≤ 45) em `domain.md` §3.4 |
+| W006 | 🟢 verde | sem parser de string em `models/**` para glicemia; contrato `GlicemiaAferida[]` intocado; UI espelha `CONSTANTES` (`domain.md` §6.1 regra 9). O `Number()` em `models/gestacao/datas.ts` é aritmética de data ISO de outro domínio, fora do escopo deste watch |
+| W007 | 🟢 verde | grupos metformina/tfg congelados; `Object.freeze` no catálogo único (`domain.md` §6 invariante 5); referências com página |
 
 ## Arquivadas
 

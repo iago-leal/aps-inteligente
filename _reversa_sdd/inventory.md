@@ -1,117 +1,109 @@
 # Inventário — aps-inteligente
 
-> Gerado pelo Reversa Scout em 2026-07-19.
+> Gerado pelo Reversa Scout em 2026-07-19 · **Re-extração 2 em 2026-07-23** (absorve as features 001–010).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Visão geral
 
-🟢 **aps-inteligente** é um website Next.js dedicado à prática médica na APS (Atenção Primária à Saúde), concebido como plataforma guarda-chuva cuja primeira ferramenta é uma **calculadora de insulina para DM2, 100% client-side** (descrição do `package.json`).
+🟢 **aps-inteligente** é um website Next.js (Pages Router) dedicado à prática médica na APS (Atenção Primária à Saúde), concebido como **plataforma guarda-chuva** de calculadoras clínicas, cada uma ancorada em uma fonte clínica citável. O cálculo é **100% client-side**: nenhum dado clínico sai do navegador (ADR 0002).
 
-🟢 O repositório passou por uma **refundação** (commit `26f3bc9`): apenas o domínio da calculadora de insulina e seus testes foram preservados; a estrutura atual (Next.js, `models/`, `interface/`, `pages/`) é recente e parte dela ainda não está commitada.
+🟢 Na primeira extração (19–20/07) existia uma única calculadora (insulina DM2). Esta re-extração reflete a plataforma tal como cresceu por dez features do ciclo forward: **três calculadoras**, uma **home por seções**, identidade visual **Primer**, **logo APSi/PWA** e uma **fundação de dados** (PostgreSQL) usada apenas pelo healthcheck de status.
+
+🟢 As três calculadoras e suas fontes (README, catálogo tipado em `interface/inicio/catalogo.ts`):
+
+| Seção | Calculadora | Rota | Fonte clínica | Domínio |
+|---|---|---|---|---|
+| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |
+| Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |
+| Cardiologia | Dor torácica e probabilidade pré-teste de DAC | `/cardiologia/dor-toracica` | TeleCondutas Cardiopatia Isquêmica — TelessaúdeRS-UFRGS, 2017 | `models/cardiopatia-isquemica/` |
+
+## Arquitetura em camadas
+
+🟢 Separação estrita, verificável por `git diff` vazio entre camadas nas features de apresentação:
+
+- **Domínio** (`models/`) — lógica pura, determinista, sem React nem framework. Erros como valores; exceção só para bug de invariante (ADR 0004). Toda saída carrega `ReferenciaClinica` (ADR 0001).
+- **Interface** (`interface/`) — componentes React; a `Moldura` comum é o esqueleto compartilhado das telas.
+- **Shell/rotas** (`pages/`) — Next.js Pages Router; uma rota por calculadora, home na raiz, `_app`/`_document`.
+- **Infraestrutura** (`infra/`) — pool `pg` e compose do PostgreSQL local; toca só o status.
 
 ## Estrutura de pastas
 
 ```
 aps-inteligente/
-├── models/
-│   └── insulina/            # Domínio puro da calculadora (7 arquivos .ts, ~1.080 LOC)
-│       ├── calculadora.ts           # Fachada/orquestração do cálculo (156 LOC)
-│       ├── fonte-clinica.ts         # Referências clínicas (108 LOC)
-│       ├── regra-inicio.ts          # Regra de início de insulinização (69 LOC)
-│       ├── regra-intensificacao.ts  # Regra de intensificação (240 LOC)
-│       ├── regra-titulacao-basal.ts # Regra de titulação basal (173 LOC)
-│       ├── tipos.ts                 # Tipos e contratos do domínio (186 LOC)
-│       └── validacao.ts             # Validação de entrada (148 LOC)
-├── interface/
-│   ├── calculadora/         # Componentes React da calculadora (~1.005 LOC)
-│   │   ├── calculadora-app.tsx      # Componente raiz (80 LOC)
-│   │   ├── formulario.tsx           # Formulário de entrada (532 LOC) ⚠️ > 400 linhas
-│   │   ├── resultado.tsx            # Exibição do resultado (291 LOC)
-│   │   ├── tela.tsx                 # Composição da tela (43 LOC)
-│   │   ├── preferencia-de-tema.ts   # Tema claro/escuro (39 LOC)
-│   │   └── relator-de-erros.ts      # Relato de erros da UI (20 LOC)
-│   └── estilos/
-│       └── globais.css              # Estilos globais (699 LOC)
-├── pages/                   # Next.js Pages Router
-│   ├── _app.tsx                     # Entry point da aplicação (27 LOC)
-│   ├── _document.tsx                # Documento HTML base (13 LOC)
-│   ├── index.tsx                    # Página inicial (18 LOC)
-│   └── api/v1/index.js              # 🔴 VAZIO — placeholder de API
-├── tests/
-│   ├── apoio/construtores.ts        # Builders de teste (134 LOC)
-│   ├── unit/dominio/                # 7 suítes de unidade do domínio (~863 LOC)
-│   ├── integration/interface/       # 3 suítes de integração da UI (~388 LOC)
-│   └── integration/api/v1/index.js  # 🔴 VAZIO — placeholder
-├── infra/
-│   └── compose.yaml                 # 🔴 VAZIO — placeholder de infraestrutura
-├── next.config.ts · tsconfig.json · vitest.config.ts · eslint.config.mjs
-└── package.json · package-lock.json
+├── models/                          # DOMÍNIO puro (3 calculadoras, ~2.533 LOC .ts)
+│   ├── insulina/                    # DM2 — 8 arq., 1.352 LOC
+│   │   ├── calculadora.ts           # Fachada/orquestração (226)
+│   │   ├── regra-inicio.ts          # Início de insulinização
+│   │   ├── regra-intensificacao.ts  # Intensificação (250)
+│   │   ├── regra-titulacao-basal.ts # Titulação basal (221)
+│   │   ├── regra-metformina.ts      # Metformina × TFG (feature 005)
+│   │   ├── fonte-clinica.ts · tipos.ts (198) · validacao.ts (183)
+│   ├── gestacao/                    # Idade gestacional — 6 arq., 609 LOC (feature 007)
+│   │   ├── calculadora.ts (172) · datacao.ts · datas.ts · fonte-clinica.ts · tipos.ts · validacao.ts
+│   └── cardiopatia-isquemica/       # Dor torácica/pré-teste — 7 arq., 572 LOC (feature 010)
+│       ├── calculadora.ts · classificacao.ts · probabilidade.ts · conduta.ts
+│       ├── fonte-clinica.ts · tipos.ts · validacao.ts
+├── interface/                       # APRESENTAÇÃO React (~3.307 LOC)
+│   ├── comum/moldura.tsx            # Moldura compartilhada (95) — h1, tema, apresentação, logo
+│   ├── calculadora/                 # Tela da insulina — 16 arq., 1.380 LOC
+│   │   ├── resultado.tsx (353) · formulario.tsx (313) · tela.tsx · calculadora-app.tsx
+│   │   ├── formatar-plano.ts · area-de-transferencia.ts · rotulos.ts (feature 006)
+│   │   ├── provedor-tema.tsx · preferencia-de-tema.ts · relator-de-erros.ts · validacao-campos.ts …
+│   ├── gestacao/                    # Tela da IG — 4 arq., 438 LOC (feature 007)
+│   ├── cardiologia/                 # Tela da dor torácica — 5 arq., 596 LOC (feature 010)
+│   │   └── app · formulario (203) · resultado (192) · referencias · tela
+│   ├── inicio/                      # Home por seções — 3 arq., 139 LOC (features 007/008)
+│   │   ├── catalogo.ts              # Catálogo tipado de seções/calculadoras
+│   │   ├── icones.tsx               # id→Octicon (feature 008)
+│   │   └── tela.tsx
+│   └── estilos/                     # CSS sobre tokens Primer — 4 arq., 659 LOC
+│       ├── globais.css (teto ~400) · inicio.css · cabecalho.css · cardiologia.css
+├── pages/                           # SHELL Next.js (Pages Router) — 243 LOC
+│   ├── index.tsx                    # Home (feature 007)
+│   ├── _app.tsx · _document.tsx     # Shell + PWA/ícones (feature 009)
+│   ├── dm2/insulina.tsx
+│   ├── pre-natal/idade-gestacional.tsx
+│   ├── cardiologia/dor-toracica.tsx
+│   └── api/v1/status.ts             # GET /api/v1/status (feature 002)
+├── infra/                           # INFRAESTRUTURA de dados (feature 003)
+│   ├── database.ts                  # Pool pg lazy (singleton)
+│   └── compose.yaml                 # postgres:17.10-alpine local
+├── public/                          # Ativos PWA/logo (feature 009) — same-origin
+├── referencias/                     # PDFs das fontes clínicas (fora do git, MD-0008)
+├── tests/                           # unidade + integração + contrato + regressão
+├── e2e/                             # Playwright + axe-baseline.json
+├── .github/workflows/ci.yml         # CI: verificação → contrato → deploy (features 002/003)
+└── next.config.ts · vercel.json · tsconfig.json · eslint.config.mjs · *.config.ts
 ```
 
-🟡 Arquitetura em camadas com aliases de path (`models/*`, `interface/*` no `tsconfig.json` e no `vitest.config.ts`): domínio puro em `models/insulina/`, apresentação em `interface/`, shell/roteamento em `pages/`. O domínio não importa nada de React ou Next (a confirmar pelo Arqueólogo).
+## Tecnologias
 
-## Linguagens
+🟢 **Linguagem primária:** TypeScript (97 arquivos `.ts`/`.tsx`). CSS (6, sobre tokens Primer). Node >= 24 (campo `engines`).
 
-| Linguagem | Extensões | Arquivos | Observação |
-|---|---|---|---|
-| TypeScript | `.ts` | 19 | Domínio, utilitários de UI, testes de unidade, configs |
-| TypeScript (React) | `.tsx` | 10 | Componentes, páginas, testes de integração |
-| JavaScript | `.js`, `.mjs` | 3 | 2 placeholders vazios + `eslint.config.mjs` |
-| CSS | `.css` | 1 | `interface/estilos/globais.css` |
+🟢 **Framework:** Next.js 16.2.10 (Pages Router, Turbopack), React 19.2.4. Sistema de design **GitHub Primer** (`@primer/react` 38.33.0, `@primer/octicons-react` 19.29.2, `@primer/primitives` 11.9.0).
 
-**Linguagem principal:** TypeScript (strict mode habilitado).
-
-## Tecnologias e frameworks
-
-- 🟢 **Next.js 16.2.10** (Pages Router; Turbopack com `root` fixado em `next.config.ts`)
-- 🟢 **React 19.2.4** / react-dom 19.2.4
-- 🟢 **TypeScript 6.0.3** (`strict: true`, `noEmit`)
-- 🟢 **Vitest 4.1.10** + Testing Library + jsdom + **fast-check 4.9.0** (property-based testing)
-- 🟢 **Playwright 1.61.1** + @axe-core/playwright (acessibilidade) — 🔴 sem `playwright.config.*` no repo
-- 🟢 **ESLint 9** (flat config) + eslint-config-next + **Prettier 3**
-- 🟢 Node **>= 24** (campo `engines`)
-- 🟢 Gerenciador de pacotes: **npm** (`package-lock.json` presente)
+🟢 **Dados:** `pg` 8.22.0 — único uso é o healthcheck em `/api/v1/status`; produção via integração **Neon** (Vercel Marketplace), local via compose. Nenhum dado clínico persiste (ADR 0002/0008).
 
 ## Pontos de entrada
 
-| Arquivo | Tipo |
-|---|---|
-| `pages/_app.tsx` | Entry point da aplicação Next.js |
-| `pages/index.tsx` | Página inicial (monta a calculadora) |
-| `pages/api/v1/index.js` | 🔴 Endpoint de API vazio (placeholder) |
+🟢 Home: `pages/index.tsx`. Rotas de calculadora: `pages/dm2/insulina.tsx`, `pages/pre-natal/idade-gestacional.tsx`, `pages/cardiologia/dor-toracica.tsx`. Shell: `pages/_app.tsx` (CSS globais + por-tela), `pages/_document.tsx` (PWA). API: `pages/api/v1/status.ts`.
 
-## Scripts do `package.json`
+🟢 **CI/CD:** `.github/workflows/ci.yml` — três jobs em cadeia: (1) lint+typecheck+testes em todo push; (2) contrato contra o build de produção com CSP ativa e Postgres efêmero; (3) deploy Vercel só em `main` com 1–2 verdes. Auto-deploy por push desligado (`vercel.json`: `git.deploymentEnabled=false`).
 
-| Script | Comando | Estado |
-|---|---|---|
-| `dev` / `build` / `start` | `next dev` / `next build` / `next start` | 🟢 |
-| `lint` / `typecheck` | `eslint` / `tsc --noEmit` | 🟢 |
-| `test` / `test:watch` / `test:coverage` | `vitest` | 🟢 |
-| `test:api` | `vitest run --config vitest.api.config.ts` | 🔴 **quebrado** — `vitest.api.config.ts` não existe |
-| `test:e2e` | `playwright test` | 🔴 **incompleto** — sem config nem specs e2e |
-| `format` / `format:check` | `prettier` | 🟢 |
+🟢 **Segurança de borda:** CSP sem terceiros só em produção (`next.config.ts`); `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`.
 
-## CI/CD, Docker e configuração
+## Banco de dados (superficial)
 
-- 🔴 **CI/CD ausente** — não há `.github/workflows/`, Jenkinsfile ou equivalente.
-- 🔴 `infra/compose.yaml` existe porém **vazio**.
-- 🟢 Deploy alvo: **Vercel** (`.vercel/project.json` presente; `.env.local` contém apenas `VERCEL_OIDC_TOKEN`).
-- 🟢 `.env` presente (vazio de chaves relevantes); sem `.env.example`.
+🟢 Sem DDL, migrations nem ORM. `infra/database.ts` expõe um pool `pg` lazy consumido apenas pelo teste de saúde do status. O `reversa-data-master` faria a análise detalhada, mas o schema é vazio por design (a plataforma não persiste dado clínico).
 
-## Banco de dados
+## Testes
 
-🟢 **Ausente por design** — a calculadora é 100% client-side. Nenhum DDL, migration ou ORM encontrado. O agente Data Master não se aplica.
+🟢 **33 arquivos** de teste. Vitest (unidade + integração jsdom + contrato) e Playwright (e2e + axe-core de acessibilidade). `fast-check` para property-based no domínio.
 
-## Cobertura de testes
+- **Unidade** (`tests/unit/`): domínio insulina (8), gestação (3), cardiopatia (6), interface (2).
+- **Integração** (`tests/integration/interface/`): 8 telas/componentes (moldura, formulário, resultado, início, gestacao, cardiologia, provedor-tema, relator-de-erros).
+- **Contrato** (`tests/contract/`): status da API, banco, cabeçalhos da plataforma.
+- **Regressão** (`tests/regression/`): BUG-20260719-RHZ5.
+- **E2E** (`e2e/`): `calculadora.spec.ts`, `plataforma.spec.ts`, `axe-baseline.json`.
 
-- 🟢 Framework: **Vitest** (ambiente `node`, jsdom para UI via Testing Library).
-- 🟢 13 arquivos de teste ativos: 7 de unidade (domínio), 3 de integração (interface), 1 pasta de apoio, 2 placeholders vazios.
-- 🟢 Threshold de cobertura exigido no domínio (`models/**`): **90%** em linhas, statements, funções e branches (`vitest.config.ts`, referenciando "RNF-04 do motor; categoria Produto").
-- 🟡 Proporção testes/código do domínio ≈ 0,8:1 em LOC — cobertura provavelmente alta (a confirmar com `npm run test:coverage`).
-
-## Sinais de atenção para os próximos agentes
-
-1. 🔴 Placeholders vazios: `pages/api/v1/index.js`, `tests/integration/api/v1/index.js`, `infra/compose.yaml` — indicam intenção futura de API v1 e infraestrutura, ainda não realizada.
-2. 🔴 Scripts `test:api` e `test:e2e` referenciam configs inexistentes.
-3. ⚠️ `formulario.tsx` (532 LOC) e `globais.css` (699 LOC) ultrapassam o limite de 400 linhas por arquivo adotado pelo mantenedor.
-4. 🟡 Git status mostra deleções de `src/dominio/insulina/` e `src/interface/calculadora/` não commitadas — a migração `src/` → `models/` + `interface/` está em andamento no working tree.
+🟢 Cobertura com threshold alto em `models/**` (config em `vitest.config.ts`).

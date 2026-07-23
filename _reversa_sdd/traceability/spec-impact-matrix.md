@@ -1,54 +1,68 @@
 # Spec Impact Matrix — aps-inteligente
 
-> Gerado pelo Reversa Architect em 2026-07-19.
-> Unidades conforme `[specs] granularity = "module"` (MD-0005): `models-insulina`, `interface-calculadora`, `pages-next`.
+> Regenerado pelo Reversa Architect em 2026-07-23 (re-extração nº 2).
+> Unidades conforme `[specs] granularity = "module"` (layout `feature-folder`): os três domínios, a casca comum, as três telas, a home, o shell e a fatia de observabilidade.
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## 1. Matriz módulo × módulo
 
-Leitura: alterar a **linha** impacta as **colunas** marcadas.
+Leitura: alterar a **linha** impacta as **colunas** marcadas. `∅` = nulo por dependência unidirecional.
 
-| Alterado ↓ / Impacta → | models-insulina | interface-calculadora | pages-next | tests |
-|---|---|---|---|---|
-| **models-insulina** | — | 🟢 alto | 🟢 nulo | 🟢 alto |
-| **interface-calculadora** | 🟢 nulo (dependência unidirecional) | — | 🟢 baixo | 🟢 médio |
-| **pages-next** | 🟢 nulo | 🟢 baixo | — | 🟢 baixo |
+| Alterado ↓ / Impacta → | mdl-insulina | mdl-gestacao | mdl-cardio | if-comum | if-insulina | if-gestacao | if-cardio | if-inicio | pages | api+infra | tests |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **mdl-insulina** | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
+| **mdl-gestacao** | ∅ | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | ∅ | 🟢 alto |
+| **mdl-cardio** | ∅ | ∅ | — | ∅ | ∅ | ∅ | 🟢 alto | ∅ | ∅ | ∅ | 🟢 alto |
+| **if-comum (Moldura)** | ∅ | ∅ | ∅ | — | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 médio | 🟢 baixo | ∅ | 🟢 médio |
+| **if-insulina** | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-gestacao** | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-cardio** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | ∅ | 🟢 baixo | ∅ | 🟢 médio |
+| **if-inicio (home+catálogo)** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 baixo | ∅ | 🟢 baixo |
+| **pages (shell/rotas)** | ∅ | ∅ | ∅ | ∅ | 🟢 baixo | 🟢 baixo | 🟢 baixo | 🟢 baixo | — | ∅ | 🟢 baixo |
+| **api+infra** | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | ∅ | — | 🟢 médio |
+
+🟢 **Leitura da matriz:** os três domínios são mutuamente isolados (features 007 e 010 foram aditivas — `git diff models/insulina` vazio). Cada tela depende só do seu domínio. A `Moldura` é o único ponto de acoplamento horizontal na interface (impacta as quatro telas + home). A fatia `api+infra` é ortogonal ao clínico: não impacta nenhum domínio nem tela.
 
 ## 2. Pontos de contato precisos (por que o impacto existe)
 
 | Contato | De → Para | Natureza |
 |---|---|---|
-| `CalculadoraInsulinaDM2.calcular()` | interface → models | Fachada; única porta de entrada do motor |
-| `SaidaCalculo` (union) | models → interface | `resultado.tsx` e `calculadora-app.tsx` fazem switch no discriminante `tipo`; **nova variante quebra a UI silenciosamente** se o switch não for exaustivo |
-| `CONSTANTES` | models → interface | `formulario.tsx` espelha faixas de validação; mudar plausibilidade no motor muda a UI automaticamente (acoplamento desejado) |
-| `TipoAlerta` / `TipoRecomendacao` | models → interface | Textos e ícones do painel dependem dos valores; adicionar valor exige tratamento visual novo |
-| `TelaCalculadora` | interface → pages | `index.tsx` só monta o componente raiz |
-| `globais.css` + tokens de tema | interface → pages | `_app.tsx` importa o CSS global |
-| `ErroDeInvariante` | models → interface | Gatilho do painel honesto (EC-07) e do `RelatorDeErros` |
+| `CalculadoraInsulinaDM2.calcular()` / `...IdadeGestacional` / `...CardiopatiaIsquemica.avaliar()` | tela → domínio | Fachada; única porta de entrada de cada motor |
+| `Saida*` (union por `tipo`) | domínio → tela | O painel faz switch no discriminante; **nova variante quebra a UI silenciosamente** se o switch não for exaustivo |
+| `CONSTANTES` de cada `fonte-clinica.ts` | domínio → tela | O formulário espelha faixas de validação; mudar plausibilidade no motor muda a UI (acoplamento anti-drift desejado) |
+| `TipoAlerta`/`TipoRecomendacao` (insulina); `Estrato`/`TipoConduta` (cardio); `Veredito` (gestação) | domínio → tela | Textos, ícones e `Label`/`Flash` do painel dependem dos valores; novo valor exige tratamento visual |
+| `Moldura` (props `apresentacao`, `logoComoTitulo`) | if-comum → telas + home | Casca comum; mudança na semântica (h1, selo, alternador) propaga às quatro telas |
+| `catalogo.ts` | if-inicio → pages | Fonte única de seções/rotas; toda calculadora nova entra aqui primeiro |
+| `preferencia-de-tema.ts` | if-calculadora → if-comum | 🟡 Acoplamento residual: a Moldura importa o store de tema da pasta da insulina (dívida declarada) |
+| `saude()` / `ErroDeBanco` | infra → api | Fachada de banco; a Function só chama `saude()` |
+| `ErroDeInvariante` | domínio → tela | Gatilho do painel honesto (EC-07) e do `RelatorDeErros` |
 
 ## 3. Zonas de alto risco (mudança pequena, raio grande)
 
-1. 🟢 **`tipos.ts`** — qualquer campo novo em `EntradaCalculo`/`SaidaCalculo` propaga para: as 3 regras, validação, formulário, resultado, builders de teste (`tests/apoio/construtores.ts`) e as 10 suítes. É o epicentro da matriz.
-2. 🟢 **`fonte-clinica.ts` (CONSTANTES)** — mudar um limiar clínico altera condutas em todos os modos e invalida testes de validação numérica; exige nova extração citada do guia (ADR 0001) antes do código (Princípio I).
-3. 🟢 **`AjusteEmCurso`** — estado de trabalho compartilhado pelas 3 regras em sequência; mudar sua forma impacta as três ao mesmo tempo.
-4. 🟡 **Ordem do pipeline da fachada** (validar → escopo → titulação → fracionamento → intensificação) — as regras assumem efeitos das anteriores (ex.: intensificação lê `houveAjuste`).
+1. 🟢 **`tipos.ts` de qualquer domínio** — campo novo em `Entrada*`/`Saida*` propaga para as regras daquele domínio, sua validação, seu formulário, seu painel e suas suítes. Epicentro **por domínio**, sem cruzar para os outros dois.
+2. 🟢 **`fonte-clinica.ts` (CONSTANTES/REFERENCIAS)** — mudar um limiar clínico altera condutas e invalida testes numéricos daquele domínio; exige nova extração citada da fonte (ADR 0001) antes do código (Princípio nº 6). Uma fonte por unit (ADR 0011): a mudança não vaza para outro domínio.
+3. 🟢 **`Moldura` (`interface/comum`)** — único componente cuja alteração toca as quatro telas + home ao mesmo tempo; asserções de nome acessível (h1, selo) são verificadas byte a byte pela suíte.
+4. 🟡 **Ordem do pipeline da fachada da insulina** (validar → escopo → titulação → fracionamento → intensificação → metformina) — as regras assumem efeitos das anteriores (ex.: intensificação lê `houveAjuste`; metformina lê suspensões).
+5. 🟢 **Contrato de `/api/v1/status`** — mudança incompatível do corpo é observável externamente; exigiria `/api/v2` (ADR 0008). A suíte de contrato (16/16) é o guarda.
 
-## 4. Impacto das mudanças pendentes conhecidas
-
-As quatro divergências clínicas aprovadas no design (`domain.md` §7) mapeadas contra a matriz:
-
-| Divergência | models-insulina | interface-calculadora | tests |
-|---|---|---|---|
-| 1. Dose de metformina + alerta de otimização | `EntradaCalculo`, nova regra/recomendação, `CONSTANTES` (🔴 depende de extração do guia) | formulário (campo novo), resultado | unidade + integração + builders |
-| 2. TFG para ajuste/contraindicação de metformina | idem (🔴 depende de extração do guia) | idem | idem |
-| 3. `SUSPENDER_SULFONILUREIA` ampliada | `regra-titulacao-basal.ts` (+ redação condicional) | resultado (texto) | unidade |
-| 4. Glicemias por momento (4 campos) | nenhum (contrato `GlicemiaAferida[]` já comporta) | `formulario.tsx` (reestruturação) | 🟢 quebra declarada de `tests/integration/interface/formulario.test.tsx` |
-
-## 5. Impactos fora do código
+## 4. Impactos fora do código
 
 | Mudança | Artefato a reconciliar |
 |---|---|
-| Qualquer regra clínica | Spec do motor (a reconstituir pelo Writer) + `domain.md` + testes de validação — spec **antes** do código (Princípios I/II) |
-| Nova variante de saída ou alerta | `data-dictionary.md`, `erd-complete.md` |
-| Renascimento da API v1 | ADR 0008 (guarda de privacidade + teste de contrato), `c4-containers.md`, `permissions.md` |
-| Introdução de banco/persistência | ADR 0002 (gatilho LGPD), `permissions.md` (RBAC deixa de ser n/a), ERD |
+| Qualquer regra clínica de um domínio | Spec do motor daquele domínio + `domain.md` + testes — spec **antes** do código (Princípio nº 6) |
+| Nova variante de saída/alerta/veredito/estrato | `data-dictionary.md`, `erd-complete.md`, painel da tela |
+| Nova calculadora (quarto domínio) | `catalogo.ts` (primeiro), nova unit `models/*` + `interface/*`, nova rota, ADR 0011 (uma fonte), `c4-*.md` |
+| Mudança no contrato da API | ADR 0008, `c4-containers.md`, suíte de contrato, `permissions.md` |
+| Introdução de persistência de dado clínico | ADR 0002 (gatilho LGPD), `permissions.md` (RBAC deixa de ser n/a), ERD com esquema real |
+| Nova edição de qualquer guia clínico | Gatilho de revisão MD-0008: reconferir `CONSTANTES` do domínio afetado |
+
+## 5. Premissas 🟡 pendentes mapeadas contra a matriz
+
+As premissas de projeto a validar pelo prescritor (herdadas das features, ver `domain.md` §8), caso mudem:
+
+| Premissa | Módulo(s) impactado(s) | tests |
+|---|---|---|
+| Cortes de trimestre 13+6 / 27+6 (gestação) | `mdl-gestacao` (constante), `if-gestacao` (exibição) | unidade + integração |
+| Limites de plausibilidade DUM ≤ 44 sem / laudo 0–42 sem·0–6 d | `mdl-gestacao` (validação), `if-gestacao` (blur) | unidade |
+| Leitura descritiva do estrato "baixa" (cardio) | `mdl-cardio` (`estratoDe`) | unidade property-based |
+| Cap ×2–×3 da faixa por fatores de risco (cardio) | `mdl-cardio` (`ajustarPorFatoresDeRisco`) | unidade property-based |

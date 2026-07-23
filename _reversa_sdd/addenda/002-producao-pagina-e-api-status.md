@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-21.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A feature publicou em produção a primeira página da plataforma — a calculadora de insulina para DM2 — e reconstituiu a API v1 com seu primeiro endpoint de saúde, `GET /api/v1/status` (contrato fixo: `{atualizado_em, versao, commit}`, `Cache-Control: no-store`, 405 fora do GET). Como condição da subida, quitou três dívidas técnicas correlatas da extração: CI inexistente (dívida 1), script `test:api` quebrado (dívida 3, parte API) e cabeçalhos de segurança não verificados (dívida 8). Produção é a URL padrão do provedor (aps-inteligente.vercel.app); domínio próprio ficou fora do escopo.

@@ -28,7 +28,9 @@ validação pelo prescritor. IDs estáveis.
 
 ## Histórico de re-extrações
 
-<!-- Preenchido pelo agente reverso ao rodar /reversa novamente. -->
+### Re-extração 2026-07-23 14:10
+
+Watch principal **vazio** (feature aditiva; nenhuma regra 🟢 de domínio alterada ou removida) — nada a verificar contra regressão. O domínio `models/cardiopatia-isquemica` foi confirmado (unit própria + `domain.md` §5). As observações O-10-01..05 (transcrição das 24 células, cap ×2–×3, estrato "baixa" descritivo, ausência de ritual, escopo do RF-10) foram apresentadas ao prescritor na re-extração 2 e **mantidas 🟡 por decisão do usuário** — pendentes de chancela clínica, sem peso de regressão.
 
 ## Arquivadas
 

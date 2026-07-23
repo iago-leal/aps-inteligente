@@ -33,7 +33,9 @@ confirmar como regra.
 
 ## Histórico de re-extrações
 
-<!-- Preenchido pelo agente reverso quando /reversa rodar de novo. -->
+### Re-extração 2026-07-23 14:10
+
+Watch principal **vazio** (feature de apresentação; nenhuma regra 🟢 de domínio alterada) — nada a verificar contra regressão. As observações O-08-01..05 permanecem 🟡 por decisão do usuário na re-extração 2; a semântica acessível da home (h1, selo, um link por cartão) e a variante `destaque` como CSS seguem representadas na unit `interface-inicio` e em `interface-comum`.
 
 ## Arquivadas
 

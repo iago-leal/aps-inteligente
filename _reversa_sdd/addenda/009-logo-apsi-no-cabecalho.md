@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-23.
+
 ## Resumo da entrega
 
 A plataforma ganhou identidade de marca: a logo **APSi** (wordmark manuscrito) substitui o texto do wordmark no cabeçalho e passa a ser o ícone do app. Na **home**, a logo é o próprio `<h1>` — uma imagem com texto alternativo "APS Inteligente", que preserva o nome acessível do heading já asserido pela suíte. Nas **calculadoras** (insulina, idade gestacional), cujo `<h1>` é o nome da calculadora, a logo entra como marca de brand decorativa (`aria-hidden`, `alt=""`) acima do heading, sem criar segundo `<h1>` nem link novo. A variante clara/escura (`apsi-light` `#0969da` / `apsi-dark` `#4493f8`) é trocada pelo `tema` que a `Moldura` já lê via `useSyncExternalStore`, sem flash novo. O app tornou-se instalável (PWA): favicon, `apple-touch-icon`, `theme-color` e `manifest.webmanifest` a partir do tile (ícones 192/512), tudo servido same-origin sob a CSP vigente. Entrega inteiramente de apresentação/identidade: motor (`models/**`), catálogo (`catalogo.ts`), rotas, textos e nomes acessíveis permanecem byte a byte (`git diff models/` e `catalogo.ts` vazios).

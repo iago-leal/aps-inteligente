@@ -1,71 +1,36 @@
 # Perguntas para Validação — aps-inteligente
 
-> Gerado pelo Reversa Reviewer em 2026-07-19.
-> `answer_mode = chat`: as perguntas serão feitas na conversa; este arquivo é o registro.
-> Consolida e substitui, no nível global, as questões de `models-insulina/questions.md`.
+> Regenerado pelo Reversa Reviewer na **re-extração 2 (2026-07-23)**. `answer_mode = chat`.
+> Consolida, no nível global, as premissas clínicas 🟡 dos três domínios (detalhe por unit em `models-*/questions.md`).
+> **Decisão do usuário (2026-07-23):** manter todas como premissas 🟡 documentadas e seguir para a verificação de regressão. Nenhuma é 🔴 (bloqueante); nenhuma foi promovida a 🟢 nesta sessão.
 
 ---
 
-## Pergunta 1
+## Gestação — `models/gestacao`
 
-**Contexto:** Constantes clínicas de `models/insulina/fonte-clinica.ts` citam página/figura do guia, mas o PDF está fora do repo (ADR 0001).
-**Spec afetada:** [`_reversa_sdd/models-insulina/requirements.md`] (todas as RN)
-**Pergunta:** Você pode disponibilizar o PDF do Guia Rápido DM para conferência página a página das 20 referências e limiares?
-**Impacto:** Com o PDF, a fidelidade à fonte ganha verificação independente; sem ele, permanece 🟢 por rastreabilidade de comentários apenas.
+| # | Premissa | Valor atual no código | Fonte da premissa | Status |
+|---|----------|-----------------------|-------------------|--------|
+| Q-G1 | Cortes de trimestre | 13+6 (1.º→2.º) e 27+6 (2.º→3.º) | Convenção obstétrica; guia não define numericamente | 🟡 mantida |
+| Q-G2 | Limite retroativo da DUM | 44 semanas | Plausibilidade arbitrada, não citada na fonte | 🟡 mantida |
+| Q-G3 | Faixa do laudo de USG | 0–42 semanas, 0–6 dias | Plausibilidade arbitrada | 🟡 mantida |
+| Q-G4 | 3.º trimestre sem margem | só informa a divergência (`sem-parametro-na-fonte`) | Fonte não parametriza margem (p. 32) | 🟡 mantida |
 
-**Resposta:** ✅ Respondida (chat, 2026-07-19). Sim — o usuário fornecerá o caminho do PDF. Conferência página a página pendente até o caminho chegar.
+## Cardiologia — `models/cardiopatia-isquemica`
 
----
+| # | Premissa | Valor atual no código | Fonte da premissa | Status |
+|---|----------|-----------------------|-------------------|--------|
+| Q-C1 | Transcrição das 24 células do Quadro 2 | matriz `PROBABILIDADE_PRE_TESTE` congelada | p. 5 (DUNCAN et al., 2013); oráculo replica a matriz, não confere contra o PDF | 🟡 mantida |
+| Q-C2 | Estrato "baixa" | leitura descritiva (não anginosa E sem fatores) | Nota ** do Quadro 2; decisão 2026-07-23 | 🟡 mantida |
+| Q-C3 | Ajuste por fatores de risco | faixa base×2–base×3, cap 99%, sinal ">90%" | Nota * do Quadro 2 | 🟡 mantida |
+| Q-C4 | Ausência de ritual de revisão | sem gate de confirmação | ADR 0012 (estratificar ≠ prescrever) | 🟡 mantida |
+| Q-C5 | Fidelidade dos blocos complementares | CCS, tratamento+Tabela 1, seguimento, agudo | pp. 4–6 da fonte; conferência clínica | 🟡 mantida |
 
-## Pergunta 2
+## Insulina — `models/insulina` (herdada da extração 1)
 
-**Contexto:** Divergências clínicas 1 e 2 aprovadas no design (dose de metformina; TFG) dependem de conteúdo do guia ainda não extraído.
-**Spec afetada:** [`_reversa_sdd/models-insulina/questions.md`], futura feature do ciclo forward
-**Pergunta:** Quais páginas/tabelas do guia fundamentam a dose otimizada de metformina e o ajuste/contraindicação por TFG?
-**Impacto:** A extração citada precede a spec das duas features (Princípios I/II); sem ela, seguem bloqueadas.
-
-**Resposta:** <!-- preencha aqui -->
-
----
-
-## Pergunta 3
-
-**Contexto:** Divergência 3 — `SUSPENDER_SULFONILUREIA` ampliada (uso "não informado" com redação condicional; esquema que já chega fracionado).
-**Spec afetada:** [`_reversa_sdd/models-insulina/requirements.md`] RN-G
-**Pergunta:** Confirme a redação condicional para o caso "não informado" e se a recomendação vale para todo cálculo com NPH já fracionada ou só quando houver ajuste.
-**Impacto:** Define o comportamento da futura RN-G ampliada e seus testes de validação.
-
-**Resposta:** <!-- preencha aqui -->
+| # | Premissa | Estado | Status |
+|---|----------|--------|--------|
+| Q-I1 (G-01) | Caminho do PDF do *Guia Rápido DM* para conferência página a página das 20 referências | Usuário confirmou que fornecerá; caminho ainda não chegou | 🟡 pendente de insumo |
 
 ---
 
-## Pergunta 4
-
-**Contexto:** `RegraIntensificacao.aplicar` retorna silenciosamente quando HbA1c está ausente e o paciente não está intensificado com pré-prandiais (ramos residuais fora do EC-10).
-**Spec afetada:** [`_reversa_sdd/models-insulina/requirements.md`] RN-H
-**Pergunta:** Esse silêncio é a conduta desejada, ou deveria haver recomendação explícita de dosar HbA1c nesses ramos?
-**Impacto:** Se indesejado, nasce bug (via `/reversa-debugger`) com teste de regressão; se desejado, RN-H ganha nota explícita 🟢.
-
-**Resposta:** ✅ Respondida (chat, 2026-07-19). Não — o comportamento desejado é recomendar dosar HbA1c nos ramos residuais. Vira bug via /reversa-debugger (teste de regressão antes do fix). RN-H anotada.
-
----
-
-## Pergunta 5
-
-**Contexto:** `pages/api/v1/index.js` vazio — rota declarada sem handler falha se requisitada; scripts `test:api` quebrados.
-**Spec afetada:** [`_reversa_sdd/pages-next/requirements.md`] RF-04, [`tasks.md`] T-04
-**Pergunta:** A API v1 renasce agora (reimplementar `GET /api/v1/status` no padrão ADR 0008) ou o placeholder e o script `test:api` saem até a etapa do banco?
-**Impacto:** Define T-04 e o destino de `infra/compose.yaml` e `tests/integration/api/`.
-
-**Resposta:** ✅ Respondida (chat, 2026-07-19). Manter o placeholder deliberadamente, como lembrete da API futura. RF-04/T-04 atualizados (Won't nesta fase; implementação na etapa do banco, padrão ADR 0008).
-
----
-
-## Pergunta 6
-
-**Contexto:** Perdas da refundação ainda não repostas: CSP sem terceiros, 404 própria, e2e de privacidade/WCAG (Playwright+axe), CI (D-07), lint de fronteira de camadas (D-01).
-**Spec afetada:** [`_reversa_sdd/pages-next/tasks.md`] T-05, [`interface-calculadora/tasks.md`] TT-04, [`architecture.md`] §6
-**Pergunta:** Quais desses itens devem ser reconstituídos já na próxima feature de infraestrutura, e quais ficam para depois?
-**Impacto:** Prioriza o backlog de dívidas de gravidade alta da extração.
-
-**Resposta:** ✅ Respondida (chat, 2026-07-19). Nada por enquanto — CI, lint de fronteira, e2e e CSP/404 permanecem no backlog de dívidas (architecture.md §6); reavaliar na próxima feature de infraestrutura.
+> **Encaminhamento:** as premissas seguem chanceláveis a qualquer momento pelo prescritor. Ao serem confirmadas, promovem-se a 🟢 (validação humana); ao serem ajustadas, geram bug ou feature do ciclo forward, pois o código atual reflete os valores acima. Enquanto isso, permanecem 🟡 e não bloqueiam a reimplementação a partir da extração.
