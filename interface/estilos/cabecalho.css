@@ -1,10 +1,50 @@
-/* Feature 009 (RF-01/RF-05; roadmap D-07): camada de logo do cabeçalho.
-   O layout base do cabeçalho (.cabecalho, .cabecalho-identidade, .cabecalho-acoes)
-   permanece em globais.css, que estava no teto de 400 linhas — a identidade da
-   marca ganha folha própria em vez de inflar o arquivo. Importada em _app.tsx
-   após globais.css. Sobre tokens Primer, sem cor própria.
+/* Camada do cabeçalho da plataforma: consolida a família .cabecalho* inteira —
+   o layout base (feature 008, RF-07) e a camada da logo APSi (feature 009,
+   RF-01/RF-05). Reunida numa folha só na re-extração 2 (observação O-09-04),
+   tirando o layout do cabeçalho de globais.css, que estava no teto de 400 linhas.
+   Importada em _app.tsx após globais.css. Sobre tokens Primer, sem cor própria.
+   A variante "destaque" da home (RF-04) vive em inicio.css. */
 
-   Altura fixa e largura automática preservam a proporção do PNG (314×138). Como
+/* ── Layout base ──────────────────────────────────────────────────────── */
+
+.cabecalho {
+  background: var(--bgColor-default);
+  border-bottom: 1px solid var(--borderColor-default);
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cabecalho-identidade {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cabecalho-identidade h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: var(--text-title-lineHeight-medium, 1.4);
+}
+
+.cabecalho-identidade p {
+  margin: 0;
+  color: var(--fgColor-muted);
+  font-size: var(--text-body-size-small, 12px);
+}
+
+.cabecalho-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Camada da logo ───────────────────────────────────────────────────── */
+
+/* Altura fixa e largura automática preservam a proporção do PNG (314×138). Como
    wordmark (home), a logo ocupa o h1; como marca (calculadoras), fica um degrau
    menor, acima do h1 textual. */
 .cabecalho-identidade h1 .cabecalho-logo {
@@ -21,4 +61,12 @@
      imagem width:auto estica à largura do container e distorce o wordmark. */
   align-self: flex-start;
   margin-bottom: 2px;
+}
+
+/* ── Responsivo ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .cabecalho {
+    padding: 16px 20px;
+  }
 }

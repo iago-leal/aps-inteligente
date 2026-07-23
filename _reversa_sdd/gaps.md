@@ -25,7 +25,7 @@
 ## Dívidas técnicas registradas (sem bloqueio)
 
 - 🟡 **Acoplamento residual de tema:** `interface/calculadora/preferencia-de-tema.ts` é consumido pela `Moldura` (`interface/comum`) — realocar para `interface/comum/` numa próxima feature (declarado no próprio código e no `design.md` da unit `interface-comum`).
-- 🟡 **`globais.css` no teto de 400 linhas:** identidade nova deve ir para folha própria (regra já seguida nas features 008/009/010).
+- ✅ **`globais.css` no teto de 400 linhas — RESOLVIDO (2026-07-23):** o layout do cabeçalho (família `.cabecalho*`) migrou para `cabecalho.css`; `globais.css` caiu para 364 linhas (todas as folhas < 400). Relocação byte a byte, mesma ordem de cascata; suíte 375/375, build e Prettier verdes.
 - 🟡 **`formulario.tsx` (313 LOC):** concentra linhas, validação e montagem — extração de subcomponentes recomendável (unit `interface-calculadora`, T-08); `let proximoId` módulo-global é frágil sob StrictMode/HMR.
 - 🔴 **Sem telemetria/logs de produção** (por design, ADR 0007) — comportamento em uso real é invisível; dívida estrutural conhecida, não defeito.
 - 🟡 **Backlog de infra da refundação** (CI, lint de fronteira de camadas D-01, página 404 própria): documentado em `architecture.md` §6; reavaliar na próxima feature de infraestrutura.

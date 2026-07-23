@@ -26,41 +26,9 @@ body {
   color: var(--fgColor-default);
 }
 
-/* Refino da feature 008 (RF-07): respiro e hierarquia acima nas três telas; a variante "destaque" da home (RF-04) vive em inicio.css. */
-.cabecalho {
-  background: var(--bgColor-default);
-  border-bottom: 1px solid var(--borderColor-default);
-  padding: 20px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.cabecalho-identidade {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cabecalho-identidade h1 {
-  margin: 0;
-  font-size: 20px;
-  line-height: var(--text-title-lineHeight-medium, 1.4);
-}
-
-.cabecalho-identidade p {
-  margin: 0;
-  color: var(--fgColor-muted);
-  font-size: var(--text-body-size-small, 12px);
-}
-
-.cabecalho-acoes {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+/* O layout do cabeçalho (família .cabecalho*) vive em cabecalho.css, consolidado
+   ali com a camada da logo (observação O-09-04): esta folha ficou no teto de 400
+   linhas e a identidade nova ganha folha própria. */
 
 .calc-regioes {
   max-width: 1180px;
@@ -383,10 +351,6 @@ body {
 
   .painel-resultado {
     position: static;
-  }
-
-  .cabecalho {
-    padding: 16px 20px;
   }
 }
 

@@ -8,15 +8,15 @@ Quatro folhas CSS que fornecem apenas a "cola de layout" que os componentes Prim
 
 ## Responsabilidades
 
-- `globais.css` — reset, grade da página, cartões, espaçamentos, layout base do cabeçalho (`.cabecalho*`). 🟢
-- `cabecalho.css` — camada da logo APSi (proporção 314×138, wordmark × marca). 🟢
+- `globais.css` — reset, grade da página, cartões, espaçamentos. 🟢
+- `cabecalho.css` — família `.cabecalho*` inteira: layout base do cabeçalho + camada da logo APSi (proporção 314×138, wordmark × marca), consolidada na re-extração 2 (O-09-04). 🟢
 - `inicio.css` — hero em variante destaque, seções, cartões e stretched link da home. 🟢
 - `cardiologia.css` — peças novas da tela de cardiologia (radios, blocos). 🟢
 
 ## Regras de Negócio
 
 - **RN-01/RN-05 (004)** Só tokens `var(--*)` do Primer; nenhuma cor/fonte/sombra própria. 🟢
-- **Teto de 400 linhas** `globais.css` está no limite; identidade nova ganha folha própria em vez de inflá-lo (features 008/009/010). 🟢
+- **Teto de 400 linhas** cada preocupação em folha própria; o layout do cabeçalho saiu de `globais.css` (que encostara em 400) para `cabecalho.css`, trazendo `globais.css` a 364 linhas (re-extração 2). 🟢
 - **Ordem de import** As folhas entram em `_app.tsx` após os primitivos e `globais.css`, nesta ordem: globais → cabecalho → inicio → cardiologia. 🟢
 - **Variante por atributo** O hero reage a `.pagina[data-apresentacao="destaque"]`; o tema, a `data-tema`. 🟢
 
@@ -33,7 +33,7 @@ Quatro folhas CSS que fornecem apenas a "cola de layout" que os componentes Prim
 
 | Tipo | Requisito inferido | Evidência no código | Confiança |
 |------|--------------------|---------------------|-----------|
-| Manutenibilidade | Um arquivo por preocupação; teto de 400 linhas respeitado | `globais.css` (400), `cabecalho.css` (24), `inicio.css` (188), `cardiologia.css` (47) | 🟢 |
+| Manutenibilidade | Um arquivo por preocupação; teto de 400 linhas respeitado (todas < 400) | `globais.css` (364), `cabecalho.css` (72), `inicio.css` (188), `cardiologia.css` (47) | 🟢 |
 | Consistência de tema | Regras sobre `data-tema` / `data-apresentacao` | `inicio.css` (hero), `globais.css` | 🟢 |
 | Sem terceiros | Nenhuma fonte/CDN externa (CSP) | `pages/_app.tsx:7-25` | 🟢 |
 
@@ -61,7 +61,7 @@ Então o hero e as seções compartilham a coluna clínica de 720px
 
 | Arquivo | Escopo | Cobertura |
 |---------|--------|-----------|
-| `interface/estilos/globais.css` | reset, grade, cartões, base do cabeçalho | 🟢 |
-| `interface/estilos/cabecalho.css` | logo APSi | 🟢 |
+| `interface/estilos/globais.css` | reset, grade, cartões, espaçamentos | 🟢 |
+| `interface/estilos/cabecalho.css` | família `.cabecalho*` (layout base + logo APSi) | 🟢 |
 | `interface/estilos/inicio.css` | hero, seções, cartões, stretched link | 🟢 |
 | `interface/estilos/cardiologia.css` | radios e blocos da cardiologia | 🟢 |
