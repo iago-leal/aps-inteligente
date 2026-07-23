@@ -1,9 +1,9 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/011-refatora-cabecalho",
-  "feature-id": "011",
-  "short-name": "refatora-cabecalho",
-  "started-at": "2026-07-23T17:28:09Z",
+  "feature-dir": "_reversa_forward/013-cabecalho-proporcoes",
+  "feature-id": "013",
+  "short-name": "cabecalho-proporcoes",
+  "started-at": "2026-07-23T19:07:05Z",
   "current-stage": "requirements",
   "stages-completed": [],
   "paused-features": []

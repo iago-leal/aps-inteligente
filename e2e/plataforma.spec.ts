@@ -363,6 +363,49 @@ test("idade fora de 30–69: fora do escopo da fonte (RF-06)", async ({ page }) 
   await expect(painel.getByText(/30 a 69/)).toBeVisible();
 });
 
+// T002 (feature 013-cabecalho-proporcoes) — proporções do cabeçalho padrão
+// alinhadas à home: o conteúdo do cabeçalho encaixa na coluna do corpo (RF-01)
+// e a logo tem o mesmo tamanho da home (RF-07). Guarda geométrica, tolerância 2px.
+test("cabeçalho da calculadora alinha à coluna do corpo em viewport largo (RF-01)", async ({
+  page,
+}) => {
+  const GUTTER = 32; // padding lateral do .calc-regioes
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/dm2/insulina");
+  // Espera o layout pintar antes de medir (auto-wait dos locators/boundingBox).
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Calculadora de Insulina — DM2" }),
+  ).toBeVisible();
+
+  const ident = (await page.locator(".cabecalho-identidade").boundingBox())!;
+  const acoes = (await page.locator(".cabecalho-acoes").boundingBox())!;
+  const corpo = (await page.locator(".calc-regioes").boundingBox())!;
+
+  const identEsq = ident.x;
+  const acoesDir = acoes.x + acoes.width;
+  const corpoEsq = corpo.x + GUTTER;
+  const corpoDir = corpo.x + corpo.width - GUTTER;
+
+  expect(Math.abs(identEsq - corpoEsq)).toBeLessThanOrEqual(2);
+  expect(Math.abs(acoesDir - corpoDir)).toBeLessThanOrEqual(2);
+});
+
+test("logo do cabeçalho tem o mesmo tamanho na calculadora e na home (RF-07)", async ({
+  page,
+}) => {
+  await page.goto("/dm2/insulina");
+  const alturaMarca = await page
+    .locator(".cabecalho-marca")
+    .evaluate((el) => Math.round(el.getBoundingClientRect().height));
+
+  await page.goto("/");
+  const alturaLogo = await page
+    .locator(".cabecalho-identidade h1 .cabecalho-logo")
+    .evaluate((el) => Math.round(el.getBoundingClientRect().height));
+
+  expect(Math.abs(alturaMarca - alturaLogo)).toBeLessThanOrEqual(1);
+});
+
 test("acessibilidade: a tela de cardiologia permanece na linha de base zero", async ({
   page,
 }, testInfo) => {

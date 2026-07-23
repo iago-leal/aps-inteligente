@@ -3,14 +3,26 @@
    RF-01/RF-05). Reunida numa folha só na re-extração 2 (observação O-09-04),
    tirando o layout do cabeçalho de globais.css, que estava no teto de 400 linhas.
    Importada em _app.tsx após globais.css. Sobre tokens Primer, sem cor própria.
-   A variante "destaque" da home (RF-04) vive em inicio.css. */
+   A variante "destaque" da home (RF-04) vive em inicio.css.
+   Feature 013 (RF-01/RF-02/RF-07): o cabeçalho base (variante "padrao" das
+   calculadoras) recupera as proporções da home, que é a referência. O conteúdo
+   deixa de colar nas bordas da página e encaixa na coluna do corpo (.calc-regioes,
+   1180px centrados com gutter de 32px) pela mesma técnica de padding com max() já
+   provada no hero de inicio.css; o respiro vertical volta ao ritmo da home (44/36);
+   e a logo (.cabecalho-marca) deixa de ser "um degrau menor" e iguala a altura do
+   wordmark da home. Só apresentação: a semântica do cabeçalho é intocada. */
 
 /* ── Layout base ──────────────────────────────────────────────────────── */
 
 .cabecalho {
   background: var(--bgColor-default);
   border-bottom: 1px solid var(--borderColor-default);
-  padding: 20px 32px;
+  /* Padding lateral com max(): encaixa o conteúdo na coluna do corpo (feature
+     013, D-01/D-02). O conteúdo de .calc-regioes começa em (100% − 1180)/2 + 32
+     = 50% − 558px; abaixo de 1180px de viewport o max() clampa em 32px, igual ao
+     gutter do corpo. Vertical 44/36: respiro da home (D-03). A variante destaque
+     sobrescreve este padding por maior especificidade — a home fica intocada. */
+  padding: 44px max(32px, calc(50% - 558px)) 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,7 +92,11 @@
 
 .cabecalho-marca {
   display: block;
-  height: 24px;
+  /* Feature 013 (RF-07, D-07): a marca iguala a altura do wordmark da home
+     (34px), revendo o "degrau menor" da feature 009 — o usuário pediu tamanho
+     de logo consistente entre home e calculadora. Largura automática preserva a
+     proporção 314×138; segue decorativa (aria-hidden), sem virar link nem h1. */
+  height: 34px;
   width: auto;
   /* .cabecalho-identidade é flex-column com align-items:stretch — sem isto a
      imagem width:auto estica à largura do container e distorce o wordmark. */
@@ -91,7 +107,10 @@
 /* ── Responsivo ───────────────────────────────────────────────────────── */
 
 @media (max-width: 900px) {
+  /* Feature 013 (RF-05, D-05): abaixo de 1180px o max() lateral já clampou em
+     32px; aqui reduzimos o gutter para 20px e o respiro vertical, sem transbordar,
+     mantendo a faixa mais alta que os antigos 16px (coerente com o novo ritmo). */
   .cabecalho {
-    padding: 16px 20px;
+    padding: 28px 20px 24px;
   }
 }
