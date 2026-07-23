@@ -2,11 +2,17 @@
 // da home — apresentação pura, fora do catálogo (que permanece byte a byte).
 // Seção futura sem entrada aqui simplesmente não exibe ícone (fallback null);
 // os ícones são decorativos (aria-hidden): o nome acessível segue sendo o texto.
-import { BeakerIcon, CalendarIcon, type Icon } from "@primer/octicons-react";
+import {
+  BeakerIcon,
+  CalendarIcon,
+  HeartIcon,
+  type Icon,
+} from "@primer/octicons-react";
 
 const ICONES_POR_SECAO: Readonly<Record<string, Icon>> = {
   dm2: BeakerIcon,
   "pre-natal": CalendarIcon,
+  cardiologia: HeartIcon,
 };
 
 export function IconeDaSecao({ id }: { readonly id: string }) {

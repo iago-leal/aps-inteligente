@@ -8,6 +8,7 @@ as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citáv
 |---|---|---|---|---|
 | Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |
 | Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |
+| Cardiologia | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica | `/cardiologia/dor-toracica` | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017) | `models/cardiopatia-isquemica/` |
 
 Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
 em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).

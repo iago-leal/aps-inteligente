@@ -40,4 +40,16 @@ export const CATALOGO: readonly SecaoDaPlataforma[] = Object.freeze([
       }),
     ]),
   }),
+  Object.freeze({
+    id: "cardiologia",
+    titulo: "Cardiologia",
+    calculadoras: Object.freeze([
+      Object.freeze({
+        titulo: "Calculadora de probabilidade pré-teste de cardiopatia isquêmica",
+        descricao:
+          "Classificação da dor torácica, probabilidade pré-teste de doença arterial coronariana e conduta de investigação, pelo TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017).",
+        rota: "/cardiologia/dor-toracica",
+      }),
+    ]),
+  }),
 ]);

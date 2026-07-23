@@ -5,5 +5,7 @@
   "telaComResultado": 1,
   "home": 0,
   "telaIdadeGestacional": 0,
-  "telaIdadeGestacionalComResultado": 0
+  "telaIdadeGestacionalComResultado": 0,
+  "telaCardiologia": 0,
+  "telaCardiologiaComResultado": 0
 }

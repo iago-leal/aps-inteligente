@@ -1,0 +1,30 @@
+{"ts":"2026-07-23T15:00:37Z","action":"T001","status":"done","files":["_reversa_forward/010-dor-toracica-pre-teste/relatorio.md"],"nota":"build base verde, 5 rotas estaticas"}
+{"ts":"2026-07-23T15:00:37Z","action":"T002","status":"done","files":["referencias/telecondutas-cardiopatia-isquemica-telessauders-2017.pdf"],"nota":"referencias/ ja no .gitignore (linha 17)"}
+{"ts":"2026-07-23T15:40:00Z","action":"T003","status":"done","files":["models/cardiopatia-isquemica/tipos.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T004","status":"done","files":["tests/unit/dominio-cardiopatia/probabilidade.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T005","status":"done","files":["tests/unit/dominio-cardiopatia/classificacao.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T006","status":"done","files":["tests/unit/dominio-cardiopatia/probabilidade-ajuste.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T007","status":"done","files":["tests/unit/dominio-cardiopatia/conduta.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T008","status":"done","files":["tests/unit/dominio-cardiopatia/validacao.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T009","status":"done","files":["tests/unit/dominio-cardiopatia/invariantes.test.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T010","status":"done","files":["tests/integration/interface/cardiologia.test.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T011","status":"done","files":["tests/integration/interface/inicio.test.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T012","status":"done","files":["e2e/plataforma.spec.ts","e2e/axe-baseline.json"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T013","status":"done","files":["models/cardiopatia-isquemica/fonte-clinica.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T014","status":"done","files":["models/cardiopatia-isquemica/classificacao.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T015","status":"done","files":["models/cardiopatia-isquemica/probabilidade.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T016","status":"done","files":["models/cardiopatia-isquemica/conduta.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T017","status":"done","files":["models/cardiopatia-isquemica/validacao.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T018","status":"done","files":["models/cardiopatia-isquemica/calculadora.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T019","status":"done","files":["interface/cardiologia/formulario.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T020","status":"done","files":["interface/cardiologia/resultado.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T021","status":"done","files":["interface/cardiologia/referencias.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T022","status":"done","files":["interface/cardiologia/app.tsx","interface/cardiologia/tela.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T023","status":"done","files":["interface/inicio/catalogo.ts"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T024","status":"done","files":["interface/inicio/icones.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T025","status":"done","files":["pages/cardiologia/dor-toracica.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T026","status":"done","files":["interface/estilos/cardiologia.css","pages/_app.tsx"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T027","status":"done","files":["_reversa_forward/010-dor-toracica-pre-teste/"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T028","status":"done","files":["_reversa_forward/010-dor-toracica-pre-teste/relatorio.md"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T029","status":"done","files":["_reversa_forward/010-dor-toracica-pre-teste/relatorio.md"]}
+{"ts":"2026-07-23T15:40:00Z","action":"T030","status":"done","files":["README.md"]}

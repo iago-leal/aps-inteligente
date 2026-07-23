@@ -22,6 +22,7 @@ import "@primer/primitives/dist/css/functional/themes/dark.css";
 import "interface/estilos/globais.css";
 import "interface/estilos/cabecalho.css";
 import "interface/estilos/inicio.css";
+import "interface/estilos/cardiologia.css";
 
 import { ProvedorTemaPrimer } from "interface/calculadora/provedor-tema";
 

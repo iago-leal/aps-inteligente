@@ -1,0 +1,47 @@
+/* Feature 010 (RF-08/RF-10; roadmap D-09): estilo das peças novas da tela de
+   cardiologia, sobre tokens Primer (zero cor própria). globais.css está no teto de
+   400 linhas — por isso folha própria, importada em _app.tsx após os globais.
+   Classes genéricas (formulario, grupo-campos, painel-resultado) vêm de globais. */
+
+.campo-radios {
+  display: flex;
+  gap: var(--stack-gap-normal, 1rem);
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.bloco-probabilidade,
+.bloco-conduta {
+  margin-block: var(--stack-gap-condensed, 0.5rem);
+}
+
+.lista-causas {
+  margin-block: var(--stack-gap-condensed, 0.5rem);
+  padding-inline-start: var(--base-size-24, 1.5rem);
+}
+
+.referencias-complementares {
+  margin-block-start: var(--stack-gap-spacious, 1.5rem);
+  padding-block-start: var(--stack-gap-normal, 1rem);
+  border-block-start: 1px solid var(--borderColor-muted, #d0d7de);
+}
+
+.referencia-bloco {
+  border: 1px solid var(--borderColor-default, #d0d7de);
+  border-radius: var(--borderRadius-medium, 6px);
+  padding: var(--base-size-12, 0.75rem);
+  margin-block: var(--stack-gap-condensed, 0.5rem);
+  background-color: var(--bgColor-muted, #f6f8fa);
+}
+
+.referencia-bloco > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--fgColor-default, #1f2328);
+}
+
+.referencia-pagina {
+  color: var(--fgColor-muted, #59636e);
+}

@@ -91,3 +91,16 @@ describe("Apresentação da home (feature 008)", () => {
     }
   });
 });
+
+// T011 (feature 010-dor-toracica-pre-teste) — a home ganha a seção Cardiologia
+// (RF-08). Asserções anteriores permanecem byte a byte.
+describe("Seção Cardiologia na home (feature 010; RF-08)", () => {
+  it("exibe a seção Cardiologia com a calculadora de probabilidade pré-teste", () => {
+    render(<TelaInicio />);
+    expect(screen.getByRole("heading", { name: /^cardiologia$/i })).toBeTruthy();
+    const link = screen.getByRole("link", {
+      name: /probabilidade pré-teste de cardiopatia isquêmica/i,
+    });
+    expect(link.getAttribute("href")).toBe("/cardiologia/dor-toracica");
+  });
+});

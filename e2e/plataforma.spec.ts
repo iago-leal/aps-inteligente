@@ -260,3 +260,133 @@ test("documento declara favicon e manifesto PWA (RF-03)", async ({ page }) => {
   await expect(page.locator('link[rel="icon"]').first()).toHaveCount(1);
   await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveCount(1);
 });
+
+// T012 (feature 010-dor-toracica-pre-teste) — calculadora de dor torácica /
+// probabilidade pré-teste (RF-01/RF-04/RF-05/RF-06/RF-08). Asserções anteriores
+// byte a byte; a home ganha a seção Cardiologia.
+async function avaliaCardiologia(
+  page: Page,
+  opcoes: {
+    idade: string;
+    sexo: RegExp;
+    caracteristicas: RegExp[];
+    fatores?: RegExp[];
+    impedimento?: boolean;
+  },
+) {
+  await page.goto("/cardiologia/dor-toracica");
+  await page.getByLabel(/idade/i).fill(opcoes.idade);
+  await page.getByLabel(opcoes.sexo).check();
+  for (const caracteristica of opcoes.caracteristicas) {
+    await page.getByLabel(caracteristica).check();
+  }
+  for (const fator of opcoes.fatores ?? []) {
+    await page.getByLabel(fator).check();
+  }
+  if (opcoes.impedimento) {
+    await page.getByLabel(/ECG basal altera/i).check();
+  }
+  await page.getByRole("button", { name: /^avaliar$/i }).click();
+  return page.getByRole("complementary", { name: "Resultado" });
+}
+
+test("home: a seção Cardiologia leva à calculadora de dor torácica (RF-08)", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Cardiologia" }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", {
+      name: /probabilidade pré-teste de cardiopatia isquêmica/i,
+    })
+    .click();
+  await expect(page).toHaveURL(/\/cardiologia\/dor-toracica$/);
+  await expect(
+    page.getByRole("heading", {
+      name: "Probabilidade Pré-teste de Cardiopatia Isquêmica",
+    }),
+  ).toBeVisible();
+});
+
+test("angina típica de alto risco: estrato alto e encaminhamento (RF-01/RF-04)", async ({
+  page,
+}) => {
+  const painel = await avaliaCardiologia(page, {
+    idade: "55",
+    sexo: /masculino/i,
+    caracteristicas: [/retroesternal/i, /exercício ou estresse/i, /alívio rápido/i],
+    fatores: [/hipertensão/i, /diabetes/i],
+  });
+  await expect(painel.getByRole("heading", { name: /angina típica/i })).toBeVisible();
+  await expect(painel.getByText(/93%/)).toBeVisible();
+  await expect(painel.getByText("Alta", { exact: true })).toBeVisible();
+  await expect(painel.getByText(/cardiologista/i)).toBeVisible();
+});
+
+test("dor não anginosa sem fatores: exame não indicado (RF-04)", async ({
+  page,
+}) => {
+  const painel = await avaliaCardiologia(page, {
+    idade: "55",
+    sexo: /masculino/i,
+    caracteristicas: [/retroesternal/i],
+  });
+  await expect(
+    painel.getByRole("heading", { name: /dor não anginosa/i }),
+  ).toBeVisible();
+  await expect(painel.getByText(/exame funcional não indicado/i)).toBeVisible();
+});
+
+test("ECG basal impede ergometria: método não invasivo alternativo (RF-05)", async ({
+  page,
+}) => {
+  const painel = await avaliaCardiologia(page, {
+    idade: "55",
+    sexo: /masculino/i,
+    caracteristicas: [/retroesternal/i, /exercício ou estresse/i],
+    impedimento: true,
+  });
+  await expect(
+    painel.getByText(/cintilografia|ressonância|ecocardiograma/i),
+  ).toBeVisible();
+});
+
+test("idade fora de 30–69: fora do escopo da fonte (RF-06)", async ({ page }) => {
+  const painel = await avaliaCardiologia(page, {
+    idade: "74",
+    sexo: /masculino/i,
+    caracteristicas: [/retroesternal/i],
+  });
+  await expect(painel.getByText(/fora do escopo da fonte/i)).toBeVisible();
+  await expect(painel.getByText(/30 a 69/)).toBeVisible();
+});
+
+test("acessibilidade: a tela de cardiologia permanece na linha de base zero", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/cardiologia/dor-toracica");
+  const tela = await new AxeBuilder({ page }).analyze();
+  await testInfo.attach("axe-tela-cardiologia", {
+    body: JSON.stringify(tela.violations, null, 2),
+    contentType: "application/json",
+  });
+
+  const painel = await avaliaCardiologia(page, {
+    idade: "55",
+    sexo: /masculino/i,
+    caracteristicas: [/retroesternal/i, /exercício ou estresse/i, /alívio rápido/i],
+  });
+  await expect(painel.getByRole("heading", { name: /angina típica/i })).toBeVisible();
+  const comResultado = await new AxeBuilder({ page }).analyze();
+  await testInfo.attach("axe-tela-cardiologia-com-resultado", {
+    body: JSON.stringify(comResultado.violations, null, 2),
+    contentType: "application/json",
+  });
+
+  expect(tela.violations.length).toBeLessThanOrEqual(linhaDeBase.telaCardiologia);
+  expect(comResultado.violations.length).toBeLessThanOrEqual(
+    linhaDeBase.telaCardiologiaComResultado,
+  );
+});
