@@ -1,9 +1,9 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/010-dor-toracica-pre-teste",
-  "feature-id": "010",
-  "short-name": "dor-toracica-pre-teste",
-  "started-at": "2026-07-23T15:00:37Z",
+  "feature-dir": "_reversa_forward/011-refatora-cabecalho",
+  "feature-id": "011",
+  "short-name": "refatora-cabecalho",
+  "started-at": "2026-07-23T17:28:09Z",
   "current-stage": "requirements",
   "stages-completed": [],
   "paused-features": []

@@ -12,6 +12,9 @@ export default defineConfig({
     // O @primer/react importa .css de dentro do pacote; inliná-lo faz o Vite
     // processar esses imports (viram no-op no jsdom) em vez do ESM do Node falhar.
     server: { deps: { inline: [/@primer\//] } },
+    // Polyfill de adoptedStyleSheets p/ o Tooltip do IconButton no jsdom (feature 011).
+    // No-op em ambiente node (guardado por typeof no próprio arquivo).
+    setupFiles: ["tests/apoio/setup-jsdom.ts"],
     include: [
       "tests/unit/**/*.test.ts",
       "tests/integration/**/*.test.{ts,tsx}",

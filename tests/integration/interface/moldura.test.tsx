@@ -48,6 +48,46 @@ describe("Variante de apresentação da Moldura (RF-04/RF-07)", () => {
   );
 });
 
+// T001/T002 (feature 011-refatora-cabecalho) — o alternador de tema vira icônico
+// (RF-01/RF-03; RN-01) e as calculadoras ganham um comando de início (RF-04; RN-03).
+describe("Cabeçalho refatorado (feature 011)", () => {
+  it("o alternador de tema é icônico: nome acessível pela ação, sem o texto 'Tema claro/escuro'", () => {
+    renderiza();
+    // Cliente nasce no tema claro; o glifo é o do tema-alvo (lua) e o nome
+    // acessível descreve a ação de ir ao escuro.
+    expect(
+      screen.getByRole("button", { name: "Ativar tema escuro" }),
+    ).toBeTruthy();
+    // O rótulo textual antigo não existe mais como conteúdo visível.
+    expect(screen.queryByText(/^Tema (claro|escuro)$/)).toBeNull();
+  });
+
+  it("sem logoComoTitulo (calculadora): a logo segue não-link e há um comando de início para '/' (RF-04, D-06)", () => {
+    const { container } = render(
+      <Moldura titulo="Calculadora de Insulina — DM2" subtitulo="Sub">
+        <p>conteúdo</p>
+      </Moldura>,
+    );
+    // A marca de brand permanece decorativa e fora de qualquer âncora (D-04 da 009).
+    const marca = container.querySelector(".cabecalho-marca");
+    expect(marca).toBeTruthy();
+    expect(marca?.closest("a")).toBeNull();
+    // O comando de início é o único link, apontando para a home.
+    const inicio = screen.getByRole("link", { name: "Início" });
+    expect(inicio.getAttribute("href")).toBe("/");
+    expect(container.querySelectorAll("a").length).toBe(1);
+  });
+
+  it("com logoComoTitulo (home): não há comando de início (redundante na home)", () => {
+    render(
+      <Moldura titulo="APS Inteligente" subtitulo="Sub" logoComoTitulo>
+        <p>conteúdo</p>
+      </Moldura>,
+    );
+    expect(screen.queryByRole("link", { name: "Início" })).toBeNull();
+  });
+});
+
 // T004 (feature 009-logo-apsi-no-cabecalho) — a logo APSi no cabeçalho
 // (RF-01/RF-05; RN-02/RN-05). Asserções anteriores permanecem byte a byte.
 describe("Logo APSi no cabeçalho (feature 009)", () => {
@@ -81,7 +121,10 @@ describe("Logo APSi no cabeçalho (feature 009)", () => {
     expect(marca).toBeTruthy();
     expect(marca?.getAttribute("aria-hidden")).toBe("true");
     expect(marca?.getAttribute("alt")).toBe("");
-    expect(container.querySelectorAll("a").length).toBe(0);
+    // A logo segue não-link (D-04 da 009). Desde a feature 011, o cabeçalho da
+    // calculadora tem exatamente um link — o comando de início —, que NÃO é a logo.
+    expect(marca?.closest("a")).toBeNull();
+    expect(container.querySelectorAll("a").length).toBe(1);
   });
 
   it("a variante da logo acompanha o tema: caminho claro por padrão no cliente", () => {

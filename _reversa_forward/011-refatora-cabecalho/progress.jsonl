@@ -1,0 +1,10 @@
+{"ts":"2026-07-23T17:40:00Z","action":"T001","status":"done","files":["tests/integration/interface/moldura.test.tsx"]}
+{"ts":"2026-07-23T17:40:30Z","action":"T002","status":"done","files":["tests/integration/interface/moldura.test.tsx"]}
+{"ts":"2026-07-23T17:41:00Z","action":"T003","status":"done","files":["e2e/calculadora.spec.ts"]}
+{"ts":"2026-07-23T17:41:30Z","action":"T004","status":"done","files":["e2e/plataforma.spec.ts"]}
+{"ts":"2026-07-23T17:42:00Z","action":"T005","status":"done","files":["interface/comum/moldura.tsx"]}
+{"ts":"2026-07-23T17:42:30Z","action":"T006","status":"done","files":["interface/comum/moldura.tsx"]}
+{"ts":"2026-07-23T17:43:00Z","action":"T007","status":"done","files":["interface/estilos/cabecalho.css","interface/comum/moldura.tsx"]}
+{"ts":"2026-07-23T17:43:30Z","action":"T008","status":"done","files":["interface/comum/moldura.tsx"]}
+{"ts":"2026-07-23T17:44:00Z","action":"T005","status":"corrected","note":"IconButton/TooltipV2 quebra no jsdom; adicionado polyfill tests/apoio/setup-jsdom.ts + setupFiles em vitest.config.ts","files":["tests/apoio/setup-jsdom.ts","vitest.config.ts"]}
+{"ts":"2026-07-23T17:45:00Z","action":"T004","status":"corrected","note":"cenarios e2e extraidos p/ e2e/cabecalho.spec.ts para manter plataforma.spec.ts <=400 linhas","files":["e2e/plataforma.spec.ts","e2e/cabecalho.spec.ts"]}

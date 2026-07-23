@@ -42,6 +42,18 @@
   gap: 10px;
 }
 
+/* ── Controles icônicos (feature 011) ─────────────────────────────────────
+   O comando de início e o alternador de tema são IconButton do Primer: já
+   trazem tamanho e foco próprios. A zona de ações apenas os alinha ao selo
+   (align-items:center acima). O comando de início, sendo um <a>, não deve
+   herdar sublinhado nem cor de link — o IconButton já normaliza, mas fixamos
+   a herança para não depender de cascata de globais. Sem cor própria. */
+.cabecalho-acoes a.cabecalho-inicio,
+.cabecalho-acoes .cabecalho-inicio {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ── Camada da logo ───────────────────────────────────────────────────── */
 
 /* Altura fixa e largura automática preservam a proporção do PNG (314×138). Como

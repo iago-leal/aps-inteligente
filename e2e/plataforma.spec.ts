@@ -233,7 +233,7 @@ test("home: a logo APSi ocupa o wordmark do cabe√ßalho preservando o nome acess√
   await expect(logo).toHaveAttribute("src", "/apsi-light.png");
 
   // Alternar para escuro troca a variante da logo (RF-02).
-  await page.getByRole("button", { name: "Tema escuro" }).click();
+  await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await expect(logo).toHaveAttribute("src", "/apsi-dark.png");
 });
 

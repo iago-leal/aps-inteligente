@@ -16,7 +16,17 @@
 // h1 nem link novo (D-04). Os PNGs vivem em public/ (same-origin, sob a CSP).
 // Nota: preferencia-de-tema.ts permanece em interface/calculadora/ porque o
 // provedor de tema e sua suíte apontam para lá; realocação fica para re-extração.
-import { Button, Heading, Label, Text } from "@primer/react";
+// Feature 011 (RF-01/RF-03/RF-04; RN-01/RN-03): o alternador de tema deixa de ser
+// um botão textual e vira IconButton, exibindo o glifo do tema-ALVO — sol quando
+// o tema vigente é escuro (acionar clareia), lua quando é claro — com nome
+// acessível "Ativar tema claro/escuro" (D-01/D-02). O cabeçalho ganha ainda um
+// comando de início (IconButton renderizado por next/link, href="/", casa),
+// exibido só quando logoComoTitulo é falso, isto é, nas calculadoras e nunca na
+// home, onde seria redundante (D-03/D-04). A logo segue não-link (D-04 da 009):
+// o único link do cabeçalho da calculadora é o comando de início.
+import { IconButton, Heading, Label, Text } from "@primer/react";
+import { HomeIcon, MoonIcon, SunIcon } from "@primer/octicons-react";
+import Link from "next/link";
 import { useSyncExternalStore, type ReactNode } from "react";
 import {
   assinarTema,
@@ -77,16 +87,26 @@ export function Moldura({
           </Text>
         </div>
         <div className="cabecalho-acoes">
+          {!logoComoTitulo && (
+            <IconButton
+              as={Link}
+              href="/"
+              size="small"
+              icon={HomeIcon}
+              aria-label="Início"
+              className="cabecalho-inicio"
+            />
+          )}
           <Label variant="success" size="large">
             Nada é salvo nem enviado
           </Label>
-          <Button
+          <IconButton
             type="button"
             size="small"
+            icon={tema === "escuro" ? SunIcon : MoonIcon}
+            aria-label={tema === "escuro" ? "Ativar tema claro" : "Ativar tema escuro"}
             onClick={() => gravarTema(tema === "escuro" ? "claro" : "escuro")}
-          >
-            {tema === "escuro" ? "Tema claro" : "Tema escuro"}
-          </Button>
+          />
         </div>
       </header>
       <main>{children}</main>

@@ -91,13 +91,13 @@ test("copiar plano põe o plano completo na área de transferência", async ({
 
 test("tema escuro persiste após recarga da página", async ({ page }) => {
   await page.goto("/dm2/insulina");
-  await page.getByRole("button", { name: "Tema escuro" }).click();
+  await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await expect(page.locator("[data-tema=escuro]")).toBeVisible();
 
   await page.reload();
   await expect(page.locator("[data-tema=escuro]")).toBeVisible();
 
-  await page.getByRole("button", { name: "Tema claro" }).click();
+  await page.getByRole("button", { name: "Ativar tema claro" }).click();
   await expect(page.locator("[data-tema=claro]")).toBeVisible();
 });
 
@@ -112,7 +112,7 @@ test("nenhuma requisição sai para origem externa (RN-02)", async ({ page }) =>
   await page.goto("/dm2/insulina");
   await calculaCasoValidoDeInicio(page);
   await page.getByLabel("Revisei a dose e a fonte").check();
-  await page.getByRole("button", { name: "Tema escuro" }).click();
+  await page.getByRole("button", { name: "Ativar tema escuro" }).click();
 
   expect(externas).toEqual([]);
 });
