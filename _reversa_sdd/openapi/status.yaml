@@ -8,8 +8,8 @@ info:
     Health-check público da plataforma. Sem autenticação, sem estado, sem dado
     clínico (ADR 0008). Mudança incompatível do corpo exige /api/v2.
 servers:
-  - url: https://aps-inteligente.vercel.app
-    description: Produção (Vercel)
+  - url: https://apsinteligente.app
+    description: Produção (domínio próprio; apex redireciona 308 → www.apsinteligente.app)
   - url: http://localhost:3000
     description: Desenvolvimento local
 paths:

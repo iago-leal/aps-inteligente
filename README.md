@@ -109,10 +109,10 @@ npm run test:e2e                    # e2e Playwright + axe (sobe o build sozinho
 curl -i http://localhost:3000/api/v1/status
 ```
 
-Produção (URL padrão do provedor):
+Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):
 
 ```bash
-curl -i https://aps-inteligente.vercel.app/api/v1/status
+curl -iL https://apsinteligente.app/api/v1/status
 ```
 
 Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em
