@@ -41,3 +41,29 @@ Observações sem peso de regressão: `O-11-01` (polyfill de teste jsdom), `O-11
 - `_reversa_forward/011-refatora-cabecalho/legacy-impact.md`
 - `_reversa_forward/011-refatora-cabecalho/regression-watch.md`
 - `_reversa_forward/011-refatora-cabecalho/progress.jsonl`
+
+## Atualização 2026-07-23 — Selo de privacidade migra para a identidade
+
+Ajuste de apresentação posterior à entrega da 011, no mesmo assunto (cabeçalho da Moldura), conduzido fora do ciclo forward por proporcionalidade — dois arquivos, só CSS/JSX, sem motor. O selo "Nada é salvo nem enviado", que a extração descrevia na zona de ações (`.cabecalho-acoes`), encravado entre o comando de início e o alternador de tema, passou para a zona de identidade (`.cabecalho-identidade`), sob o subtítulo, com um cadeado à frente (`ShieldLockIcon`, decorativo). A zona de ações fica coesa, só com os dois botões irmãos — início (nas calculadoras) e tema. Motivação: informação passiva (a garantia) não deve intercalar controles clicáveis; separar informação de ação agrupa os controles e ancora a garantia à proposta da ferramenta. Puramente apresentação: mesmo texto, mesmo nome acessível, mesma cor `success`; domínio, catálogo e contrato externo intocados.
+
+### Impacto por artefato da extração
+
+| Artefato | Seção | Tipo de impacto | Delta |
+|----------|-------|-----------------|-------|
+| `_reversa_sdd/interface-comum/design.md` | Fluxo Principal, passo 5 | regra-alterada | O selo deixa de ser renderizado junto ao botão de tema na zona de ações; passa à zona de identidade, sob o subtítulo, com `ShieldLockIcon`. A zona de ações renderiza só os controles (início + tema). As referências de linha (`moldura.tsx:79-90`) estão defasadas — reler pela atualização |
+| `_reversa_sdd/interface-comum/requirements.md` | RF-07 (selo sempre visível) | inalterado (reafirmado) | Presença e visibilidade do selo em toda tela preservadas; muda apenas a localização — identidade, não a barra de ações |
+| `_reversa_sdd/architecture.md` | `#moldura-comum` | regra-alterada | Na Moldura, o selo de privacidade pertence a `.cabecalho-identidade`; `.cabecalho-acoes` passa a conter apenas controles icônicos (início condicional + tema) |
+| `_reversa_sdd/domain.md` | privacidade por construção (ADR 0002) | inalterado (reafirmado) | Selo "Nada é salvo nem enviado" preservado — mesmo texto e nome acessível; o cadeado é decorativo (`aria-hidden`, sem nome acessível); zero telemetria nova |
+| `_reversa_sdd/c4-components.md` | `moldura` (linha 20) | inalterado | A descrição do componente ("selo de privacidade") permanece válida; nenhum contrato externo afetado |
+
+### Regras sob vigilância
+
+- `W004` (desta feature) — "selo de privacidade preservado em todas as telas" — reafirmado: o selo continua presente por nome acessível, apenas reposicionado. Verificação nesta sessão: integração 19/19 (`moldura.test.tsx` inclui `getByText(/nada é salvo nem enviado/i)`); e2e 23/23, incluindo os três `axe-baseline` em zero; conferência visual nos temas claro e escuro na calculadora de insulina.
+
+Nenhum watch item novo: o delta é de apresentação e a única regra em jogo (selo sempre visível) já está sob `W004`.
+
+### Fontes
+
+- `interface/comum/moldura.tsx` — selo movido para `.cabecalho-identidade`; import de `ShieldLockIcon`
+- `interface/estilos/cabecalho.css` — regra nova `.cabecalho-selo` (gap do cadeado, `align-self:flex-start`, respiro do subtítulo)
+- Verificação: `tests/integration/interface/moldura.test.tsx`, `e2e/cabecalho.spec.ts`, `e2e/plataforma.spec.ts`, `e2e/calculadora.spec.ts`

@@ -24,8 +24,19 @@
 // exibido só quando logoComoTitulo é falso, isto é, nas calculadoras e nunca na
 // home, onde seria redundante (D-03/D-04). A logo segue não-link (D-04 da 009):
 // o único link do cabeçalho da calculadora é o comando de início.
+// Ajuste de layout (23/07): o selo de privacidade sai da zona de ações — onde
+// ficava encravado entre os dois IconButtons, misturando informação passiva e
+// controles — e desce para a zona de identidade, sob o subtítulo, como garantia
+// ao lado da proposta da ferramenta, agora com cadeado (ShieldLockIcon). Só
+// apresentação: mesmo texto e mesmo nome acessível; a barra de ações fica coesa,
+// só com os dois botões irmãos (início + tema).
 import { IconButton, Heading, Label, Text } from "@primer/react";
-import { HomeIcon, MoonIcon, SunIcon } from "@primer/octicons-react";
+import {
+  HomeIcon,
+  MoonIcon,
+  ShieldLockIcon,
+  SunIcon,
+} from "@primer/octicons-react";
 import Link from "next/link";
 import { useSyncExternalStore, type ReactNode } from "react";
 import {
@@ -85,6 +96,10 @@ export function Moldura({
           <Text as="p" size="small">
             {subtitulo}
           </Text>
+          <Label variant="success" size="large" className="cabecalho-selo">
+            <ShieldLockIcon size={14} />
+            Nada é salvo nem enviado
+          </Label>
         </div>
         <div className="cabecalho-acoes">
           {!logoComoTitulo && (
@@ -97,9 +112,6 @@ export function Moldura({
               className="cabecalho-inicio"
             />
           )}
-          <Label variant="success" size="large">
-            Nada é salvo nem enviado
-          </Label>
           <IconButton
             type="button"
             size="small"

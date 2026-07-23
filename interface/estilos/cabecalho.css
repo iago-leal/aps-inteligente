@@ -36,6 +36,19 @@
   font-size: var(--text-body-size-small, 12px);
 }
 
+/* ── Selo de privacidade (ajuste 23/07) ───────────────────────────────────
+   A garantia "Nada é salvo nem enviado" vive na identidade, sob o subtítulo,
+   em vez de encravada entre os dois botões da zona de ações. O gap acomoda o
+   cadeado (ShieldLockIcon) à frente do texto — o Label já é inline-flex com
+   align-items:center, então o glifo alinha ao texto sem ajuste extra. O
+   align-self impede que o flex-column (align-items:stretch) estique o selo à
+   largura do container. Um respiro o separa do subtítulo. Cor: só o Label. */
+.cabecalho-selo {
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
 .cabecalho-acoes {
   display: flex;
   align-items: center;
