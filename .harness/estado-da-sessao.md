@@ -1,32 +1,31 @@
 ---
-commit: 02b51cf30f838e1d3154da08ff877f20008281a4
+commit: 1ea35321625de049c1d446ee023e5c73f74d8dfd
 feature: default_feature
-start_time: '2026-07-26T21:45:39.719971+00:00'
+start_time: '2026-07-26T21:51:17.551243+00:00'
 status: inactive
 ---
 
 ## O que foi feito
-- `/reversa-plan` da feature **017-puericultura-crescimento** (quinta calculadora: escores z de crescimento infantil pela *Caderneta da Criança*). Cinco artefatos gerados em `_reversa_forward/017-puericultura-crescimento/`: `roadmap.md` (13 decisões técnicas, delta arquitetural, riscos, critério de pronto), `investigation.md`, `data-delta.md`, `onboarding.md` e `interfaces/tabelas-de-referencia.md`. Estágio `plan` marcado em `.reversa/active-requirements.json`.
-- **Lacuna 🟡 principal do requirements resolvida:** as curvas INTERGROWTH-21st pós-natais não precisam de tabela — Villar 2015 publica média e desvio-padrão como polinômios fracionários por semana pós-menstrual (log para peso e comprimento, escala natural para o perímetro cefálico). Virou **MD-0002**. Sanidade conferida: mediana de 3,433 kg e faixa de −2 a +2 DP entre 2,593 e 4,545 kg para o menino em 40 semanas.
-- **MD-0003** registrada: leitura da tabela da OMS **sem interpolação** (dia inteiro até 5 anos, mês completo depois), divergindo do `anthroplus` oficial, que interpola L/M/S entre meses; e as duas fronteiras dos 5 anos separadas — rótulo aos 1826 dias, tabela aos 1856.
-- Aquisição do dado da OMS verificada de ponta a ponta: as 14 URLs das tabelas expandidas responderam 200, o formato das planilhas foi inspecionado (colunas L/M/S mais os valores em ±1 a ±4 DP) e os recortes conferidos (dias 0–1856 e meses 61–120). **Achado de risco:** a OMS publica o arquivo de peso-para-idade de 5 a 10 anos com o prefixo `hfa-`, o do indicador de estatura; daí a regra do contrato de verificar conteúdo e nunca nome.
-- Valores-âncora calculados contra as tabelas oficiais e embutidos no `onboarding.md`, de modo que a verificação manual tem números esperados, não só um roteiro.
-- Trabalho commitado em `02b51cf` e pushado para `aps-inteligente/main` (que estava três commits atrasado; subiu de `bbb3cf8` a `02b51cf`). Nota do vault `~/Notas/Projetos/aps-inteligente.md` atualizada com o bloco da 017, o próximo passo e as pendências.
-- **Nenhuma linha de código de app tocada** — a sessão foi inteiramente de planejamento e apuração.
+- `/reversa-to-do` da feature **017-puericultura-crescimento**: o `roadmap.md` virou `actions.md` com **52 ações atômicas** distribuídas nas cinco fases (Preparação 6, Testes 13, Núcleo 20, Integração 9, Polimento 4), **27 marcadas `[//]`**. Estágio `to-do` marcado em `.reversa/active-requirements.json`.
+- **Caminho crítico identificado, e ele não é a tela:** a maior cadeia de dependência tem 12 elos e atravessa inteira o gerador de tabelas da OMS (T002 → T029 → T030 → T032 → T033 → T034 → T039 → T043 → T044 → T045 → T048 → T049). Classificação, formulário e painel paralelizam em volta dele.
+- **MD-0004 registrada (estado `aberto`):** o `roadmap.md` §5 promete `package.json` intocado e "ferramentas já presentes", ao passo que o `onboarding.md` §3 invoca `npx tsx` — e o projeto não tem `tsx` nem leitor de planilha, sendo `.xlsx` contêiner comprimido. A decomposição **não escolheu** a estratégia: registrou a lacuna como ação bloqueante (T002), pré-requisito de toda a cadeia do dado. Fechar a ficha obriga a reconciliar os dois artefatos do plano.
+- Estratégia de testes decomposta com um teste por cenário Gherkin de `requirements.md#7` (T018) mais oráculos separados por família de curvas: tabelas LMS sintéticas para injeção (D-08), o oráculo embutido das colunas `SDn` da própria planilha, e os casos congelados de `gigs`/`anthro` e do INTERGROWTH-21st (T008/T019). As duas pendências de procedência viraram ação com ID: T004 (coeficientes de Villar 2015) e T001 (PDFs da caderneta).
+- **Nenhuma linha de código de app tocada** — a sessão foi de decomposição e registro de decisão.
 
 ## Próximos passos
-- `/reversa-to-do`: decompor o `roadmap.md` da 017 em ações atômicas; depois `/reversa-coding`.
-- Antes de escrever `models/puericultura/fonte-clinica.ts`, obter o PDF da *Caderneta da Criança* (menino e menina) em `referencias/`.
-- Conferir os coeficientes do INTERGROWTH-21st contra a tabela impressa do artigo, e não só contra o pacote `gigs`.
+- `/reversa-audit`: confirmar com severidade a divergência de MD-0004 entre `roadmap.md` §5 e `onboarding.md` §3, antes de qualquer código.
+- Depois, `/reversa-coding` a partir de T001. As ações de preparação T001, T003, T004, T005 e T006 já rodam em paralelo, sem depender do fechamento de MD-0004.
+- Fechar MD-0004 em T002 é pré-requisito de todo o bloco do gerador (T029 em diante).
 
 ## Pendências / bloqueios
-- **Caderneta da Criança ausente de `referencias/`** — os rótulos literais e as páginas de referência dependem dela; bloqueia o início do código da 017, não o `/reversa-to-do`.
-- **Coeficientes do INTERGROWTH-21st com procedência indireta** — lidos da implementação `gigs` (rOpenSci), que os documenta como transcrição de Villar 2015; o texto integral do Lancet devolveu HTTP 403 deste ambiente. Conferência obrigatória antes de o cálculo ir a produção (ver MD-0002, campo ESTADO).
+- **MD-0004 aberta** — estratégia de leitura do `.xlsx` pelo gerador em disputa (`devDependency` de parser × ZIP mais XML com built-ins do Node). Bloqueia T029–T034; não bloqueia o restante da preparação.
+- **Caderneta da Criança ausente de `referencias/`** — os rótulos literais e as páginas de referência dependem dela; bloqueia T023 (`fonte-clinica.ts`) e, por herança, T038 e T042. É a única ação sem alternativa técnica: o PDF precisa chegar.
+- **Coeficientes do INTERGROWTH-21st com procedência indireta** — lidos de `gigs` (rOpenSci), transcrição declarada de Villar 2015; o Lancet devolveu HTTP 403 deste ambiente. Conferência é T004, obrigatória antes de T035 (ver MD-0002, campo ESTADO).
 - Rastreamento preventivo por perfil — PAUSADA (26/07/2026), aguardando a chave da API USPSTF (AHRQ Prevention TaskForce), solicitada em 23/07/2026 a `uspstfpda@ahrq.gov`, sem resposta. A feature nunca foi aberta como artefato; retomar por `/reversa-requirements` quando a chave chegar.
 - Seis premissas 🟡 do plano da 017 a validar pelo prescritor (§4 do `roadmap.md`), somadas às 13 da re-extração nº 3.
 
 ## Ponteiros
-- Feature ativa: `_reversa_forward/017-puericultura-crescimento/` · estágio `plan` em `.reversa/active-requirements.json`.
-- Microdecisões da 017: `.harness/decisoes/MD-0001.md` (fonte editorial × dado tabular), `MD-0002.md` (equações fechadas do pré-termo), `MD-0003.md` (leitura sem interpolação e as duas fronteiras dos 5 anos).
+- Feature ativa: `_reversa_forward/017-puericultura-crescimento/` · estágio `to-do` em `.reversa/active-requirements.json` · decomposição em `actions.md`.
+- Microdecisões da 017: `MD-0001` (fonte editorial × dado tabular), `MD-0002` (equações fechadas do pré-termo), `MD-0003` (leitura sem interpolação e as duas fronteiras dos 5 anos), `MD-0004` (**aberta**: leitura do `.xlsx`, fecha em T002).
 - Adendos vigentes: `_reversa_sdd/addenda/` (001–016). Extração Reversa nº 3: commit `ab075ac`.
 - Produção: https://apsinteligente.app · saúde em `/api/v1/status` (último código em produção: feature 016, `472cb08`).
