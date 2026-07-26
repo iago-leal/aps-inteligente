@@ -4,10 +4,11 @@
   "feature-id": "017",
   "short-name": "puericultura-crescimento",
   "started-at": "2026-07-26T20:00:52Z",
-  "current-stage": "clarify",
+  "current-stage": "plan",
   "stages-completed": [
     "requirements",
-    "clarify"
+    "clarify",
+    "plan"
   ],
   "paused-features": []
 }
