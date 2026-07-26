@@ -78,7 +78,10 @@ export const ORIGENS: readonly Origem[] = Object.freeze([
     // A inconsistência é da OMS (contrato §2.1).
     url: `${PADROES_2006}/length-height-for-age/expandable-tables/lhfa-boys-zscore-expanded-tables.xlsx`,
     arquivo: "comprimento-estatura-masculino-2006.xlsx",
-    abaEsperada: ["lhfa_boys", "hfa_boys"],
+    // A aba real é `LFA_boys_z_exp` — sem o `h` do nome do arquivo (`lhfa-boys-…`).
+    // Achado da verificação V1 em 27/07; os outros dois grafismos ficam aceitos porque a
+    // OMS já variou o acrônimo entre o arquivo e a aba uma vez.
+    abaEsperada: ["lfa_boys", "lhfa_boys", "hfa_boys"],
     colunaIndice: "Day",
     recorte: { de: 0, ate: ULTIMO_DIA_2006 },
   },
@@ -89,7 +92,7 @@ export const ORIGENS: readonly Origem[] = Object.freeze([
     familia: "2006",
     url: `${PADROES_2006}/length-height-for-age/expandable-tables/lhfa-girls-zscore-expanded-tables.xlsx`,
     arquivo: "comprimento-estatura-feminino-2006.xlsx",
-    abaEsperada: ["lhfa_girls", "hfa_girls"],
+    abaEsperada: ["lfa_girls", "lhfa_girls", "hfa_girls"],
     colunaIndice: "Day",
     recorte: { de: 0, ate: ULTIMO_DIA_2006 },
   },
