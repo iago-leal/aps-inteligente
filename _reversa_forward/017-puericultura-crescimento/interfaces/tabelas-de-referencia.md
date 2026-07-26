@@ -98,12 +98,27 @@ qualquer item abaixo não se confirma:
 A verificação V6 é a mais valiosa: ela usa o próprio arquivo como oráculo de si mesmo e captura,
 de uma vez, erro de coluna, de arredondamento e de leitura.
 
+## 5.1 Duas ferramentas, não uma
+
+A auditoria cruzada (A007) mostrou que este contrato e o `onboarding.md` divergiam quanto a
+quem baixa as planilhas. A divisão fica assim, e vale para os dois documentos:
+
+| Ferramenta | Responsabilidade | Rede |
+|---|---|---|
+| `scripts/baixar-tabelas-oms.ts` | Resolve as URLs do §2, grava em `referencias/oms/` e registra o `sha256` de cada arquivo | sim, uma vez, na mão do mantenedor |
+| `scripts/gerar-tabelas-oms.ts` | Lê do disco, aplica as verificações do §5, transforma conforme o §4 e escreve os módulos | **não** |
+
+A separação existe para que a conversão — a parte que decide números clínicos — seja
+determinística, repetível offline e auditável sem depender de a origem continuar no ar. Ambas
+leem o `.xlsx` com os built-ins do Node, sem dependência nova (D-14 do roadmap).
+
 ## 6. Idempotência e reprodutibilidade
 
 - Rodar o gerador duas vezes sobre as mesmas origens produz **arquivos byte a byte idênticos**;
   o `git diff` vazio é a prova de que nada mudou na origem.
-- O gerador registra, num manifesto ao lado dos módulos, a URL, a data e o `sha256` de cada
-  `.xlsx` de origem. Uma revisão futura da OMS aparece como divergência de hash, não como
+- O manifesto ao lado dos módulos registra a URL, a data e o `sha256` de cada `.xlsx` de origem:
+  o baixador o preenche, o gerador o confere antes de converter e falha se o hash do arquivo em
+  disco não corresponder. Uma revisão futura da OMS aparece como divergência de hash, não como
   surpresa num escore.
 - O runtime **não depende de nada disto**: ele lê apenas os módulos TypeScript commitados.
   Reprodutibilidade temporal preservada (Princípio 5.3): o cálculo de daqui a dois anos não
@@ -112,8 +127,9 @@ de uma vez, erro de coluna, de arredondamento e de leitura.
 ## 7. Erros, tempo-limite e retentativa
 
 Não se aplicam ao produto: o download acontece uma vez, na mão do mantenedor, fora do caminho do
-usuário. No gerador, a política é a mais simples possível — sem retentativa automática, tempo
-limite generoso e mensagem de erro que diga qual URL falhou e em que verificação parou.
+usuário. A política é a mais simples possível, e agora com dono declarado (§5.1) — no **baixador**,
+sem retentativa automática, tempo limite generoso e mensagem que diga qual URL falhou; no
+**gerador**, mensagem que diga qual arquivo e em que verificação parou.
 
 ## 8. Gatilho de revisão
 

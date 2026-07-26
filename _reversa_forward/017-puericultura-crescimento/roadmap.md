@@ -63,6 +63,9 @@ Nenhum princípio de `.reversa/principles.md` é contrariado por esta feature.
 | D-11 | O IMC é calculado sobre o comprimento/estatura **já convertido** pela regra dos 0,7 cm | A tabela de IMC da OMS é indexada pela mesma medida que a tabela de estatura; usar a medida bruta num índice e a convertida no outro produziria incoerência interna no mesmo resultado | Calcular o IMC com a medida bruta — mais próximo do "dado como medido", porém inconsistente com a régua que o lê | 🟢 |
 | D-12 | Seção `puericultura` como quarta entrada de `interface/inicio/catalogo.ts`, rota `/puericultura/crescimento`, ícone `SmileyIcon` em `interface/inicio/icones.tsx` | Molde do README (catálogo primeiro, anti-drift) e da feature 014. O ícone é decorativo e existe na versão pinada de `@primer/octicons-react` (verificado) | `PersonIcon` e `HeartIcon` — o primeiro é genérico demais, o segundo já designa cardiologia | 🟢 |
 | D-13 | Escore z exibido com **uma casa decimal e sinal sempre explícito**; o valor não arredondado permanece no objeto de saída, disponível para teste e para exibição futura | Fecha a lacuna 🟡 de precisão de `requirements.md#10` sem sobrecarregar a tela; a caderneta lê faixa, não centésimo | Duas casas decimais — precisão que a leitura clínica não usa; exibir o valor bruto — ruído numérico de ponto flutuante em tela | 🟡 |
+| D-14 | O gerador lê o `.xlsx` **com os módulos nativos do Node** — `node:fs` mais `node:zlib` (`inflateRawSync`) sobre o contêiner ZIP e leitura direta do XML das partes `workbook`, `sharedStrings` e `sheet1` — em módulo dev-time próprio (`scripts/lib/planilha.ts`), nunca importado por código de aplicação; e é invocado por `node scripts/gerar-tabelas-oms.ts`, sem `npx tsx`, porque o Node 26 do `engines` executa TypeScript nativamente (ficha `MD-0004` da série corrente, em `.harness/decisoes/`). A aquisição fica em ferramenta separada, `scripts/baixar-tabelas-oms.ts`: só ela toca a rede; o gerador lê do disco e confere o `sha256` do manifesto (contrato §5.1, achado A007) | Fecha a lacuna que a auditoria confirmou como A001. A escolha foi medida, não preferida: um spike de 26/07 escreveu o leitor em ~70 linhas e reproduziu o contrato de aquisição sobre `wfa-boys` — aba `WFA_boys_z_exp`, 13 colunas, 1857 linhas, `Day = 1856` com `M = 18.4968` — em 0,1 s. Preserva `package.json` intocado e devolve a reprodutibilidade que o `npx` tirava ao resolver pacote fora do lock | (a) `devDependency` de parser — o SheetJS saiu do npm em 2023 e o que resta lá é a `0.18.5` abandonada com CVEs; o `exceljs` custa mais manutenção que 70 linhas próprias; (b) baixar as tabelas em `.txt` — verificado, inexistente: os caminhos plausíveis responderam `404`; (c) converter à mão em CSV — quebraria a idempotência do contrato §6 | 🟢 |
+| D-15 | **Fronteira superior explícita:** a cobertura termina no mês 120 inclusive; recusa-se com `IDADE_FORA_DA_COBERTURA` quando `⌊dias / 30,4375⌋ > 120`, isto é, **a partir de 3683 dias** — o mês 120 cobre exatamente os dias 3653 a 3682 (ficha `MD-0006` da série corrente, em `.harness/decisoes/`) | Decisão irmã de D-05, para o achado A005: RN-08 dizia "0–10 anos" sem tradução em dias, e sem número não há teste. Acompanhar a unidade da fonte (a referência 2007 é mensal) evita recusar criança que a tabela ainda cobre | Cortar em 3652 dias, o aniversário — mais literal, mas inventa fronteira que a fonte não tem e nega leitura possível; aceitar o mês 121 — extrapolaria a última linha publicada, contra `domain.md#8` | 🟢 |
+| D-16 | **Fronteira dos dois anos em um número só, 730 dias**, governando os dois comportamentos que dela dependem: perímetro cefálico calculável enquanto `dias ≤ 730` e fora do escopo da fonte a partir de 731; régua deitada até 730 e em pé de 731 em diante, com a conversão de ±0,7 cm para quem for medido fora da posição esperada (ficha `MD-0006` da série corrente, em `.harness/decisoes/`) | Para o achado A006: RN-08, RN-09 e D-04 enunciavam a mesma fronteira de três maneiras que não fechavam numericamente. 730 é o número da própria OMS — onde termina a tabela de perímetro cefálico e onde a de comprimento/estatura troca de posição | Calcular os dois anos pela data civil de aniversário (730 ou 731 dias, conforme bissexto) — desalinha do índice `Day` e pede regra extra de conciliação; manter um limiar por regra — reproduziria a incoerência, agora com aparência de intenção | 🟢 |
 
 ## 4. Premissas
 
@@ -77,12 +80,18 @@ já registrados na seção 10 daquele documento, ou nasceram da apuração técn
 | O recorte das tabelas da OMS é 2006 para 0–5 anos e 2007 para 5–10 anos, que é o que a caderneta reproduz | §10 | Curva errada sob rótulo certo: o pior modo de falha possível nesta feature |
 | A precisão de exibição do escore z é de uma casa decimal | §10 + D-13 | Nenhum risco clínico; ajuste de apresentação |
 | A nomenclatura literal dos rótulos de comprimento no material da menina é transcrita como está na fonte, mesmo onde a concordância destoa | §10 | Divergência de texto entre a tela e o documento impresso que o médico tem à mão |
+| Ler no mês 120 uma criança entre dez anos e dez anos e um mês é aceitável, por ser a última linha que a fonte publica | §4 RN-08 + D-15 | A criança nesse intervalo recebe o escore da última linha da tabela; alternativa seria recusá-la, o que a caderneta não faz |
 
 ## 5. Delta arquitetural
 
-Feature aditiva: nenhum componente existente muda de comportamento. As duas alterações em
-arquivos existentes (catálogo e ícones) são de extensão, no ponto que o próprio README define
-como o de entrada de calculadora nova.
+Feature aditiva: **nenhum componente existente muda de comportamento**. Isso, porém, não é o
+mesmo que dizer que nenhum arquivo existente é aberto, e a auditoria (A004) mostrou que a
+primeira versão desta seção confundira as duas coisas. A lista abaixo passa a declarar **todo
+arquivo que a decomposição prevê tocar**, ainda que a edição não altere comportamento algum —
+critério explícito, para que o `regression-watch.md` não nasça menor do que o delta real. Só
+duas das alterações são de extensão funcional (catálogo e ícones), no ponto que o próprio README
+define como o de entrada de calculadora nova; as demais são comentário, importação, configuração
+ou documentação.
 
 | Componente | Arquivo de origem no legado | Tipo de mudança | Resumo |
 |------------|------------------------------|-----------------|--------|
@@ -96,10 +105,20 @@ como o de entrada de calculadora nova.
 | `interface/inicio/catalogo.ts` | `_reversa_sdd/code-analysis.md#Módulo 10` | regra-alterada (extensão) | Quarta seção, `puericultura`, com uma ficha de calculadora |
 | `interface/inicio/icones.tsx` | `_reversa_sdd/code-analysis.md#Módulo 10` | regra-alterada (extensão) | Entrada `puericultura → SmileyIcon` no mapa |
 | `scripts/gerar-tabelas-oms.ts` | — | componente-novo (dev-time) | Conversor determinístico `.xlsx` → módulos TS, fora do bundle e fora do runtime |
-| `e2e/axe-baseline.json` | `README.md` §e2e | regra-alterada (só se necessário) | A linha de base só muda por decisão registrada; a meta é delta 0/0 |
+| `scripts/baixar-tabelas-oms.ts` | — | componente-novo (dev-time) | Aquisição: resolve as URLs do contrato §2, grava em `referencias/oms/` e registra os `sha256`. É o único que usa a rede |
+| `scripts/lib/planilha.ts` | — | componente-novo (dev-time) | Leitor de `.xlsx` com built-ins do Node (D-14); nunca importado por código de aplicação |
+| `interface/estilos/puericultura.css` | `interface/estilos/risco-cardiovascular.css` | componente-novo | Folha da tela nova, no molde da feature 014 |
+| `pages/_app.tsx` | `_reversa_sdd/code-analysis.md#Módulo 10` | arquivo-tocado (importação) | Uma linha de `import` da folha nova; nenhum comportamento muda |
+| `models/gestacao/datas.ts` | ADR 0013 | arquivo-tocado (comentário) | Declaração do gêmeo exigida por D-07. **Ressalva:** `requirements.md` §1 promete "nenhum motor existente é tocado" e D-07 descartou a alternativa (b) por "tocar motor existente". A edição é de comentário e não muda uma linha executável, mas o arquivo é aberto — e é isso que esta linha registra |
+| `tsconfig.json` | — | arquivo-tocado (configuração) | `allowImportingTsExtensions` para os scripts `.mts`, que em ESM exigem extensão explícita no import. Só vale sob `noEmit`, que é o caso; o build do Next não é afetado |
+| `vitest.config.ts` | `README.md` §testes | arquivo-tocado (condicional) | Só se os módulos de dados distorcerem a métrica de cobertura (§9); a exclusão exige decisão registrada |
+| `README.md` | — | arquivo-tocado (documentação) | Entrada da calculadora nova e do gerador dev-time |
+| `e2e/axe-baseline.json` | `README.md` §e2e | arquivo-tocado (só se necessário) | A linha de base só muda por decisão registrada; a meta é delta 0/0 |
 
 Camadas preservadas: `pages → interface/* → models/*`, sem via de volta. Nenhuma dependência de
-runtime nova (`package.json` intocado); o script gerador roda com as ferramentas já presentes.
+runtime nova e **nenhuma de desenvolvimento**: o `package.json` fica intocado, e o script gerador
+roda com as ferramentas já presentes — afirmação que deixou de ser promessa e passou a ser
+resultado verificado em D-14.
 
 ## 6. Delta no modelo de dados
 
@@ -143,6 +162,8 @@ nenhum motor existente.
 | Baixar a tabela errada da OMS: o arquivo de peso-para-idade de 5 a 10 anos é publicado com nome `hfa-…` e sufixo GUID, e o de altura tem nome quase idêntico | alto — curva errada sob rótulo certo, o pior modo de falha da feature | média | O gerador valida o conteúdo, não o nome: confere o cabeçalho da planilha, a faixa de índices e valores-âncora conhecidos antes de escrever qualquer arquivo (`interfaces/tabelas-de-referencia.md`) |
 | Erro de sinal ou de denominador na correção de cauda | alto — escore muito errado justamente na desnutrição e na obesidade graves | média | Oráculo direto: as tabelas expandidas trazem os valores em ±2 e ±3 DP, de modo que a medida no ponto `SD3` deve devolver exatamente `z = 3` |
 | Confundir as duas fronteiras dos 5 anos (D-05) | alto — rótulo trocado ou buraco de cobertura de 30 dias | média | Testes de limite nos quatro pontos: 1825, 1826, 1855 e 1856 dias |
+| Errar por um dia a fronteira superior (D-15): recusar quem a tabela cobre, ou ler quem ela não cobre | médio — recusa indevida, ou escore extrapolado da última linha | média | Testes de limite no par 3682/3683 dias, com o mês calculado conferido em cada um |
+| Aplicar a fronteira dos dois anos (D-16) a um dos dois comportamentos e não ao outro | médio — perímetro cefálico calculado fora do escopo, ou régua trocada com erro de 0,7 cm | média | Testes de limite no par 730/731 dias em ambas as regras: escopo do perímetro cefálico e posição de medida |
 | Volume das tabelas degradar a rota nova ou vazar para as outras | médio | média | Medição obrigatória no `next build` (D-09) e porta de injeção já pronta (D-08) para migrar à carga dinâmica sem tocar no motor |
 | Divergência contra o software oficial da OMS por não interpolar (D-06) | médio — auditoria externa acharia diferença | alta (é consequência assumida) | Documentar na nota de proveniência da tela que a leitura é por dia até 5 anos e por mês completo depois; oráculos de teste ancorados em idades de mês inteiro |
 | Idade corrigida aplicada além do limite, ou não aplicada dentro dele | alto — classificação errada em prematuro | média | Testes de limite em 2 anos, 3 anos e no par 64/65 semanas pós-menstruais, com o padrão declarado na saída conferido em cada um |
@@ -168,3 +189,4 @@ nenhum motor existente.
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-26 | Versão inicial gerada por `/reversa-plan`; lacuna 🟡 do modelo estatístico das curvas de pré-termo resolvida na investigação (D-02) | reversa |
+| 2026-07-26 | Reconciliação sobre a auditoria cruzada: D-14 fecha a leitura do `.xlsx` (A001, ficha `MD-0004`); D-15 e D-16 dão valor operacional às fronteiras de dez e de dois anos (A005 e A006, ficha `MD-0006`); §5 passa a declarar todo arquivo tocado, e não só os de comportamento alterado (A004); premissa e riscos correspondentes acrescentados | reversa |

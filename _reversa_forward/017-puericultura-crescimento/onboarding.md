@@ -37,10 +37,20 @@ os mesmos casos que os testes automatizados devem cobrir.
 O dado já está commitado; este passo só se justifica ao conferir procedência ou ao reagir a uma
 revisão da OMS.
 
+O gerador **não baixa nada**: lê as planilhas do disco, em `referencias/oms/`, pasta ignorada
+pelo git. A separação é deliberada — o download é passo à parte, explícito e auditável, ao passo
+que a conversão é determinística e repetível offline. Quem nunca baixou as planilhas roda antes o
+passo de aquisição, que resolve as URLs do contrato `interfaces/tabelas-de-referencia.md` §2 e
+grava o `sha256` de cada arquivo ao lado dele:
+
 ```bash
-npx tsx scripts/gerar-tabelas-oms.ts     # baixa, verifica e reescreve os módulos
+node scripts/baixar-tabelas-oms.ts       # baixa para referencias/oms/ e registra os sha256
+node scripts/gerar-tabelas-oms.ts        # lê do disco, verifica e reescreve os módulos
 git diff --stat models/puericultura/oms/tabelas/
 ```
+
+Sem `npx`: o Node 26 do `engines` executa TypeScript nativamente, de modo que nada é resolvido
+pela rede fora do `package-lock.json` (D-14 do roadmap).
 
 Um `git diff` **vazio** é o resultado esperado e é a prova de que a origem não mudou. Qualquer
 divergência exige leitura antes de commit: pode ser revisão legítima da OMS ou arquivo trocado
@@ -129,6 +139,8 @@ como erro (RN-17).
 | Cenário | Esperado |
 |---|---|
 | Criança de 12 anos | Nenhum escore z; a tela informa a cobertura de 0 a 10 anos da caderneta. Nenhum valor aproximado em tela |
+| Criança com **3682 dias** e a mesma com **3683** | A primeira calcula, lida no mês 120; a segunda é recusada. É o par que fixa a fronteira superior (D-15) |
+| Perímetro cefálico aos **730 dias** e aos **731** | O primeiro calcula PC/I; o segundo o põe fora de escopo, sem tocar nos demais índices (D-16) |
 | Idade pós-menstrual de 26 semanas | Nenhum escore z; a tela informa que as curvas de pré-termo começam em 27 semanas |
 | Perímetro cefálico numa criança de 3 anos | PC/I fora do escopo, com a cobertura de 0 a 2 anos; **os demais índices calculados normalmente** |
 | Sem sexo, data de nascimento posterior à medição e peso −3 kg | Os **três** ofensores exibidos ao mesmo tempo |

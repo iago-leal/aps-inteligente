@@ -5,3 +5,4 @@
 - **MD-0003** — Leitura da tabela da OMS sem interpolação, com as duas fronteiras dos 5 anos separadas
 - **MD-0004** — A leitura do `.xlsx` da OMS é lacuna declarada do plano, não premissa silenciosa do gerador
 - **MD-0005** — A severidade da auditoria mede consequência clínica, não gravidade formal do desalinhamento
+- **MD-0006** — As duas fronteiras que a spec deixou em anos passam a valer em dias e em meses, cada uma na unidade da sua tabela
