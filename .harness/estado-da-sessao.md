@@ -20,7 +20,7 @@ status: inactive
 - `/reversa-sync` só quando a feature fechar.
 
 ## Pendências / bloqueios
-- **Trabalho desta sessão não commitado** — 13 arquivos modificados e 6 novos, incluindo as fichas `MD-0002`, `MD-0004` e `MD-0006`, os três scripts dev-time e os artefatos do ciclo forward.
+- **Trabalho commitado em dois commits, ainda não publicado:** `3b3ebc7` (reconciliação do plano sobre a auditoria) e `ad402b1` (fase 1 do coding). O ramo `main` está seis commits à frente de `origin`.
 - **Estado intermediário assumido:** a home já anuncia `/puericultura/crescimento`, rota que só existe em T045. É consequência da regra de anti-drift do README (catálogo primeiro) e desaparece na fase de integração.
 - Rastreamento preventivo por perfil — PAUSADA (26/07/2026), aguardando a chave da API USPSTF (AHRQ Prevention TaskForce), solicitada em 23/07/2026 a `uspstfpda@ahrq.gov`, sem resposta. Retomar por `/reversa-requirements` quando a chave chegar.
 - Premissas 🟡 do plano da 017 (§4 do `roadmap.md`, agora sete com a da leitura no mês 120), somadas às 13 da re-extração nº 3, seguem a validar pelo prescritor.
