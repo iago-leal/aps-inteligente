@@ -22,7 +22,7 @@ status: inactive
 - `/reversa-sync` só quando a feature fechar.
 
 ## Pendências / bloqueios
-- **Trabalho desta sessão ainda no working tree, sem commit:** os seis módulos do gerador em `scripts/`, os 14 módulos de dado, o contrato reconciliado, os dois rastros de auditoria e as duas fichas novas. Proposta em dois commits, separando o gerador do dado que ele produziu.
+- **Trabalho commitado em dois commits, ainda não publicado:** `94300b0` (verificações, emissão e orquestração do gerador) e `1d42cf8` (as 14 tabelas geradas, o contrato reconciliado, os rastros e as duas fichas). A separação foi deliberada: o diff do gerador fica legível sem 344 kB de números no meio. O ramo `main` está três commits à frente do remoto `aps-inteligente`.
 - **Dívida de higiene alheia à feature:** `npm run format:check` acusa 544 arquivos fora de formato, quase todos documentação pré-existente do Reversa e testes anteriores à 017. Não é gate do CI (que roda `lint`, `typecheck` e `test`) e não é regressão desta rodada. Resolve-se com um `--write` de uma vez, fora do escopo da 017.
 - **`models/**` cresceu 376 kB de dado gerado**, o que vai distorcer a métrica de cobertura (T050) e o teto de 400 linhas por arquivo (T052). As duas ações já preveem a exceção; o que não pode acontecer é o limite ser ajustado em silêncio.
 - **Estado intermediário assumido:** a home já anuncia `/puericultura/crescimento`, rota que só existe em T045. É consequência da regra de anti-drift do README (catálogo primeiro) e desaparece na fase de integração.
