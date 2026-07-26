@@ -1,10 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/016-estrutura-cabecalho-home",
-  "feature-id": "016",
-  "short-name": "estrutura-cabecalho-home",
-  "started-at": "2026-07-23T22:38:53Z",
-  "current-stage": "coding",
-  "stages-completed": ["requirements", "clarify", "plan", "to-do", "coding"],
+  "feature-dir": "_reversa_forward/017-puericultura-crescimento",
+  "feature-id": "017",
+  "short-name": "puericultura-crescimento",
+  "started-at": "2026-07-26T20:00:52Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
   "paused-features": []
 }
