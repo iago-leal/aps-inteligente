@@ -8,7 +8,7 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Total de ações | 52 · **7 concluídas** (T001–T006 da Preparação e T029, o leitor de planilha) |
+| Total de ações | 52 · **11 concluídas** (T001–T006 da Preparação e a cadeia do gerador, T029 a T033) |
 | Paralelizáveis (`[//]`) | 27 |
 | Maior cadeia de dependência | 12 (T003 → T029 → T030 → T032 → T033 → T034 → T039 → T043 → T044 → T045 → T048 → T049) |
 
@@ -66,10 +66,10 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 | T027 | Elegibilidade com os três motivos, sendo `PC_ACIMA_DE_2_ANOS` **parcial** — novidade frente ao molde da 014, que só tem recusa global (RF-07) | T020, T023 | - | `models/puericultura/elegibilidade.ts` | 🟢 | `[ ]` |
 | T028 | Escore z pelo LMS e correção de cauda derivada da própria LMS, aplicada só a P/I e IMC/I (RF-02, RF-03, D-10) | T020 | `[//]` | `models/puericultura/oms/lms.ts` | 🟢 | `[ ]` |
 | T029 | Gerador, leitura: abrir o `.xlsx` com os built-ins do Node conforme D-14 — `node:fs` mais `inflateRawSync` de `node:zlib` sobre o contêiner ZIP, e leitura direta de `xl/workbook.xml`, `xl/sharedStrings.xml` e `xl/worksheets/sheet1.xml` —, devolvendo as colunas localizadas **pelo nome do cabeçalho**, nunca pela posição (`interfaces/tabelas-de-referencia.md#3`). O leitor é módulo dev-time e nunca é importado por código de aplicação | T003 | - | `scripts/lib/planilha.mts` | 🟢 | `[X]` |
-| T030 | Gerador, verificações V1 a V7 com falha ruidosa e nenhuma escrita parcial, incluindo a reconstrução dos desvios a partir de `L/M/S` (V6) e os valores-âncora (V7) | T029 | - | `scripts/oms/verificacoes.ts` | 🟢 | `[ ]` |
-| T031 | Gerador, emissão (realiza **D-03**): recorte ao escopo da fonte (D-04), limpeza do ruído de ponto flutuante, arrays paralelos `l`/`m`/`s` com `inicio`, `fim` e `unidade`, cabeçalho de procedência por módulo e manifesto com URL, data e `sha256`. As colunas `SDn` são consumidas na verificação V6 e **não** entram no módulo emitido — o oráculo delas vive congelado em T008 | T029 | - | `scripts/oms/emitir-modulo.ts` | 🟢 | `[ ]` |
-| T032 | Gerador, orquestração: percorrer os 14 recortes, conferir o `sha256` de cada arquivo contra o manifesto do baixador antes de converter, encadear leitura → verificação → emissão, ser idempotente byte a byte e falhar dizendo qual **arquivo** e qual verificação pararam (a mensagem de URL cabe ao baixador, contrato §7) | T030, T031 | - | `scripts/gerar-tabelas-oms.ts` | 🟢 | `[ ]` |
-| T033 | Rodar o gerador, conferir contra a saída os valores-âncora de `interfaces/tabelas-de-referencia.md` §5 (verificação V7) — não os do `onboarding.md` §4, que são escores z e só se tornam verificáveis depois de T039 — e commitar os 14 módulos de dados e o manifesto junto do gerador que os produziu (D-03) | T032 | - | `models/puericultura/oms/tabelas/` | 🟢 | `[ ]` |
+| T030 | Gerador, verificações V1 a V7 com falha ruidosa e nenhuma escrita parcial, incluindo a reconstrução dos desvios a partir de `L/M/S` (V6) e os valores-âncora (V7). **Feito** em quatro módulos, pelos tetos do mantenedor: `criterios.mts` (o que se exige do dado, com a proveniência de cada exigência), `extracao.mts` (texto → `L/M/S` recortado e canonizado, onde V3 vive), `falha.mts` (o modo de falha único do contrato §7) e `verificacoes.mts` (V1, V2 e V4 a V7). As 14 tabelas passam; 9 sabotagens dirigidas provaram que cada verificação morde a anomalia que lhe cabe | T029 | - | `scripts/oms/{criterios,extracao,falha,verificacoes}.mts` | 🟢 | `[X]` |
+| T031 | Gerador, emissão (realiza **D-03**): recorte ao escopo da fonte (D-04), limpeza do ruído de ponto flutuante, arrays paralelos `l`/`m`/`s` com `inicio`, `fim` e `unidade`, cabeçalho de procedência por módulo e manifesto com URL, data e `sha256`. As colunas `SDn` são consumidas na verificação V6 e **não** entram no módulo emitido — o oráculo delas vive congelado em T008. **Feito:** o recorte e a canonização passaram para `extracao.mts` (V4 a V7 precisam valer sobre o dado que se embarca, não sobre o bruto) e aqui ficou a produção do texto, sem aritmética. O cabeçalho é determinístico — a data vem do manifesto, nunca do relógio —, o texto sai formatado pelo Prettier do projeto e cada número é conferido por releitura | T029 | - | `scripts/oms/emitir-modulo.mts` | 🟢 | `[X]` |
+| T032 | Gerador, orquestração: percorrer os 14 recortes, conferir o `sha256` de cada arquivo contra o manifesto do baixador antes de converter, encadear leitura → verificação → emissão, ser idempotente byte a byte e falhar dizendo qual **arquivo** e qual verificação pararam (a mensagem de URL cabe ao baixador, contrato §7). **Feito:** a promessa de "nenhuma escrita parcial" ficou estrutural — as 14 tabelas são lidas, verificadas e emitidas em memória, e o primeiro byte só chega ao disco quando a última passa. Acrescentou-se uma guarda que o plano não previa: duas origens não podem reivindicar o mesmo módulo. Roda em 0,62 s | T030, T031 | - | `scripts/gerar-tabelas-oms.mts` | 🟢 | `[X]` |
+| T033 | Rodar o gerador, conferir contra a saída os valores-âncora de `interfaces/tabelas-de-referencia.md` §5 (verificação V7) — não os do `onboarding.md` §4, que são escores z e só se tornam verificáveis depois de T039 — e commitar os 14 módulos de dados e o manifesto junto do gerador que os produziu (D-03). **Feito:** 14 módulos, 12.964 linhas `L/M/S`, 344 kB de texto-fonte (376 kB em disco com o manifesto) — o volume que `investigation.md` §7 estimara. As três âncoras do contrato §5 conferidas **na saída**, mais a do spike de D-14 (peso masculino em `Day = 1856`, `M = 18,4968`): 4/4. Idempotência provada por segunda execução, "14 já idênticos, 0 escritos" | T032 | - | `models/puericultura/oms/tabelas/` | 🟢 | `[X]` |
 | T034 | Repositório de tabelas da OMS: interface injetável, seleção por índice, sexo e faixa, índice de linha aritmético e as duas fronteiras dos 5 anos separadas (D-05, D-06, D-08) | T020, T033 | - | `models/puericultura/oms/leitura.ts` | 🟡 | `[ ]` |
 | T035 | Equações fechadas do INTERGROWTH-21st: μ e σ por semana pós-menstrual para peso, comprimento e PC, com os coeficientes conferidos em T004 e a procedência no cabeçalho (D-02) | T004, T020 | - | `models/puericultura/intergrowth/equacoes.ts` | 🟡 | `[ ]` |
 | T036 | Escore z de pré-termo: log para peso e comprimento, escala natural para PC, e ausência de IMC como variante `ausente` com motivo, jamais erro (RF-18, RN-17) | T035 | - | `models/puericultura/intergrowth/escore.ts` | 🟢 | `[ ]` |
@@ -135,7 +135,7 @@ duas, a primeira é a que responde pelo cenário; a segunda o exercita em outro 
 
 - **Séries de microdecisão.** As fichas citadas como `MD-000N` sem qualificação pertencem a
   **duas** séries distintas, e o achado A010 pediu que a diferença ficasse explícita: as da
-  feature 017 (`MD-0001` a `MD-0006`) vivem em `.harness/decisoes/`; as citadas por `domain.md`
+  feature 017 (`MD-0001` a `MD-0008`) vivem em `.harness/decisoes/`; as citadas por `domain.md`
   e pelo contrato de aquisição (`MD-0003`, `MD-0008`, `MD-0009`, `MD-0011`) são da série
   pré-refundação, preservada dentro dos artefatos da extração. Onde este documento cita sem
   qualificar, entenda-se a série corrente.
@@ -153,9 +153,70 @@ Reservado para /reversa-coding registrar avisos ou observações que surgiram du
 Não use isso para corrigir ações, edits manuais ficam fora desse arquivo, vão direto no código.
 -->
 
+### Rodada de 2026-07-27 — cadeia do gerador (T030 a T033)
+
+**Desvios de forma frente ao plano, todos declarados:**
+
+1. **Extensão `.mts`, não `.ts`,** em todo o gerador — a mesma razão que T003 e T029 já
+   encontraram: o `package.json` do Next não declara `type: module`. O contrato §5.1 foi
+   reconciliado.
+2. **T030 virou quatro módulos,** não um: `criterios.mts` (o que se exige do dado, com a
+   proveniência de cada exigência), `extracao.mts` (texto → `L/M/S` recortado e canonizado),
+   `falha.mts` (o modo de falha único do contrato §7) e `verificacoes.mts` (a mecânica).
+   O motivo é o teto de 400 linhas do mantenedor: em um arquivo só, davam 503. A divisão
+   também separou o que muda por motivos diferentes — os critérios mudam quando a fonte muda,
+   a mecânica quando o gerador muda.
+3. **O recorte (D-04) e a canonização (§4.2) migraram da emissão para a extração.** O plano os
+   atribuía a T031, mas V4 a V7 precisam valer sobre o dado que se embarca, não sobre o bruto.
+   A emissão ficou sem aritmética alguma: recebe tabela provada e produz texto.
+4. **V3 vive em `extracao.mts`,** e não com as outras verificações: a continuidade da faixa só
+   se apura durante a varredura das linhas.
+
+**Achados de conteúdo, com consequência sobre a spec** (os quatro reconciliados no contrato
+`interfaces/tabelas-de-referencia.md`):
+
+1. **A aba do comprimento/estatura 2006 é `LFA_boys_z_exp`** — sem o `h` do nome do arquivo
+   (`lhfa-boys-…`). O catálogo de origens previa `lhfa_boys` e V1 recusaria o arquivo certo;
+   `origens.mts` foi corrigido, mantendo os três grafismos aceitos.
+2. **Os dois arquivos de estatura 2007 têm 15 colunas,** não as 13 do contrato §3: `StDev` e
+   `SD5neg` a mais. V2 passou a exigir as colunas de que o gerador depende e a tolerar quatro
+   opcionais conhecidas; coluna desconhecida continua sendo falha.
+3. **V5, como enunciada, era clinicamente falsa.** O peso mediano cai no dia 1 (perda ponderal
+   fisiológica do recém-nascido, −0,87% no menino e −1,13% na menina) e a estatura cai no dia
+   731. Os dois degraus entraram declarados e com limite de magnitude, o que torna V5 mais
+   forte do que era. **O segundo degrau vale como evidência independente:** mede −0,6715 cm,
+   que é a própria constante de 0,7 cm da conversão de posição (RF-08, D-11), no exato dia que
+   D-16 fixou como fronteira dos dois anos. O dado tabular confirmou, por conta própria, duas
+   decisões que o plano tomara por leitura da caderneta.
+4. **A "limpeza do ruído de ponto flutuante" não altera número algum.** Medição sobre as
+   12.964 linhas: `Number(v.toFixed(4)) === v` em toda parte. O `18.505700000000001` já *é* o
+   ponto flutuante de `18,5057` — o ruído está na grafia decimal, não no valor. A promessa do
+   contrato §4.2 passou de "não altera nos casos-âncora" a "não altera em nenhuma célula".
+
+**Guarda acrescentada além do plano:** duas origens não podem emitir o mesmo módulo, sob pena
+de o dado de uma sobrescrever o da outra em silêncio.
+
+**Fichas abertas e fechadas nesta rodada:** `MD-0007` (a verificação mede o que a fonte faz —
+os degraus de V5, as colunas toleradas de V2 e o alcance de V4 a V7 sobre o recorte) e
+`MD-0008` da série corrente (a idempotência como propriedade do texto emitido: sem data de
+relógio, formatação por construção, grafia mínima com dupla guarda). A segunda é homônima da
+`MD-0008` pré-refundação, e a própria ficha abre declarando a colisão.
+
+**Como a rodada foi provada:** as 14 tabelas passam as sete verificações (12.964 linhas,
+90.748 desvios reconstruídos da LMS, pior divergência 5·10⁻⁴ — o empate de arredondamento da
+terceira casa publicada); nove sabotagens dirigidas confirmaram que cada verificação morde a
+anomalia que lhe cabe, inclusive a distinção fina entre V6 e V7; as quatro âncoras conferem na
+saída; a segunda execução reporta "14 já idênticos, 0 escritos".
+
+**Dívida declarada:** `npm run format:check` acusa 544 arquivos fora de formato, quase todos
+documentação pré-existente do Reversa e testes anteriores a esta feature. Não é regressão desta
+rodada e não é gate do CI, que cobra `lint`, `typecheck` e `test`. Fica registrado como dívida
+de higiene do repositório, a tratar fora do escopo da 017.
+
 ## Histórico de alterações
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-26 | Versão inicial gerada por `/reversa-to-do` | reversa |
+| 2026-07-27 | Cadeia do gerador executada (T030 a T033): 14 módulos de dado emitidos e verificados. Quatro achados de conteúdo reconciliados no contrato de aquisição (aba `LFA_*`, 15 colunas na estatura 2007, os dois degraus de V5 e a natureza do ruído de ponto flutuante) | reversa-coding |
 | 2026-07-26 | Reconciliação sobre a auditoria cruzada: T002 concluída fora do ciclo de código (A001/A009); T003 vira a ferramenta de aquisição e T029 o leitor nativo (A007); T008 passa a congelar também o oráculo `SDn` da OMS e T010 depende dela, não de `referencias/` (A003); RF-06 citado em T018 e T020 (A002); pares de limite 3682/3683 e 730/731 em T011, T015 e T016 (A005/A006); T033 aponta para os valores-âncora do contrato (A008); T045 passa a depender de T046 (A015); T049 grava em arquivo próprio (A014); mapa dos dezoito cenários e observações de plano acrescentados (A011, A010, A013, A016) | reversa |

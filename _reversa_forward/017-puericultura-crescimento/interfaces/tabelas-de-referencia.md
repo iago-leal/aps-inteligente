@@ -61,6 +61,14 @@ partir da linha 2. Colunas presentes em todos os arquivos:
 O `<índice>` chama-se `Day` nos padrões 2006 e `Month` na referência 2007. As colunas devem ser
 localizadas **pelo nome no cabeçalho**, nunca pela posição: a ordem varia entre arquivos.
 
+**Reconciliado em 2026-07-27, contra os 14 arquivos em disco.** Doze deles têm exatamente estas
+13 colunas. Os **dois de estatura da referência 2007** (`hfa_{boys,girls}_z_WHO 2007_exp`) têm
+**15**: `StDev` e `SD5neg` a mais, entre `S` e `SD4neg`. A divergência é da OMS e não afeta o
+dado que interessa. O gerador passa, portanto, a exigir a **presença** das colunas de que
+depende — o índice, `L`, `M`, `S` e `SD3neg` a `SD3` — e a tolerar apenas as quatro conhecidas
+como opcionais (`StDev`, `SD5neg`, `SD4neg`, `SD4`); qualquer coluna fora dessas duas listas
+continua sendo falha, que é a intenção original da verificação.
+
 Extensão da faixa esperada:
 
 | Recorte | Primeira | Última | Linhas de dados |
@@ -75,6 +83,13 @@ Extensão da faixa esperada:
 2. **Limpar o ruído de ponto flutuante:** o `.xlsx` guarda `18.505700000000001` onde a fonte
    publica `18,5057`. Arredondar à precisão publicada (quatro casas em `M`, quatro em `L`, cinco
    em `S`) e conferir que o arredondamento não altera o escore em nenhum caso-âncora.
+
+   **Medido em 2026-07-27, e mais forte do que o exigido:** o arredondamento é **idêntico** nas
+   12.964 linhas das 14 tabelas — `Number(v.toFixed(4)) === v` em toda parte. O
+   `18.505700000000001` já *é* o número de ponto flutuante de `18,5057`; o ruído está na grafia
+   decimal, não no valor. Logo a limpeza não altera escore algum, em nenhuma célula, e não
+   apenas nos casos-âncora. A emissão serializa na grafia mínima que relê para o mesmo número e
+   falha se o texto trouxer mais casas do que a fonte publica.
 3. **Emitir arrays paralelos** `l`, `m`, `s`, com `inicio`, `fim` e `unidade`, no formato de
    `data-delta.md#3.1`.
 4. **Registrar a procedência no cabeçalho de cada módulo gerado:** URL de origem, data do
@@ -91,12 +106,41 @@ qualquer item abaixo não se confirma:
 | V2 | O cabeçalho traz exatamente as 13 colunas do §3, com o índice esperado (`Day` ou `Month`) | Formato mudou |
 | V3 | A faixa do índice é contínua, sem buraco nem repetição, e cobre o recorte pedido | Download truncado |
 | V4 | `M` está na ordem de grandeza do indicador: peso em kg (0,5 a 60), comprimento em cm (40 a 160), IMC (10 a 25), perímetro em cm (30 a 55) | Indicador trocado — é a barreira contra o arquivo mal nomeado do §2.2 |
-| V5 | `M` é monotonicamente crescente em peso, comprimento e perímetro cefálico | Colunas embaralhadas |
+| V5 | `M` é crescente em peso, comprimento/estatura e perímetro cefálico, **exceto nos dois degraus declarados abaixo**, cuja magnitude é vigiada | Colunas embaralhadas, ou fronteira revista na origem |
 | V6 | Reconstruir os valores `SD3neg`…`SD3` a partir de `L`, `M`, `S` e conferir contra as colunas publicadas, com tolerância do arredondamento da própria planilha | LMS não corresponde aos desvios: dado corrompido |
 | V7 | Valores-âncora conhecidos batem: perímetro cefálico masculino ao nascer `M = 34,4618`; peso masculino em `Month = 61` (tabela 2007) `M = 18,5057`; peso feminino em `Month = 61` `M = 18,2579` | Revisão silenciosa da tabela na origem |
 
 A verificação V6 é a mais valiosa: ela usa o próprio arquivo como oráculo de si mesmo e captura,
-de uma vez, erro de coluna, de arredondamento e de leitura.
+de uma vez, erro de coluna, de arredondamento e de leitura. V7 cobre justamente o que V6 não
+cobre — uma revisão **coerente** da tabela, com os desvios recalculados junto do `M`, passa
+incólume pela reconstrução da LMS e para só na âncora. As duas foram exercitadas nessa ordem,
+com sabotagem dirigida, em 2026-07-27.
+
+### 5.2 Os dois degraus de V5 (reconciliado em 2026-07-27)
+
+A redação original de V5 pedia monotonia simples, e o dado a desmentiu em dois pontos — nenhum
+deles por corrupção. Ambos são propriedade da fonte, e declará-los com um limite torna V5 mais
+forte do que era: ela deixa de exigir o que a fonte não cumpre e passa a vigiar o que a fonte faz.
+
+| Índice | Degrau medido | Limite tolerado | Por que existe |
+|---|---|---|---|
+| `Day = 1`, peso 2006 | −0,87% (menino), −1,13% (menina) | 2% | **Perda ponderal fisiológica do recém-nascido.** O peso mediano cai no primeiro dia e só recupera o valor de nascimento no terceiro (menino) ou no quarto (menina) |
+| `Day = 731`, comprimento/estatura 2006 | −0,6715 cm (menino), −0,6709 cm (menina) | 1,5% | **Troca da régua aos dois anos:** a tabela mede comprimento deitado até 730 dias e estatura em pé de 731 em diante |
+
+O segundo degrau é achado de valor clínico próprio: a magnitude medida na tabela da OMS é a
+**própria constante de 0,7 cm** que a caderneta manda aplicar na conversão de posição (RF-08,
+D-11), e ela cai no exato dia que D-16 fixou como fronteira dos dois anos. O dado tabular
+confirma, por conta própria, duas decisões que o plano havia tomado por leitura da caderneta.
+
+Um degrau declarado que **não** apareça também é falha: significaria que a fonte foi revista.
+
+### 5.3 Sobre que linhas cada verificação corre
+
+V2 e V3 correm sobre a planilha inteira; V4 a V7, sobre o **recorte** que será emitido. O motivo
+é que a faixa de grandeza de V4 foi calibrada para a cobertura da caderneta: a estatura da
+referência 2007 chega a 176 cm no mês 228, fora da faixa de 40 a 160 cm, e essas linhas não são
+embarcadas. Verificar o que se embarca é a regra; verificar o que se descarta produziria falha
+em dado que o produto não usa.
 
 ## 5.1 Duas ferramentas, não uma
 
@@ -105,8 +149,12 @@ quem baixa as planilhas. A divisão fica assim, e vale para os dois documentos:
 
 | Ferramenta | Responsabilidade | Rede |
 |---|---|---|
-| `scripts/baixar-tabelas-oms.ts` | Resolve as URLs do §2, grava em `referencias/oms/` e registra o `sha256` de cada arquivo | sim, uma vez, na mão do mantenedor |
-| `scripts/gerar-tabelas-oms.ts` | Lê do disco, aplica as verificações do §5, transforma conforme o §4 e escreve os módulos | **não** |
+| `scripts/baixar-tabelas-oms.mts` | Resolve as URLs do §2, grava em `referencias/oms/` e registra o `sha256` de cada arquivo | sim, uma vez, na mão do mantenedor |
+| `scripts/gerar-tabelas-oms.mts` | Lê do disco, aplica as verificações do §5, transforma conforme o §4 e escreve os módulos | **não** |
+
+A extensão é `.mts` porque o `package.json` do Next não declara `type: module`: assim os
+scripts são ESM sem ambiguidade e sem aviso de reparse. Os dois são invocados por `node`,
+sem `npx tsx` (D-14).
 
 A separação existe para que a conversão — a parte que decide números clínicos — seja
 determinística, repetível offline e auditável sem depender de a origem continuar no ar. Ambas
