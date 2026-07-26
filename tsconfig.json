@@ -10,6 +10,10 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    // Feature 017 (D-14): os scripts dev-time em `scripts/*.mts` rodam direto no Node, que
+    // em ESM exige extensão explícita no import. Só é válido sob `noEmit`, que é o caso —
+    // o `tsc` aqui apenas confere tipos; quem compila a aplicação é o Next.
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,

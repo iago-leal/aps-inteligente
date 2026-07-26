@@ -1,0 +1,118 @@
+{
+  "contrato": "_reversa_forward/017-puericultura-crescimento/interfaces/tabelas-de-referencia.md",
+  "geradoEm": "2026-07-26",
+  "origens": [
+    {
+      "id": "peso-masculino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-boys-zscore-expanded-tables.xlsx",
+      "arquivo": "peso-masculino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 198984,
+      "sha256": "b5b4748c6bfa5230e2eddafa1767629c349178b08d457f400b59422b8bfef86c"
+    },
+    {
+      "id": "peso-feminino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx",
+      "arquivo": "peso-feminino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 197671,
+      "sha256": "ee3ae12cb96c6c5541cdf43665c03ce6c984f877859a183a5f6104eb06a49a6e"
+    },
+    {
+      "id": "comprimento-estatura-masculino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-boys-zscore-expanded-tables.xlsx",
+      "arquivo": "comprimento-estatura-masculino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 200151,
+      "sha256": "c4b1c9029ab9751a5f0888e32f35c7c0287a16d361885cf911ecf23b3f7f6b4f"
+    },
+    {
+      "id": "comprimento-estatura-feminino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-girls-zscore-expanded-tables.xlsx",
+      "arquivo": "comprimento-estatura-feminino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 199890,
+      "sha256": "6aa2876319449a6b1f4d825848128902114ff53c67b92b86a0c5140846013059"
+    },
+    {
+      "id": "imc-masculino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-boys-zscore-expanded-tables.xlsx",
+      "arquivo": "imc-masculino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 185753,
+      "sha256": "58dcb2abea0e04b1c4f8ad3511d05ec1bea03741f230ac127b93f929e4cc6fc8"
+    },
+    {
+      "id": "imc-feminino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-girls-zscore-expanded-tables.xlsx",
+      "arquivo": "imc-feminino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 177923,
+      "sha256": "d3817262a383cdd02553b004f1c6110527d30b729c70501d032e71caadc17529"
+    },
+    {
+      "id": "perimetro-cefalico-masculino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-boys-zscore-expanded-tables.xlsx",
+      "arquivo": "perimetro-cefalico-masculino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 185962,
+      "sha256": "89a657bc466e85f6c8f2e5e7f4635e969bdcf982bb71e519273e43896a1c3314"
+    },
+    {
+      "id": "perimetro-cefalico-feminino-2006",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-girls-zscore-expanded-tables.xlsx",
+      "arquivo": "perimetro-cefalico-feminino-2006.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 186723,
+      "sha256": "8eec3770d1027ce1b3b96a7b89fd1e77070558a7791b17b4462cda8a813324a3"
+    },
+    {
+      "id": "peso-masculino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/weight-for-age-(5-10-years)/hfa-boys-z-who-2007-exp_0ff9c43c-8cc0-4c23-9fc6-81290675e08b.xlsx",
+      "arquivo": "peso-masculino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 16336,
+      "sha256": "a6ed0d9f3cfa209747afe49f7503b7cc24a1be6b6a8e7222e85a36b7850cb99f"
+    },
+    {
+      "id": "peso-feminino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/weight-for-age-(5-10-years)/hfa-girls-z-who-2007-exp_7ea58763-36a2-436d-bef0-7fcfbadd2820.xlsx",
+      "arquivo": "peso-feminino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 16299,
+      "sha256": "d747e068fcef4238cbaf1c201dd7788f266d9903685f4495360614eed0153562"
+    },
+    {
+      "id": "comprimento-estatura-masculino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-boys-z-who-2007-exp.xlsx",
+      "arquivo": "comprimento-estatura-masculino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 30017,
+      "sha256": "d78fa8cafcab77dcb5f03d71506d92bdcb28f89c642816b6bb0eef466b007466"
+    },
+    {
+      "id": "comprimento-estatura-feminino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-girls-z-who-2007-exp.xlsx",
+      "arquivo": "comprimento-estatura-feminino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 29837,
+      "sha256": "df07ee16d3d2916569f1d869b7c874d7b880a41321d871215ed0254cb16679b3"
+    },
+    {
+      "id": "imc-masculino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-boys-z-who-2007-exp.xlsx",
+      "arquivo": "imc-masculino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 27056,
+      "sha256": "0a60849673f34a06b8e2fe4defe5d00348de687b6c9fce0278f1525fff89eb6d"
+    },
+    {
+      "id": "imc-feminino-2007",
+      "url": "https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-girls-z-who-2007-exp.xlsx",
+      "arquivo": "imc-feminino-2007.xlsx",
+      "baixadoEm": "2026-07-26",
+      "bytes": 26951,
+      "sha256": "66f5c6284b44579ad6135fc639f22c09e36fe5a695b04390377113f6a00deb72"
+    }
+  ]
+}

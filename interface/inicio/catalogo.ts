@@ -58,4 +58,16 @@ export const CATALOGO: readonly SecaoDaPlataforma[] = Object.freeze([
       }),
     ]),
   }),
+  Object.freeze({
+    id: "puericultura",
+    titulo: "Puericultura",
+    calculadoras: Object.freeze([
+      Object.freeze({
+        titulo: "Avaliação do crescimento infantil",
+        descricao:
+          "Escores z de peso, comprimento/estatura, IMC e perímetro cefálico, com a classificação nutricional da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), inclusive para nascidos pré-termo.",
+        rota: "/puericultura/crescimento",
+      }),
+    ]),
+  }),
 ]);

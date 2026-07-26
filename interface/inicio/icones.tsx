@@ -6,6 +6,7 @@ import {
   BeakerIcon,
   CalendarIcon,
   HeartIcon,
+  SmileyIcon,
   type Icon,
 } from "@primer/octicons-react";
 
@@ -13,6 +14,8 @@ const ICONES_POR_SECAO: Readonly<Record<string, Icon>> = {
   dm2: BeakerIcon,
   "pre-natal": CalendarIcon,
   cardiologia: HeartIcon,
+  // Feature 017 (D-12): `PersonIcon` é genérico demais e `HeartIcon` já designa cardiologia.
+  puericultura: SmileyIcon,
 };
 
 export function IconeDaSecao({ id }: { readonly id: string }) {
