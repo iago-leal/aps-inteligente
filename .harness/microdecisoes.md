@@ -8,3 +8,4 @@
 - **MD-0006** — As duas fronteiras que a spec deixou em anos passam a valer em dias e em meses, cada uma na unidade da sua tabela
 - **MD-0007** — A verificação do dado da OMS mede o que a fonte faz, não o que a spec supôs que ela fizesse
 - **MD-0008** — A idempotência do gerador é propriedade do texto emitido, não promessa da ferramenta
+- **MD-0009** — A leitura da tabela informa a ausência de linha; a recusa clínica é de quem tem a fonte na mão

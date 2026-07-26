@@ -19,6 +19,13 @@
 | W008 | Contrato de aquisição §5.2 — degraus de V5 | Os dois degraus declarados continuam presentes e dentro do limite: queda no `Day 1` do peso 2006 (≤ 2%) e no `Day 731` do comprimento/estatura 2006 (≤ 1,5%, medida −0,6715 cm) | presença | Degrau ausente, deslocado de dia, ou de magnitude fora do limite. O de 731 dias é a evidência independente de D-11 e D-16: perdê-lo desamarra a constante de 0,7 cm da fonte que a confirma |
 | W009 | Contrato de aquisição §4.1 e D-04 — recorte | Os módulos gerados trazem só `unidade`, `inicio`, `fim`, `l`, `m` e `s`; **nenhuma coluna `SDn`**. O perímetro cefálico termina em `Day 730` e os demais em `Month 120` | ausência | Coluna de desvio embarcada (o oráculo de T008 é que responde por ela), ou faixa maior que o recorte — dado morto no bundle e tentação de extrapolar |
 | W010 | `data-delta.md` §3.3 — ciclo de vida do dado | Os 14 módulos de `models/puericultura/oms/tabelas/` só mudam por reexecução do gerador; cada um declara "ARQUIVO GERADO … não editar à mão" no cabeçalho, com URL, data e `sha256` da origem | presença | Diff num módulo de dados sem diff correspondente no manifesto ou no gerador — edição à mão, que quebra a rastreabilidade do número até a fonte |
+| W011 | Roadmap D-05 — as duas fronteiras dos cinco anos | `models/puericultura/oms/leitura.ts` lê por **dia** até 1856 e por **mês** de 1857 em diante, com `⌊1856/30,4375⌋ = 60` e `⌊1857/30,4375⌋ = 61`; a fronteira de **rótulo**, aos 1826 dias, não move a tabela e vive em `classificacao.ts` | presença | As duas fronteiras alinhadas num número só — o que produz ora rótulo trocado, ora buraco de cobertura de 30 dias —, ou a de rótulo migrando para a leitura |
+| W012 | Roadmap D-15 (ficha `MD-0006`) — fronteira superior | 3682 dias lê o mês 120; 3683 devolve `sem-tabela` com motivo `IDADE_ACIMA_DA_COBERTURA`, para os três índices que chegam aos dez anos | presença | Recusa em 3682 (nega leitura que a fonte publica) ou leitura em 3683 (extrapola a última linha, contra `domain.md` §8) |
+| W013 | Roadmap D-16 (ficha `MD-0006`) — fronteira dos dois anos | 730 dias lê o perímetro cefálico; 731 devolve `sem-tabela` com motivo `PERIMETRO_CEFALICO_ACIMA_DE_2_ANOS`, **sem afetar os demais índices**, que seguem lendo aos 731 dias | presença | Recusa global aos 731 dias, que derrubaria peso, comprimento e IMC junto com o PC — RN-08 exige recusa parcial |
+| W014 | `data-delta.md` §3.2 — inventário do acervo | `REPOSITORIO_OMS` resolve as 14 combinações publicadas (8 por dia, 6 por mês) e devolve `null` para perímetro cefálico por mês, que a OMS não publica na faixa | presença | Combinação faltando (escore que deixa de existir sem aviso) ou perímetro cefálico por mês aparecendo do nada |
+| W015 | Roadmap D-08 — acervo injetável | A leitura e a fachada aceitam `RepositorioDeTabelasOms` por parâmetro, com o real por omissão; nenhum teste de regra precisa carregar as 12.964 linhas | presença | Import direto das tabelas dentro do cálculo, que fecharia a porta de D-09 e obrigaria o teste a carregar o acervo inteiro |
+| W016 | Contrato de aquisição §6 + `leitura.ts` — coerência do dado gerado | `conferirTabela` roda na montagem do acervo e recusa unidade trocada ou array mais curto do que a faixa declarada | presença | Guarda removida "porque nunca dispara": é justamente a que pega edição à mão de um módulo gerado, o único jeito de o dado mentir sem a geração ter falhado |
+| W017 | `requirements.md` RF-06 (RN-01) — índices independentes | `IndiceAntropometrico` continua união de três variantes, e `ausente`/`fora-do-escopo` **não têm** campo `escoreZ` | ausência | Campo de escore promovido ao tipo comum, ou variante colapsada em objeto com campos opcionais: "não calculado" voltaria a poder ser lido como zero |
 
 ## Observações (sem peso de regressão)
 
@@ -54,6 +61,26 @@ Acrescentado na rodada de 2026-07-27 (T030 a T033):
 - **`models/**` cresceu 376 kB de dado gerado.** Isso vai distorcer a métrica de cobertura
   (T050) e o teto de 400 linhas por arquivo (T052). As duas ações já preveem a exceção; o que
   não pode acontecer é o limite ser ajustado em silêncio.
+
+Acrescentado na segunda rodada de 2026-07-27 (T020, T034, T007, T011):
+
+- **Supera a observação anterior "D-15 e D-16 ainda não têm código".** Passaram a ter, e a vigiá-las
+  agora são W012 e W013, com teste em `leitura-oms.test.ts`. A observação fica registrada como
+  estava, sem reescrita, para que a leitura do documento acompanhe o andamento real.
+- **O plano descreve as entidades com uma forma; o código precisou de outra, em três pontos.**
+  O discriminante do índice antropométrico é `estado`, não `tipo` (a saída da fachada mantém
+  `tipo`, como nos quatro domínios existentes); `idadeUsada` é objeto com espécie, valor, unidade
+  e desconto, porque RF-20 pede a idade **com** o desconto; e a idade gestacional ao nascer é
+  campo opcional, e não `… | null`. As três são de forma, sem efeito de comportamento, e cabem ao
+  `/reversa-sync` reconciliar no `data-delta.md` §2. Sem peso de regressão até lá.
+- **Achado de aritmética em D-05, registrado para a re-extração.** O roadmap chama a fronteira de
+  tabela de "61 meses (1856 dias)", como se os dois fossem o mesmo ponto; `⌊1856/30,4375⌋` é 60.
+  O encaixe real é 1856 (última linha de 2006) → 1857 (primeira do mês 61 de 2007), e é o que o
+  código faz. A decisão não muda, apenas o modo de enunciá-la — mas quem reler D-05 sem esta nota
+  pode concluir que o código diverge do plano, e não diverge.
+- **A cobertura de `models/**` ainda não foi medida com o domínio novo.** O dado gerado continua
+  fora de qualquer suíte, e T050 é que decide se ele sai do `include` — por decisão registrada,
+  nunca por ajuste silencioso do limite.
 
 ## Histórico de re-extrações
 

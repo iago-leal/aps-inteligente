@@ -8,7 +8,7 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Total de ações | 52 · **11 concluídas** (T001–T006 da Preparação e a cadeia do gerador, T029 a T033) |
+| Total de ações | 52 · **15 concluídas** (T001–T006 da Preparação; a cadeia do gerador, T029 a T033; e a leitura do dado com o seu apoio e o seu teste — T020, T034, T007, T011) |
 | Paralelizáveis (`[//]`) | 27 |
 | Maior cadeia de dependência | 12 (T003 → T029 → T030 → T032 → T033 → T034 → T039 → T043 → T044 → T045 → T048 → T049) |
 
@@ -36,11 +36,11 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 
 | ID | Descrição | Dependências | Paralelismo | Arquivo alvo | Confidência | Status |
 |----|-----------|--------------|-------------|--------------|-------------|--------|
-| T007 | Apoio de teste: tabelas LMS sintéticas mínimas (D-08, injeção por construtor) e construtor de entrada de avaliação, no molde de `tests/apoio/construtores.ts` | - | `[//]` | `tests/apoio/puericultura.ts` | 🟢 | `[ ]` |
+| T007 | Apoio de teste: tabelas LMS sintéticas mínimas (D-08, injeção por construtor) e construtor de entrada de avaliação, no molde de `tests/apoio/construtores.ts`. **Feito:** `tabelaSintetica` gera `L/M/S` deliberadamente reconhecíveis — o `m` de cada linha é a própria chave —, de modo que leitura na posição errada aparece como número errado, e não como igualdade acidental; `repositorioSintetico` monta acervos sob medida (inclusive o vazio, para exercitar a guarda de acervo incompleto); o construtor de entrada nasce no primeiro cenário Gherkin, e os narrowings seguem o molde de `construtores.ts`. Executada depois de T020 e T034, que dão os tipos que ela constrói | - | `[//]` | `tests/apoio/puericultura.ts` | 🟢 | `[X]` |
 | T008 | Congelar a amostra de casos-oráculo em arquivo **versionado**: escores por `gigs`/`anthro` (OMS, idades de mês inteiro entre 5 e 10 anos e idades diárias abaixo de 5), valores em ±1/±2/±3 DP das tabelas do INTERGROWTH-21st e — acréscimo do achado A003 — os pares `(medida em SDn, n)` extraídos das colunas `SD3neg`…`SD3` das próprias planilhas da OMS, que são o oráculo da correção de cauda e não sobrevivem à emissão de T031. Cada caso com a sua procedência (`investigation.md#6`). É o que permite a T010 rodar em clone limpo, sem `referencias/` | T003, T004 | - | `tests/apoio/casos-oraculo-puericultura.json` | 🟡 | `[ ]` |
 | T009 | Teste de idades: dias epoch UTC independentes de fuso, calendário impossível como valor nulo, desconto `40 − IG`, correção ativa até 2 anos e até 3 anos com IG < 28 semanas, semanas pós-menstruais no par 64/65 (RF-05, RF-17, RF-19) | T007 | `[//]` | `tests/unit/dominio-puericultura/idades.test.ts` | 🟢 | `[ ]` |
 | T010 | Teste do LMS e da correção de cauda: `L ≠ 0` e `L = 0`; oráculo (medida igual a `SDn` devolve `z = n`) lido dos **casos congelados de T008**, nunca de `referencias/`, que o git ignora; cauda aplicada a P/I e IMC/I e **não** aplicada a C-E/I e PC/I; sinal preservado nos dois lados (RF-02, RF-03) | T007, T008 | `[//]` | `tests/unit/dominio-puericultura/lms.test.ts` | 🟢 | `[ ]` |
-| T011 | Teste da leitura da tabela: dia inteiro até 5 anos, mês completo (`⌊dias/30,4375⌋`) de 5 a 10 anos, sem interpolação; as duas fronteiras dos 5 anos nos quatro pontos 1825, 1826, 1855 e 1856 dias (D-05, D-06); e a **fronteira superior** no par 3682/3683 dias, com o mês calculado conferido em cada um — 3682 lê o mês 120, 3683 sai da cobertura (D-15) | T007 | `[//]` | `tests/unit/dominio-puericultura/leitura-oms.test.ts` | 🟡 | `[ ]` |
+| T011 | Teste da leitura da tabela: dia inteiro até 5 anos, mês completo (`⌊dias/30,4375⌋`) de 5 a 10 anos, sem interpolação; as duas fronteiras dos 5 anos nos quatro pontos 1825, 1826, 1855 e 1856 dias (D-05, D-06); e a **fronteira superior** no par 3682/3683 dias, com o mês calculado conferido em cada um — 3682 lê o mês 120, 3683 sai da cobertura (D-15). **Feito:** 22 casos. Cada fronteira exercitada no **par** que a define, contra o acervo real e contra acervo sintético; a ausência de interpolação provada pela igualdade dos dias 1857 e 1887 (mesmo mês, mesma linha) e pela diferença em 1888. O encaixe das duas tabelas conferido sem buraco nem sobreposição: `⌊1856/30,4375⌋ = 60` e `⌊1857/30,4375⌋ = 61`. O par 730/731 do perímetro cefálico (D-16) entrou junto, com a prova de que a recusa é parcial — os demais índices seguem lendo aos 731 dias (RF-06) | T007 | `[//]` | `tests/unit/dominio-puericultura/leitura-oms.test.ts` | 🟢 | `[X]` |
 | T012 | Teste das curvas de pré-termo: μ e σ nos extremos e no meio da janela contra a tabela de sanidade de `investigation.md#3`; `z` em escala log para peso e comprimento e natural para PC; IMC inexistente na janela (RF-18) | T008 | `[//]` | `tests/unit/dominio-puericultura/intergrowth.test.ts` | 🟡 | `[ ]` |
 | T013 | Teste de classificação: bordas `−3`, `−2`, `+1`, `+2`, `+3` em cada índice; ausência de categoria superior em C-E/I; troca de rótulos do IMC aos 1826 dias, com `z = +2,5` virando "Sobrepeso" aos 4a11m e "Obesidade" aos 5a0m (RF-04) | T001, T007 | `[//]` | `tests/unit/dominio-puericultura/classificacao.test.ts` | 🟢 | `[ ]` |
 | T014 | Teste de validação por coleta total: três ofensores simultâneos, data de nascimento futura, nenhuma medida informada, IG fora de 22–42 semanas ou com dias fora de 0–6, faixas de plausibilidade (RF-09) | T007 | `[//]` | `tests/unit/dominio-puericultura/validacao.test.ts` | 🟡 | `[ ]` |
@@ -56,7 +56,7 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 
 | ID | Descrição | Dependências | Paralelismo | Arquivo alvo | Confidência | Status |
 |----|-----------|--------------|-------------|--------------|-------------|--------|
-| T020 | Tipos do domínio: entrada, `IdadesDerivadas`, `IndiceAntropometrico` como união discriminada (`calculado` / `ausente` / `fora-do-escopo`) e saída da fachada em três variantes, tudo `readonly` (`data-delta.md#2`). A variante `ausente` é o que realiza **RF-06** no tipo: cada índice responde por si, e a falta de uma medida suprime só o índice que dela depende | - | `[//]` | `models/puericultura/tipos.ts` | 🟢 | `[ ]` |
+| T020 | Tipos do domínio: entrada, `IdadesDerivadas`, `IndiceAntropometrico` como união discriminada (`calculado` / `ausente` / `fora-do-escopo`) e saída da fachada em três variantes, tudo `readonly` (`data-delta.md#2`). A variante `ausente` é o que realiza **RF-06** no tipo: cada índice responde por si, e a falta de uma medida suprime só o índice que dela depende. **Feito:** a união do índice discrimina por `estado` (`calculado`/`ausente`/`fora-do-escopo`), e não por `tipo`, para que um resultado com quatro índices não carregue cinco campos `tipo` de significados diferentes; a saída da fachada mantém `tipo`, como nos quatro domínios existentes. `idadeUsada` virou objeto (espécie, valor, unidade e desconto), porque RF-20 pede a idade **com** o desconto, e não só o seu nome | - | `[//]` | `models/puericultura/tipos.ts` | 🟢 | `[X]` |
 | T021 | Aritmética de datas em dias epoch UTC copiada de `models/gestacao/datas.ts`, com o gêmeo e a dívida de convergência declarados no cabeçalho (RF-05, D-07, ADR 0013) | - | `[//]` | `models/puericultura/datas.ts` | 🟡 | `[ ]` |
 | T022 | Declarar o gêmeo no cabeçalho de `models/gestacao/datas.ts` — comentário apenas, nenhuma linha de lógica tocada (D-07) | T021 | - | `models/gestacao/datas.ts` | 🟡 | `[ ]` |
 | T023 | Fonte clínica congelada: rótulos literais dos quatro índices, os **dois** conjuntos do IMC (0–5 e 5–10 anos), referências de página por índice e a nota de proveniência (medição isolada × tendência, padrões em uso, leitura por dia até 5 anos e por mês depois) (RF-13, RN-04 a RN-07, RN-14) | T001, T020 | - | `models/puericultura/fonte-clinica.ts` | 🟢 | `[ ]` |
@@ -70,7 +70,7 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 | T031 | Gerador, emissão (realiza **D-03**): recorte ao escopo da fonte (D-04), limpeza do ruído de ponto flutuante, arrays paralelos `l`/`m`/`s` com `inicio`, `fim` e `unidade`, cabeçalho de procedência por módulo e manifesto com URL, data e `sha256`. As colunas `SDn` são consumidas na verificação V6 e **não** entram no módulo emitido — o oráculo delas vive congelado em T008. **Feito:** o recorte e a canonização passaram para `extracao.mts` (V4 a V7 precisam valer sobre o dado que se embarca, não sobre o bruto) e aqui ficou a produção do texto, sem aritmética. O cabeçalho é determinístico — a data vem do manifesto, nunca do relógio —, o texto sai formatado pelo Prettier do projeto e cada número é conferido por releitura | T029 | - | `scripts/oms/emitir-modulo.mts` | 🟢 | `[X]` |
 | T032 | Gerador, orquestração: percorrer os 14 recortes, conferir o `sha256` de cada arquivo contra o manifesto do baixador antes de converter, encadear leitura → verificação → emissão, ser idempotente byte a byte e falhar dizendo qual **arquivo** e qual verificação pararam (a mensagem de URL cabe ao baixador, contrato §7). **Feito:** a promessa de "nenhuma escrita parcial" ficou estrutural — as 14 tabelas são lidas, verificadas e emitidas em memória, e o primeiro byte só chega ao disco quando a última passa. Acrescentou-se uma guarda que o plano não previa: duas origens não podem reivindicar o mesmo módulo. Roda em 0,62 s | T030, T031 | - | `scripts/gerar-tabelas-oms.mts` | 🟢 | `[X]` |
 | T033 | Rodar o gerador, conferir contra a saída os valores-âncora de `interfaces/tabelas-de-referencia.md` §5 (verificação V7) — não os do `onboarding.md` §4, que são escores z e só se tornam verificáveis depois de T039 — e commitar os 14 módulos de dados e o manifesto junto do gerador que os produziu (D-03). **Feito:** 14 módulos, 12.964 linhas `L/M/S`, 344 kB de texto-fonte (376 kB em disco com o manifesto) — o volume que `investigation.md` §7 estimara. As três âncoras do contrato §5 conferidas **na saída**, mais a do spike de D-14 (peso masculino em `Day = 1856`, `M = 18,4968`): 4/4. Idempotência provada por segunda execução, "14 já idênticos, 0 escritos" | T032 | - | `models/puericultura/oms/tabelas/` | 🟢 | `[X]` |
-| T034 | Repositório de tabelas da OMS: interface injetável, seleção por índice, sexo e faixa, índice de linha aritmético e as duas fronteiras dos 5 anos separadas (D-05, D-06, D-08) | T020, T033 | - | `models/puericultura/oms/leitura.ts` | 🟡 | `[ ]` |
+| T034 | Repositório de tabelas da OMS: interface injetável, seleção por índice, sexo e faixa, índice de linha aritmético e as duas fronteiras dos 5 anos separadas (D-05, D-06, D-08) | T020, T033 | - | `models/puericultura/oms/leitura.ts` | 🟢 | `[X]` |
 | T035 | Equações fechadas do INTERGROWTH-21st: μ e σ por semana pós-menstrual para peso, comprimento e PC, com os coeficientes conferidos em T004 e a procedência no cabeçalho (D-02) | T004, T020 | - | `models/puericultura/intergrowth/equacoes.ts` | 🟡 | `[ ]` |
 | T036 | Escore z de pré-termo: log para peso e comprimento, escala natural para PC, e ausência de IMC como variante `ausente` com motivo, jamais erro (RF-18, RN-17) | T035 | - | `models/puericultura/intergrowth/escore.ts` | 🟢 | `[ ]` |
 | T037 | Escolha do padrão como único ponto de fronteira entre as duas réguas: INTERGROWTH-21st entre 27 e 64 semanas pós-menstruais, OMS sobre idade corrigida a partir de 65 (RF-18, RF-19, D-01) | T020, T024 | - | `models/puericultura/padrao.ts` | 🟢 | `[ ]` |
@@ -213,10 +213,58 @@ documentação pré-existente do Reversa e testes anteriores a esta feature. Nã
 rodada e não é gate do CI, que cobra `lint`, `typecheck` e `test`. Fica registrado como dívida
 de higiene do repositório, a tratar fora do escopo da 017.
 
+### Rodada de 2026-07-27 (segunda) — a leitura do dado (T020, T034, T007, T011)
+
+**Ordem executada, e por quê.** O pedido era T034, mas ela depende de T020, que estava aberta;
+e entregar a leitura das tabelas sem o teste dos seus limites deixaria descoberto justamente o
+risco que o roadmap §9 classifica como alto. A rodada fechou, então, a cadeia mínima verificável
+`T020 → T034 → T007 → T011`. T007 saiu do papel de "sem dependências" que o plano lhe dava: as
+tabelas sintéticas que ela constrói precisam do contrato que T034 declara.
+
+**Decisões de forma tomadas na implementação, todas declaradas:**
+
+1. **A união do índice antropométrico discrimina por `estado`,** não por `tipo`. A saída da
+   fachada continua com `tipo`, como nos quatro domínios existentes; usar a mesma palavra nos
+   dois níveis faria um resultado com quatro índices carregar cinco campos `tipo` de
+   significados diferentes.
+2. **`idadeUsada` é objeto, não string.** `data-delta.md` §2.3 a descrevia como
+   `"cronologica" | "corrigida" | "pos-menstrual"` "com o desconto quando houver"; RF-20 pede a
+   idade **com** o desconto, então ela ficou como espécie + valor + unidade + desconto. É a mesma
+   informação, num lugar só.
+3. **A idade gestacional na entrada é campo opcional,** e não `… | null` como o delta de dados
+   escreveu: é a forma que o resto da plataforma usa para campo ausente (molde de
+   `EntradaDatacao`), sem diferença de comportamento.
+4. **A fronteira DE TABELA mora em `leitura.ts`; a DE RÓTULO, em `classificacao.ts`** (T038). O
+   cabeçalho de cada um declara onde está a outra. Foi a maneira de honrar "as duas fronteiras
+   separadas" sem que a separação virasse dispersão.
+5. **`MotivoSemTabela` não é `ForaDoEscopoDaFonte`.** A leitura informa que a OMS não publica
+   linha para aquela combinação; traduzir isso em recusa clínica, global ou parcial, continua
+   sendo de `elegibilidade.ts` (T027). Duplicar a política em dois lugares criaria duas verdades.
+
+**Achado de aritmética no plano, sem consequência de comportamento.** D-05 chama a fronteira de
+tabela de "61 meses (1856 dias)", como se os dois números fossem o mesmo ponto. Não são:
+`⌊1856 / 30,4375⌋ = 60`. O que a fonte tem é um encaixe exato — o dia 1856 é a última linha da
+tabela de 2006 e o dia **1857** é o primeiro do mês 61 de 2007 —, e é isso que o código
+implementa e o teste prova, nos dois lados. A decisão não muda; o que estava impreciso era a
+maneira de enunciá-la, e fica corrigida aqui.
+
+**Guarda acrescentada além do plano:** `conferirTabela` recusa, na montagem do acervo, tabela com
+unidade trocada ou com array mais curto do que a faixa que ela própria declara. É barata (14
+comparações no `import`) e cobre a única maneira de o dado gerado mentir sem que a geração tenha
+falhado: alguém editar um módulo à mão, contra o aviso do cabeçalho.
+
+**Como a rodada foi provada:** 22 casos novos em `leitura-oms.test.ts`, com cada fronteira
+exercitada no par de dias que a define e conferida contra as âncoras V7 do contrato de aquisição
+(`Day 0` do perímetro cefálico = 34,4618; `Month 61` do peso = 18,5057 no menino e 18,2579 na
+menina) e a de D-14 (`Day 1856` do peso masculino = 18,4968). Suíte completa em **446 testes,
+33 arquivos** (antes 424 em 32), `typecheck` e `eslint` limpos. Nenhum arquivo pré-existente foi
+tocado nesta rodada.
+
 ## Histórico de alterações
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-26 | Versão inicial gerada por `/reversa-to-do` | reversa |
+| 2026-07-27 | Leitura do dado executada (T020, T034, T007, T011): tipos do domínio, repositório injetável das 14 tabelas e o teste das três fronteiras nos seus pares. Achado de aritmética em D-05 registrado (1856 dias é o mês 60; o encaixe está em 1856/1857), sem mudança de comportamento | reversa-coding |
 | 2026-07-27 | Cadeia do gerador executada (T030 a T033): 14 módulos de dado emitidos e verificados. Quatro achados de conteúdo reconciliados no contrato de aquisição (aba `LFA_*`, 15 colunas na estatura 2007, os dois degraus de V5 e a natureza do ruído de ponto flutuante) | reversa-coding |
 | 2026-07-26 | Reconciliação sobre a auditoria cruzada: T002 concluída fora do ciclo de código (A001/A009); T003 vira a ferramenta de aquisição e T029 o leitor nativo (A007); T008 passa a congelar também o oráculo `SDn` da OMS e T010 depende dela, não de `referencias/` (A003); RF-06 citado em T018 e T020 (A002); pares de limite 3682/3683 e 730/731 em T011, T015 e T016 (A005/A006); T033 aponta para os valores-âncora do contrato (A008); T045 passa a depender de T046 (A015); T049 grava em arquivo próprio (A014); mapa dos dezoito cenários e observações de plano acrescentados (A011, A010, A013, A016) | reversa |
