@@ -1,27 +1,32 @@
 ---
-commit: b67f06c7933b69e8206b9046745661623e0a9a34
+commit: 02b51cf30f838e1d3154da08ff877f20008281a4
 feature: default_feature
-start_time: '2026-07-26T19:47:13.279236+00:00'
-status: active
-gate_lembrete_fingerprint: 0101a7b7880a4c83edc0ddf522713125d1d136a6
+start_time: '2026-07-26T21:45:39.719971+00:00'
+status: inactive
 ---
 
 ## O que foi feito
-- Sessão curta, sem qualquer alteração no código do app — só levantamento de estado e registro de bloqueio.
-- Ponto de retomada apurado: feature 016 (estrutura do cabeçalho da home) entregue, sincronizada no adendo `_reversa_sdd/addenda/016-estrutura-cabecalho-home.md`, commitada em `472cb08` e no ar — `/api/v1/status` responde o SHA `bbb3cf8`, igual ao HEAD; nenhuma feature ativa em `_reversa_forward/`; watch W001–W005 da 016 registrado.
-- Rastreamento preventivo por perfil declarado PAUSADO por decisão do usuário; ao registrar, apurou-se que a feature nunca existiu como artefato (não há pasta em `_reversa_forward/`, e as ocorrências de "USPSTF" no repo são todas da feature 014, o limiar de estatina das PCE), logo o bloqueio é anterior ao ciclo forward.
-- Data da espera apurada no Gmail (leitura, sem envio): o pedido de chave saiu em 23/07/2026, não seguia como rascunho — a informação anterior estava desatualizada e foi corrigida aqui, na memória do projeto e no índice `MEMORY.md`.
-- Nenhuma microdecisão registrada: a sessão não decidiu nada de arquitetura, só apurou fatos e os anotou.
-- Encerramento não versionado: o estado de sessão ficou como mudança pendente no working tree.
+- `/reversa-plan` da feature **017-puericultura-crescimento** (quinta calculadora: escores z de crescimento infantil pela *Caderneta da Criança*). Cinco artefatos gerados em `_reversa_forward/017-puericultura-crescimento/`: `roadmap.md` (13 decisões técnicas, delta arquitetural, riscos, critério de pronto), `investigation.md`, `data-delta.md`, `onboarding.md` e `interfaces/tabelas-de-referencia.md`. Estágio `plan` marcado em `.reversa/active-requirements.json`.
+- **Lacuna 🟡 principal do requirements resolvida:** as curvas INTERGROWTH-21st pós-natais não precisam de tabela — Villar 2015 publica média e desvio-padrão como polinômios fracionários por semana pós-menstrual (log para peso e comprimento, escala natural para o perímetro cefálico). Virou **MD-0002**. Sanidade conferida: mediana de 3,433 kg e faixa de −2 a +2 DP entre 2,593 e 4,545 kg para o menino em 40 semanas.
+- **MD-0003** registrada: leitura da tabela da OMS **sem interpolação** (dia inteiro até 5 anos, mês completo depois), divergindo do `anthroplus` oficial, que interpola L/M/S entre meses; e as duas fronteiras dos 5 anos separadas — rótulo aos 1826 dias, tabela aos 1856.
+- Aquisição do dado da OMS verificada de ponta a ponta: as 14 URLs das tabelas expandidas responderam 200, o formato das planilhas foi inspecionado (colunas L/M/S mais os valores em ±1 a ±4 DP) e os recortes conferidos (dias 0–1856 e meses 61–120). **Achado de risco:** a OMS publica o arquivo de peso-para-idade de 5 a 10 anos com o prefixo `hfa-`, o do indicador de estatura; daí a regra do contrato de verificar conteúdo e nunca nome.
+- Valores-âncora calculados contra as tabelas oficiais e embutidos no `onboarding.md`, de modo que a verificação manual tem números esperados, não só um roteiro.
+- Trabalho commitado em `02b51cf` e pushado para `aps-inteligente/main` (que estava três commits atrasado; subiu de `bbb3cf8` a `02b51cf`). Nota do vault `~/Notas/Projetos/aps-inteligente.md` atualizada com o bloco da 017, o próximo passo e as pendências.
+- **Nenhuma linha de código de app tocada** — a sessão foi inteiramente de planejamento e apuração.
 
 ## Próximos passos
-- Escolher a próxima frente, necessariamente fora do eixo preventivo (ver Pendências).
-- Se o silêncio da AHRQ passar de ~2 semanas a contar de 23/07, redigir follow-up curto na thread "Requesting a Prevention TaskForce API Key" para aprovação do usuário.
+- `/reversa-to-do`: decompor o `roadmap.md` da 017 em ações atômicas; depois `/reversa-coding`.
+- Antes de escrever `models/puericultura/fonte-clinica.ts`, obter o PDF da *Caderneta da Criança* (menino e menina) em `referencias/`.
+- Conferir os coeficientes do INTERGROWTH-21st contra a tabela impressa do artigo, e não só contra o pacote `gigs`.
 
 ## Pendências / bloqueios
-- Rastreamento preventivo por perfil — PAUSADA (26/07/2026), aguardando credencial: depende da chave da API USPSTF (AHRQ Prevention TaskForce), solicitada em 23/07/2026 a `uspstfpda@ahrq.gov` ("Requesting a Prevention TaskForce API Key", organização APS Inteligente), sem resposta até 26/07. A feature nunca foi aberta — retomar por `/reversa-requirements` quando a chave chegar e, até lá, não escrever código que assuma o contrato dessa API.
+- **Caderneta da Criança ausente de `referencias/`** — os rótulos literais e as páginas de referência dependem dela; bloqueia o início do código da 017, não o `/reversa-to-do`.
+- **Coeficientes do INTERGROWTH-21st com procedência indireta** — lidos da implementação `gigs` (rOpenSci), que os documenta como transcrição de Villar 2015; o texto integral do Lancet devolveu HTTP 403 deste ambiente. Conferência obrigatória antes de o cálculo ir a produção (ver MD-0002, campo ESTADO).
+- Rastreamento preventivo por perfil — PAUSADA (26/07/2026), aguardando a chave da API USPSTF (AHRQ Prevention TaskForce), solicitada em 23/07/2026 a `uspstfpda@ahrq.gov`, sem resposta. A feature nunca foi aberta como artefato; retomar por `/reversa-requirements` quando a chave chegar.
+- Seis premissas 🟡 do plano da 017 a validar pelo prescritor (§4 do `roadmap.md`), somadas às 13 da re-extração nº 3.
 
 ## Ponteiros
-- Adendos vigentes: `_reversa_sdd/addenda/` (001–016).
-- Extração Reversa nº 3 (absorve 011–014): commit `ab075ac`.
-- Produção: https://apsinteligente.app · saúde em `/api/v1/status`.
+- Feature ativa: `_reversa_forward/017-puericultura-crescimento/` · estágio `plan` em `.reversa/active-requirements.json`.
+- Microdecisões da 017: `.harness/decisoes/MD-0001.md` (fonte editorial × dado tabular), `MD-0002.md` (equações fechadas do pré-termo), `MD-0003.md` (leitura sem interpolação e as duas fronteiras dos 5 anos).
+- Adendos vigentes: `_reversa_sdd/addenda/` (001–016). Extração Reversa nº 3: commit `ab075ac`.
+- Produção: https://apsinteligente.app · saúde em `/api/v1/status` (último código em produção: feature 016, `472cb08`).
