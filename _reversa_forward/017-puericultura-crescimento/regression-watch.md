@@ -26,6 +26,10 @@
 | W015 | Roadmap D-08 — acervo injetável | A leitura e a fachada aceitam `RepositorioDeTabelasOms` por parâmetro, com o real por omissão; nenhum teste de regra precisa carregar as 12.964 linhas | presença | Import direto das tabelas dentro do cálculo, que fecharia a porta de D-09 e obrigaria o teste a carregar o acervo inteiro |
 | W016 | Contrato de aquisição §6 + `leitura.ts` — coerência do dado gerado | `conferirTabela` roda na montagem do acervo e recusa unidade trocada ou array mais curto do que a faixa declarada | presença | Guarda removida "porque nunca dispara": é justamente a que pega edição à mão de um módulo gerado, o único jeito de o dado mentir sem a geração ter falhado |
 | W017 | `requirements.md` RF-06 (RN-01) — índices independentes | `IndiceAntropometrico` continua união de três variantes, e `ausente`/`fora-do-escopo` **não têm** campo `escoreZ` | ausência | Campo de escore promovido ao tipo comum, ou variante colapsada em objeto com campos opcionais: "não calculado" voltaria a poder ser lido como zero |
+| W018 | T008 — a única cópia versionada dos oráculos | `tests/apoio/casos-oraculo-puericultura.json` existe, com 14 tabelas da OMS (356 casos, desvios de −4 a +4) e as 6 tabelas do INTERGROWTH-21st (38 semanas cada, 1596 células) | presença | Arquivo ausente, truncado, ou com bloco a menos. Ele é o que separa "a suíte se prova em clone limpo" de "a suíte se prova na máquina de quem tem `referencias/`" — e `referencias/` está fora do git |
+| W019 | T008 — o congelado é gerado, não escrito | Rodar `node scripts/congelar-casos-oraculo.mts` sobre as mesmas fontes deixa o `git diff` **vazio**; o cabeçalho do arquivo declara `geradoPor` e o aviso de não editar à mão | reprodutibilidade | Diff no JSON sem diff correspondente no congelador ou no manifesto — edição à mão de um oráculo, que é o modo de falha mais perigoso possível: o número passa a confirmar a implementação em vez de julgá-la |
+| W020 | Contrato de aquisição §5 — V6 para em ±3 | A reconstrução de V6 continua limitada a `SD3neg`…`SD3`; **não** se estende a `SD4neg`/`SD4` | ausência | V6 alcançando ±4: o gerador passaria a abortar em oito das catorze tabelas com dado íntegro, porque a OMS publica essas duas colunas já com a correção de cauda aplicada |
+| W021 | `roadmap.md` D-10.1 — onde a cauda se prova | O teste da **não**-aplicação da cauda a C-E/I e PC/I corre sobre acervo sintético com `L ≠ 1`; o da aplicação a P/I e IMC/I corre sobre a coluna `SD4` real | presença | O par "aplica / não aplica" inteiro apoiado no dado real da OMS: ali `L = 1` iguala as duas regras (diferença de 1e-14) e o teste passa com a implementação certa **e** com a errada — um teste que não distingue nada, com aparência de rigor |
 
 ## Observações (sem peso de regressão)
 
@@ -81,6 +85,28 @@ Acrescentado na segunda rodada de 2026-07-27 (T020, T034, T007, T011):
 - **A cobertura de `models/**` ainda não foi medida com o domínio novo.** O dado gerado continua
   fora de qualquer suíte, e T050 é que decide se ele sai do `include` — por decisão registrada,
   nunca por ajuste silencioso do limite.
+
+Acrescentado na terceira rodada de 2026-07-27 (T008):
+
+- **Supera a observação "Coeficientes do INTERGROWTH-21st (MD-0002)" quanto à durabilidade.** As
+  1596 células deixaram de existir só em `referencias/intergrowth/` e estão versionadas no
+  congelado. O peso de regressão continua a chegar com T035 e T012, como dizia a observação
+  original; o que mudou é que a fonte contra a qual comparar não some mais num clone limpo.
+- **Duas tolerâncias, e confundi-las afrouxa o teste em uma ordem de grandeza.** Na escala da
+  medida, 5e-4 (metade da última casa publicada). Em `z`, 3e-3 — o dobro do pior desvio observado
+  nas 14 tabelas, porque o arredondamento da medida se amplifica por `1/(M·S)` ao virar escore.
+  T010 deve ler `oms.toleranciaEmZ` do próprio arquivo, e não repetir o número no teste.
+- **O ramo `L = 0` da LMS não existe no dado real.** Nenhuma das 14 tabelas tem linha com `L = 0`
+  (o mínimo em módulo é 0,0631, no IMC feminino). O ramo logarítmico só se exercita com o acervo
+  sintético de T007, e nenhuma quantidade de dado real da OMS o cobrirá.
+- **`pdftotext` é dependência de ambiente do congelamento, não do projeto.** Ela é exigida uma
+  vez, para extrair os PDFs do INTERGROWTH-21st, e nunca em teste, build ou runtime. O congelador
+  falha com a instrução de instalar o poppler, em vez de congelar tabela pela metade. Quem regerar
+  o arquivo numa máquina nova precisa dela; quem só roda a suíte, não.
+- **O oráculo externo do plano foi dispensado, e a perda está nomeada** (ficha `MD-0010`). Não há
+  checagem cruzada por implementação independente da leitura que fazemos da LMS. O que cobre a
+  lacuna é o próprio congelamento, que reprova antes de escrever se a fórmula divergir da fonte em
+  qualquer dos 3204 pares. Reavaliar se aparecer oráculo que não seja reimplementação da regra.
 
 ## Histórico de re-extrações
 

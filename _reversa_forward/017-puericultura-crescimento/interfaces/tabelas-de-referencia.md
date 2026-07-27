@@ -116,6 +116,13 @@ cobre — uma revisão **coerente** da tabela, com os desvios recalculados junto
 incólume pela reconstrução da LMS e para só na âncora. As duas foram exercitadas nessa ordem,
 com sabotagem dirigida, em 2026-07-27.
 
+**V6 para em ±3 de propósito, e agora se sabe por quê** (apurado em 2026-07-27, no
+congelamento de T008). As colunas `SD4neg` e `SD4` **não** são LMS pura nos indicadores
+baseados em peso: a própria OMS as publica já com a correção de cauda aplicada. No peso
+masculino ao nascer, a LMS prevê 5,6945 kg em `z = 4` e a planilha traz 5,642, que é
+exatamente `SD3 + (SD3 − SD2)`. Estender V6 a ±4 faria o gerador abortar em oito das catorze
+tabelas, com dado íntegro. Quem for "melhorar" a verificação leia isto antes.
+
 ### 5.2 Os dois degraus de V5 (reconciliado em 2026-07-27)
 
 A redação original de V5 pedia monotonia simples, e o dado a desmentiu em dois pontos — nenhum

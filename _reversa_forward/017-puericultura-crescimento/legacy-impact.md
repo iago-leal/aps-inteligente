@@ -30,8 +30,14 @@
 | `tests/apoio/puericultura.ts` | — (apoio de teste) | componente-novo | LOW | Tabelas sintéticas e construtores. Nada em produção depende dele |
 | `tests/unit/dominio-puericultura/leitura-oms.test.ts` | — (suíte de unidade) | componente-novo | MEDIUM | Prende as três fronteiras nos seus pares e as quatro âncoras do contrato §5. É o que impede que uma regeneração futura mude o número em silêncio |
 | `_reversa_forward/.../interfaces/tabelas-de-referencia.md` | — (spec da feature) | regra-alterada (reconciliação) | MEDIUM | Quatro pontos do contrato reconciliados contra o dado real na rodada anterior (§3, §4.2, §5 V2/V5 e as novas §5.2 e §5.3) |
+| `scripts/oraculo/oms.mts` | — | componente-novo (dev-time) | **HIGH** | Seleciona a amostra, lê as colunas de desvio e **confere cada par contra a LMS antes de congelar**. Um oráculo errado é pior que oráculo nenhum: ele carimba de correta a implementação errada, e nada mais no sistema o contradiz |
+| `scripts/oraculo/intergrowth.mts` | — | componente-novo (dev-time) | MEDIUM | Extrai as 1596 células dos seis PDFs, com o título conferido no conteúdo e a janela 27–64 exigida linha a linha. Mesma regra de ouro da OMS: a verificação é do conteúdo, jamais do nome |
+| `scripts/congelar-casos-oraculo.mts` | — | componente-novo (dev-time) | MEDIUM | Orquestração do congelamento: confere `sha256` contra o manifesto, monta tudo em memória e só então escreve. Idempotente |
+| `tests/apoio/casos-oraculo-puericultura.json` | — (apoio de teste) | componente-novo | **HIGH** | 356 casos da OMS e 1596 células do INTERGROWTH-21st, 224 kB. É a única cópia versionada dos dois oráculos exatos da feature: sem ele, T010, T012 e T019 não se provam em clone limpo. Gerado, nunca editado à mão |
 | `referencias/caderneta/`, `referencias/oms/`, `referencias/intergrowth/` | — | delta-de-dados (fora do git) | LOW | Fontes clínicas em pasta ignorada (MD-0008). Não versionadas por decisão |
-| `.harness/decisoes/MD-0002.md`, `MD-0004.md`, `MD-0006.md`, `MD-0007.md`, `MD-0008.md` | — | registro de decisão | — | Fichas das rodadas anteriores; nenhuma aberta nesta |
+| `_reversa_forward/.../requirements.md`, `roadmap.md` | — (spec da feature) | regra-alterada (reconciliação) | MEDIUM | Critério de aceite de RF-03 corrigido e D-10 promovido a confirmação na fonte primária, com o novo D-10.1, pelo achado da coluna `SD4` |
+| `.harness/decisoes/MD-0002.md`, `MD-0004.md`, `MD-0006.md`, `MD-0007.md`, `MD-0008.md` | — | registro de decisão | — | Fichas das rodadas anteriores; nenhuma reaberta nesta |
+| `.harness/decisoes/MD-0010.md` | — | registro de decisão | — | Aberta nesta rodada: o oráculo do escore z é a fonte primária, não uma segunda implementação dela. Dispensa `gigs`/`anthro` e, com eles, R como dependência de ambiente |
 
 ## 2. Diff conceitual por componente
 
@@ -86,6 +92,31 @@ dois lados.
 mecânico já registrado: em ESM, o Node exige extensão explícita no import, o que o `tsc` só
 aceita sob `allowImportingTsExtensions`.
 
+**`scripts/oraculo/` e o congelado (T008, rodada de 27/07).** A feature ganhou uma segunda cadeia
+dev-time, gêmea da do gerador e com propósito oposto: aquela produz o dado que o motor usa, esta
+produz o dado contra o qual o motor será medido. A separação em pastas é deliberada — o dia em que
+as duas compartilharem a mesma fonte de números, o oráculo deixa de ser oráculo. O que elas de
+fato compartilham é só a leitura mecânica do `.xlsx` e o recorte de V3, que são fatos do arquivo,
+não interpretações da regra clínica; a fórmula LMS aparece **duas vezes**, uma em cada lado, e é
+essa duplicação aparente que dá valor à conferência.
+
+O congelamento provou, de passagem, o que o plano supunha: cada um dos 3204 pares `(medida, z)` é
+reproduzido pela LMS da própria linha, na escala em que a fonte publica. A escala é o detalhe que
+quase passou: conferir em `z` teria parecido mais direto e teria sido mais frouxo, porque o
+arredondamento de três casas da medida se amplifica por `1/(M·S)` ao virar escore — fator maior
+que dois no peso ao nascer. O arquivo declara as duas tolerâncias e a razão de serem diferentes.
+
+**O achado que muda um critério de aceite.** As colunas `SD4` não são LMS pura: nos indicadores de
+peso, a OMS as publica já com a correção de cauda. Isso é boa notícia — RN-03 passa a ter
+confirmação na fonte primária, e não mais na leitura de `gigs`. A má notícia é simétrica e mais
+sutil: em comprimento/estatura e perímetro cefálico, `L = 1` em todas as tabelas, e com `L = 1` a
+LMS já é linear de passo `SD3 − SD2`, de modo que corrigir e não corrigir dão o mesmo número. Uma
+sabotagem dirigida confirmou o silêncio: acrescentar esses dois indicadores à lista dos que
+recebem cauda **não** faz o congelamento falhar. Segue daí que o par "aplica / não aplica" de
+RF-03 não pode ser exercitado no dado real — passaria com a implementação certa e com a errada —,
+e a metade negativa migra para acervo sintético com `L ≠ 1`. `requirements.md` e `roadmap.md`
+foram reconciliados nesse ponto.
+
 ## 3. Preservadas
 
 Regras 🟢 de `_reversa_sdd/domain.md` que continuam intactas, verificadas nesta rodada:
@@ -107,6 +138,9 @@ Regras 🟢 de `_reversa_sdd/domain.md` que continuam intactas, verificadas nest
 - **Camadas** (`architecture.md` §1): `scripts/**` não é importado por `models/**`,
   `interface/**` nem `pages/**`. O domínio novo importa apenas os módulos de dado, que são folhas.
 - **Suíte verde**: **446 testes em 33 arquivos** (antes 424 em 32), `typecheck` e `eslint` limpos.
+  A rodada de T008 não acrescentou teste — congelou o dado com que os testes de T010, T012 e T019
+  serão escritos — e manteve os 446 intactos, como convém a uma rodada que não tocou código de
+  aplicação.
 
 ## 4. Modificadas
 
