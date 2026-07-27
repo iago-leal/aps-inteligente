@@ -24,6 +24,58 @@ npm run dev     # desenvolvimento (CSP desligada para o HMR)
 
 Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.
 
+## Norma de redação (feature 018)
+
+Todo texto que a plataforma exibe responde a uma norma escrita, em **[`docs/redacao.md`](docs/redacao.md)**.
+Leia-a antes de escrever ou reescrever qualquer literal que chegue à tela, ao `<title>`, à
+`<meta name="description">` ou ao manifesto. Em resumo:
+
+- **Três classes de texto** — autoral, citação e identificador. A classe vem da origem do
+  texto, jamais do diretório onde ele mora, e se **declara** em `scripts/textos/classes/`.
+- **A revisão de estilo alcança só a autoral.** A citação da fonte clínica permanece byte a
+  byte, com uma exceção estrita: desvio de concordância se corrige **e se declara ao
+  leitor**, sobre lista fechada.
+- **Pontuação com o eixo expressivo racionado** — travessão `—` e nunca `-`, no máximo um
+  par por bloco, nenhuma reticência e nenhuma exclamação. O ponto médio `·` é recurso
+  tipográfico e permanece onde está.
+
+A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é
+verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que
+ninguém confunda "a suíte passou" com "o texto está bom".
+
+### Inventário da superfície textual
+
+Terceiro gerador idempotente do projeto, no molde de `gerar-tabelas-oms.mts` e
+`congelar-casos-oraculo.mts` — e, como eles, com o `git diff` vazio por resultado esperado:
+
+```bash
+node scripts/inventariar-textos.mts --listar          # candidatos, sem exigir classe
+node scripts/inventariar-textos.mts --gerar           # → tests/apoio/inventario-textual.json
+git diff                                              # ← a verificação
+```
+
+O inventário é a lista fechada do que são "todos os textos": 624 literais com arquivo,
+linha e classe. Ele serve a três papéis ao mesmo tempo — lista fechada, oráculo do
+congelamento e entrada do verificador de norma —, e por isso é **regerado** ao fim de toda
+revisão de texto.
+
+**Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo
+por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha
+e o módulo em que declarar — falha ruidosa por desenho: literal sem classe é decisão
+adiada, não acidente. A classe vem da origem do texto, jamais do diretório.
+
+**A linha de base da citação é outro arquivo, e é outro de propósito:**
+
+```bash
+node scripts/inventariar-textos.mts --linha-de-base   # → tests/apoio/citacao-linha-de-base.json
+```
+
+Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que
+a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.
+O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz
+por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo — verde
+para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.
+
 ## Estilo das telas (Primer, feature 004)
 
 A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`
@@ -52,7 +104,7 @@ Para **criar uma tela nova**:
    que liga a preferência persistida em `localStorage["aps-inteligente:tema"]` ao color
    mode do Primer). Nenhum setup adicional por página.
 2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,
-   `TextInput`, `Flash`, `Heading`…); recorra ao `globais.css` apenas para cola de
+   `TextInput`, `Flash`, `Heading`, entre outros); recorra ao `globais.css` apenas para cola de
    layout, usando variáveis funcionais do Primer.
 3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`
    (contrato `role="alert"` asserido pelos testes).

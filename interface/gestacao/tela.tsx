@@ -7,7 +7,7 @@ import { AppIdadeGestacional } from "./app";
 export function TelaIdadeGestacional() {
   return (
     <Moldura
-      titulo="Calculadora de Idade Gestacional"
+      titulo="Calculadora de idade gestacional"
       subtitulo="APS Inteligente · Fonte única: Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025"
       comInicio
     >

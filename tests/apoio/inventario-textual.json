@@ -1,0 +1,4633 @@
+{
+  "esquema": "inventario-textual/1",
+  "feature": "018-revisao-linguagem-textos",
+  "geradoPor": "scripts/inventariar-textos.mts",
+  "aviso": "Arquivo GERADO. Não edite à mão: rode `node scripts/inventariar-textos.mts --gerar`. A classe de cada literal NÃO se altera aqui, e sim em `scripts/textos/classes/`.",
+  "porQueExiste": "Lista fechada de RF-02, oráculo do congelamento de RF-06 e entrada do verificador de norma de RF-05. A linha de base de RF-07 é outro arquivo, e é outro de propósito (D-14, MD-0018): este se regera ao fim das reescritas, e aquele jamais.",
+  "consumidores": [
+    "tests/unit/textos/norma.test.ts",
+    "tests/unit/textos/congelamento.test.ts",
+    "tests/unit/textos/descricao-plataforma.test.ts"
+  ],
+  "totais": {
+    "literais": 642,
+    "porClasse": {
+      "autoral": 490,
+      "citacao": 108,
+      "identificador": 44
+    },
+    "porCamada": {
+      "models": 157,
+      "interface": 303,
+      "pages": 33,
+      "manifesto": 3,
+      "readme": 146
+    }
+  },
+  "literais": [
+    {
+      "arquivo": "models/cardiopatia-isquemica/calculadora.ts",
+      "linha": 45,
+      "classe": "identificador",
+      "texto": "IDADE_FORA_DA_TABELA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/calculadora.ts",
+      "linha": 76,
+      "classe": "identificador",
+      "texto": "Resultado sem referência clínica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 14,
+      "classe": "citacao",
+      "texto": "TelessaúdeRS-UFRGS, 2017",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 26,
+      "classe": "citacao",
+      "texto": "Quadro 1, p. 4 (classificação clínica da dor torácica; CESAR et al., 2014)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 29,
+      "classe": "citacao",
+      "texto": "Quadro 2, p. 5 (probabilidade pré-teste de DAC por idade e sexo; DUNCAN et al., 2013)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 32,
+      "classe": "citacao",
+      "texto": "Quadro 2, nota *, p. 5 (fatores de risco aumentam a estimativa em 2 a 3 vezes)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 35,
+      "classe": "citacao",
+      "texto": "p. 4-5 (estratos < 10% / 10–90% / > 90% e conduta de investigação; nota ** do Quadro 2)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 38,
+      "classe": "citacao",
+      "texto": "p. 6 (ECG e teste ergométrico iniciais; método não invasivo quando o ECG basal impede a interpretação ou o paciente não pode exercitar)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 41,
+      "classe": "citacao",
+      "texto": "p. 6 (angina instável: alta probabilidade de evento agudo — encaminhamento emergencial)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 78,
+      "classe": "citacao",
+      "texto": "dor musculoesquelética",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 79,
+      "classe": "citacao",
+      "texto": "transtornos psiquiátricos (ansiedade, transtorno do pânico)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 80,
+      "classe": "citacao",
+      "texto": "distúrbios gastrointestinais (DRGE, cólica biliar, espasmo esofágico)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 81,
+      "classe": "citacao",
+      "texto": "doenças pulmonares (pneumonia, neoplasia torácica, pneumotórax)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 88,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste baixa (dor não anginosa e sem fatores de risco): exame funcional não indicado na avaliação inicial. Investigar causas não cardíacas.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 90,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste intermediária: indicar exame não invasivo para confirmar ou afastar a suspeita em quadro clínico duvidoso.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 92,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste alta: exame não invasivo para estratificação prognóstica e identificação de candidatos à revascularização; probabilidade > 90% requer estratificação por método invasivo, com encaminhamento ao cardiologista.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 94,
+      "classe": "autoral",
+      "texto": "Exame inicial: ECG de repouso e teste ergométrico.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 96,
+      "classe": "autoral",
+      "texto": "ECG basal impede a interpretação da ergometria ou o paciente não pode exercitar: preferir método não invasivo (ecocardiograma de estresse, cintilografia miocárdica ou ressonância magnética cardiovascular).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 101,
+      "classe": "autoral",
+      "texto": "Sinais de angina instável ou dor aguda: alta probabilidade de evento agudo em curto prazo. Encaminhar para atendimento emergencial, e não seguir o fluxo eletivo de investigação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/validacao.ts",
+      "linha": 49,
+      "classe": "autoral",
+      "texto": "Sexo inválido: informe masculino ou feminino. A probabilidade pré-teste é específica por sexo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/calculadora.ts",
+      "linha": 77,
+      "classe": "identificador",
+      "texto": "Ultrassom incompleto atravessou a validação",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/calculadora.ts",
+      "linha": 112,
+      "classe": "identificador",
+      "texto": "Resultado sem referência clínica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/calculadora.ts",
+      "linha": 147,
+      "classe": "autoral",
+      "texto": "Ultrassom de 3.º trimestre: a fonte não parametriza margem de erro para arbitrar entre as datações, e a avaliação é do julgamento clínico.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 9,
+      "classe": "citacao",
+      "texto": "4.ª ed., 2025",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025)"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 21,
+      "classe": "citacao",
+      "texto": "p. 31 (dias decorridos desde a DUM ÷ 7, em semanas e dias)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 24,
+      "classe": "citacao",
+      "texto": "p. 31 (confiável se o 1.º dia da última menstruação é conhecido e os ciclos eram regulares)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 27,
+      "classe": "citacao",
+      "texto": "p. 32 (DPP: acrescentar 7 dias à DUM e somar 9 meses — regra de Naegele)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 30,
+      "classe": "citacao",
+      "texto": "p. 32 (desconsiderar a DUM fora da margem de erro da USG: 1 semana no 1.º trimestre, 2 no 2.º)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 33,
+      "classe": "citacao",
+      "texto": "p. 113 (USG para datação quando a DUM é incerta ou a IG não pode ser calculada por ela)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 65,
+      "classe": "autoral",
+      "texto": "Datação a partir da última menstruação: confiável quando o primeiro dia é conhecido e os ciclos eram regulares.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 67,
+      "classe": "autoral",
+      "texto": "Idade gestacional calculada na data de referência informada; a datação é estimativa e não substitui a avaliação clínica.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 39,
+      "classe": "autoral",
+      "texto": "Data de referência inválida: use o formato AAAA-MM-DD com data de calendário real.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 51,
+      "classe": "autoral",
+      "texto": "DUM inválida: use o formato AAAA-MM-DD com data de calendário real.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 60,
+      "classe": "autoral",
+      "texto": "DUM no futuro: a data da última menstruação deve ser até a data de referência.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "Datação por ultrassom incompleta: informe a data do exame e a IG do laudo (semanas e dias).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 101,
+      "classe": "autoral",
+      "texto": "Data do exame inválida: use o formato AAAA-MM-DD com data de calendário real.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 109,
+      "classe": "autoral",
+      "texto": "Data do exame no futuro: informe um exame já realizado, até a data de referência.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/validacao.ts",
+      "linha": 133,
+      "classe": "autoral",
+      "texto": "Nenhuma datação informada: informe a DUM ou o ultrassom (data do exame e IG do laudo).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/calculadora.ts",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "A conduta exige avaliação clínica individual do prescritor; a calculadora não sugere dose fora da fonte adotada.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/calculadora.ts",
+      "linha": 180,
+      "classe": "autoral",
+      "texto": "Considerar compartilhamento de cuidados com especialista focal.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/calculadora.ts",
+      "linha": 189,
+      "classe": "autoral",
+      "texto": "Reavaliar a glicemia e ajustar novamente a cada 3 dias, até alcançar a meta.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 10,
+      "classe": "citacao",
+      "texto": "2.ª ed. atualizada, 2023",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023)"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 21,
+      "classe": "citacao",
+      "texto": "p. 60; Figura 4, p. 62 (faixa exibida — decisão AMB-01)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 23,
+      "classe": "citacao",
+      "texto": "p. 60 (aferição de jejum 3×/semana por 15 dias)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 26,
+      "classe": "citacao",
+      "texto": "p. 60; quadro da Figura 4, p. 62 (HbA1c ≥ 10% — decisão AMB-08)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 28,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 62 (180 → +4 — decisão AMB-09)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 30,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 62 (faixa-alvo 71–129 — decisões AMB-02 e AMB-05)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 33,
+      "classe": "citacao",
+      "texto": "p. 60 (média com hipoglicemia prevalecendo — decisão AMB-06)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 35,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 62 (jejum ≤ 70 mg/dL → reduzir 4 UI)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 37,
+      "classe": "citacao",
+      "texto": "p. 61; Figura 4, p. 62 (½+½ preferencial, ⅔+⅓ alternativa — decisão AMB-10)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 40,
+      "classe": "citacao",
+      "texto": "p. 61; Figura 4, p. 62 (ao fracionar: suspender sulfonilureia, manter metformina)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 43,
+      "classe": "citacao",
+      "texto": "p. 59 (sulfonilureias utilizáveis com TFG > 30 mL/min/1,73 m² — apoio à redação condicional)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 46,
+      "classe": "citacao",
+      "texto": "p. 28 (otimizar metformina, máx. 2000–2550 mg/dia); p. 58 (posologia 1000–2550 mg/dia)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 49,
+      "classe": "citacao",
+      "texto": "p. 58 (TFG 30–45 mL/min/1,73 m²: reduzir a dose de metformina em 50%)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 52,
+      "classe": "citacao",
+      "texto": "p. 28; p. 58 (TFG < 30 mL/min/1,73 m²: interromper metformina — risco de acidose lática)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 55,
+      "classe": "citacao",
+      "texto": "p. 61 (insulinização plena 0,5–1,0 UI/kg/dia; conduta acima da faixa — decisão AMB-04)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 58,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 62–63 (repetir HbA1c após 3 meses; > 7,0% → aferir AA/AJ/AD)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 61,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (HbA1c ≤ 7,0% → manter conduta, HbA1c a cada 6 meses)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 64,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (AA ≥ 130 → Regular 4 UI antes do café)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 67,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (AJ ≥ 130 — duas condutas equivalentes, decisão AMB-03)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 70,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (AD ≥ 130 → Regular 4 UI antes do jantar)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 73,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63; p. 64 (inferência espelhada — decisão AMB-07)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 76,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (ajustar Regular da refeição correspondente; avaliar encaminhamento)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 79,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 63 (aferição pós-prandial sem parâmetro numérico no guia — NG-07)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 81,
+      "classe": "citacao",
+      "texto": "Figura 4, p. 62–63 (ajustar a cada 3 dias)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 83,
+      "classe": "citacao",
+      "texto": "p. 68–70 (caneta: 1–60 UI por aplicação, graduação de 1 UI)",
+      "especie": "StringLiteral",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 143,
+      "classe": "autoral",
+      "texto": "Ao fracionar a NPH, suspender a sulfonilureia.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 145,
+      "classe": "autoral",
+      "texto": "Esquema com NPH já fracionada: suspender a sulfonilureia.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 147,
+      "classe": "autoral",
+      "texto": "Uso de sulfonilureia não informado: se estiver em uso, suspender ao fracionar a NPH.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 149,
+      "classe": "autoral",
+      "texto": "Uso de sulfonilureia não informado: se estiver em uso, suspender, pois a NPH já está fracionada.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-inicio.ts",
+      "linha": 30,
+      "classe": "autoral",
+      "texto": "Indicação de insulina presente (HbA1c ≥ 10% ou glicemia de jejum ≥ 300 mg/dL, inclusive ao diagnóstico).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-inicio.ts",
+      "linha": 37,
+      "classe": "autoral",
+      "texto": "Manter a metformina ao iniciar a insulina NPH.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-inicio.ts",
+      "linha": 43,
+      "classe": "autoral",
+      "texto": "Manter a sulfonilureia ao iniciar a insulina NPH.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-inicio.ts",
+      "linha": 50,
+      "classe": "autoral",
+      "texto": "Orientar aferição de glicemia capilar em jejum três vezes por semana, com registro, durante 15 dias.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 31,
+      "classe": "autoral",
+      "texto": "café da manhã",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 73,
+      "classe": "autoral",
+      "texto": "Meta de HbA1c atingida sob esquema intensificado: ajustar a Regular da refeição correspondente e avaliar encaminhamento ao endocrinologista.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "Meta de HbA1c atingida: manter a conduta e repetir HbA1c a cada 6 meses.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 93,
+      "classe": "autoral",
+      "texto": "HbA1c acima da meta: aferir glicemia capilar antes do almoço (AA), antes do jantar (AJ) e antes de deitar (AD) para dirigir a intensificação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 105,
+      "classe": "autoral",
+      "texto": "HbA1c não informada: solicitar HbA1c para dirigir a intensificação do esquema (meta ≤ 7,0%).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 113,
+      "classe": "autoral",
+      "texto": "Repetir HbA1c em 3 meses para reavaliar o esquema intensificado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 136,
+      "classe": "autoral",
+      "texto": "HbA1c acima da meta com pré-prandiais na meta: aferir glicemias pós-prandiais. O guia não parametriza esse ajuste, e a conduta é do prescritor.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 200,
+      "classe": "autoral",
+      "texto": "Aumentar a NPH antes do café (ajustar 2 UI a cada 3 dias)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-intensificacao.ts",
+      "linha": 206,
+      "classe": "autoral",
+      "texto": "Iniciar insulina Regular 4 UI antes do almoço (ajustar 2 UI a cada 3 dias)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-titulacao-basal.ts",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "Glicemia em faixa de hipoglicemia (≤ 70 mg/dL) no período: reduzir a insulina basal; jamais aumentar.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-titulacao-basal.ts",
+      "linha": 153,
+      "classe": "autoral",
+      "texto": "Alternativa do guia: ⅔ da dose antes do café e ⅓ antes da ceia",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/regra-titulacao-basal.ts",
+      "linha": 169,
+      "classe": "autoral",
+      "texto": "Manter a metformina ao fracionar a NPH.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/validacao.ts",
+      "linha": 123,
+      "classe": "autoral",
+      "texto": "Informe o esquema de insulina atual para calcular a titulação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/validacao.ts",
+      "linha": 151,
+      "classe": "autoral",
+      "texto": "Informe ao menos uma glicemia capilar para calcular a titulação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/validacao.ts",
+      "linha": 166,
+      "classe": "autoral",
+      "texto": "Glicemias pré-prandiais dirigem a intensificação, que depende da HbA1c (> 7,0% após 3 meses): informe a HbA1c.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/calculadora.ts",
+      "linha": 172,
+      "classe": "autoral",
+      "texto": "Idade gestacional ao nascer não informada: a criança foi tratada como nascida a termo e nenhuma correção de idade foi aplicada. Se ela nasceu pré-termo, informe a idade gestacional: a classificação pode mudar.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/calculadora.ts",
+      "linha": 255,
+      "classe": "identificador",
+      "texto": "Resultado sem referência clínica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/calculadora.ts",
+      "linha": 292,
+      "classe": "identificador",
+      "texto": "IMC_INEXISTENTE_NO_PRETERMO",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/calculadora.ts",
+      "linha": 295,
+      "classe": "identificador",
+      "texto": "MEDIDA_NAO_INFORMADA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "linha": 54,
+      "classe": "identificador",
+      "texto": "ABAIXO_DA_CURVA_DE_PRETERMO",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "linha": 63,
+      "classe": "identificador",
+      "texto": "IDADE_FORA_DA_COBERTURA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "linha": 85,
+      "classe": "identificador",
+      "texto": "PC_ACIMA_DE_2_ANOS",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "linha": 87,
+      "classe": "autoral",
+      "texto": "O gráfico de perímetro cefálico da Caderneta da Criança cobre de 0 a 2 anos. Acima dessa idade a fonte não publica referência, e os demais índices seguem válidos.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "linha": 89,
+      "classe": "citacao",
+      "texto": "p. 88, gráfico de perímetro cefálico para idade de 0 a 2 anos",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 35,
+      "classe": "citacao",
+      "texto": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., Brasília, 2020)",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020)"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 62,
+      "classe": "citacao",
+      "texto": "Peso elevado para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 67,
+      "classe": "citacao",
+      "texto": "Peso adequado para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 72,
+      "classe": "citacao",
+      "texto": "Baixo peso para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 76,
+      "classe": "citacao",
+      "texto": "Muito baixo peso para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 93,
+      "classe": "citacao",
+      "texto": "Comprimento adequado para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90; impresso \"Comprimento adequada para idade\"",
+      "excecao": "MD-0015"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 99,
+      "classe": "citacao",
+      "texto": "Baixo comprimento para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90; impresso \"Baixa comprimento para idade\"",
+      "excecao": "MD-0015"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 103,
+      "classe": "citacao",
+      "texto": "Muito baixo comprimento para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 112,
+      "classe": "citacao",
+      "texto": "Estatura adequada para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 117,
+      "classe": "citacao",
+      "texto": "Baixa estatura para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 121,
+      "classe": "citacao",
+      "texto": "Muito baixa estatura para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 128,
+      "classe": "citacao",
+      "texto": "Obesidade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 129,
+      "classe": "citacao",
+      "texto": "Sobrepeso",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 133,
+      "classe": "citacao",
+      "texto": "Risco de sobrepeso",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 135,
+      "classe": "citacao",
+      "texto": "Eutrofia",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 136,
+      "classe": "citacao",
+      "texto": "Magreza",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 139,
+      "classe": "citacao",
+      "texto": "Magreza acentuada",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 153,
+      "classe": "citacao",
+      "texto": "Obesidade grave",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 171,
+      "classe": "citacao",
+      "texto": "PC acima do esperado para a idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 176,
+      "classe": "citacao",
+      "texto": "PC adequado para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 180,
+      "classe": "citacao",
+      "texto": "PC abaixo do esperado para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 250,
+      "classe": "citacao",
+      "texto": "peso para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 251,
+      "classe": "citacao",
+      "texto": "comprimento/estatura para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 252,
+      "classe": "citacao",
+      "texto": "IMC para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 253,
+      "classe": "citacao",
+      "texto": "perímetro cefálico para idade",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 269,
+      "classe": "citacao",
+      "texto": "p. 87, Curvas Internacionais de Crescimento para Crianças Nascidas Pré-Termo (INTERGROWTH-21st), de 27 a 64 semanas",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 273,
+      "classe": "citacao",
+      "texto": "p. 86, cálculo da idade corrigida do recém-nascido pré-termo: 40 semanas menos a IG ao nascer, descontado da idade cronológica",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 277,
+      "classe": "citacao",
+      "texto": "p. 85, diferença de 0,7 cm entre a estatura medida deitada e em pé",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 281,
+      "classe": "citacao",
+      "texto": "pp. 85–97, Acompanhando o Crescimento: gráficos de 0 a 10 anos, e de 0 a 2 anos no perímetro cefálico",
+      "especie": "StringLiteral",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 306,
+      "classe": "autoral",
+      "texto": "Dois rótulos de classificação são exibidos com a concordância corrigida: onde a Caderneta da Criança imprime “Comprimento adequada para idade” e “Baixa comprimento para idade”, esta tela lê “Comprimento adequado para idade” e “Baixo comprimento para idade”. A correção alcança a concordância e nada mais: os demais rótulos, inclusive “Muito baixo comprimento para idade” e a elipse do artigo em “para idade”, são reproduzidos como a fonte os imprime.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 309,
+      "classe": "autoral",
+      "texto": "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas — vários pontos unidos formam a linha que mostra como a criança evolui —, e um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/intergrowth/escore.ts",
+      "linha": 37,
+      "classe": "identificador",
+      "texto": "IMC_INEXISTENTE_NO_PRETERMO",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/medidas.ts",
+      "linha": 65,
+      "classe": "autoral",
+      "texto": "aferida deitada em criança de 2 anos ou mais",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/medidas.ts",
+      "linha": 66,
+      "classe": "autoral",
+      "texto": "aferida em pé em criança menor de 2 anos",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/oms/leitura.ts",
+      "linha": 118,
+      "classe": "identificador",
+      "texto": "PERIMETRO_CEFALICO_ACIMA_DE_2_ANOS",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/oms/leitura.ts",
+      "linha": 128,
+      "classe": "identificador",
+      "texto": "IDADE_ACIMA_DA_COBERTURA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 53,
+      "classe": "autoral",
+      "texto": "Peso",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 61,
+      "classe": "autoral",
+      "texto": "Comprimento/estatura",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 69,
+      "classe": "autoral",
+      "texto": "Perímetro cefálico",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 92,
+      "classe": "autoral",
+      "texto": "Informe ao menos uma medida: peso, comprimento/estatura ou perímetro cefálico.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 117,
+      "classe": "autoral",
+      "texto": "Informe se a medida foi aferida deitada (comprimento) ou em pé (estatura): a conversão de 0,7 cm depende disso.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 137,
+      "classe": "autoral",
+      "texto": "Data de nascimento inválida: informe uma data real no formato AAAA-MM-DD.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 147,
+      "classe": "autoral",
+      "texto": "Data da medição inválida: informe uma data real no formato AAAA-MM-DD.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 157,
+      "classe": "autoral",
+      "texto": "Data de nascimento posterior à data da medição: verifique as duas datas.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/validacao.ts",
+      "linha": 202,
+      "classe": "autoral",
+      "texto": "Sexo inválido: informe masculino ou feminino. As curvas de referência são específicas por sexo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/calculadora.ts",
+      "linha": 41,
+      "classe": "identificador",
+      "texto": "Resultado sem referência clínica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/elegibilidade.ts",
+      "linha": 19,
+      "classe": "identificador",
+      "texto": "DCV_PREVIA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/elegibilidade.ts",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Doença cardiovascular prévia (prevenção secundária): as Pooled Cohort Equations estimam risco apenas em prevenção primária. A conduta segue a estratificação de risco secundário, fora do escopo desta ferramenta.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/elegibilidade.ts",
+      "linha": 32,
+      "classe": "identificador",
+      "texto": "IDADE_FORA_DA_FAIXA",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 13,
+      "classe": "citacao",
+      "texto": "ACC/AHA 2013 (Goff et al., Circulation 2014)",
+      "especie": "StringLiteral",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 156,
+      "classe": "citacao",
+      "texto": "Pooled Cohort Equations, Tabela A (Goff et al., 2013): risco de ASCVD em 10 anos, adultos de 40 a 79 anos sem DCV prévia",
+      "especie": "StringLiteral",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 159,
+      "classe": "citacao",
+      "texto": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes de risco 5% / 7,5% / 20%",
+      "especie": "StringLiteral",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 162,
+      "classe": "citacao",
+      "texto": "ASCVD Risk Estimator Plus (ACC): faixa de validação 40–79 anos, prevenção primária (sem DCV prévia)",
+      "especie": "StringLiteral",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 168,
+      "classe": "autoral",
+      "texto": "As Pooled Cohort Equations foram derivadas de coortes dos Estados Unidos (ARIC, CHS, CARDIA, Framingham) e são específicas para as categorias raciais branco e afro-americano do contexto norte-americano. Não há calibração validada para a população brasileira; a categoria “outra” adota os coeficientes de brancos, como o ASCVD Risk Estimator Plus oficial. Use a estimativa como apoio à decisão, ponderando essa limitação de transportabilidade.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/validacao.ts",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "Sexo inválido: informe masculino ou feminino. As equações são específicas por sexo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/validacao.ts",
+      "linha": 47,
+      "classe": "autoral",
+      "texto": "Raça inválida: informe branca, preta/afro-americana ou outra.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/validacao.ts",
+      "linha": 71,
+      "classe": "autoral",
+      "texto": "Colesterol total inválido: informe um valor positivo em mg/dL.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/validacao.ts",
+      "linha": 78,
+      "classe": "autoral",
+      "texto": "HDL inválido: informe um valor positivo em mg/dL.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/validacao.ts",
+      "linha": 87,
+      "classe": "autoral",
+      "texto": "Pressão arterial sistólica inválida: informe um valor positivo em mmHg.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
+      "linha": 17,
+      "classe": "autoral",
+      "texto": "Dose de metformina inválida: use apenas números.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
+      "linha": 30,
+      "classe": "autoral",
+      "texto": "TFG inválida: use apenas números.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
+      "linha": 59,
+      "classe": "autoral",
+      "texto": "Antidiabéticos orais e função renal",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
+      "linha": 63,
+      "classe": "autoral",
+      "texto": "Dose atual de metformina (mg/dia) — opcional",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
+      "linha": 77,
+      "classe": "autoral",
+      "texto": "TFG (mL/min/1,73 m²) — opcional",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Antes do café",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 22,
+      "classe": "autoral",
+      "texto": "Antes do almoço",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 23,
+      "classe": "autoral",
+      "texto": "Antes do jantar",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 24,
+      "classe": "autoral",
+      "texto": "Ao deitar",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 54,
+      "classe": "autoral",
+      "texto": "Esquema atual de insulina",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 60,
+      "classe": "autoral",
+      "texto": "Insulina",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 69,
+      "classe": "autoral",
+      "texto": "NPH",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 70,
+      "classe": "autoral",
+      "texto": "Regular",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 76,
+      "classe": "autoral",
+      "texto": "Momento da aplicação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 95,
+      "classe": "autoral",
+      "texto": "Dose (UI)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 111,
+      "classe": "autoral",
+      "texto": "Remover aplicação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/esquema-atual.tsx",
+      "linha": 119,
+      "classe": "autoral",
+      "texto": "Adicionar aplicação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formatar-plano.ts",
+      "linha": 15,
+      "classe": "autoral",
+      "texto": "Plano elaborado com apoio de ferramenta de decisão clínica; a prescrição é responsabilidade do médico.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formatar-plano.ts",
+      "linha": 22,
+      "classe": "autoral",
+      "texto": "A dose exata é fixada pelo prescritor.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formatar-plano.ts",
+      "linha": 45,
+      "classe": "autoral",
+      "texto": "Recomendações ao prescritor:",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formatar-plano.ts",
+      "linha": 53,
+      "classe": "autoral",
+      "texto": "Fonte clínica:",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 108,
+      "classe": "autoral",
+      "texto": "Informe ao menos uma glicemia capilar para a titulação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 113,
+      "classe": "autoral",
+      "texto": "Informe o esquema de insulina atual.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 173,
+      "classe": "autoral",
+      "texto": "Modo de cálculo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 176,
+      "classe": "autoral",
+      "texto": "Início de insulinização",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 180,
+      "classe": "autoral",
+      "texto": "Titulação de dose",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 185,
+      "classe": "autoral",
+      "texto": "Dados do paciente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 188,
+      "classe": "autoral",
+      "texto": "Peso (kg)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 205,
+      "classe": "autoral",
+      "texto": "HbA1c (%) — opcional",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 222,
+      "classe": "autoral",
+      "texto": "Uso de sulfonilureia",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 230,
+      "classe": "autoral",
+      "texto": "Não informado",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 231,
+      "classe": "autoral",
+      "texto": "Sim",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 232,
+      "classe": "autoral",
+      "texto": "Não",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/formulario.tsx",
+      "linha": 308,
+      "classe": "autoral",
+      "texto": "Calcular",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Jejum",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 20,
+      "classe": "autoral",
+      "texto": "Antes do almoço (AA)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Antes do jantar (AJ)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 22,
+      "classe": "autoral",
+      "texto": "Ao deitar (AD)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 90,
+      "classe": "autoral",
+      "texto": "Glicemias capilares por momento",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 92,
+      "classe": "autoral",
+      "texto": "Registre uma ou mais aferições por campo, separadas por espaço (ex.: 98,5 130 210). Deixe em branco o momento não aferido.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/glicemias-por-momento.tsx",
+      "linha": 100,
+      "classe": "autoral",
+      "texto": "(mg/dL)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 80,
+      "classe": "autoral",
+      "texto": "Copiar plano",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 84,
+      "classe": "autoral",
+      "texto": "Plano copiado: cole no prontuário.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "Não foi possível copiar. Transcreva o plano manualmente a partir desta tela.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 107,
+      "classe": "autoral",
+      "texto": "—",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 121,
+      "classe": "autoral",
+      "texto": "UI",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 130,
+      "classe": "autoral",
+      "texto": "Recomendações ao prescritor",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 152,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "Guia Rápido Diabetes Mellitus — SMS-Rio,",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": ":",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 169,
+      "classe": "autoral",
+      "texto": "Insulina",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 170,
+      "classe": "autoral",
+      "texto": ". Dose inicial pela fonte:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 174,
+      "classe": "autoral",
+      "texto": "a",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 174,
+      "classe": "autoral",
+      "texto": "UI/dia",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 177,
+      "classe": "autoral",
+      "texto": "Equivalente por peso (0,1 a 0,2 UI/kg/dia):",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 184,
+      "classe": "autoral",
+      "texto": "O guia informa a faixa; a dose exata é fixada pelo prescritor.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 195,
+      "classe": "autoral",
+      "texto": "Conduta:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 199,
+      "classe": "autoral",
+      "texto": "Dose total:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 203,
+      "classe": "autoral",
+      "texto": "Na meta (71–129 mg/dL)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 218,
+      "classe": "autoral",
+      "texto": "Condutas alternativas do guia: a escolha é do prescritor",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 252,
+      "classe": "autoral",
+      "texto": "Resultado do cálculo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 254,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 258,
+      "classe": "autoral",
+      "texto": "Os dados mudaram: recalcule antes de prescrever.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 264,
+      "classe": "autoral",
+      "texto": "Preencha os dados do paciente e acione Calcular.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 270,
+      "classe": "autoral",
+      "texto": "Não foi possível calcular.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 272,
+      "classe": "autoral",
+      "texto": "Ocorreu uma falha inesperada.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 272,
+      "classe": "autoral",
+      "texto": "Não prescreva",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 272,
+      "classe": "autoral",
+      "texto": "a partir desta tela: recarregue a página e, se persistir, faça o cálculo manualmente pela fonte clínica.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 282,
+      "classe": "autoral",
+      "texto": "Entradas fora da faixa plausível. Nenhuma dose foi calculada:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 294,
+      "classe": "autoral",
+      "texto": "Cenário fora do escopo da fonte clínica:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 296,
+      "classe": "autoral",
+      "texto": ".",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 320,
+      "classe": "autoral",
+      "texto": "Revisei a dose e a fonte",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 327,
+      "classe": "autoral",
+      "texto": "Pronto para prescrever",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 329,
+      "classe": "autoral",
+      "texto": "Transcreva o esquema ao prontuário/receituário. Nada é salvo nem enviado por esta página.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 340,
+      "classe": "autoral",
+      "texto": "Ferramenta de apoio à decisão: não substitui o julgamento do médico, que permanece responsável pela prescrição.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/resultado.tsx",
+      "linha": 347,
+      "classe": "autoral",
+      "texto": "Novo cálculo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/calculadora/rotulos.ts",
+      "linha": 7,
+      "classe": "autoral",
+      "texto": "antes do café",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/rotulos.ts",
+      "linha": 8,
+      "classe": "autoral",
+      "texto": "antes do almoço",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/rotulos.ts",
+      "linha": 9,
+      "classe": "autoral",
+      "texto": "antes do jantar",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/rotulos.ts",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "ao deitar",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/rotulos.ts",
+      "linha": 16,
+      "classe": "autoral",
+      "texto": "Manter a dose",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/tela.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "Calculadora de insulina no DM2",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/tela.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/validacao-campos.ts",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Informe o peso do paciente.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/validacao-campos.ts",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Peso inválido: use apenas números (vírgula ou ponto).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/validacao-campos.ts",
+      "linha": 31,
+      "classe": "autoral",
+      "texto": "HbA1c inválida: use apenas números.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/validacao-campos.ts",
+      "linha": 41,
+      "classe": "autoral",
+      "texto": "Informe a dose da aplicação.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 20,
+      "classe": "autoral",
+      "texto": "Diabetes",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Tabagismo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 22,
+      "classe": "autoral",
+      "texto": "Hipertensão",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 23,
+      "classe": "autoral",
+      "texto": "Dislipidemia",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 95,
+      "classe": "autoral",
+      "texto": "Paciente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 98,
+      "classe": "autoral",
+      "texto": "Idade (anos)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 110,
+      "classe": "autoral",
+      "texto": "Sexo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 113,
+      "classe": "identificador",
+      "texto": "sexo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 118,
+      "classe": "autoral",
+      "texto": "Masculino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 127,
+      "classe": "autoral",
+      "texto": "Feminino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 133,
+      "classe": "autoral",
+      "texto": "Características da dor (Quadro 1)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 139,
+      "classe": "citacao",
+      "texto": "Desconforto ou dor retroesternal",
+      "especie": "JsxText",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 147,
+      "classe": "citacao",
+      "texto": "Provocada por exercício ou estresse emocional",
+      "especie": "JsxText",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 156,
+      "classe": "citacao",
+      "texto": "Alívio rápido (≈1 min) com repouso ou nitrato",
+      "especie": "JsxText",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 162,
+      "classe": "autoral",
+      "texto": "Fatores de risco",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 175,
+      "classe": "autoral",
+      "texto": "Sinais clínicos adicionais",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 182,
+      "classe": "autoral",
+      "texto": "ECG basal altera a interpretação da ergometria ou o paciente não pode exercitar-se",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 192,
+      "classe": "autoral",
+      "texto": "Sinais de angina instável ou dor aguda (repouso, início recente, em crescendo)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "linha": 199,
+      "classe": "autoral",
+      "texto": "Avaliar",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 20,
+      "classe": "autoral",
+      "texto": "Classificação funcional da angina estável (CCS)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 21,
+      "classe": "citacao",
+      "texto": "Quadro 3, p. 5 (Sociedade Canadense Cardiovascular)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 23,
+      "classe": "citacao",
+      "texto": "Classe I — atividades comuns (caminhar, subir escadas) não causam angina; sintoma só em esforço extenuante ou prolongado.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 24,
+      "classe": "citacao",
+      "texto": "Classe II — limitação leve; angina ao caminhar mais de duas quadras no plano ou subir mais de um lance de escadas.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 25,
+      "classe": "citacao",
+      "texto": "Classe III — limitação marcada; angina ao caminhar 1 a 2 quadras ou subir um lance de escadas.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 26,
+      "classe": "citacao",
+      "texto": "Classe IV — angina a qualquer atividade física, podendo ocorrer em repouso.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 31,
+      "classe": "autoral",
+      "texto": "Tratamento farmacológico e Tabela 1 de medicamentos",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 32,
+      "classe": "citacao",
+      "texto": "p. 9-11 (cardiopatia isquêmica estabelecida)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 34,
+      "classe": "citacao",
+      "texto": "Prevenção cardiovascular: antiagregante plaquetário (AAS 100 mg/dia; clopidogrel 75 mg/dia na intolerância ou alergia) e estatina de alta intensidade como prevenção secundária.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 35,
+      "classe": "citacao",
+      "texto": "Antianginosos: betabloqueador (primeira escolha, alvo de FC próxima a 60 bpm), bloqueador de canal de cálcio (anlodipino, verapamil ou diltiazem) e nitrato (sublingual para sintomas agudos; de uso fixo com intervalo livre de 12 h para evitar tolerância).",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 36,
+      "classe": "citacao",
+      "texto": "IECA: benéfico na redução de mortalidade e eventos, sobretudo pós-infarto, disfunção ventricular, diabetes e hipertensão.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 39,
+      "classe": "citacao",
+      "texto": "Betabloqueadores: propranolol, atenolol, metoprolol, carvedilol.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 40,
+      "classe": "citacao",
+      "texto": "Bloqueadores de canal de cálcio: anlodipino, verapamil, diltiazem (nifedipina retard).",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 41,
+      "classe": "citacao",
+      "texto": "Nitratos: isossorbida (di/mononitrato); dinitrato sublingual 5 mg até 3 comprimidos; propatilnitrato.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 42,
+      "classe": "citacao",
+      "texto": "IECA: enalapril, captopril. Antiplaquetários: AAS, clopidogrel, ticlopidina. Estatinas: sinvastatina, atorvastatina, rosuvastatina, pravastatina.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 47,
+      "classe": "autoral",
+      "texto": "Acompanhamento na APS",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 48,
+      "classe": "citacao",
+      "texto": "p. 8-9 (periodicidade e controle de fatores de risco)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 50,
+      "classe": "citacao",
+      "texto": "Periodicidade das consultas: em torno de 4 a 12 meses, conforme gravidade, adesão e fatores de risco.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 51,
+      "classe": "citacao",
+      "texto": "A cada consulta, reavaliar a classe funcional da angina; piora sugere otimizar tratamento e investigar fatores de descompensação.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 52,
+      "classe": "citacao",
+      "texto": "Controle de fatores de risco: cessação do tabagismo, dieta cardioprotetora, exercício regular, PA < 140/90 e, em diabéticos, HbA1c < 7%.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 53,
+      "classe": "citacao",
+      "texto": "Aumento da frequência ou duração da dor, ou dor em repouso: encaminhar à emergência (angina instável / IAM).",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 58,
+      "classe": "autoral",
+      "texto": "Manejo da doença arterial coronariana aguda e encaminhamento",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 59,
+      "classe": "citacao",
+      "texto": "p. 12 (suspeita de IAM ou angina instável)",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 61,
+      "classe": "citacao",
+      "texto": "Suspeita de IAM ou angina instável: encaminhar para atendimento emergencial.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 62,
+      "classe": "citacao",
+      "texto": "Enquanto aguarda a ambulância: repouso, sinais vitais e ECG, AAS 100 mg (3 comprimidos mastigados), oxigênio se hipóxia e nitrato sublingual (exceto em hipotensão ou uso de inibidores da fosfodiesterase-5).",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 63,
+      "classe": "citacao",
+      "texto": "Encaminhamento ao cardiologista: estratificação após evento agudo; diagnóstico recente de alto risco (> 90%); sintomático apesar de tratamento otimizado; ou impossibilidade de investigação não invasiva em probabilidade intermediária/alta.",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 72,
+      "classe": "autoral",
+      "texto": "Material de referência",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 75,
+      "classe": "autoral",
+      "texto": "Conteúdo consultável do TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 23,
+      "classe": "citacao",
+      "texto": "Angina típica",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 24,
+      "classe": "citacao",
+      "texto": "Angina atípica",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 25,
+      "classe": "citacao",
+      "texto": "Dor não anginosa",
+      "especie": "StringLiteral",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 45,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste (base):",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 45,
+      "classe": "autoral",
+      "texto": "%",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 49,
+      "classe": "autoral",
+      "texto": "Ajustada por fatores de risco:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 49,
+      "classe": "autoral",
+      "texto": "% a",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 50,
+      "classe": "autoral",
+      "texto": "(pode ultrapassar 90%)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 70,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 72,
+      "classe": "autoral",
+      "texto": "Informe idade, sexo, as características da dor e os fatores de risco, e avalie.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 83,
+      "classe": "autoral",
+      "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça a avaliação.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 87,
+      "classe": "autoral",
+      "texto": "Nova avaliação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 96,
+      "classe": "autoral",
+      "texto": "Fora do escopo da fonte",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 99,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": "TeleCondutas — Cardiopatia Isquêmica ·",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 117,
+      "classe": "autoral",
+      "texto": "Entrada incompleta ou implausível",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 137,
+      "classe": "autoral",
+      "texto": "Resultado desatualizado: os dados foram editados após a avaliação. Avalie novamente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 153,
+      "classe": "autoral",
+      "texto": "Estrato de probabilidade:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 160,
+      "classe": "autoral",
+      "texto": "Conduta",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "linha": 165,
+      "classe": "autoral",
+      "texto": "Investigar causas não cardíacas:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/tela.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste de cardiopatia isquêmica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/tela.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única: TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/comum/moldura.tsx",
+      "linha": 92,
+      "classe": "autoral",
+      "texto": "Nada é salvo nem enviado",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/comum/moldura.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": "Início",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/comum/moldura.tsx",
+      "linha": 110,
+      "classe": "autoral",
+      "texto": "Ativar tema claro",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/comum/moldura.tsx",
+      "linha": 110,
+      "classe": "autoral",
+      "texto": "Ativar tema escuro",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 98,
+      "classe": "autoral",
+      "texto": "Datação pela menstruação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": "Data da última menstruação (DUM)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 114,
+      "classe": "autoral",
+      "texto": "Datação pelo último ultrassom",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 117,
+      "classe": "autoral",
+      "texto": "Data do exame",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 127,
+      "classe": "autoral",
+      "texto": "Semanas no exame",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 142,
+      "classe": "autoral",
+      "texto": "Dias no exame",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/formulario.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "Calcular",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 42,
+      "classe": "autoral",
+      "texto": "Idade gestacional:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 42,
+      "classe": "autoral",
+      "texto": "—",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 43,
+      "classe": "autoral",
+      "texto": ".º trimestre",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 46,
+      "classe": "autoral",
+      "texto": "Data provável do parto:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 49,
+      "classe": "autoral",
+      "texto": "DUM equivalente:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 68,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 70,
+      "classe": "autoral",
+      "texto": "Informe a DUM, o último ultrassom, ou ambos, e calcule.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 80,
+      "classe": "autoral",
+      "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça o cálculo.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 84,
+      "classe": "autoral",
+      "texto": "Novo cálculo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 93,
+      "classe": "autoral",
+      "texto": "Entrada incompleta ou implausível",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 113,
+      "classe": "autoral",
+      "texto": "Resultado desatualizado: os dados foram editados após o cálculo. Calcule novamente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 118,
+      "classe": "autoral",
+      "texto": "Idade gestacional",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 120,
+      "classe": "autoral",
+      "texto": "Calculada na data de referência",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 120,
+      "classe": "autoral",
+      "texto": ".",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 124,
+      "classe": "autoral",
+      "texto": "Pela DUM",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 127,
+      "classe": "autoral",
+      "texto": "Pelo ultrassom",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 152,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "Guia Rápido Pré-Natal — SMS-Rio,",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/resultado.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "·",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/gestacao/tela.tsx",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "Calculadora de idade gestacional",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/tela.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única: Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Diabetes Mellitus tipo 2",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 24,
+      "classe": "autoral",
+      "texto": "Calculadora de insulina",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 26,
+      "classe": "autoral",
+      "texto": "Início de insulinização, titulação da NPH e intensificação com Regular, pelo Guia Rápido Diabetes Mellitus (SMS-Rio, 2023).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 33,
+      "classe": "autoral",
+      "texto": "Pré-natal",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 36,
+      "classe": "autoral",
+      "texto": "Calculadora de idade gestacional",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "Idade gestacional, data provável do parto e trimestre a partir da DUM ou do último ultrassom, pelo Guia Rápido Pré-Natal (SMS-Rio, 2025).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 45,
+      "classe": "autoral",
+      "texto": "Cardiologia",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 48,
+      "classe": "autoral",
+      "texto": "Calculadora de probabilidade pré-teste de cardiopatia isquêmica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 50,
+      "classe": "autoral",
+      "texto": "Classificação da dor torácica, probabilidade pré-teste de doença arterial coronariana e conduta de investigação, pelo TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 54,
+      "classe": "autoral",
+      "texto": "Calculadora de risco cardiovascular em 10 anos",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 56,
+      "classe": "autoral",
+      "texto": "Risco de doença cardiovascular aterosclerótica (ASCVD) em 10 anos pelas Pooled Cohort Equations (ACC/AHA 2013, Goff et al.).",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 63,
+      "classe": "autoral",
+      "texto": "Puericultura",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 66,
+      "classe": "autoral",
+      "texto": "Avaliação do crescimento infantil",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 68,
+      "classe": "autoral",
+      "texto": "Escores z de peso, comprimento/estatura, IMC e perímetro cefálico com a classificação nutricional da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), inclusive para nascidos pré-termo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/tela.tsx",
+      "linha": 18,
+      "classe": "autoral",
+      "texto": "APS Inteligente",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/tela.tsx",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Calculadoras clínicas para a Atenção Primária à Saúde · Cálculo 100% no navegador",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 191,
+      "classe": "autoral",
+      "texto": "Criança",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 193,
+      "classe": "autoral",
+      "texto": "Sexo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 196,
+      "classe": "identificador",
+      "texto": "sexo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 201,
+      "classe": "autoral",
+      "texto": "Masculino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 210,
+      "classe": "autoral",
+      "texto": "Feminino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 215,
+      "classe": "autoral",
+      "texto": "Data de nascimento",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 225,
+      "classe": "autoral",
+      "texto": "Data da medição",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 236,
+      "classe": "autoral",
+      "texto": "Medidas",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 238,
+      "classe": "autoral",
+      "texto": "Informe ao menos uma medida. A que faltar apenas suprime o índice que depende dela.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 242,
+      "classe": "autoral",
+      "texto": "Peso (kg)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 252,
+      "classe": "autoral",
+      "texto": "Comprimento/estatura (cm)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 270,
+      "classe": "autoral",
+      "texto": "Posição da medição",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 273,
+      "classe": "identificador",
+      "texto": "posicao",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 278,
+      "classe": "autoral",
+      "texto": "Deitado (comprimento)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 287,
+      "classe": "autoral",
+      "texto": "Em pé (estatura)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 291,
+      "classe": "autoral",
+      "texto": "Perímetro cefálico (cm)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 302,
+      "classe": "autoral",
+      "texto": "Perímetro cefálico",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 311,
+      "classe": "autoral",
+      "texto": "Idade gestacional ao nascer (opcional)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 313,
+      "classe": "autoral",
+      "texto": "Em branco, a criança é tratada como nascida a termo e nenhuma correção de idade é aplicada.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 317,
+      "classe": "autoral",
+      "texto": "Semanas completas",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 334,
+      "classe": "autoral",
+      "texto": "Dias",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/formulario.tsx",
+      "linha": 349,
+      "classe": "autoral",
+      "texto": "Avaliar crescimento",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/proveniencia.tsx",
+      "linha": 26,
+      "classe": "autoral",
+      "texto": "Proveniência e limites desta avaliação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/proveniencia.tsx",
+      "linha": 35,
+      "classe": "autoral",
+      "texto": "Cobertura da fonte:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/proveniencia.tsx",
+      "linha": 35,
+      "classe": "autoral",
+      "texto": ". Fora dessa faixa, a ferramenta recusa o cálculo em vez de extrapolar.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/proveniencia.tsx",
+      "linha": 39,
+      "classe": "autoral",
+      "texto": "Fonte:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/proveniencia.tsx",
+      "linha": 39,
+      "classe": "autoral",
+      "texto": ".",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "Peso para a idade",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 39,
+      "classe": "autoral",
+      "texto": "Comprimento/estatura para a idade",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 40,
+      "classe": "autoral",
+      "texto": "IMC para a idade",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 41,
+      "classe": "autoral",
+      "texto": "Perímetro cefálico para a idade",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 46,
+      "classe": "autoral",
+      "texto": "Medida não informada.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 48,
+      "classe": "autoral",
+      "texto": "As curvas de pré-termo (INTERGROWTH-21st) não publicam IMC: o índice não existe nesta faixa, e a sua falta não é erro.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 63,
+      "classe": "autoral",
+      "texto": "idade cronológica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 65,
+      "classe": "autoral",
+      "texto": "idade corrigida",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 66,
+      "classe": "autoral",
+      "texto": "idade pós-menstrual",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "Escore z:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "·",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 90,
+      "classe": "autoral",
+      "texto": "Padrão:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 100,
+      "classe": "identificador",
+      "texto": "indice indice-ausente",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 106,
+      "classe": "autoral",
+      "texto": "Não calculado.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 114,
+      "classe": "identificador",
+      "texto": "indice indice-fora-do-escopo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 147,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 149,
+      "classe": "autoral",
+      "texto": "Informe o sexo, as duas datas e ao menos uma medida para avaliar o crescimento pelos gráficos da Caderneta da Criança.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 160,
+      "classe": "autoral",
+      "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça a avaliação.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 164,
+      "classe": "autoral",
+      "texto": "Nova avaliação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 173,
+      "classe": "autoral",
+      "texto": "Fora do escopo da fonte",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 176,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 194,
+      "classe": "autoral",
+      "texto": "Entrada incompleta ou implausível",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 214,
+      "classe": "autoral",
+      "texto": "Resultado desatualizado: os dados foram editados após a avaliação. Avalie novamente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/resultado.tsx",
+      "linha": 219,
+      "classe": "autoral",
+      "texto": "Índices antropométricos",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/puericultura/tela.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "Avaliação do crescimento infantil",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/tela.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única: Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 21,
+      "classe": "autoral",
+      "texto": "Branca",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 22,
+      "classe": "autoral",
+      "texto": "Preta / afro-americana",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 23,
+      "classe": "autoral",
+      "texto": "Outra",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 91,
+      "classe": "autoral",
+      "texto": "Paciente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 93,
+      "classe": "autoral",
+      "texto": "Sexo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 96,
+      "classe": "identificador",
+      "texto": "sexo",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 101,
+      "classe": "autoral",
+      "texto": "Masculino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 110,
+      "classe": "autoral",
+      "texto": "Feminino",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 114,
+      "classe": "autoral",
+      "texto": "Raça / cor",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 118,
+      "classe": "identificador",
+      "texto": "raca",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 129,
+      "classe": "autoral",
+      "texto": "Idade (anos)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 143,
+      "classe": "autoral",
+      "texto": "Exames e pressão",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 146,
+      "classe": "autoral",
+      "texto": "Colesterol total (mg/dL)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "HDL (mg/dL)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 167,
+      "classe": "autoral",
+      "texto": "Pressão arterial sistólica (mmHg)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 181,
+      "classe": "autoral",
+      "texto": "Em tratamento anti-hipertensivo",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 186,
+      "classe": "autoral",
+      "texto": "Fatores de risco",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 192,
+      "classe": "autoral",
+      "texto": "Diabetes",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 199,
+      "classe": "autoral",
+      "texto": "Tabagismo atual",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 204,
+      "classe": "autoral",
+      "texto": "Histórico cardiovascular",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 211,
+      "classe": "autoral",
+      "texto": "Doença cardiovascular já estabelecida (infarto, AVC, revascularização)",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/formulario.tsx",
+      "linha": 217,
+      "classe": "autoral",
+      "texto": "Estimar risco",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 29,
+      "classe": "autoral",
+      "texto": "Por que Pooled Cohort Equations, e não a AHA PREVENT?",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 32,
+      "classe": "autoral",
+      "texto": "A AHA PREVENT (2023) é uma calculadora mais recente — sexo-específica e sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de incorporar função renal e determinantes sociais —, criada para modernizar a estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "Esta ferramenta usa, ainda assim, as Pooled Cohort Equations porque a recomendação de estatina em prevenção primária da USPSTF (2022) — o limiar que dá sentido clínico ao número estimado — foi calibrada sobre as PCE. A PREVENT estima risco sistematicamente menor; adotá-la descasaria o risco estimado do limiar que fundamenta a conduta. A PREVENT fica como candidata a uma calculadora futura, como fonte distinta.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 46,
+      "classe": "autoral",
+      "texto": "Calculadora AHA PREVENT (site oficial, em inglês):",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 47,
+      "classe": "identificador",
+      "texto": "noopener noreferrer",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
+      "linha": 48,
+      "classe": "autoral",
+      "texto": "professional.heart.org · PREVENT™ Online Calculator",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 24,
+      "classe": "citacao",
+      "texto": "Baixo (< 5%)",
+      "especie": "StringLiteral",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 25,
+      "classe": "citacao",
+      "texto": "Limítrofe (5 a < 7,5%)",
+      "especie": "StringLiteral",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 26,
+      "classe": "citacao",
+      "texto": "Intermediário (7,5 a < 20%)",
+      "especie": "StringLiteral",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 27,
+      "classe": "citacao",
+      "texto": "Alto (≥ 20%)",
+      "especie": "StringLiteral",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 53,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 55,
+      "classe": "autoral",
+      "texto": "Informe sexo, raça, idade, os exames e os fatores de risco, e estime o risco cardiovascular em 10 anos.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 66,
+      "classe": "autoral",
+      "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça a estimativa.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 70,
+      "classe": "autoral",
+      "texto": "Nova estimativa",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 79,
+      "classe": "autoral",
+      "texto": "Fora do escopo da fonte",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 82,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 85,
+      "classe": "autoral",
+      "texto": "Pooled Cohort Equations (ACC/AHA 2013) ·",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 100,
+      "classe": "autoral",
+      "texto": "Entrada incompleta ou implausível",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 120,
+      "classe": "autoral",
+      "texto": "Resultado desatualizado: os dados foram editados após a estimativa. Estime novamente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 131,
+      "classe": "autoral",
+      "texto": "Risco de ASCVD em 10 anos:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 131,
+      "classe": "autoral",
+      "texto": "%",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "linha": 134,
+      "classe": "autoral",
+      "texto": "Categoria de risco:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/tela.tsx",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "Risco cardiovascular em 10 anos (Pooled Cohort Equations)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/tela.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única: 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/_document.tsx",
+      "linha": 14,
+      "classe": "identificador",
+      "texto": "theme-color",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/_document.tsx",
+      "linha": 14,
+      "classe": "identificador",
+      "texto": "#0969da",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/api/v1/status.ts",
+      "linha": 13,
+      "classe": "autoral",
+      "texto": "Método não permitido; use GET.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/dor-toracica.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste de cardiopatia isquêmica · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/cardiologia/dor-toracica.tsx",
+      "linha": 14,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/dor-toracica.tsx",
+      "linha": 15,
+      "classe": "autoral",
+      "texto": "Classificação da dor torácica, probabilidade pré-teste de doença arterial coronariana e conduta de investigação, pelo TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017). Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/dor-toracica.tsx",
+      "linha": 17,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/dor-toracica.tsx",
+      "linha": 17,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/risco-cardiovascular.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "Risco cardiovascular em 10 anos (Pooled Cohort Equations) · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/cardiologia/risco-cardiovascular.tsx",
+      "linha": 16,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/risco-cardiovascular.tsx",
+      "linha": 17,
+      "classe": "autoral",
+      "texto": "Estimativa do risco de doença cardiovascular aterosclerótica (ASCVD) em 10 anos pelas Pooled Cohort Equations (ACC/AHA 2013). Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/risco-cardiovascular.tsx",
+      "linha": 19,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/cardiologia/risco-cardiovascular.tsx",
+      "linha": 19,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/dm2/insulina.tsx",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "Calculadora de insulina no DM2 · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/dm2/insulina.tsx",
+      "linha": 12,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/dm2/insulina.tsx",
+      "linha": 13,
+      "classe": "autoral",
+      "texto": "Apoio à decisão para insulinização no DM2 pelo Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. 2023). Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/dm2/insulina.tsx",
+      "linha": 15,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/dm2/insulina.tsx",
+      "linha": 15,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/index.tsx",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Calculadoras clínicas para a APS",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/index.tsx",
+      "linha": 12,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/index.tsx",
+      "linha": 13,
+      "classe": "autoral",
+      "texto": "Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura. Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/index.tsx",
+      "linha": 15,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/index.tsx",
+      "linha": 15,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/pre-natal/idade-gestacional.tsx",
+      "linha": 9,
+      "classe": "autoral",
+      "texto": "Calculadora de idade gestacional · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/pre-natal/idade-gestacional.tsx",
+      "linha": 11,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/pre-natal/idade-gestacional.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "Idade gestacional, data provável do parto e trimestre pela DUM ou pelo último ultrassom, pelo Guia Rápido Pré-Natal (SMS-Rio, 2025). Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/pre-natal/idade-gestacional.tsx",
+      "linha": 14,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/pre-natal/idade-gestacional.tsx",
+      "linha": 14,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/puericultura/crescimento.tsx",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "Avaliação do crescimento infantil · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/puericultura/crescimento.tsx",
+      "linha": 13,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/puericultura/crescimento.tsx",
+      "linha": 14,
+      "classe": "autoral",
+      "texto": "Escores z de peso, comprimento/estatura, IMC e perímetro cefálico com a classificação da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), inclusive para nascidos pré-termo. Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/puericultura/crescimento.tsx",
+      "linha": 16,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/puericultura/crescimento.tsx",
+      "linha": 16,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "public/manifest.webmanifest",
+      "linha": 2,
+      "classe": "autoral",
+      "texto": "APS Inteligente",
+      "especie": "JsonField"
+    },
+    {
+      "arquivo": "public/manifest.webmanifest",
+      "linha": 3,
+      "classe": "autoral",
+      "texto": "APSi",
+      "especie": "JsonField"
+    },
+    {
+      "arquivo": "public/manifest.webmanifest",
+      "linha": 4,
+      "classe": "autoral",
+      "texto": "Calculadoras clínicas para a Atenção Primária à Saúde · Cálculo 100% no navegador",
+      "especie": "JsonField"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 1,
+      "classe": "autoral",
+      "texto": "# APS Inteligente",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 3,
+      "classe": "autoral",
+      "texto": "Plataforma web dedicada à prática médica na APS, 100% client-side: nenhum dado clínico",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 4,
+      "classe": "autoral",
+      "texto": "sai do navegador (ADR 0002). A raiz (`/`) é a **página inicial por seções** (feature 007);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 5,
+      "classe": "autoral",
+      "texto": "as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citável:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 7,
+      "classe": "autoral",
+      "texto": "| Seção | Calculadora | Rota | Fonte | Domínio |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 8,
+      "classe": "autoral",
+      "texto": "| ------------------------ | --------------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------- |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 9,
+      "classe": "autoral",
+      "texto": "| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 10,
+      "classe": "autoral",
+      "texto": "| Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 11,
+      "classe": "autoral",
+      "texto": "| Cardiologia | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica | `/cardiologia/dor-toracica` | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017) | `models/cardiopatia-isquemica/` |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "| Cardiologia | Risco cardiovascular em 10 anos (ASCVD) | `/cardiologia/risco-cardiovascular` | Pooled Cohort Equations — 2013 ACC/AHA Guideline (Goff et al., 2014) | `models/risco-cardiovascular/` |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 13,
+      "classe": "autoral",
+      "texto": "| Puericultura | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento` | Caderneta da Criança — Ministério da Saúde, 2.ª ed., 2020, pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/` |",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 15,
+      "classe": "autoral",
+      "texto": "Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 16,
+      "classe": "autoral",
+      "texto": "em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 18,
+      "classe": "autoral",
+      "texto": "## Como rodar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 25,
+      "classe": "autoral",
+      "texto": "Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 27,
+      "classe": "autoral",
+      "texto": "## Norma de redação (feature 018)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 29,
+      "classe": "autoral",
+      "texto": "Todo texto que a plataforma exibe responde a uma norma escrita, em **[`docs/redacao.md`](docs/redacao.md)**.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 30,
+      "classe": "autoral",
+      "texto": "Leia-a antes de escrever ou reescrever qualquer literal que chegue à tela, ao `<title>`, à",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 31,
+      "classe": "autoral",
+      "texto": "`<meta name=\"description\">` ou ao manifesto. Em resumo:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 33,
+      "classe": "autoral",
+      "texto": "- **Três classes de texto** — autoral, citação e identificador. A classe vem da origem do",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 34,
+      "classe": "autoral",
+      "texto": "texto, jamais do diretório onde ele mora, e se **declara** em `scripts/textos/classes/`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 35,
+      "classe": "autoral",
+      "texto": "- **A revisão de estilo alcança só a autoral.** A citação da fonte clínica permanece byte a",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 36,
+      "classe": "autoral",
+      "texto": "byte, com uma exceção estrita: desvio de concordância se corrige **e se declara ao",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 37,
+      "classe": "autoral",
+      "texto": "leitor**, sobre lista fechada.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "- **Pontuação com o eixo expressivo racionado** — travessão `—` e nunca `-`, no máximo um",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 39,
+      "classe": "autoral",
+      "texto": "par por bloco, nenhuma reticência e nenhuma exclamação. O ponto médio `·` é recurso",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 40,
+      "classe": "autoral",
+      "texto": "tipográfico e permanece onde está.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 42,
+      "classe": "autoral",
+      "texto": "A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 43,
+      "classe": "autoral",
+      "texto": "verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 44,
+      "classe": "autoral",
+      "texto": "ninguém confunda \"a suíte passou\" com \"o texto está bom\".",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 46,
+      "classe": "autoral",
+      "texto": "### Inventário da superfície textual",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 48,
+      "classe": "autoral",
+      "texto": "Terceiro gerador idempotente do projeto, no molde de `gerar-tabelas-oms.mts` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 49,
+      "classe": "autoral",
+      "texto": "`congelar-casos-oraculo.mts` — e, como eles, com o `git diff` vazio por resultado esperado:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 57,
+      "classe": "autoral",
+      "texto": "O inventário é a lista fechada do que são \"todos os textos\": 624 literais com arquivo,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 58,
+      "classe": "autoral",
+      "texto": "linha e classe. Ele serve a três papéis ao mesmo tempo — lista fechada, oráculo do",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 59,
+      "classe": "autoral",
+      "texto": "congelamento e entrada do verificador de norma —, e por isso é **regerado** ao fim de toda",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 60,
+      "classe": "autoral",
+      "texto": "revisão de texto.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 62,
+      "classe": "autoral",
+      "texto": "**Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 63,
+      "classe": "autoral",
+      "texto": "por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 64,
+      "classe": "autoral",
+      "texto": "e o módulo em que declarar — falha ruidosa por desenho: literal sem classe é decisão",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 65,
+      "classe": "autoral",
+      "texto": "adiada, não acidente. A classe vem da origem do texto, jamais do diretório.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 67,
+      "classe": "autoral",
+      "texto": "**A linha de base da citação é outro arquivo, e é outro de propósito:**",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 73,
+      "classe": "autoral",
+      "texto": "Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 74,
+      "classe": "autoral",
+      "texto": "a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 75,
+      "classe": "autoral",
+      "texto": "O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 76,
+      "classe": "autoral",
+      "texto": "por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo — verde",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 77,
+      "classe": "autoral",
+      "texto": "para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 79,
+      "classe": "autoral",
+      "texto": "## Estilo das telas (Primer, feature 004)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 82,
+      "classe": "autoral",
+      "texto": "(componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 83,
+      "classe": "autoral",
+      "texto": "pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 84,
+      "classe": "autoral",
+      "texto": "(CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 85,
+      "classe": "autoral",
+      "texto": "nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 86,
+      "classe": "autoral",
+      "texto": "calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 87,
+      "classe": "autoral",
+      "texto": "`interface/estilos/cabecalho.css` a camada de logo do cabeçalho (feature 009), ambos",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 88,
+      "classe": "autoral",
+      "texto": "mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "`@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 90,
+      "classe": "autoral",
+      "texto": "vêm de `@primer/octicons-react` (mesma família, pinado).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 92,
+      "classe": "autoral",
+      "texto": "### Identidade da marca (logo APSi, feature 009)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 94,
+      "classe": "autoral",
+      "texto": "A logo vive em `public/` como ativo estático same-origin (sob a CSP, fora do bundle JS):",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 95,
+      "classe": "autoral",
+      "texto": "`apsi-light.png`/`apsi-dark.png` para o cabeçalho claro/escuro, `apsi-tile.png` (512) e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 96,
+      "classe": "autoral",
+      "texto": "`apsi-tile-192.png` para favicon, `apple-touch-icon` e o `manifest.webmanifest` (PWA",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 97,
+      "classe": "autoral",
+      "texto": "instalável, declarado em `pages/_document.tsx`). `apsi-white.png`/`apsi-navy.png` ficam",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 98,
+      "classe": "autoral",
+      "texto": "versionadas para sobre-foto/impressão, sem uso na web. A `Moldura` troca a variante da",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 99,
+      "classe": "autoral",
+      "texto": "logo pelo tema já lido no componente.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 101,
+      "classe": "autoral",
+      "texto": "Para **criar uma tela nova**:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 103,
+      "classe": "autoral",
+      "texto": "1. O provider já está no shell (`pages/_app.tsx` → `interface/calculadora/provedor-tema.tsx`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 104,
+      "classe": "autoral",
+      "texto": "que liga a preferência persistida em `localStorage[\"aps-inteligente:tema\"]` ao color",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 105,
+      "classe": "autoral",
+      "texto": "mode do Primer). Nenhum setup adicional por página.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 106,
+      "classe": "autoral",
+      "texto": "2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 107,
+      "classe": "autoral",
+      "texto": "`TextInput`, `Flash`, `Heading`, entre outros); recorra ao `globais.css` apenas para cola de",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 108,
+      "classe": "autoral",
+      "texto": "layout, usando variáveis funcionais do Primer.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 109,
+      "classe": "autoral",
+      "texto": "3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 110,
+      "classe": "autoral",
+      "texto": "(contrato `role=\"alert\"` asserido pelos testes).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 111,
+      "classe": "autoral",
+      "texto": "4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 112,
+      "classe": "autoral",
+      "texto": "acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 114,
+      "classe": "autoral",
+      "texto": "## Como adicionar uma calculadora nova (feature 007)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 116,
+      "classe": "autoral",
+      "texto": "1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 117,
+      "classe": "autoral",
+      "texto": "`interface/inicio/catalogo.ts` — a home renderiza a partir dele; seção nova só nasce",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 118,
+      "classe": "autoral",
+      "texto": "com pelo menos uma calculadora.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 119,
+      "classe": "autoral",
+      "texto": "2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 120,
+      "classe": "autoral",
+      "texto": "`fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 121,
+      "classe": "autoral",
+      "texto": "`validacao.ts` (coleta total de ofensores) e fachada; erros como valores, sem ler o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 122,
+      "classe": "autoral",
+      "texto": "relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 123,
+      "classe": "autoral",
+      "texto": "3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 124,
+      "classe": "autoral",
+      "texto": "e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 125,
+      "classe": "autoral",
+      "texto": "declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 126,
+      "classe": "autoral",
+      "texto": "acima de um `<h1>` **textual** em toda tela — inclusive a home (feature 016): a identidade",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 127,
+      "classe": "autoral",
+      "texto": "é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 128,
+      "classe": "autoral",
+      "texto": "nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 129,
+      "classe": "autoral",
+      "texto": "4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 130,
+      "classe": "autoral",
+      "texto": "`interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 131,
+      "classe": "autoral",
+      "texto": "O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 132,
+      "classe": "autoral",
+      "texto": "5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 133,
+      "classe": "autoral",
+      "texto": "carregando `ReferenciaClinica` com página/seção.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 135,
+      "classe": "autoral",
+      "texto": "## Tabelas de referência da OMS (feature 017)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 137,
+      "classe": "autoral",
+      "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 138,
+      "classe": "autoral",
+      "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 139,
+      "classe": "autoral",
+      "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 140,
+      "classe": "autoral",
+      "texto": "mão**, e ficam versionados junto do gerador que os produziu — quem clona o repositório não",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 141,
+      "classe": "autoral",
+      "texto": "precisa baixar nada para rodar os testes.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 143,
+      "classe": "autoral",
+      "texto": "A cadeia tem duas ferramentas, e só a primeira toca a rede:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 151,
+      "classe": "autoral",
+      "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 152,
+      "classe": "autoral",
+      "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado —",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 153,
+      "classe": "autoral",
+      "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 154,
+      "classe": "autoral",
+      "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 155,
+      "classe": "autoral",
+      "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 156,
+      "classe": "autoral",
+      "texto": "`node scripts/congelar-casos-oraculo.mts`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 158,
+      "classe": "autoral",
+      "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 159,
+      "classe": "autoral",
+      "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 160,
+      "classe": "autoral",
+      "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 162,
+      "classe": "autoral",
+      "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 163,
+      "classe": "autoral",
+      "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 164,
+      "classe": "autoral",
+      "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter — o limite",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 165,
+      "classe": "autoral",
+      "texto": "existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 166,
+      "classe": "autoral",
+      "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 167,
+      "classe": "autoral",
+      "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 168,
+      "classe": "autoral",
+      "texto": "outras calculadoras — o teto de função mira lógica, e essa fica nos `models/`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 170,
+      "classe": "autoral",
+      "texto": "## Banco de dados (fundação, feature 003)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 172,
+      "classe": "autoral",
+      "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 173,
+      "classe": "autoral",
+      "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 174,
+      "classe": "autoral",
+      "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 175,
+      "classe": "autoral",
+      "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 176,
+      "classe": "autoral",
+      "texto": "Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 186,
+      "classe": "autoral",
+      "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 187,
+      "classe": "autoral",
+      "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 188,
+      "classe": "autoral",
+      "texto": "conexão pode sofrer cold start (autosuspend do plano Free) — limites e roteiro completo em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 189,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 191,
+      "classe": "autoral",
+      "texto": "## Como verificar saúde",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 193,
+      "classe": "autoral",
+      "texto": "Local, contra o build de produção (CSP ativa):",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 202,
+      "classe": "autoral",
+      "texto": "Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 208,
+      "classe": "autoral",
+      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 209,
+      "classe": "autoral",
+      "texto": "produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 210,
+      "classe": "autoral",
+      "texto": "a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 211,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 212,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 214,
+      "classe": "autoral",
+      "texto": "## Como publicar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 216,
+      "classe": "autoral",
+      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 217,
+      "classe": "autoral",
+      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 218,
+      "classe": "autoral",
+      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 219,
+      "classe": "autoral",
+      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 221,
+      "classe": "autoral",
+      "texto": "## Documentação",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 223,
+      "classe": "autoral",
+      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 224,
+      "classe": "autoral",
+      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 225,
+      "classe": "autoral",
+      "texto": "actions → legacy-impact → regression-watch).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 226,
+      "classe": "autoral",
+      "texto": "- Registro de bugs: `_reversa_bugs/`.",
+      "especie": "Markdown"
+    }
+  ]
+}

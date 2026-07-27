@@ -8,7 +8,7 @@ import { AppCardiologia } from "./app";
 export function TelaCardiologia() {
   return (
     <Moldura
-      titulo="Probabilidade Pré-teste de Cardiopatia Isquêmica"
+      titulo="Probabilidade pré-teste de cardiopatia isquêmica"
       subtitulo="APS Inteligente · Fonte única: TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)"
       comInicio
     >

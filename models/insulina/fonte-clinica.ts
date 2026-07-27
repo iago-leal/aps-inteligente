@@ -146,5 +146,5 @@ export const TEXTO_SUSPENDER_SULFONILUREIA = Object.freeze({
   condicionalAoFracionar:
     "Uso de sulfonilureia não informado: se estiver em uso, suspender ao fracionar a NPH.",
   condicionalEsquemaFracionado:
-    "Uso de sulfonilureia não informado: se estiver em uso, suspender — a NPH já está fracionada.",
+    "Uso de sulfonilureia não informado: se estiver em uso, suspender, pois a NPH já está fracionada.",
 });

@@ -1,0 +1,556 @@
+{
+  "esquema": "citacao-linha-de-base/1",
+  "feature": "018-revisao-linguagem-textos",
+  "geradoPor": "scripts/inventariar-textos.mts --linha-de-base",
+  "emitidoEm": "2026-07-27",
+  "aviso": "ESTE ARQUIVO NÃO SE REGERA. Foi emitido uma única vez, do estado anterior às reescritas da feature 018, e o gerador se recusa a sobrescrevê-lo.",
+  "porQueExiste": "Linha de base de RF-07: a prova de que a exceção de RN-09 continuou estreita. A citação é byte a byte, salvo os dois rótulos de concordância de MD-0015, e é a comparação contra este arquivo que acusa qualquer terceiro afastamento. Se ele fosse regerado, a comparação passaria a ser do estado corrente consigo mesmo, ficaria verde para sempre e deixaria de reprovar — sem produzir sinal nenhum (D-14, MD-0018).",
+  "consumidores": [
+    "tests/unit/textos/citacao.test.ts"
+  ],
+  "totais": {
+    "citacoes": 108
+  },
+  "citacoes": [
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "TelessaúdeRS-UFRGS, 2017",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "Quadro 1, p. 4 (classificação clínica da dor torácica; CESAR et al., 2014)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "Quadro 2, p. 5 (probabilidade pré-teste de DAC por idade e sexo; DUNCAN et al., 2013)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "Quadro 2, nota *, p. 5 (fatores de risco aumentam a estimativa em 2 a 3 vezes)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "p. 4-5 (estratos < 10% / 10–90% / > 90% e conduta de investigação; nota ** do Quadro 2)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "p. 6 (ECG e teste ergométrico iniciais; método não invasivo quando o ECG basal impede a interpretação ou o paciente não pode exercitar)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "p. 6 (angina instável: alta probabilidade de evento agudo — encaminhamento emergencial)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 4–6"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "dor musculoesquelética",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "transtornos psiquiátricos (ansiedade, transtorno do pânico)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "distúrbios gastrointestinais (DRGE, cólica biliar, espasmo esofágico)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "texto": "doenças pulmonares (pneumonia, neoplasia torácica, pneumotórax)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 4"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "4.ª ed., 2025",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025)"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "p. 31 (dias decorridos desde a DUM ÷ 7, em semanas e dias)",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "p. 31 (confiável se o 1.º dia da última menstruação é conhecido e os ciclos eram regulares)",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "p. 32 (DPP: acrescentar 7 dias à DUM e somar 9 meses — regra de Naegele)",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "p. 32 (desconsiderar a DUM fora da margem de erro da USG: 1 semana no 1.º trimestre, 2 no 2.º)",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "texto": "p. 113 (USG para datação quando a DUM é incerta ou a IG não pode ser calculada por ela)",
+      "origem": "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025), pp. 31–113"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "2.ª ed. atualizada, 2023",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023)"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 60; Figura 4, p. 62 (faixa exibida — decisão AMB-01)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 60 (aferição de jejum 3×/semana por 15 dias)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 60; quadro da Figura 4, p. 62 (HbA1c ≥ 10% — decisão AMB-08)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 62 (180 → +4 — decisão AMB-09)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 62 (faixa-alvo 71–129 — decisões AMB-02 e AMB-05)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 60 (média com hipoglicemia prevalecendo — decisão AMB-06)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 62 (jejum ≤ 70 mg/dL → reduzir 4 UI)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 61; Figura 4, p. 62 (½+½ preferencial, ⅔+⅓ alternativa — decisão AMB-10)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 61; Figura 4, p. 62 (ao fracionar: suspender sulfonilureia, manter metformina)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 59 (sulfonilureias utilizáveis com TFG > 30 mL/min/1,73 m² — apoio à redação condicional)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 28 (otimizar metformina, máx. 2000–2550 mg/dia); p. 58 (posologia 1000–2550 mg/dia)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 58 (TFG 30–45 mL/min/1,73 m²: reduzir a dose de metformina em 50%)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 28; p. 58 (TFG < 30 mL/min/1,73 m²: interromper metformina — risco de acidose lática)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 61 (insulinização plena 0,5–1,0 UI/kg/dia; conduta acima da faixa — decisão AMB-04)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 62–63 (repetir HbA1c após 3 meses; > 7,0% → aferir AA/AJ/AD)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (HbA1c ≤ 7,0% → manter conduta, HbA1c a cada 6 meses)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (AA ≥ 130 → Regular 4 UI antes do café)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (AJ ≥ 130 — duas condutas equivalentes, decisão AMB-03)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (AD ≥ 130 → Regular 4 UI antes do jantar)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63; p. 64 (inferência espelhada — decisão AMB-07)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (ajustar Regular da refeição correspondente; avaliar encaminhamento)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 63 (aferição pós-prandial sem parâmetro numérico no guia — NG-07)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "Figura 4, p. 62–63 (ajustar a cada 3 dias)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "texto": "p. 68–70 (caneta: 1–60 UI por aplicação, graduação de 1 UI)",
+      "origem": "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023), pp. 28–70"
+    },
+    {
+      "arquivo": "models/puericultura/elegibilidade.ts",
+      "texto": "p. 88, gráfico de perímetro cefálico para idade de 0 a 2 anos",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., Brasília, 2020)",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020)"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Peso elevado para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Peso adequado para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Baixo peso para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Muito baixo peso para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 89, 92, 95"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Comprimento adequada para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Baixa comprimento para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Muito baixo comprimento para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 90"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Estatura adequada para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Baixa estatura para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Muito baixa estatura para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 93, 96"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Obesidade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Sobrepeso",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Risco de sobrepeso",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Eutrofia",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Magreza",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Magreza acentuada",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "Obesidade grave",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 91, 94, 97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "PC acima do esperado para a idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "PC adequado para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "PC abaixo do esperado para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), p. 88"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "peso para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "comprimento/estatura para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "IMC para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "perímetro cefálico para idade",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97, títulos dos gráficos"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "p. 87, Curvas Internacionais de Crescimento para Crianças Nascidas Pré-Termo (INTERGROWTH-21st), de 27 a 64 semanas",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "p. 86, cálculo da idade corrigida do recém-nascido pré-termo: 40 semanas menos a IG ao nascer, descontado da idade cronológica",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "p. 85, diferença de 0,7 cm entre a estatura medida deitada e em pé",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "texto": "pp. 85–97, Acompanhando o Crescimento: gráficos de 0 a 10 anos, e de 0 a 2 anos no perímetro cefálico",
+      "origem": "Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "texto": "ACC/AHA 2013 (Goff et al., Circulation 2014)",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "texto": "Pooled Cohort Equations, Tabela A (Goff et al., 2013): risco de ASCVD em 10 anos, adultos de 40 a 79 anos sem DCV prévia",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "texto": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes de risco 5% / 7,5% / 20%",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "texto": "ASCVD Risk Estimator Plus (ACC): faixa de validação 40–79 anos, prevenção primária (sem DCV prévia)",
+      "origem": "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "texto": "Desconforto ou dor retroesternal",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "texto": "Provocada por exercício ou estresse emocional",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/formulario.tsx",
+      "texto": "Alívio rápido (≈1 min) com repouso ou nitrato",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Quadro 3, p. 5 (Sociedade Canadense Cardiovascular)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Classe I — atividades comuns (caminhar, subir escadas) não causam angina; sintoma só em esforço extenuante ou prolongado.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Classe II — limitação leve; angina ao caminhar mais de duas quadras no plano ou subir mais de um lance de escadas.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Classe III — limitação marcada; angina ao caminhar 1 a 2 quadras ou subir um lance de escadas.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Classe IV — angina a qualquer atividade física, podendo ocorrer em repouso.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 3, p. 5"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "p. 9-11 (cardiopatia isquêmica estabelecida)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Prevenção cardiovascular: antiagregante plaquetário (AAS 100 mg/dia; clopidogrel 75 mg/dia na intolerância ou alergia) e estatina de alta intensidade como prevenção secundária.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Antianginosos: betabloqueador (primeira escolha, alvo de FC próxima a 60 bpm), bloqueador de canal de cálcio (anlodipino, verapamil ou diltiazem) e nitrato (sublingual para sintomas agudos; de uso fixo com intervalo livre de 12 h para evitar tolerância).",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "IECA: benéfico na redução de mortalidade e eventos, sobretudo pós-infarto, disfunção ventricular, diabetes e hipertensão.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Betabloqueadores: propranolol, atenolol, metoprolol, carvedilol.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Bloqueadores de canal de cálcio: anlodipino, verapamil, diltiazem (nifedipina retard).",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Nitratos: isossorbida (di/mononitrato); dinitrato sublingual 5 mg até 3 comprimidos; propatilnitrato.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "IECA: enalapril, captopril. Antiplaquetários: AAS, clopidogrel, ticlopidina. Estatinas: sinvastatina, atorvastatina, rosuvastatina, pravastatina.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 9–11"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "p. 8-9 (periodicidade e controle de fatores de risco)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Periodicidade das consultas: em torno de 4 a 12 meses, conforme gravidade, adesão e fatores de risco.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "A cada consulta, reavaliar a classe funcional da angina; piora sugere otimizar tratamento e investigar fatores de descompensação.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Controle de fatores de risco: cessação do tabagismo, dieta cardioprotetora, exercício regular, PA < 140/90 e, em diabéticos, HbA1c < 7%.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Aumento da frequência ou duração da dor, ou dor em repouso: encaminhar à emergência (angina instável / IAM).",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), pp. 8–9"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "p. 12 (suspeita de IAM ou angina instável)",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Suspeita de IAM ou angina instável: encaminhar para atendimento emergencial.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Enquanto aguarda a ambulância: repouso, sinais vitais e ECG, AAS 100 mg (3 comprimidos mastigados), oxigênio se hipóxia e nitrato sublingual (exceto em hipotensão ou uso de inibidores da fosfodiesterase-5).",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "texto": "Encaminhamento ao cardiologista: estratificação após evento agudo; diagnóstico recente de alto risco (> 90%); sintomático apesar de tratamento otimizado; ou impossibilidade de investigação não invasiva em probabilidade intermediária/alta.",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), p. 12"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "texto": "Angina típica",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "texto": "Angina atípica",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/cardiologia/resultado.tsx",
+      "texto": "Dor não anginosa",
+      "origem": "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), Quadro 1, p. 4"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "texto": "Baixo (< 5%)",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "texto": "Limítrofe (5 a < 7,5%)",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "texto": "Intermediário (7,5 a < 20%)",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/resultado.tsx",
+      "texto": "Alto (≥ 20%)",
+      "origem": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes 5% / 7,5% / 20%"
+    }
+  ]
+}

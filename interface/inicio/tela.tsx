@@ -16,7 +16,7 @@ export function TelaInicio() {
   return (
     <Moldura
       titulo="APS Inteligente"
-      subtitulo="Calculadoras clínicas para a Atenção Primária à Saúde · cálculo 100% no navegador"
+      subtitulo="Calculadoras clínicas para a Atenção Primária à Saúde · Cálculo 100% no navegador"
       apresentacao="destaque"
     >
       <div className="inicio-secoes">

@@ -8,7 +8,7 @@ import { AppCrescimento } from "./app";
 export function TelaCrescimento() {
   return (
     <Moldura
-      titulo="Avaliação do Crescimento Infantil"
+      titulo="Avaliação do crescimento infantil"
       subtitulo="APS Inteligente · Fonte única: Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97"
       comInicio
     >

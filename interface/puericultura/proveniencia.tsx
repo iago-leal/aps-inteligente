@@ -4,10 +4,14 @@
 // primeira avaliação —, no molde do ContextoDaFonte da 014. O texto é fonte única
 // congelada no domínio (NOTA_PROVENIENCIA), lida daqui; a tela não reescreve nada do
 // que a caderneta afirma, e por isso o bloco não pode divergir do motor (anti-drift).
+// Feature 018 (RF-10, D-06): ganha um parágrafo próprio, a NOTA_CORRECAO_DE_CONCORDANCIA,
+// que declara ao leitor o único afastamento autorizado da transcrição literal. Ele vem do
+// domínio pelo MESMO caminho da NOTA_PROVENIENCIA — a tela continua sem texto próprio.
 // Os limites de cobertura vêm da mesma origem: REFERENCIAS.cobertura é o que a fonte
 // alcança, e é o que a ferramenta pode afirmar. Só apresentação, sem cálculo.
 import { Heading, Text } from "@primer/react";
 import {
+  NOTA_CORRECAO_DE_CONCORDANCIA,
   NOTA_PROVENIENCIA,
   REFERENCIAS,
 } from "models/puericultura/fonte-clinica";
@@ -23,6 +27,9 @@ export function ProvenienciaDoCrescimento() {
       </Heading>
       <Text as="p" size="small">
         {NOTA_PROVENIENCIA}
+      </Text>
+      <Text as="p" size="small">
+        {NOTA_CORRECAO_DE_CONCORDANCIA}
       </Text>
       <Text as="p" size="small">
         Cobertura da fonte: {REFERENCIAS.cobertura.localizacao}. Fora dessa

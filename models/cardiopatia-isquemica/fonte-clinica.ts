@@ -89,7 +89,7 @@ export const TEXTO_CONDUTA = Object.freeze({
   exameNaoInvasivo:
     "Probabilidade pré-teste intermediária: indicar exame não invasivo para confirmar ou afastar a suspeita em quadro clínico duvidoso.",
   estratificacaoEEncaminhamento:
-    "Probabilidade pré-teste alta: exame não invasivo para estratificação prognóstica e identificação de candidatos à revascularização; probabilidade > 90% requer estratificação por método invasivo — encaminhar ao cardiologista.",
+    "Probabilidade pré-teste alta: exame não invasivo para estratificação prognóstica e identificação de candidatos à revascularização; probabilidade > 90% requer estratificação por método invasivo, com encaminhamento ao cardiologista.",
   ergometria:
     "Exame inicial: ECG de repouso e teste ergométrico.",
   metodoNaoInvasivoAlternativo:
@@ -98,5 +98,5 @@ export const TEXTO_CONDUTA = Object.freeze({
 
 export const TEXTO_ADVERTENCIA = Object.freeze({
   anginaInstavel:
-    "Sinais de angina instável ou dor aguda: alta probabilidade de evento agudo em curto prazo. Encaminhar para atendimento emergencial — não seguir o fluxo eletivo de investigação.",
+    "Sinais de angina instável ou dor aguda: alta probabilidade de evento agudo em curto prazo. Encaminhar para atendimento emergencial, e não seguir o fluxo eletivo de investigação.",
 });

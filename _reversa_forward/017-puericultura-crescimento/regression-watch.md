@@ -30,7 +30,7 @@
 | W019 | T008 — o congelado é gerado, não escrito | Rodar `node scripts/congelar-casos-oraculo.mts` sobre as mesmas fontes deixa o `git diff` **vazio**; o cabeçalho do arquivo declara `geradoPor` e o aviso de não editar à mão | reprodutibilidade | Diff no JSON sem diff correspondente no congelador ou no manifesto — edição à mão de um oráculo, que é o modo de falha mais perigoso possível: o número passa a confirmar a implementação em vez de julgá-la |
 | W020 | Contrato de aquisição §5 — V6 para em ±3 | A reconstrução de V6 continua limitada a `SD3neg`…`SD3`; **não** se estende a `SD4neg`/`SD4` | ausência | V6 alcançando ±4: o gerador passaria a abortar em oito das catorze tabelas com dado íntegro, porque a OMS publica essas duas colunas já com a correção de cauda aplicada |
 | W021 | `roadmap.md` D-10.1 — onde a cauda se prova | O teste da **não**-aplicação da cauda a C-E/I e PC/I corre sobre acervo sintético com `L ≠ 1`; o da aplicação a P/I e IMC/I corre sobre a coluna `SD4` real | presença | O par "aplica / não aplica" inteiro apoiado no dado real da OMS: ali `L = 1` iguala as duas regras (diferença de 1e-14) e o teste passa com a implementação certa **e** com a errada — um teste que não distingue nada, com aparência de rigor |
-| W022 | `requirements.md` RN-04 a RN-07 — rótulos literais | Os rótulos de `fonte-clinica.ts` são a transcrição EXATA da caderneta, inclusive onde a concordância do original destoa: "Comprimento adequada para idade", "Baixa comprimento para idade", "Muito baixo comprimento para idade", "Peso elevado para idade" (sem artigo) e os três do perímetro cefálico com a SIGLA | redação | Rótulo "corrigido" para a norma culta, ou artigo acrescentado. A tela deixaria de coincidir com o documento impresso que o médico tem na mão, e a divergência apareceria como erro da ferramenta |
+| W022 | `requirements.md` RN-04 a RN-07 — rótulos literais · **revogado em parte pela feature 018** (`MD-0015`, `MD-0017`) | **Vinte e três dos vinte e cinco** rótulos de `fonte-clinica.ts` seguem sendo a transcrição EXATA da caderneta, e a vigilância sobre eles continua inteira: "Muito baixo comprimento para idade" (que já concorda), "Peso elevado para idade" (sem artigo), a elipse do artigo em "para idade" e os três do perímetro cefálico com a SIGLA. **Os outros dois — "Comprimento adequada para idade" e "Baixa comprimento para idade" — passaram a ser exibidos com a concordância corrigida**, e a permanência dessa correção, junto com a declaração que a acompanha na constante exportada `NOTA_CORRECAO_DE_CONCORDANCIA`, é o que este item passa a vigiar no lugar da preservação daqueles dois | redação (23 rótulos) + presença (a declaração de RF-10) | Rótulo "corrigido" **fora** dos dois autorizados, ou artigo acrescentado a qualquer um dos vinte e três — a tela deixaria de coincidir com o impresso que o médico tem na mão. E, do lado novo: a `NOTA_CORRECAO_DE_CONCORDANCIA` ausente do domínio ou não renderizada pela proveniência, o que reduziria a correção autorizada a um desvio silencioso. Verificação automatizada em `tests/unit/textos/citacao.test.ts`, contra `tests/apoio/citacao-linha-de-base.json` |
 | W023 | `fonte-clinica.ts` + `classificacao.ts` — a segunda troca de rótulo | O índice de comprimento/estatura troca de SUBSTANTIVO aos 730 dias: "Comprimento" até lá, "Estatura" a partir de 731 — a mesma fronteira de D-16 | presença | Conjunto único para toda a faixa etária. O plano não previa esta troca (achado de T023), e perdê-la faria a tela chamar de "estatura" o que a caderneta chama de "comprimento" na criança de colo |
 | W024 | `requirements.md` RN-06 — a troca de nomenclatura do IMC | Aos 1826 dias os três rótulos superiores deslizam um degrau: o que era "Sobrepeso" vira "Obesidade", "Obesidade" vira "Obesidade grave" e "Risco de sobrepeso" vira "Sobrepeso". Os três inferiores não mudam | presença | Conjunto único de rótulos do IMC, ou troca deslocada para 1856 dias (a fronteira de TABELA). É a armadilha central da fonte: errá-la produz laudo nutricional trocado sem que nenhum número pareça errado |
 | W025 | `roadmap.md` D-10 — a quem a cauda se aplica | `INDICES_COM_CORRECAO_DE_CAUDA` contém exatamente `peso-idade` e `imc-idade`, e é lista de dados, não `if` espalhado | presença | Índice acrescentado ou removido da lista. Acrescentar estatura ou perímetro cefálico é clinicamente inócuo (ali `L = 1` iguala as regras), mas remover peso ou IMC desloca o escore em até 10,4 unidades justamente na desnutrição e na obesidade graves |
@@ -50,6 +50,33 @@
 | W039 | `requirements.md` RNF de acessibilidade — a tela nova nasce limpa | `/puericultura/crescimento` tem **zero** violação axe, antes e depois do resultado, e `e2e/axe-baseline.json` permanece **sem entrada** para ela | presença | Entrada nova no arquivo de linha de base para a rota de crescimento. A linha de base existe para tolerar dívida herdada; registrar zero nela só cria o lugar onde afrouxá-la depois |
 | W040 | `roadmap.md` D-09 — isolamento de custo por rota | O *first load* das sete rotas existentes não cresce com a feature: medido em T049, bruto **idêntico byte a byte**. Só `/puericultura/crescimento` paga as tabelas | presença | Qualquer rota existente crescendo numa medição futura — sinal de que o dado vazou do *code-splitting*, e o caso em que a porta de D-08 (repositório injetável) deve ser usada para migrar à carga dinâmica |
 | W041 | `vitest.config.ts` — cobertura sem exceção | `coverage.include` continua `["models/**"]`, **sem exclusão** dos módulos de dados gerados, e os limites seguem em 90 nas quatro métricas | ausência | Exclusão acrescentada ou limite rebaixado. T050 previa a exceção como possibilidade e ela não foi necessária: o dado gerado é integralmente coberto por ser importado. Rebaixar o limite depois disso seria ajuste sem causa |
+
+### Nota de superação — W022, revogado em parte pela feature 018 (2026-07-27)
+
+**O que mudou.** `W022` nasceu vigiando a transcrição literal dos vinte e cinco rótulos, e
+o seu modo de falha declarado era, palavra por palavra, "rótulo 'corrigido' para a norma
+culta". A feature `018-revisao-linguagem-textos` passou a fazer exatamente isso em **dois**
+deles, por arbitragem registrada em `MD-0015`: onde a Caderneta da Criança imprime
+"Comprimento adequada para idade" e "Baixa comprimento para idade", a tela lê "Comprimento
+adequado" e "Baixo comprimento".
+
+**Por que ele foi reescrito no lugar, e não apagado nem contornado** (`MD-0017`). Apagá-lo
+perderia a vigilância sobre os **vinte e três** rótulos que continuam intocáveis, que é a
+maior parte do que ele guardava. Deixá-lo intacto faria a próxima verificação de regressão
+acusar vermelho legítimo sobre decisão deliberada — e faria a spec afirmar o contrário do
+que o código faz, contra o Princípio I. Criar um item novo noutro arquivo empurraria a
+contradição para quem lesse este aqui sem o adendo ao lado. Reescrito onde nasceu, com a
+ficha que o revogou apontada na própria linha, ele continua legível por quem chega sem
+contexto.
+
+**O que ele passou a vigiar, e é mais do que antes.** A preservação dos vinte e três, como
+sempre; e, do lado novo, a **permanência da declaração** — a constante
+`NOTA_CORRECAO_DE_CONCORDANCIA`, exportada pelo domínio e renderizada pela proveniência.
+Sem ela, a correção autorizada vira desvio silencioso, e é essa condição que `MD-0015`
+impôs para autorizá-la. A vigilância deixou de depender de leitura humana: o verificador
+`tests/unit/textos/citacao.test.ts` compara a classe citação inteira contra
+`tests/apoio/citacao-linha-de-base.json`, congelado do estado anterior à correção e jamais
+regerado, e reprova qualquer terceiro afastamento.
 
 ## Observações (sem peso de regressão)
 

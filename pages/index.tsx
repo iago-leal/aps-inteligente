@@ -7,10 +7,10 @@ export default function Pagina() {
   return (
     <>
       <Head>
-        <title>APS Inteligente — Calculadoras clínicas para a APS</title>
+        <title>APS Inteligente · Calculadoras clínicas para a APS</title>
         <meta
           name="description"
-          content="Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2 e Pré-natal. Cálculo 100% no navegador: nada é salvo nem enviado."
+          content="Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura. Cálculo 100% no navegador: nada é salvo nem enviado."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

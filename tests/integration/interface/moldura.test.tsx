@@ -66,7 +66,7 @@ describe("Cabeçalho refatorado (features 011 e 016)", () => {
 
   it("com comInicio (calculadoras): a marca segue não-link e há um comando de início para '/', único link (RF-03, D-06)", () => {
     const { container } = render(
-      <Moldura titulo="Calculadora de Insulina — DM2" subtitulo="Sub" comInicio>
+      <Moldura titulo="Calculadora de insulina no DM2" subtitulo="Sub" comInicio>
         <p>conteúdo</p>
       </Moldura>,
     );

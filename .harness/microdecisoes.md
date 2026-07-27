@@ -18,3 +18,4 @@
 - **MD-0016** — A superfície textual vira dado gerado; a classe de cada literal, decisão declarada à mão
 - **MD-0017** — Watch item revogado por decisão posterior é reescrito no lugar, com a superação declarada; nem apagado, nem contornado
 - **MD-0018** — Linha de base e congelamento são dois artefatos, porque um se regera e o outro não pode
+- **MD-0019** — A régua da candidatura é a união de duas metades, porque contar palavras mede o tamanho e não a exibição

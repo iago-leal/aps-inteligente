@@ -9,7 +9,7 @@ export default function Pagina() {
     <>
       <Head>
         <title>
-          Risco Cardiovascular em 10 anos (Pooled Cohort Equations) · APS
+          Risco cardiovascular em 10 anos (Pooled Cohort Equations) · APS
           Inteligente
         </title>
         <meta

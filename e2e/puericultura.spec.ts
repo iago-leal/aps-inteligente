@@ -58,7 +58,7 @@ test("home: a seção Puericultura nasce e leva à avaliação do crescimento (R
     .click();
   await expect(page).toHaveURL(/\/puericultura\/crescimento$/);
   await expect(
-    page.getByRole("heading", { name: /Avaliação do Crescimento Infantil/i }),
+    page.getByRole("heading", { name: /Avaliação do crescimento infantil/i }),
   ).toBeVisible();
 });
 

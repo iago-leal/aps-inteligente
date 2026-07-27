@@ -16,6 +16,7 @@ import {
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AppCrescimento } from "interface/puericultura/app";
+import { NOTA_CORRECAO_DE_CONCORDANCIA } from "models/puericultura/fonte-clinica";
 import type { EntradaAvaliacao } from "models/puericultura/tipos";
 import { ErroDeInvariante } from "models/puericultura/tipos";
 
@@ -77,8 +78,9 @@ describe("Cenário 1: lactente a termo com medidas completas (RF-11/RF-20)", () 
     avalia();
 
     expect(painel().getByText("Peso adequado para idade")).toBeTruthy();
-    // "Comprimento adequada": a concordância é da fonte impressa, não um lapso.
-    expect(painel().getByText("Comprimento adequada para idade")).toBeTruthy();
+    // "Comprimento adequado": a fonte imprime "adequada", e a tela corrige a
+    // concordância por `MD-0015`, declarando o afastamento na proveniência (RF-10).
+    expect(painel().getByText("Comprimento adequado para idade")).toBeTruthy();
     expect(painel().getByText("Eutrofia")).toBeTruthy();
     expect(painel().getByText("PC adequado para idade")).toBeTruthy();
   });
@@ -187,6 +189,32 @@ describe("Cenário 16: proveniência e limites fora do painel (RF-13)", () => {
     expect(proveniencia.textContent).toContain(
       "0 a 2 anos no perímetro cefálico",
     );
+  });
+
+  // Feature 018, RF-10. É a metade sem a qual a correção de concordância de `MD-0015`
+  // seria violação de RN-09 em vez de cumprimento dela: corrigir sem informar trocaria um
+  // desvio gramatical por um desvio de transparência. A asserção é FRACA quanto à redação
+  // e FORTE quanto ao conteúdo — exige as duas formas impressas nomeadas, para que quem
+  // confere contra a caderneta reconheça a diferença sem consultar o código.
+  it("declara ao leitor o afastamento autorizado, nomeando as formas impressas", () => {
+    render(<AppCrescimento dataDeHoje={HOJE} />);
+    const proveniencia = screen.getByRole("region", {
+      name: /proveniência e limites/i,
+    });
+
+    expect(proveniencia.textContent).toMatch(/concordância corrigida/i);
+    expect(proveniencia.textContent).toContain("Comprimento adequada para idade");
+    expect(proveniencia.textContent).toContain("Baixa comprimento para idade");
+    expect(proveniencia.textContent).toContain("Comprimento adequado para idade");
+    expect(proveniencia.textContent).toContain("Baixo comprimento para idade");
+  });
+
+  it("a declaração vem do domínio, e a tela não cria segunda fonte (RN-05)", () => {
+    render(<AppCrescimento dataDeHoje={HOJE} />);
+    const proveniencia = screen.getByRole("region", {
+      name: /proveniência e limites/i,
+    });
+    expect(proveniencia.textContent).toContain(NOTA_CORRECAO_DE_CONCORDANCIA);
   });
 });
 

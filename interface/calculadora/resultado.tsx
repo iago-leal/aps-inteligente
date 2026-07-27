@@ -81,7 +81,7 @@ function AcaoCopiarPlano({
       </Button>
       {estadoCopia === "copiado" ? (
         <Flash variant="success" role="status">
-          Plano copiado — cole no prontuário.
+          Plano copiado: cole no prontuário.
         </Flash>
       ) : null}
       {estadoCopia === "falhou" ? (
@@ -167,7 +167,7 @@ function CorpoInicio({ resultado }: { resultado: ResultadoInicio }) {
     <div className="faixa-inicial">
       <Text as="p">
         Insulina {resultado.aplicacaoSugerida.insulina}{" "}
-        {ROTULO_MOMENTO[resultado.aplicacaoSugerida.momento]} — dose inicial
+        {ROTULO_MOMENTO[resultado.aplicacaoSugerida.momento]}. Dose inicial
         pela fonte:
       </Text>
       <Text as="p" className="valor">
@@ -215,7 +215,7 @@ function CorpoTitulacao({ resultado }: { resultado: ResultadoTitulacao }) {
       resultado.condutasAlternativas.length > 0 ? (
         <div className="bloco-condutas">
           <Heading as="h3">
-            Condutas alternativas do guia — a escolha é do prescritor
+            Condutas alternativas do guia: a escolha é do prescritor
           </Heading>
           <ul>
             {resultado.condutasAlternativas.map((conduta) => (
@@ -255,7 +255,7 @@ export function PainelResultado({
 
       {desatualizado ? (
         <Flash variant="warning" role="status" className="aviso-desatualizado">
-          Os dados mudaram — recalcule antes de prescrever.
+          Os dados mudaram: recalcule antes de prescrever.
         </Flash>
       ) : null}
 
@@ -279,7 +279,7 @@ export function PainelResultado({
       {estado.estado === "erro" && estado.saida.tipo === "erro-validacao" ? (
         <Flash variant="danger" role="alert" className="bloco-erros">
           <strong>
-            Entradas fora da faixa plausível — nenhuma dose foi calculada:
+            Entradas fora da faixa plausível. Nenhuma dose foi calculada:
           </strong>
           <ul>
             {estado.saida.ofensores.map((ofensor) => (

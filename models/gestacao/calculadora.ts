@@ -144,7 +144,7 @@ export class CalculadoraIdadeGestacional {
         trimestreDaUsg,
         veredito: "sem-parametro-na-fonte",
         mensagem:
-          "Ultrassom de 3.º trimestre: a fonte não parametriza margem de erro para arbitrar entre as datações — a avaliação é do julgamento clínico.",
+          "Ultrassom de 3.º trimestre: a fonte não parametriza margem de erro para arbitrar entre as datações, e a avaliação é do julgamento clínico.",
         referencia: REFERENCIAS.margensUsg,
       };
     }

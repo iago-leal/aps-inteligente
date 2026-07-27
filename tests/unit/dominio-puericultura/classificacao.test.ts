@@ -47,7 +47,7 @@ describe("peso para idade (RN-04, pp. 89, 92, 95)", () => {
 describe("comprimento e estatura: sem categoria superior (RN-05)", () => {
   it("escore alto NÃO recebe rótulo de desvio — a fonte não o classifica", () => {
     expect(classificar("comprimento-estatura-idade", 5, AOS_SEIS_MESES)).toBe(
-      "Comprimento adequada para idade",
+      "Comprimento adequado para idade",
     );
     expect(classificar("comprimento-estatura-idade", 5, AOS_TRES_ANOS)).toBe(
       "Estatura adequada para idade",
@@ -64,13 +64,13 @@ describe("comprimento e estatura: sem categoria superior (RN-05)", () => {
 
   it("as bordas −2 e −3, nos dois substantivos", () => {
     expect(classificar("comprimento-estatura-idade", -2, AOS_SEIS_MESES)).toBe(
-      "Comprimento adequada para idade",
+      "Comprimento adequado para idade",
     );
     expect(
       classificar("comprimento-estatura-idade", -2.0001, AOS_SEIS_MESES),
-    ).toBe("Baixa comprimento para idade");
+    ).toBe("Baixo comprimento para idade");
     expect(classificar("comprimento-estatura-idade", -3, AOS_SEIS_MESES)).toBe(
-      "Baixa comprimento para idade",
+      "Baixo comprimento para idade",
     );
     expect(
       classificar("comprimento-estatura-idade", -3.0001, AOS_SEIS_MESES),
@@ -88,7 +88,7 @@ describe("comprimento e estatura: sem categoria superior (RN-05)", () => {
 describe("o substantivo do comprimento troca aos 2 anos (achado de T023, D-16)", () => {
   it("aos 730 dias ainda é comprimento; aos 731, estatura", () => {
     expect(classificar("comprimento-estatura-idade", -2.5, 730)).toBe(
-      "Baixa comprimento para idade",
+      "Baixo comprimento para idade",
     );
     expect(classificar("comprimento-estatura-idade", -2.5, 731)).toBe(
       "Baixa estatura para idade",
@@ -104,16 +104,24 @@ describe("o substantivo do comprimento troca aos 2 anos (achado de T023, D-16)",
     );
   });
 
-  it("a transcrição preserva a concordância da fonte, destoante e tudo", () => {
-    // "Comprimento adequada", "Baixa comprimento", "Muito baixo comprimento" estão
-    // assim nos DOIS materiais, menino e menina (conferido em T023).
+  it("a transcrição corrige a concordância nos dois rótulos declarados, e só neles", () => {
+    // Os três rótulos estão IDÊNTICOS nos dois materiais, menino e menina (conferido
+    // em T023 da feature 017). Até 26/07 a transcrição os preservava byte a byte, e este
+    // teste asseverava a preservação; `MD-0015` arbitrou a correção dos DOIS desvios de
+    // concordância, sob a condição de o afastamento ser declarado ao leitor — o que a
+    // `NOTA_CORRECAO_DE_CONCORDANCIA` faz, e o teste de integração da tela verifica.
+    //
+    // O terceiro permanece impresso: "Muito baixo" já concorda com o masculino, e a
+    // lista fechada de §2.4 o arrola entre os que a exceção NÃO alcança. É ele que dá
+    // sentido a este teste: sem um rótulo intocado ao lado dos dois corrigidos, a
+    // asserção não distinguiria correção declarada de reescrita geral da citação.
     const rotulos = cortesDe("comprimento-estatura-idade", 0).map(
       (c) => c.rotulo,
     );
 
     expect(rotulos).toEqual([
-      "Comprimento adequada para idade",
-      "Baixa comprimento para idade",
+      "Comprimento adequado para idade",
+      "Baixo comprimento para idade",
       "Muito baixo comprimento para idade",
     ]);
   });

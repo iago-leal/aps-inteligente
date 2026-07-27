@@ -7,7 +7,7 @@ export default function Pagina() {
   return (
     <>
       <Head>
-        <title>Calculadora de Insulina — DM2 · APS Inteligente</title>
+        <title>Calculadora de insulina no DM2 · APS Inteligente</title>
         <meta
           name="description"
           content="Apoio à decisão para insulinização no DM2 pelo Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. 2023). Cálculo 100% no navegador: nada é salvo nem enviado."

@@ -169,7 +169,7 @@ function notasDe(
       {
         tipo: "PREMISSA_DE_TERMO",
         mensagem:
-          "Idade gestacional ao nascer não informada: a criança foi tratada como nascida a termo e nenhuma correção de idade foi aplicada. Se ela nasceu pré-termo, informe a idade gestacional — a classificação pode mudar.",
+          "Idade gestacional ao nascer não informada: a criança foi tratada como nascida a termo e nenhuma correção de idade foi aplicada. Se ela nasceu pré-termo, informe a idade gestacional: a classificação pode mudar.",
         referencia: REFERENCIAS.idadeCorrigida,
       },
     ];

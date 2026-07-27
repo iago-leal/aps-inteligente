@@ -56,7 +56,7 @@ describe("cenário 1: lactente a termo com medidas completas", () => {
     );
     expect(
       comoCalculado(resultado, "comprimento-estatura-idade").classificacao,
-    ).toBe("Comprimento adequada para idade");
+    ).toBe("Comprimento adequado para idade");
     expect(comoCalculado(resultado, "imc-idade").classificacao).toBe(
       "Eutrofia",
     );

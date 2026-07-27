@@ -7,7 +7,7 @@ import { AppRiscoCardiovascular } from "./app";
 export function TelaRiscoCardiovascular() {
   return (
     <Moldura
-      titulo="Risco Cardiovascular em 10 anos (Pooled Cohort Equations)"
+      titulo="Risco cardiovascular em 10 anos (Pooled Cohort Equations)"
       subtitulo="APS Inteligente · Fonte única: 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)"
       comInicio
     >

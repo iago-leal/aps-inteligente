@@ -45,7 +45,7 @@ export function ContextoDaFonte() {
       <Text as="p" size="small">
         Calculadora AHA PREVENT (site oficial, em inglês):{" "}
         <a href={URL_PREVENT} target="_blank" rel="noopener noreferrer">
-          professional.heart.org — PREVENT™ Online Calculator
+          professional.heart.org · PREVENT™ Online Calculator
         </a>
       </Text>
     </section>

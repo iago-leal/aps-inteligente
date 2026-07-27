@@ -46,7 +46,7 @@ export function validarEntrada(entrada: EntradaAvaliacao): Ofensor[] {
       ofensor(
         "sexo",
         "SEXO_INVALIDO",
-        "Sexo inválido: informe masculino ou feminino (eixo do Quadro 2).",
+        "Sexo inválido: informe masculino ou feminino. A probabilidade pré-teste é específica por sexo.",
       ),
     );
   }

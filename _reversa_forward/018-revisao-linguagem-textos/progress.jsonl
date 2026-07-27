@@ -1,3 +1,62 @@
 {"ts":"2026-07-27T04:08:41Z","action":"T001","status":"done","files":[".reversa/principles.md",".reversa/principles-impact-20260727.md"]}
 {"ts":"2026-07-27T04:16:36Z","action":"T006","status":"done","files":["scripts/inventariar-textos.mts"],"nota":"regua ampliada para uniao de posicao sintatica e corte de 3 palavras, por decisao do usuario sobre a medicao de T007"}
 {"ts":"2026-07-27T04:16:36Z","action":"T007","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/actions.md"],"nota":"645 candidatos; premissa de dimensionamento do roadmap §4 (270-320) REFUTADA"}
+{"ts":"2026-07-27T13:05:00Z","action":"T002","status":"done","files":["docs/redacao.md"]}
+{"ts":"2026-07-27T13:20:00Z","action":"T003","status":"done","files":["docs/redacao.md"],"nota":"L-08 resolvida: complemento facultativo com criterio, referencia a fonte VEDADA na mensagem de validacao (a ReferenciaClinica ja a carrega). D-13 resolvida: <title> = <nome> · APS Inteligente, caixa de frase"}
+{"ts":"2026-07-27T13:26:00Z","action":"T004","status":"done","files":["CLAUDE.md"]}
+{"ts":"2026-07-27T13:30:00Z","action":"T005","status":"done","files":["README.md"]}
+{"ts":"2026-07-27T14:10:00Z","action":"T008","status":"done","files":["scripts/textos/classificacao.mts","scripts/textos/classes/declarar.mts"]}
+{"ts":"2026-07-27T14:20:00Z","action":"T009","status":"done","files":["scripts/textos/classes/models-puericultura.mts"]}
+{"ts":"2026-07-27T14:22:00Z","action":"T010","status":"done","files":["scripts/textos/classes/models-insulina.mts"]}
+{"ts":"2026-07-27T14:24:00Z","action":"T011","status":"done","files":["scripts/textos/classes/models-demais.mts"]}
+{"ts":"2026-07-27T14:30:00Z","action":"T012","status":"done","files":["scripts/textos/classes/interface.mts"]}
+{"ts":"2026-07-27T14:34:00Z","action":"T013","status":"done","files":["scripts/textos/classes/pages-e-arquivos.mts"],"nota":"README declarado por ARQUIVO (UNIFORMES), nao literal a literal: a forma literal congelaria o README por via obliqua, contra D-10"}
+{"ts":"2026-07-27T14:40:00Z","action":"T014","status":"done","files":["scripts/inventariar-textos.mts"]}
+{"ts":"2026-07-27T14:44:00Z","action":"T053","status":"done","files":["scripts/inventariar-textos.mts"],"nota":"modo --linha-de-base recusa sobrescrever arquivo existente"}
+{"ts":"2026-07-27T14:55:00Z","action":"T015","status":"done","files":["tests/apoio/inventario-textual.json"],"nota":"624 literais, idempotente; a conferencia dos literais fora da regua obrigou a baixar o corte de 3 para 2 palavras (3 rotulos citados do TeleCondutas eram cegos) e a excluir a diretiva de prologo"}
+{"ts":"2026-07-27T15:00:00Z","action":"T016","status":"done","files":["README.md"],"nota":"o README cresceu 33 linhas e o inventario o acompanhou na regeracao"}
+{"ts":"2026-07-27T15:20:00Z","action":"T017","status":"done","files":["tests/apoio/citacao-linha-de-base.json"],"nota":"108 citacoes congeladas do estado anterior; segunda execucao do modo falha de proposito"}
+{"ts":"2026-07-27T15:25:00Z","action":"T054","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/actions.md"],"nota":"familia 1: 267 em 14 arquivos; familia 2: 373 em 40"}
+{"ts":"2026-07-27T15:40:00Z","action":"T018","status":"done","files":["tests/unit/textos/norma.test.ts","tests/unit/textos/apoio.ts"]}
+{"ts":"2026-07-27T15:45:00Z","action":"T019","status":"done","files":["tests/unit/textos/congelamento.test.ts"]}
+{"ts":"2026-07-27T15:50:00Z","action":"T020","status":"done","files":["tests/unit/textos/citacao.test.ts"]}
+{"ts":"2026-07-27T15:55:00Z","action":"T021","status":"done","files":["tests/unit/textos/descricao-plataforma.test.ts","tests/apoio/superficie-textual.ts"]}
+{"ts":"2026-07-27T15:58:00Z","action":"T056","status":"done","files":["tests/unit/textos/par-duplicado.test.ts"]}
+{"ts":"2026-07-27T16:00:00Z","action":"T057","status":"done","files":["tests/unit/textos/privacidade.test.ts"]}
+{"ts":"2026-07-27T16:03:00Z","action":"T022","status":"done","files":["tests/unit/textos/manifesto.test.ts","_reversa_forward/018-revisao-linguagem-textos/interfaces/manifesto-pwa.md"],"nota":"o teto de 78 do contrato era numero em prosa; medido 81, o teste compara contra o medido"}
+{"ts":"2026-07-27T16:15:00Z","action":"T055","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/actions.md"],"nota":"os 7 reprovam; a forma positiva da descricao reprova pelo caso real, sem inducao"}
+{"ts":"2026-07-27T16:20:00Z","action":"T023","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/actions.md"],"nota":"26 passam, 3 falham; as 3 sao desvios pre-existentes de T032, T033 e T036"}
+{"ts":"2026-07-27T16:40:00Z","action":"T024","status":"done","files":["interface/inicio/catalogo.ts"],"nota":"2 reescritos de 14; 12 mantidos"}
+{"ts":"2026-07-27T16:45:00Z","action":"T025","status":"done","files":["interface/calculadora/resultado.tsx"],"nota":"5 reescritos: travessao fazendo oficio de dois-pontos"}
+{"ts":"2026-07-27T16:47:00Z","action":"T026","status":"done","files":["interface/cardiologia/tela.tsx"],"nota":"so o titulo, por caixa de frase; a prosa de referencias.tsx e citacao e ficou intocada"}
+{"ts":"2026-07-27T16:49:00Z","action":"T027","status":"done","files":["interface/risco-cardiovascular/proveniencia.tsx","interface/risco-cardiovascular/tela.tsx","interface/gestacao/tela.tsx"]}
+{"ts":"2026-07-27T16:51:00Z","action":"T028","status":"done","files":["interface/puericultura/tela.tsx"],"nota":"nomes acessiveis da moldura mantidos por RN-07"}
+{"ts":"2026-07-27T16:53:00Z","action":"T029","status":"done","files":["models/insulina/validacao.ts","models/gestacao/validacao.ts"],"nota":"ja conformes ao molde; mantidos"}
+{"ts":"2026-07-27T16:55:00Z","action":"T030","status":"done","files":["models/cardiopatia-isquemica/validacao.ts","models/risco-cardiovascular/validacao.ts"],"nota":"L-08 aplicada: referencia a fonte sai da mensagem; concordancia de raca corrigida"}
+{"ts":"2026-07-27T16:57:00Z","action":"T031","status":"done","files":["models/insulina/fonte-clinica.ts","models/cardiopatia-isquemica/fonte-clinica.ts"]}
+{"ts":"2026-07-27T16:59:00Z","action":"T058","status":"done","files":["models/insulina/regra-intensificacao.ts"]}
+{"ts":"2026-07-27T17:01:00Z","action":"T059","status":"done","files":["models/puericultura/calculadora.ts"]}
+{"ts":"2026-07-27T17:03:00Z","action":"T060","status":"done","files":["models/gestacao/calculadora.ts","models/cardiopatia-isquemica/fonte-clinica.ts"]}
+{"ts":"2026-07-27T17:06:00Z","action":"T032","status":"done","files":["models/puericultura/fonte-clinica.ts"],"nota":"segundo par de travessao vira oracao; afirmacoes clinicas intactas"}
+{"ts":"2026-07-27T17:08:00Z","action":"T033","status":"done","files":["pages/index.tsx"],"nota":"defeito de exatidao de 2.3 CORRIGIDO: as quatro secoes nomeadas"}
+{"ts":"2026-07-27T17:10:00Z","action":"T034","status":"done","files":["pages/dm2/insulina.tsx","pages/pre-natal/idade-gestacional.tsx","pages/cardiologia/dor-toracica.tsx","pages/cardiologia/risco-cardiovascular.tsx","pages/puericultura/crescimento.tsx"]}
+{"ts":"2026-07-27T17:12:00Z","action":"T035","status":"done","files":["interface/inicio/tela.tsx","public/manifest.webmanifest"],"nota":"ato unico; 81 -> 81 caracteres"}
+{"ts":"2026-07-27T17:14:00Z","action":"T036","status":"done","files":["README.md"]}
+{"ts":"2026-07-27T17:18:00Z","action":"T037","status":"done","files":["models/puericultura/fonte-clinica.ts"],"nota":"2 rotulos corrigidos + NOTA_CORRECAO_DE_CONCORDANCIA + cabecalho reescrito"}
+{"ts":"2026-07-27T17:20:00Z","action":"T038","status":"done","files":["interface/puericultura/proveniencia.tsx"]}
+{"ts":"2026-07-27T17:25:00Z","action":"T039","status":"done","files":["tests/unit/textos/citacao.test.ts"],"nota":"exatamente 2 deltas, ambos de concordancia, ambos com ficha MD-0015; 108 citacoes antes e depois"}
+{"ts":"2026-07-27T17:35:00Z","action":"T040","status":"done","files":["tests/unit/dominio-puericultura/classificacao.test.ts"],"nota":"6 assercoes + titulo do teste da linha 107 + comentario da 108 reescritos"}
+{"ts":"2026-07-27T17:36:00Z","action":"T041","status":"done","files":["tests/unit/dominio-puericultura/fachada.test.ts"]}
+{"ts":"2026-07-27T17:40:00Z","action":"T042","status":"done","files":["tests/integration/interface/puericultura.test.tsx"],"nota":"+2 testes novos provando a declaracao de RF-10 na proveniencia renderizada"}
+{"ts":"2026-07-27T17:42:00Z","action":"T043","status":"done","files":[],"nota":"nenhuma assercao afetada: as reescritas de T026/T027 nao tocaram texto asseverado. Conferido por varredura das formas antigas"}
+{"ts":"2026-07-27T17:44:00Z","action":"T044","status":"done","files":["tests/integration/interface/moldura.test.tsx"],"nota":"so o valor de titulo do moldura.test.tsx; relator-de-erros nao foi afetado (Nao prescreva intocado)"}
+{"ts":"2026-07-27T17:45:00Z","action":"T045","status":"done","files":[],"nota":"nenhuma assercao de validacao afetada: as mensagens reescritas nao eram asseveradas literalmente"}
+{"ts":"2026-07-27T17:46:00Z","action":"T061","status":"done","files":[],"nota":"os 17 toContain de formatar-plano.test.ts NAO quebraram: as reescritas de T025 alcancaram resultado.tsx e nao rotulos.ts"}
+{"ts":"2026-07-27T17:47:00Z","action":"T062","status":"done","files":[],"nota":"nenhuma assercao de conduta/recusa afetada; medidas.test.ts intocado"}
+{"ts":"2026-07-27T17:50:00Z","action":"T046","status":"done","files":["e2e/plataforma.spec.ts","e2e/calculadora.spec.ts","e2e/puericultura.spec.ts"],"nota":"36/36 verdes; axe-baseline.json NAO alterado"}
+{"ts":"2026-07-27T17:52:00Z","action":"T047","status":"done","files":["tests/apoio/inventario-textual.json"],"nota":"642 literais; 32 pares antes/depois; linha de base NAO regerada"}
+{"ts":"2026-07-27T17:55:00Z","action":"T048","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/actions.md"],"nota":"familia 1: 267 -> 269; familia 2: 373 -> 383; nenhum arquivo perdeu assercao"}
+{"ts":"2026-07-27T18:00:00Z","action":"T049","status":"done","files":["_reversa_forward/017-puericultura-crescimento/regression-watch.md"]}
+{"ts":"2026-07-27T18:20:00Z","action":"T052","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/medicao-bundle.md"],"nota":"maior crescimento +182 B gzip em /puericultura/crescimento; nada a declarar pelo RNF (limiar 1 kB)"}
+{"ts":"2026-07-27T18:30:00Z","action":"T050","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/relatorio-revisao.md"],"nota":"27 reescritos, 1 acrescentado, 316 mantidos com lista nominal por arquivo"}
+{"ts":"2026-07-27T18:40:00Z","action":"T051","status":"done","files":["_reversa_forward/018-revisao-linguagem-textos/reconciliacao-spec.md"],"nota":"a varredura acrescentou 6 artefatos que RF-09 nao previa, entre eles os dois contratos de interfaces/"}

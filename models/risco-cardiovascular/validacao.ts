@@ -35,7 +35,7 @@ export function validarEntrada(entrada: EntradaEstimativa): Ofensor[] {
 
   if (!SEXOS.includes(entrada.sexo)) {
     ofensores.push(
-      ofensor("sexo", "SEXO_INVALIDO", "Sexo inválido: informe masculino ou feminino."),
+      ofensor("sexo", "SEXO_INVALIDO", "Sexo inválido: informe masculino ou feminino. As equações são específicas por sexo."),
     );
   }
 
@@ -44,7 +44,7 @@ export function validarEntrada(entrada: EntradaEstimativa): Ofensor[] {
       ofensor(
         "raca",
         "RACA_INVALIDA",
-        "Raça inválida: informe branco, afro-americano ou outra.",
+        "Raça inválida: informe branca, preta/afro-americana ou outra.",
       ),
     );
   }

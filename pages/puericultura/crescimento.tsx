@@ -8,7 +8,7 @@ export default function Pagina() {
   return (
     <>
       <Head>
-        <title>Avaliação do Crescimento Infantil · APS Inteligente</title>
+        <title>Avaliação do crescimento infantil · APS Inteligente</title>
         <meta
           name="description"
           content="Escores z de peso, comprimento/estatura, IMC e perímetro cefálico com a classificação da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), inclusive para nascidos pré-termo. Cálculo 100% no navegador: nada é salvo nem enviado."

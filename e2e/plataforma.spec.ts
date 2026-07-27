@@ -54,7 +54,7 @@ test("home: duas seções, cartões navegáveis, raiz sem calculadora embutida",
   await page.getByRole("link", { name: "Calculadora de insulina" }).click();
   await expect(page).toHaveURL(/\/dm2\/insulina$/);
   await expect(
-    page.getByRole("heading", { name: "Calculadora de Insulina — DM2" }),
+    page.getByRole("heading", { name: "Calculadora de insulina no DM2" }),
   ).toBeVisible();
 
   await page.goto("/");
@@ -63,7 +63,7 @@ test("home: duas seções, cartões navegáveis, raiz sem calculadora embutida",
     .click();
   await expect(page).toHaveURL(/\/pre-natal\/idade-gestacional$/);
   await expect(
-    page.getByRole("heading", { name: "Calculadora de Idade Gestacional" }),
+    page.getByRole("heading", { name: "Calculadora de idade gestacional" }),
   ).toBeVisible();
 });
 
@@ -248,7 +248,7 @@ test("calculadora: logo é marca decorativa, sem virar heading nem link novo (RF
 }) => {
   await page.goto("/dm2/insulina");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Calculadora de Insulina — DM2" }),
+    page.getByRole("heading", { level: 1, name: "Calculadora de insulina no DM2" }),
   ).toBeVisible();
   // A marca decorativa não expõe nome acessível de imagem e não é link.
   await expect(page.getByRole("img", { name: "APS Inteligente" })).toHaveCount(0);
@@ -311,7 +311,7 @@ test("home: a seção Cardiologia leva à calculadora de dor torácica (RF-08)",
   await expect(page).toHaveURL(/\/cardiologia\/dor-toracica$/);
   await expect(
     page.getByRole("heading", {
-      name: "Probabilidade Pré-teste de Cardiopatia Isquêmica",
+      name: "Probabilidade pré-teste de cardiopatia isquêmica",
     }),
   ).toBeVisible();
 });
@@ -380,7 +380,7 @@ test("cabeçalho da calculadora alinha à coluna do corpo em viewport largo (RF-
   await page.goto("/dm2/insulina");
   // Espera o layout pintar antes de medir (auto-wait dos locators/boundingBox).
   await expect(
-    page.getByRole("heading", { level: 1, name: "Calculadora de Insulina — DM2" }),
+    page.getByRole("heading", { level: 1, name: "Calculadora de insulina no DM2" }),
   ).toBeVisible();
 
   const ident = (await page.locator(".cabecalho-identidade").boundingBox())!;
@@ -483,7 +483,7 @@ test("home: a seção Cardiologia leva à calculadora de risco cardiovascular (R
   await expect(page).toHaveURL(/\/cardiologia\/risco-cardiovascular$/);
   await expect(
     page.getByRole("heading", {
-      name: /Risco Cardiovascular em 10 anos \(Pooled Cohort Equations\)/i,
+      name: /Risco cardiovascular em 10 anos \(Pooled Cohort Equations\)/i,
     }),
   ).toBeVisible();
 });

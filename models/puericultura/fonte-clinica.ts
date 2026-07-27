@@ -5,14 +5,29 @@
 // git (`referencias/caderneta/`); os rótulos abaixo foram transcritos deles em 27/07.
 // Feature 017-puericultura-crescimento.
 //
-// TRANSCRIÇÃO FIEL, e é aqui que ela dói: a fonte escreve "Peso elevado para idade"
-// (sem o artigo), "Comprimento adequada", "Baixa comprimento" e "Muito baixo
-// comprimento" — concordâncias que destoam da norma. O `requirements.md` §4 as
-// normalizou ao parafrasear as regras, e a lacuna 🟡 de §10 supunha que o desvio
-// fosse só do material da menina. Conferidos os dois PDFs, os rótulos são IDÊNTICOS
-// nos dois sexos, com a mesma concordância destoante. Preservamos o texto impresso:
-// o médico compara a tela com a caderneta que tem na mão, e "corrigir" o português
-// aqui criaria divergência onde a fonte não tem nenhuma.
+// TRANSCRIÇÃO FIEL, com UMA exceção declarada — e a exceção é nova, de 27/07/2026.
+//
+// A fonte escreve "Peso elevado para idade" (sem o artigo), "Comprimento adequada" e
+// "Baixa comprimento": formas que destoam da norma culta. Conferidos os dois PDFs, os
+// rótulos são IDÊNTICOS nos materiais do menino e da menina, com a mesma concordância.
+//
+// Até 26/07 este cabeçalho concluía daí que nada se corrigia, e a conclusão era defensável:
+// o médico compara a tela com a caderneta que tem na mão. A arbitragem de `MD-0015` mudou
+// a conclusão sem mudar a premissa. Os DOIS desvios de CONCORDÂNCIA — e só eles — passam a
+// ser corrigidos, sob a condição de o afastamento ser declarado ao leitor na proveniência
+// (`NOTA_CORRECAO_DE_CONCORDANCIA`, abaixo). A razão é que corrigir em silêncio trocaria um
+// desvio gramatical por um desvio de transparência, e este é o pior dos dois numa
+// ferramenta que se confere contra o impresso.
+//
+// O que a exceção NÃO alcança, e a lista é fechada (`requirements.md` §2.4):
+//   · "Muito baixo comprimento para idade" — o cabeçalho antigo o arrolava entre os
+//     desviantes, e ele está correto: "baixo" já concorda com o masculino. Fica intocado;
+//   · "Peso elevado para idade", "Peso adequado para idade" e os demais vinte e dois —
+//     a elipse do artigo é registro telegráfico de tabela, não erro de concordância, e
+//     uniformizá-la arrastaria o conjunto inteiro para além do que a decisão autorizou.
+//
+// A permanência do resto é verificada contra `tests/apoio/citacao-linha-de-base.json`,
+// congelado do estado anterior a esta correção e jamais regerado (D-14, `MD-0018`).
 import type { Indice, ReferenciaClinica } from "./tipos";
 
 export const FONTE_ID = "caderneta-da-crianca-ms-2ed-2020";
@@ -72,14 +87,16 @@ export const CORTES_PESO: readonly CorteDeClassificacao[] = Object.freeze([
 export const CORTES_COMPRIMENTO: readonly CorteDeClassificacao[] =
   Object.freeze([
     Object.freeze({
+      // Impresso "Comprimento adequada para idade" (MD-0015, RF-10).
       tipo: "aPartirDe" as const,
       z: -2,
-      rotulo: "Comprimento adequada para idade",
+      rotulo: "Comprimento adequado para idade",
     }),
     Object.freeze({
+      // Impresso "Baixa comprimento para idade" (MD-0015, RF-10).
       tipo: "aPartirDe" as const,
       z: -3,
-      rotulo: "Baixa comprimento para idade",
+      rotulo: "Baixo comprimento para idade",
     }),
     Object.freeze({
       tipo: "abaixoDeTudo" as const,
@@ -272,5 +289,21 @@ export const REFERENCIAS = Object.freeze({
  * leitura da tabela é por linha publicada, sem interpolar (D-06) — divergência
  * assumida contra o software oficial da OMS, que o roadmap §9 mandou declarar aqui.
  */
+/**
+ * RF-10: a declaração do único afastamento autorizado da transcrição literal.
+ *
+ * Constante PRÓPRIA, e não emenda na `NOTA_PROVENIENCIA`, por três razões que a decisão
+ * registrou (D-06): são dois assuntos com ciclos de vida distintos — um descreve o limite
+ * da avaliação, o outro o afastamento da fonte —; emendar produziria um bloco único com
+ * três pares de travessão, contra o teto da norma; e `W022` da feature 017, reescrito por
+ * `MD-0017`, passa a vigiar a permanência desta declaração, o que se faz com precisão sobre
+ * constante exportada e não sobre trecho dentro de um parágrafo de quinhentos caracteres.
+ *
+ * Ela nomeia as formas impressas para que quem confere contra a página saiba de onde vem a
+ * diferença. Corrigir sem informar seria violação de RN-09, não cumprimento parcial dela.
+ */
+export const NOTA_CORRECAO_DE_CONCORDANCIA =
+  "Dois rótulos de classificação são exibidos com a concordância corrigida: onde a Caderneta da Criança imprime “Comprimento adequada para idade” e “Baixa comprimento para idade”, esta tela lê “Comprimento adequado para idade” e “Baixo comprimento para idade”. A correção alcança a concordância e nada mais: os demais rótulos, inclusive “Muito baixo comprimento para idade” e a elipse do artigo em “para idade”, são reproduzidos como a fonte os imprime.";
+
 export const NOTA_PROVENIENCIA =
-  "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas — vários pontos unidos formam a linha que mostra como a criança evolui —, e um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada — por dia até os 5 anos e por mês completo depois —, sem interpolação: nenhum valor do cálculo é estimado.";
+  "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas — vários pontos unidos formam a linha que mostra como a criança evolui —, e um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.";

@@ -8,7 +8,7 @@ import { CalculadoraApp } from "./calculadora-app";
 export function TelaCalculadora() {
   return (
     <Moldura
-      titulo="Calculadora de Insulina — DM2"
+      titulo="Calculadora de insulina no DM2"
       subtitulo="APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023"
       comInicio
     >

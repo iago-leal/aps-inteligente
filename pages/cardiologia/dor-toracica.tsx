@@ -8,7 +8,7 @@ export default function Pagina() {
     <>
       <Head>
         <title>
-          Probabilidade Pré-teste de Cardiopatia Isquêmica · APS Inteligente
+          Probabilidade pré-teste de cardiopatia isquêmica · APS Inteligente
         </title>
         <meta
           name="description"

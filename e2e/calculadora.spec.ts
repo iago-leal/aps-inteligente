@@ -32,7 +32,7 @@ test("fluxo de início de insulinização com ritual de revisão", async ({
   // Edição invalida o resultado e desfaz a revisão (RN-06/EC-03).
   await page.getByLabel("Peso (kg)").fill("81");
   await expect(
-    page.getByText("Os dados mudaram — recalcule antes de prescrever."),
+    page.getByText("Os dados mudaram: recalcule antes de prescrever."),
   ).toBeVisible();
   await expect(page.getByLabel("Revisei a dose e a fonte")).not.toBeChecked();
 
@@ -60,7 +60,7 @@ test("copiar plano põe o plano completo na área de transferência", async ({
   await page.getByLabel("Revisei a dose e a fonte").check();
   await botao.click();
   await expect(
-    page.getByText("Plano copiado — cole no prontuário."),
+    page.getByText("Plano copiado: cole no prontuário."),
   ).toBeVisible();
 
   const texto = await page.evaluate(() => navigator.clipboard.readText());
@@ -85,7 +85,7 @@ test("copiar plano põe o plano completo na área de transferência", async ({
   await page.getByLabel("Peso (kg)").fill("81");
   await expect(botao).toBeHidden();
   await expect(
-    page.getByText("Plano copiado — cole no prontuário."),
+    page.getByText("Plano copiado: cole no prontuário."),
   ).toBeHidden();
 });
 

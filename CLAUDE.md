@@ -28,6 +28,32 @@ O Reversa escreve apenas em `.reversa/`, `_reversa_sdd/`, `_reversa_docs/` e `_r
 
 ---
 
+# Norma de redação do produto
+
+Todo texto que esta plataforma exibe responde a uma norma escrita, e a norma vive em
+**`docs/redacao.md`**. Leia-a antes de escrever qualquer literal que chegue à tela, ao
+`<title>`, ao `<meta name="description">` ou ao manifesto — e antes de reescrever
+qualquer um deles.
+
+O que ela fixa, em uma linha cada:
+
+- **Três classes de texto.** Autoral, citação e identificador. A classe vem da origem do
+  texto, jamais do diretório onde ele mora, e se **declara** em `scripts/textos/classes/`.
+  Literal novo sem entrada faz `node scripts/inventariar-textos.mts` parar.
+- **A revisão de estilo alcança só a classe autoral.** A citação permanece byte a byte,
+  com uma exceção estrita: desvio de concordância da fonte impressa se corrige **e se
+  declara ao leitor**, sobre lista fechada.
+- **Pontuação pelos três eixos**, com o expressivo racionado: travessão `—` e nunca `-`,
+  no máximo um par por bloco, nenhuma reticência e nenhuma exclamação.
+- **O ponto médio `·` é recurso tipográfico**, não pontuação, e permanece onde está.
+
+A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`, que o guia
+materializa e que remete de volta a ele. Parte das regras é verificada por teste em
+`tests/unit/textos/`; a seção 7 do guia diz exatamente qual parte, para que ninguém
+confunda "a suíte passou" com "o texto está bom".
+
+---
+
 
 # Preferências globais — iagoleal
 

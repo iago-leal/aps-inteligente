@@ -133,7 +133,7 @@ export class RegraIntensificacao {
       ajuste.recomendacoes.push({
         tipo: "AFERIR_POS_PRANDIAL",
         mensagem:
-          "HbA1c acima da meta com pré-prandiais na meta: aferir glicemias pós-prandiais para ajuste — o guia não parametriza esse ajuste; a conduta é do prescritor.",
+          "HbA1c acima da meta com pré-prandiais na meta: aferir glicemias pós-prandiais. O guia não parametriza esse ajuste, e a conduta é do prescritor.",
         referencia: REFERENCIAS.posPrandial,
       });
     }
