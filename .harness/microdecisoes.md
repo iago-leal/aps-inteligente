@@ -14,3 +14,4 @@
 - **MD-0012** — O rótulo clínico é do domínio; a tela nomeia o índice pela forma neutra
 - **MD-0013** — O adendo de uma feature grande cita os watch items por família e reserva seção própria para o que a spec previu errado
 - **MD-0014** — A classe de um texto vem da sua origem, não do arquivo onde ele mora; e a citação de fonte clínica fica fora da revisão de linguagem
+- **MD-0015** — Corrigir a concordância da fonte é lícito quando vem declarado; o que a citação não admite é a diferença silenciosa

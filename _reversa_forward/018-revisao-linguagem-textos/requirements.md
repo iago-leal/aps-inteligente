@@ -11,7 +11,7 @@ A prosa da plataforma nasceu feature a feature, sem norma declarada: cada tela t
 
 O beneficiário direto é quem lê: o prescritor na consulta, que encontra um texto uniforme em vez de cinco vozes. O beneficiário durável é o mantenedor, porque a norma escrita e verificada por teste substitui a lembrança de como se escrevia aqui.
 
-A feature separa, e é o seu ponto mais delicado, o **texto autoral** do **texto citado da fonte clínica**. Rótulos transcritos de guia impresso não são prosa do produto: são citação, e permanecem como estão mesmo quando destoam da norma gramatical.
+A feature separa, e é o seu ponto mais delicado, o **texto autoral** do **texto citado da fonte clínica**. Rótulos transcritos de guia impresso não são prosa do produto: são citação, e permanecem como estão. A exceção é uma só, arbitrada em 27/07 e estreita por construção: onde a fonte contraria a **concordância**, o produto escreve a forma correta e **declara o afastamento na proveniência**, para que o prescritor que confere contra a página impressa saiba de onde vem a diferença. São dois rótulos em vinte e cinco, enumerados em §2.4, e a exceção não se estende a mais nada da citação.
 
 ## 2. Contexto a partir do legado
 
@@ -38,6 +38,7 @@ Varredura heurística de literais com três ou mais palavras em `interface/`, `p
 | `interface/**` | ~90 | Predominantemente autoral: catálogo da home, blocos de proveniência, títulos de seção, nomes acessíveis. | 🟢 |
 | `pages/**` | ~7 | `<title>` e `<meta name="description">` das cinco rotas mais a raiz. | 🟢 |
 | `public/manifest.webmanifest` | 3 campos | `name`, `short_name`, `description` do aplicativo instalável. | 🟢 |
+| `README.md` | 174 linhas | Incluído pela resolução de L-01: é porta de entrada de quem chega pelo repositório, e sua prosa é integralmente autoral. | 🟢 |
 
 Concentração relevante: `models/insulina/fonte-clinica.ts` (~28), `interface/cardiologia/referencias.tsx` (~26), `models/puericultura/fonte-clinica.ts` (~25), `models/cardiopatia-isquemica/fonte-clinica.ts` (~15), `interface/inicio/catalogo.ts` (~11). Os arquivos `fonte-clinica.ts` são majoritariamente citação; `referencias.tsx` e `catalogo.ts`, majoritariamente autorais.
 
@@ -49,18 +50,34 @@ O aparato de testes assevera texto visível e nome acessível em **224 ocorrênc
 
 🟢 A descrição da home em `pages/index.tsx` afirma que a plataforma cobre "Diabetes Mellitus tipo 2 e Pré-natal". O catálogo vigente tem **quatro seções**: as duas citadas, mais Cardiologia (duas calculadoras) e Puericultura. O texto que sai para buscadores e para o compartilhamento em redes descreve uma plataforma que já não existe. É desatualização de conteúdo, não de estilo, e entra no escopo por RF-04.
 
+### 2.4 Lista fechada dos desvios de concordância na classe citação
+
+Resolvida L-02 pela via da correção declarada, a exceção de RN-09 tem alcance conhecido e finito. Conferidos os vinte e cinco rótulos de `models/puericultura/fonte-clinica.ts`, apenas **dois** apresentam desvio de concordância nominal, ambos idênticos nos materiais do menino e da menina:
+
+| Impresso na Caderneta (pp. 89, 92, 95) | Passa a | Natureza do desvio |
+|---|---|---|
+| `Comprimento adequada para idade` | `Comprimento adequado para idade` | concordância de gênero: "comprimento" é masculino |
+| `Baixa comprimento para idade` | `Baixo comprimento para idade` | concordância de gênero, mesma raiz |
+
+Dois casos vizinhos ficam **fora** da exceção, por não serem concordância: 🟢
+
+- **A elipse do artigo.** A fonte imprime "para idade" em vinte e quatro rótulos e "para a idade" em um só (`PC acima do esperado para a idade`). É registro telegráfico de tabela, não erro de concordância, e uniformizá-lo arrastaria o conjunto inteiro para além do que a decisão autorizou.
+- **`Muito baixo comprimento para idade`.** O cabeçalho de `fonte-clinica.ts` o arrola junto dos desviantes, mas ele está gramaticalmente correto: "baixo" já concorda com o masculino. Permanece intocado, e a linha 9 daquele comentário é imprecisa nesse ponto.
+
+Consequência de execução, não de escopo: os dois rótulos corrigidos são asseverados por oráculos congelados do domínio e por testes de integração da tela, em `tests/unit/dominio-puericultura/{classificacao,fachada}.test.ts` e `tests/integration/interface/puericultura.test.tsx`. A atualização desses oráculos é ato deliberado desta feature, sob RF-08.
+
 ## 3. Personas e cenários de uso
 
 | Persona | Objetivo | Cenário-chave |
 |---------|----------|---------------|
-| Prescritor na consulta | Ler a tela sem tropeçar, e reconhecer nela o material impresso que tem à mão | Abre a avaliação do crescimento com a caderneta aberta ao lado e confere se o rótulo da tela é o mesmo da página impressa |
+| Prescritor na consulta | Ler a tela sem tropeçar, e reconhecer nela o material impresso que tem à mão | Abre a avaliação do crescimento com a caderneta aberta ao lado, encontra "Comprimento adequado" onde a página imprime "Comprimento adequada" e lê, na proveniência, que a diferença é correção de concordância declarada, não divergência de classificação |
 | Prescritor que chega pela busca | Entender em uma frase o que a plataforma faz e o que ela cobre | Encontra o resultado no buscador e lê uma descrição que corresponde às quatro seções existentes |
 | Mantenedor intermitente | Escrever a próxima tela sem redescobrir a norma | Abre o guia de redação antes de nomear a sexta calculadora e sabe, sem deliberar, como pontuar o subtítulo |
 | Agente de codificação | Produzir texto conforme, sem depender de instrução repetida no prompt | Executa `/reversa-coding` de uma feature nova e encontra a norma como artefato do projeto, verificada por teste |
 
 ## 4. Regras de negócio novas ou alteradas
 
-1. **RN-01: três classes de texto, e só uma é revisável.** Todo literal exibido ao usuário pertence a exatamente uma classe: **autoral** (escrito pelo produto), **citação** (transcrito de fonte clínica, incluindo rótulo de classificação, conduta e localização bibliográfica) ou **identificador** (chave, `id`, nome de campo, valor de `data-*`). A revisão alcança a classe autoral. A citação permanece byte a byte. O identificador está fora do escopo. 🟢
+1. **RN-01: três classes de texto, e a revisão as alcança de modos diferentes.** Todo literal exibido ao usuário pertence a exatamente uma classe: **autoral** (escrito pelo produto), **citação** (transcrito de fonte clínica, incluindo rótulo de classificação, conduta e localização bibliográfica) ou **identificador** (chave, `id`, nome de campo, valor de `data-*`). A revisão de estilo alcança integralmente a classe autoral. A citação permanece byte a byte, **salvo a exceção estrita de RN-09**, que corrige concordância e só concordância. O identificador está fora do escopo. 🟢
    - Origem no legado: `_reversa_sdd/domain.md#7` (invariante 5, constantes congeladas como fonte única)
    - Tipo: nova
 
@@ -92,19 +109,29 @@ O aparato de testes assevera texto visível e nome acessível em **224 ocorrênc
    - Origem no legado: `_reversa_sdd/architecture.md#5` (disciplina de oráculos congelados já praticada no domínio)
    - Tipo: nova
 
+9. **RN-09: a citação corrige concordância, e nada além disso, sempre declarando.** Onde a fonte impressa contraria a concordância nominal ou verbal, o produto escreve a forma correta e **declara o afastamento ao leitor**, no bloco de proveniência do domínio. A exceção é estrita em três sentidos: alcança **apenas** desvio de concordância, jamais léxico, terminologia, ordem, número, unidade ou sentido; vale sobre a **lista fechada de §2.4**, não como licença geral de reescrita da citação; e é **inseparável da declaração**, de modo que corrigir sem informar constitui violação da regra, não cumprimento parcial dela. Elipse de artigo, registro telegráfico e escolha vocabular da fonte permanecem como impressos. 🟢
+   - Origem: decisão do usuário em `/reversa-clarify` de 27/07/2026, que arbitra a lacuna L-02 contra a posição registrada no cabeçalho de `models/puericultura/fonte-clinica.ts` e reverte a segunda metade de `MD-0014` — reversão que a própria ficha previu e declarou barata, por não ter ainda tocado código
+   - Tipo: nova, e substitui a leitura absoluta de RN-01 vigente até 26/07
+
+10. **RN-10: o ponto médio é recurso tipográfico, não sinal de pontuação.** O `·` separa unidades de informação de mesma hierarquia — nome e qualificação no subtítulo, título e marca no `<title>`, fonte e localização na proveniência — e por isso não responde aos três eixos nem ao teto de RN-03. Permanece em todas as vinte posições atuais. O que a norma fixa é a forma: sempre ladeado por espaço simples, nunca acumulado com vírgula ou travessão na mesma junção, e jamais em início ou fim de linha. 🟢
+   - Origem: decisão do usuário em `/reversa-clarify` de 27/07/2026, que resolve a lacuna L-04
+   - Tipo: nova
+
 ## 5. Requisitos Funcionais
 
 | ID | Requisito | Prioridade | Critério de aceite | Confidência |
 |----|-----------|------------|--------------------|-------------|
-| RF-01 | Guia de redação do produto como artefato versionado do repositório, derivado das preferências globais de escrita e reduzido a regras aplicáveis: as três classes de RN-01, os três eixos de pontuação, os tetos de RN-03, e o tratamento de siglas, números e unidades | Must | Existe arquivo único, citado pelo `CLAUDE.md` do projeto, cujas regras são todas ou verificáveis por teste ou ilustradas por par "antes/depois" retirado do próprio produto | 🟢 |
-| RF-02 | Inventário completo e classificado de todos os literais exibidos ao usuário, cada um marcado como autoral, citação ou identificador, com arquivo e linha | Must | O inventário cobre `interface/**`, `pages/**`, `models/**` e `public/manifest.webmanifest`; nenhum literal exibido fica sem classe; a soma bate com a varredura de conferência | 🟢 |
+| RF-01 | Guia de redação do produto como artefato versionado do repositório, derivado das preferências globais de escrita e reduzido a regras aplicáveis: as três classes de RN-01 com a exceção de RN-09, os três eixos de pontuação, os tetos de RN-03, o estatuto do ponto médio por RN-10, o molde das mensagens de validação, e a grafia de números, unidades e siglas fixada pelo uso corrente | Must | Existe arquivo único, citado pelo `CLAUDE.md` do projeto, cujas regras são todas ou verificáveis por teste ou ilustradas por par "antes/depois" retirado do próprio produto | 🟢 |
+| RF-02 | Inventário completo e classificado de todos os literais exibidos ao usuário, cada um marcado como autoral, citação ou identificador, com arquivo e linha | Must | O inventário cobre `interface/**`, `pages/**`, `models/**`, `public/manifest.webmanifest` e `README.md`; nenhum literal exibido fica sem classe; a soma bate com a varredura de conferência | 🟢 |
 | RF-03 | Revisão de todo texto da classe autoral contra o guia de RF-01 | Must | Cada literal autoral do inventário aparece como mantido, com justificativa de uma linha, ou reescrito, com o par "antes/depois" registrado | 🟢 |
 | RF-04 | Correção da descrição da home, que enumera duas das quatro seções existentes | Must | A descrição de `pages/index.tsx` e a do manifesto correspondem ao catálogo vigente, verificado por teste contra `CATALOGO` | 🟢 |
 | RF-05 | Verificação automatizada das regras mecânicas da norma sobre os textos autorais, integrada à suíte | Should | Existe teste que falha quando um literal autoral novo viola os tetos de RN-03 ou usa hífen no lugar de travessão; as citações de RN-01 ficam explicitamente isentas | 🟢 |
 | RF-06 | Congelamento por teste dos textos autorais revisados | Should | Alterar qualquer literal autoral revisado quebra ao menos um teste, com mensagem que aponta o guia | 🟢 |
-| RF-07 | Preservação verificada de toda a classe citação | Must | Comparação automática entre o estado anterior e o posterior demonstra zero alteração nos literais classificados como citação | 🟢 |
+| RF-07 | Preservação verificada da classe citação, com exceção única e enumerada | Must | Comparação automática entre o estado anterior e o posterior demonstra que os únicos literais de citação alterados são os **dois** de §2.4, e que a alteração se restringe à concordância; qualquer terceiro delta na classe reprova a entrega | 🟢 |
 | RF-08 | Atualização dos testes que asseveram texto visível e nome acessível, em razão das reescritas de RF-03 | Must | Suíte integralmente verde; nenhuma asserção removida para acomodar a mudança, apenas atualizada | 🟢 |
-| RF-09 | Reconciliação da spec com o texto revisado, na disciplina do Princípio I | Should | Os artefatos da extração que citam literais alterados são apontados no relatório da feature, para absorção por `/reversa-sync` | 🟡 |
+| RF-09 | Reconciliação da spec com o texto revisado, na disciplina do Princípio I | Should | Os artefatos da extração que citam literais alterados são apontados no relatório da feature, para absorção por `/reversa-sync`; a lista inclui obrigatoriamente `_reversa_sdd/addenda/017-puericultura-crescimento.md` e as fichas `MD-0012` e `MD-0014`, que transcrevem os dois rótulos de §2.4 | 🟡 |
+| RF-10 | Declaração ao leitor do afastamento autorizado por RN-09, na proveniência do domínio de puericultura | Must | `NOTA_PROVENIENCIA`, fonte única do bloco, informa que dois rótulos de classificação corrigem a concordância do impresso e nomeia a forma original, de modo que quem confere contra a caderneta reconheça a diferença sem consultar o código; o bloco segue lido do domínio, sem segunda fonte na tela | 🟢 |
+| RF-11 | Elevação da norma a princípio formal do projeto, por passagem de `/reversa-principles` dentro desta feature | Must | `.reversa/principles.md` ganha o princípio **IX**, no molde dos oito ativos, com impacto declarado nos templates dependentes; o guia de RF-01 passa a ser a sua materialização operacional, e um remete ao outro nas duas direções | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -126,11 +153,25 @@ Cenário: prosa autoral revisada conforme a norma
   Então o literal passa a usar no máximo um par de travessões
   E o par "antes/depois" fica registrado no relatório da feature
 
-Cenário: rótulo transcrito da fonte impressa permanece intacto
-  Dado o rótulo "Comprimento adequada", transcrito da Caderneta da Criança
+Cenário: rótulo citado com desvio de concordância é corrigido e declarado
+  Dado o rótulo "Comprimento adequada para idade", transcrito da Caderneta da Criança
   Quando a revisão da feature é aplicada
-  Então o rótulo permanece byte a byte idêntico
-  E a comparação automática de RF-07 acusa zero alteração na classe citação
+  Então o rótulo passa a ler "Comprimento adequado para idade"
+  E a proveniência do domínio informa o afastamento e a forma impressa original
+  E a comparação de RF-07 acusa exatamente os dois deltas de §2.4, nenhum além
+
+Cenário: rótulo citado sem desvio de concordância permanece intacto
+  Dado o rótulo "Muito baixo comprimento para idade", gramaticalmente correto na fonte
+  E o rótulo "Peso adequado para idade", cuja elipse de artigo não é concordância
+  Quando a revisão da feature é aplicada
+  Então ambos permanecem byte a byte idênticos
+  E a exceção de RN-09 não é invocada para nenhum deles
+
+Cenário: correção de citação sem declaração é reprovada
+  Dado um rótulo de citação cuja concordância foi corrigida no domínio
+  Quando a proveniência não menciona o afastamento
+  Então a entrega viola RN-09
+  E o teste de RF-10 falha
 
 Cenário: descrição da plataforma corresponde ao catálogo
   Dado que o catálogo declara quatro seções
@@ -167,6 +208,13 @@ Cenário: norma consultável antes de escrever
   Quando ele procura como pontuar o subtítulo de uma tela nova
   Então encontra a regra no guia de redação apontado pelo CLAUDE.md do projeto
   E a regra vem acompanhada de um par "antes/depois" tirado do próprio produto
+  E o guia remete ao princípio IX, que lhe dá a razão de ser
+
+Cenário: ponto médio preservado como recurso tipográfico
+  Dado o subtítulo "APS Inteligente · Fonte única: Caderneta da Criança"
+  Quando a revisão de pontuação é aplicada
+  Então o ponto médio permanece, ladeado por espaço simples
+  E o teto de travessões de RN-03 não o contabiliza
 
 Cenário: alteração futura de texto revisado não passa silenciosa
   Dado um literal autoral já revisado e congelado
@@ -195,31 +243,49 @@ Cenário: literais alterados que a extração cita são reportados
 | RF-02 inventário classificado | Must | "Todos os textos" só é verificável contra uma lista fechada; sem ela não há critério de pronto |
 | RF-03 revisão da prosa autoral | Must | É o pedido literal |
 | RF-04 descrição desatualizada | Must | Defeito de exatidão já constatado, visível a quem chega pela busca |
-| RF-07 preservação da citação | Must | Alterar rótulo de fonte cria divergência entre a tela e o material impresso na mão do prescritor |
-| RF-08 testes atualizados | Must | 224 asserções de texto quebram junto; entrega sem suíte verde não é entrega |
+| RF-07 preservação da citação | Must | A citação é o que casa a tela com o impresso; a exceção de RN-09 só se sustenta se for enumerada e verificada, sob pena de virar licença geral |
+| RF-10 declaração do afastamento | Must | Corrigir sem informar troca um desvio gramatical por um desvio de transparência, e este é o pior dos dois na ferramenta clínica |
+| RF-11 princípio IX | Must | Decisão do usuário em 27/07: a norma vale como princípio do projeto, não só como guia de uma feature |
+| RF-08 testes atualizados | Must | 224 asserções de texto quebram junto, mais os oráculos congelados dos dois rótulos de §2.4; entrega sem suíte verde não é entrega |
 | RF-05 verificação automatizada | Should | Converte a norma em guardrail; sem ela a regra depende de lembrança |
 | RF-06 congelamento por teste | Should | Torna deliberada a mudança futura, no molde dos oráculos já usados no domínio |
 | RF-09 reconciliação da spec | Should | Princípio I; pode ser absorvida por `/reversa-sync` ao fim do ciclo |
-| Revisão de comentários de código e documentação do repositório | Won't, nesta feature | Fora de "textos do website"; ver lacuna L-01 |
+| Revisão do `README.md` | Must | Incluído por decisão de 27/07 (L-01): é a porta de entrada de quem chega pelo repositório |
+| Revisão de comentários de código, de `_reversa_sdd/` e de mensagens de commit | Won't, nesta feature | Fora da fronteira fixada em 27/07; incluir a documentação da extração multiplicaria o escopo por uma ordem de grandeza |
 | Tradução ou versão em outro idioma | Won't | Não pedido, e multiplicaria a superfície a manter |
 | Redesenho de layout, hierarquia visual ou tipografia | Won't | Feature de linguagem, não de design; alterações visuais têm ciclo próprio |
 
 ## 9. Esclarecimentos
 
-> Nenhuma sessão de dúvidas registrada ainda. Rode `/reversa-clarify` quando houver `[DÚVIDA]` pendente.
+### Sessão 2026-07-27
+
+- **Q:** Fronteira do "website": o que entra na revisão?
+  **R:** Entra o que o usuário lê na tela, o que sai para fora do navegador **e o `README.md`**, por ser a porta de entrada de quem chega pelo repositório. Ficam fora os comentários de código, os artefatos de `_reversa_sdd/` e as mensagens de commit. Resolve L-01; incorporado em §2.1, RF-02 e na tabela MoSCoW.
+
+- **Q:** Rótulos transcritos com desvio de concordância, como "Comprimento adequada" e "Baixa comprimento": a citação prevalece ou se corrige?
+  **R:** **Corrigir a concordância e registrar o desvio da fonte na proveniência.** A decisão reverte a posição declarada no cabeçalho de `models/puericultura/fonte-clinica.ts` e a segunda metade de `MD-0014`, cientes de que a tela passa a diferir da página impressa nesses dois pontos; a declaração ao leitor é o que mantém a conferência à beira do leito possível. O alcance é o da palavra empregada, concordância, e não se estende a léxico, elipse de artigo ou registro. Resolve L-02; incorporado em §2.4, RN-01, RN-09, RF-07, RF-10 e nos cenários.
+
+- **Q:** A norma fica como guia mais teste, ou sobe a princípio formal do projeto?
+  **R:** **As duas coisas, dentro desta feature**: guia versionado com verificação automatizada, e princípio **IX** em `.reversa/principles.md` por passagem de `/reversa-principles`, com impacto declarado nos templates. Resolve L-03; incorporado em RF-01 e RF-11.
+
+- **Q:** O ponto médio "·" permanece, e em quais posições?
+  **R:** **Permanece em todas as vinte posições atuais**, e o guia o declara recurso tipográfico de separação, alheio aos três eixos da pontuação e ao teto de travessões. Resolve L-04; incorporado em RN-10 e em RF-01.
+
+- **Q:** Que regra o guia fixa para números, unidades e siglas?
+  **R:** **Codificar o uso corrente como norma** — decimal com vírgula, espaço antes da unidade, percentual sem espaço, símbolo matemático admitido em prosa, meia-risca em intervalo — e uniformizar apenas os desvios pontuais que a revisão encontrar. Resolve L-05; incorporado em RF-01.
+
+- **Q:** As mensagens de validação alternam entre imperativo e constatação. A alternância é deliberada?
+  **R:** É deliberada, e a varredura o demonstra: o molde dominante é `constatação: imperativo` ("Glicemia fora da faixa plausível: informe um valor entre X e Y mg/dL."), e o imperativo puro aparece justamente quando o campo está **ausente** ("Informe ao menos uma glicemia capilar para calcular a titulação."). O guia fixa a regularidade observada: **valor presente e inválido pede diagnóstico seguido de instrução; valor ausente pede instrução direta.** Proposto pelo esclarecedor e não contestado. Resolve L-06; incorporado em RF-01.
 
 ## 10. Lacunas
 
-- 🔴 **L-01 [DÚVIDA] Fronteira de "website".** A leitura assumida é: entra tudo o que o usuário lê na tela mais o que sai para fora do navegador, ou seja `interface/**`, `pages/**` incluindo `<title>` e `<meta>`, os literais autorais de `models/**` e o `manifest.webmanifest`. Ficam fora os comentários de código, o `README.md`, os artefatos de `_reversa_sdd/` e as mensagens de commit. Confirmar, porque incluir a documentação do repositório multiplicaria o escopo por uma ordem de grandeza.
-- 🔴 **L-02 [DÚVIDA] Rótulos de fonte com desvio de norma.** A Caderneta da Criança imprime "Peso elevado para idade", "Comprimento adequada" e "Baixa comprimento", concordâncias que destoam da norma culta e que o produto hoje reproduz deliberadamente, para que a tela case com a página impressa. O pedido diz "todos os textos"; a posição registrada em `models/puericultura/fonte-clinica.ts` diz que corrigir criaria divergência onde a fonte não tem nenhuma. Confirmar que a citação prevalece, e se cabe sinalizar o desvio ao leitor, por exemplo com uma nota de que o rótulo reproduz o impresso.
-- 🔴 **L-03 [DÚVIDA] Alcance do guardrail.** A norma fica como guia consultável mais teste automatizado no repositório, como propõem RF-01 e RF-05, ou sobe também a princípio formal em `.reversa/principles.md`, com numeração romana e impacto declarado nos templates? A segunda via exige uma passagem por `/reversa-principles`, que é ato separado desta feature.
-- 🟡 **L-04 Separador tipográfico.** O ponto médio "·" aparece em subtítulos, títulos de página e no manifesto, no molde de "Calculadoras clínicas para a Atenção Primária à Saúde · cálculo 100% no navegador". Não é sinal de pontuação dos três eixos, e sim recurso tipográfico de separação. A norma precisa decidir se ele permanece, e em quais posições, antes que RF-03 toque esses textos.
-- 🟡 **L-05 Grafia de números e unidades.** Não há regra declarada para decimal com vírgula, espaço antes de unidade, uso de "≥" contra "maior ou igual a", nem para a forma das siglas na primeira ocorrência. São escolhas que aparecem em dezenas de literais e que o guia de RF-01 precisa fixar para que RF-03 seja mecânico em vez de opinativo.
-- 🟡 **L-06 Registro do modo imperativo.** Mensagens de validação alternam entre imperativo direto, como "Informe o peso do paciente", e constatação impessoal, como "Peso fora da faixa plausível". A alternância pode ser deliberada, distinguindo ausência de valor implausível, ou acidental. O guia deve decidir, porque a escolha atravessa as cinco telas.
 - 🟡 **L-07 Desalinhamento herdado da extração.** `_reversa_sdd/domain.md` §7.2 regra 11 ainda descreve a prop `logoComoTitulo`, removida pelo adendo 016. Não afeta esta feature, mas quem ler a citação da seção 2 encontrará a discrepância; a correção pertence à re-extração nº 4.
+- 🟡 **L-08 Três redações para a mesma recusa.** "Sexo inválido" existe em três formas entre os domínios: seca ("informe masculino ou feminino."), com justificativa anexa ("As curvas de referência são específicas por sexo.") e com referência à fonte ("(eixo do Quadro 2)"). Resolvida a regra de molde por L-06, resta ao guia decidir se a justificativa e a referência à fonte são obrigatórias, facultativas ou vedadas na mensagem de validação. É decisão de RF-01 durante a execução, não bloqueio de plano.
+- 🟢 **L-09 Ficha de decisão reconciliada.** `MD-0014` afirmava no título que "a citação de fonte clínica fica fora da revisão de linguagem", proposição que a resposta a L-02 derrubou. Resolvida em 27/07: `MD-0015` registra a arbitragem, e `MD-0014` passou a `superado-parcialmente`, com a primeira metade — classificação pela origem, não pelo diretório — preservada e ainda regendo RN-01 e RN-02.
 
 ## 11. Histórico de alterações
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-26 | Versão inicial gerada por `/reversa-requirements` | reversa |
+| 2026-07-27 | Seis lacunas resolvidas por `/reversa-clarify`. Escopo estendido ao `README.md`; citação passa a admitir correção de concordância declarada (RN-09, RF-10, §2.4), revertendo a segunda metade de `MD-0014`; norma sobe a princípio IX (RF-11); ponto médio preservado (RN-10); grafia e molde das validações fixados pelo uso corrente | reversa |
