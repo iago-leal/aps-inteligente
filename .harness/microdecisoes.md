@@ -19,3 +19,4 @@
 - **MD-0017** — Watch item revogado por decisão posterior é reescrito no lugar, com a superação declarada; nem apagado, nem contornado
 - **MD-0018** — Linha de base e congelamento são dois artefatos, porque um se regera e o outro não pode
 - **MD-0019** — A régua da candidatura é a união de duas metades, porque contar palavras mede o tamanho e não a exibição
+- **MD-0020** — O eixo expressivo fica fora da prosa do produto, e a única exceção é o nome da fonte

@@ -13,6 +13,9 @@ import type {
 export const FONTE_ID = "telecondutas-cardiopatia-isquemica";
 export const VERSAO_EDICAO = "TelessaúdeRS-UFRGS, 2017";
 
+/** Nome publicado da fonte; oráculo da exceção do travessão (`docs/redacao.md` §3.2, MD-0020). */
+export const NOME_PUBLICADO = "TeleCondutas — Cardiopatia Isquêmica";
+
 export function referencia(localizacao: string): ReferenciaClinica {
   return Object.freeze({
     fonteId: FONTE_ID,

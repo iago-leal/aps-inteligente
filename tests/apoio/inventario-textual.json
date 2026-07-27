@@ -10,18 +10,18 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 642,
+    "literais": 649,
     "porClasse": {
       "autoral": 490,
       "citacao": 108,
-      "identificador": 44
+      "identificador": 51
     },
     "porCamada": {
-      "models": 157,
+      "models": 162,
       "interface": 303,
       "pages": 33,
       "manifesto": 3,
-      "readme": 146
+      "readme": 148
     }
   },
   "literais": [
@@ -49,7 +49,14 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 26,
+      "linha": 17,
+      "classe": "identificador",
+      "texto": "TeleCondutas — Cardiopatia Isquêmica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
+      "linha": 29,
       "classe": "citacao",
       "texto": "Quadro 1, p. 4 (classificação clínica da dor torácica; CESAR et al., 2014)",
       "especie": "StringLiteral",
@@ -57,7 +64,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 29,
+      "linha": 32,
       "classe": "citacao",
       "texto": "Quadro 2, p. 5 (probabilidade pré-teste de DAC por idade e sexo; DUNCAN et al., 2013)",
       "especie": "StringLiteral",
@@ -65,7 +72,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 32,
+      "linha": 35,
       "classe": "citacao",
       "texto": "Quadro 2, nota *, p. 5 (fatores de risco aumentam a estimativa em 2 a 3 vezes)",
       "especie": "StringLiteral",
@@ -73,7 +80,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 35,
+      "linha": 38,
       "classe": "citacao",
       "texto": "p. 4-5 (estratos < 10% / 10–90% / > 90% e conduta de investigação; nota ** do Quadro 2)",
       "especie": "StringLiteral",
@@ -81,7 +88,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 38,
+      "linha": 41,
       "classe": "citacao",
       "texto": "p. 6 (ECG e teste ergométrico iniciais; método não invasivo quando o ECG basal impede a interpretação ou o paciente não pode exercitar)",
       "especie": "StringLiteral",
@@ -89,7 +96,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 41,
+      "linha": 44,
       "classe": "citacao",
       "texto": "p. 6 (angina instável: alta probabilidade de evento agudo — encaminhamento emergencial)",
       "especie": "StringLiteral",
@@ -97,7 +104,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 78,
+      "linha": 114,
       "classe": "citacao",
       "texto": "dor musculoesquelética",
       "especie": "StringLiteral",
@@ -105,7 +112,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 79,
+      "linha": 115,
       "classe": "citacao",
       "texto": "transtornos psiquiátricos (ansiedade, transtorno do pânico)",
       "especie": "StringLiteral",
@@ -113,7 +120,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 80,
+      "linha": 116,
       "classe": "citacao",
       "texto": "distúrbios gastrointestinais (DRGE, cólica biliar, espasmo esofágico)",
       "especie": "StringLiteral",
@@ -121,7 +128,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 81,
+      "linha": 117,
       "classe": "citacao",
       "texto": "doenças pulmonares (pneumonia, neoplasia torácica, pneumotórax)",
       "especie": "StringLiteral",
@@ -129,42 +136,42 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 88,
+      "linha": 124,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste baixa (dor não anginosa e sem fatores de risco): exame funcional não indicado na avaliação inicial. Investigar causas não cardíacas.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 90,
+      "linha": 126,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste intermediária: indicar exame não invasivo para confirmar ou afastar a suspeita em quadro clínico duvidoso.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 92,
+      "linha": 128,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste alta: exame não invasivo para estratificação prognóstica e identificação de candidatos à revascularização; probabilidade > 90% requer estratificação por método invasivo, com encaminhamento ao cardiologista.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 94,
+      "linha": 129,
       "classe": "autoral",
       "texto": "Exame inicial: ECG de repouso e teste ergométrico.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 96,
+      "linha": 131,
       "classe": "autoral",
       "texto": "ECG basal impede a interpretação da ergometria ou o paciente não pode exercitar: preferir método não invasivo (ecocardiograma de estresse, cintilografia miocárdica ou ressonância magnética cardiovascular).",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 101,
+      "linha": 136,
       "classe": "autoral",
       "texto": "Sinais de angina instável ou dor aguda: alta probabilidade de evento agudo em curto prazo. Encaminhar para atendimento emergencial, e não seguir o fluxo eletivo de investigação.",
       "especie": "StringLiteral"
@@ -207,7 +214,14 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 21,
+      "linha": 12,
+      "classe": "identificador",
+      "texto": "Guia Rápido Pré-Natal — SMS-Rio",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/gestacao/fonte-clinica.ts",
+      "linha": 24,
       "classe": "citacao",
       "texto": "p. 31 (dias decorridos desde a DUM ÷ 7, em semanas e dias)",
       "especie": "StringLiteral",
@@ -215,7 +229,7 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 24,
+      "linha": 27,
       "classe": "citacao",
       "texto": "p. 31 (confiável se o 1.º dia da última menstruação é conhecido e os ciclos eram regulares)",
       "especie": "StringLiteral",
@@ -223,7 +237,7 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 27,
+      "linha": 30,
       "classe": "citacao",
       "texto": "p. 32 (DPP: acrescentar 7 dias à DUM e somar 9 meses — regra de Naegele)",
       "especie": "StringLiteral",
@@ -231,7 +245,7 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 30,
+      "linha": 33,
       "classe": "citacao",
       "texto": "p. 32 (desconsiderar a DUM fora da margem de erro da USG: 1 semana no 1.º trimestre, 2 no 2.º)",
       "especie": "StringLiteral",
@@ -239,7 +253,7 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 33,
+      "linha": 36,
       "classe": "citacao",
       "texto": "p. 113 (USG para datação quando a DUM é incerta ou a IG não pode ser calculada por ela)",
       "especie": "StringLiteral",
@@ -247,14 +261,14 @@
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 65,
+      "linha": 68,
       "classe": "autoral",
       "texto": "Datação a partir da última menstruação: confiável quando o primeiro dia é conhecido e os ciclos eram regulares.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/gestacao/fonte-clinica.ts",
-      "linha": 67,
+      "linha": 70,
       "classe": "autoral",
       "texto": "Idade gestacional calculada na data de referência informada; a datação é estimativa e não substitui a avaliação clínica.",
       "especie": "StringLiteral"
@@ -339,7 +353,14 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 21,
+      "linha": 19,
+      "classe": "identificador",
+      "texto": "Guia Rápido Diabetes Mellitus — SMS-Rio",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/insulina/fonte-clinica.ts",
+      "linha": 30,
       "classe": "citacao",
       "texto": "p. 60; Figura 4, p. 62 (faixa exibida — decisão AMB-01)",
       "especie": "StringLiteral",
@@ -347,7 +368,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 23,
+      "linha": 32,
       "classe": "citacao",
       "texto": "p. 60 (aferição de jejum 3×/semana por 15 dias)",
       "especie": "StringLiteral",
@@ -355,7 +376,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 26,
+      "linha": 35,
       "classe": "citacao",
       "texto": "p. 60; quadro da Figura 4, p. 62 (HbA1c ≥ 10% — decisão AMB-08)",
       "especie": "StringLiteral",
@@ -363,7 +384,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 28,
+      "linha": 37,
       "classe": "citacao",
       "texto": "Figura 4, p. 62 (180 → +4 — decisão AMB-09)",
       "especie": "StringLiteral",
@@ -371,7 +392,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 30,
+      "linha": 39,
       "classe": "citacao",
       "texto": "Figura 4, p. 62 (faixa-alvo 71–129 — decisões AMB-02 e AMB-05)",
       "especie": "StringLiteral",
@@ -379,7 +400,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 33,
+      "linha": 42,
       "classe": "citacao",
       "texto": "p. 60 (média com hipoglicemia prevalecendo — decisão AMB-06)",
       "especie": "StringLiteral",
@@ -387,7 +408,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 35,
+      "linha": 44,
       "classe": "citacao",
       "texto": "Figura 4, p. 62 (jejum ≤ 70 mg/dL → reduzir 4 UI)",
       "especie": "StringLiteral",
@@ -395,7 +416,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 37,
+      "linha": 46,
       "classe": "citacao",
       "texto": "p. 61; Figura 4, p. 62 (½+½ preferencial, ⅔+⅓ alternativa — decisão AMB-10)",
       "especie": "StringLiteral",
@@ -403,7 +424,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 40,
+      "linha": 49,
       "classe": "citacao",
       "texto": "p. 61; Figura 4, p. 62 (ao fracionar: suspender sulfonilureia, manter metformina)",
       "especie": "StringLiteral",
@@ -411,7 +432,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 43,
+      "linha": 52,
       "classe": "citacao",
       "texto": "p. 59 (sulfonilureias utilizáveis com TFG > 30 mL/min/1,73 m² — apoio à redação condicional)",
       "especie": "StringLiteral",
@@ -419,7 +440,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 46,
+      "linha": 55,
       "classe": "citacao",
       "texto": "p. 28 (otimizar metformina, máx. 2000–2550 mg/dia); p. 58 (posologia 1000–2550 mg/dia)",
       "especie": "StringLiteral",
@@ -427,7 +448,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 49,
+      "linha": 58,
       "classe": "citacao",
       "texto": "p. 58 (TFG 30–45 mL/min/1,73 m²: reduzir a dose de metformina em 50%)",
       "especie": "StringLiteral",
@@ -435,7 +456,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 52,
+      "linha": 61,
       "classe": "citacao",
       "texto": "p. 28; p. 58 (TFG < 30 mL/min/1,73 m²: interromper metformina — risco de acidose lática)",
       "especie": "StringLiteral",
@@ -443,7 +464,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 55,
+      "linha": 64,
       "classe": "citacao",
       "texto": "p. 61 (insulinização plena 0,5–1,0 UI/kg/dia; conduta acima da faixa — decisão AMB-04)",
       "especie": "StringLiteral",
@@ -451,7 +472,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 58,
+      "linha": 67,
       "classe": "citacao",
       "texto": "Figura 4, p. 62–63 (repetir HbA1c após 3 meses; > 7,0% → aferir AA/AJ/AD)",
       "especie": "StringLiteral",
@@ -459,7 +480,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 61,
+      "linha": 70,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (HbA1c ≤ 7,0% → manter conduta, HbA1c a cada 6 meses)",
       "especie": "StringLiteral",
@@ -467,7 +488,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 64,
+      "linha": 73,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (AA ≥ 130 → Regular 4 UI antes do café)",
       "especie": "StringLiteral",
@@ -475,7 +496,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 67,
+      "linha": 76,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (AJ ≥ 130 — duas condutas equivalentes, decisão AMB-03)",
       "especie": "StringLiteral",
@@ -483,7 +504,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 70,
+      "linha": 79,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (AD ≥ 130 → Regular 4 UI antes do jantar)",
       "especie": "StringLiteral",
@@ -491,7 +512,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 73,
+      "linha": 82,
       "classe": "citacao",
       "texto": "Figura 4, p. 63; p. 64 (inferência espelhada — decisão AMB-07)",
       "especie": "StringLiteral",
@@ -499,7 +520,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 76,
+      "linha": 85,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (ajustar Regular da refeição correspondente; avaliar encaminhamento)",
       "especie": "StringLiteral",
@@ -507,7 +528,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 79,
+      "linha": 88,
       "classe": "citacao",
       "texto": "Figura 4, p. 63 (aferição pós-prandial sem parâmetro numérico no guia — NG-07)",
       "especie": "StringLiteral",
@@ -515,7 +536,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 81,
+      "linha": 90,
       "classe": "citacao",
       "texto": "Figura 4, p. 62–63 (ajustar a cada 3 dias)",
       "especie": "StringLiteral",
@@ -523,7 +544,7 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 83,
+      "linha": 92,
       "classe": "citacao",
       "texto": "p. 68–70 (caneta: 1–60 UI por aplicação, graduação de 1 UI)",
       "especie": "StringLiteral",
@@ -531,28 +552,28 @@
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 143,
+      "linha": 152,
       "classe": "autoral",
       "texto": "Ao fracionar a NPH, suspender a sulfonilureia.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 145,
+      "linha": 154,
       "classe": "autoral",
       "texto": "Esquema com NPH já fracionada: suspender a sulfonilureia.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 147,
+      "linha": 156,
       "classe": "autoral",
       "texto": "Uso de sulfonilureia não informado: se estiver em uso, suspender ao fracionar a NPH.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/insulina/fonte-clinica.ts",
-      "linha": 149,
+      "linha": 158,
       "classe": "autoral",
       "texto": "Uso de sulfonilureia não informado: se estiver em uso, suspender, pois a NPH já está fracionada.",
       "especie": "StringLiteral"
@@ -764,7 +785,14 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 62,
+      "linha": 43,
+      "classe": "identificador",
+      "texto": "Caderneta da Criança",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/puericultura/fonte-clinica.ts",
+      "linha": 70,
       "classe": "citacao",
       "texto": "Peso elevado para idade",
       "especie": "StringLiteral",
@@ -772,7 +800,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 67,
+      "linha": 75,
       "classe": "citacao",
       "texto": "Peso adequado para idade",
       "especie": "StringLiteral",
@@ -780,7 +808,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 72,
+      "linha": 80,
       "classe": "citacao",
       "texto": "Baixo peso para idade",
       "especie": "StringLiteral",
@@ -788,7 +816,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 76,
+      "linha": 84,
       "classe": "citacao",
       "texto": "Muito baixo peso para idade",
       "especie": "StringLiteral",
@@ -796,7 +824,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 93,
+      "linha": 101,
       "classe": "citacao",
       "texto": "Comprimento adequado para idade",
       "especie": "StringLiteral",
@@ -805,7 +833,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 99,
+      "linha": 107,
       "classe": "citacao",
       "texto": "Baixo comprimento para idade",
       "especie": "StringLiteral",
@@ -814,7 +842,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 103,
+      "linha": 111,
       "classe": "citacao",
       "texto": "Muito baixo comprimento para idade",
       "especie": "StringLiteral",
@@ -822,7 +850,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 112,
+      "linha": 120,
       "classe": "citacao",
       "texto": "Estatura adequada para idade",
       "especie": "StringLiteral",
@@ -830,7 +858,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 117,
+      "linha": 125,
       "classe": "citacao",
       "texto": "Baixa estatura para idade",
       "especie": "StringLiteral",
@@ -838,7 +866,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 121,
+      "linha": 129,
       "classe": "citacao",
       "texto": "Muito baixa estatura para idade",
       "especie": "StringLiteral",
@@ -846,7 +874,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 128,
+      "linha": 136,
       "classe": "citacao",
       "texto": "Obesidade",
       "especie": "StringLiteral",
@@ -854,7 +882,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 129,
+      "linha": 137,
       "classe": "citacao",
       "texto": "Sobrepeso",
       "especie": "StringLiteral",
@@ -862,7 +890,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 133,
+      "linha": 141,
       "classe": "citacao",
       "texto": "Risco de sobrepeso",
       "especie": "StringLiteral",
@@ -870,7 +898,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 135,
+      "linha": 143,
       "classe": "citacao",
       "texto": "Eutrofia",
       "especie": "StringLiteral",
@@ -878,7 +906,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 136,
+      "linha": 144,
       "classe": "citacao",
       "texto": "Magreza",
       "especie": "StringLiteral",
@@ -886,7 +914,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 139,
+      "linha": 147,
       "classe": "citacao",
       "texto": "Magreza acentuada",
       "especie": "StringLiteral",
@@ -894,7 +922,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 153,
+      "linha": 161,
       "classe": "citacao",
       "texto": "Obesidade grave",
       "especie": "StringLiteral",
@@ -902,7 +930,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 171,
+      "linha": 179,
       "classe": "citacao",
       "texto": "PC acima do esperado para a idade",
       "especie": "StringLiteral",
@@ -910,7 +938,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 176,
+      "linha": 184,
       "classe": "citacao",
       "texto": "PC adequado para idade",
       "especie": "StringLiteral",
@@ -918,7 +946,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 180,
+      "linha": 188,
       "classe": "citacao",
       "texto": "PC abaixo do esperado para idade",
       "especie": "StringLiteral",
@@ -926,7 +954,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 250,
+      "linha": 258,
       "classe": "citacao",
       "texto": "peso para idade",
       "especie": "StringLiteral",
@@ -934,7 +962,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 251,
+      "linha": 259,
       "classe": "citacao",
       "texto": "comprimento/estatura para idade",
       "especie": "StringLiteral",
@@ -942,7 +970,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 252,
+      "linha": 260,
       "classe": "citacao",
       "texto": "IMC para idade",
       "especie": "StringLiteral",
@@ -950,7 +978,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 253,
+      "linha": 261,
       "classe": "citacao",
       "texto": "perímetro cefálico para idade",
       "especie": "StringLiteral",
@@ -958,7 +986,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 269,
+      "linha": 277,
       "classe": "citacao",
       "texto": "p. 87, Curvas Internacionais de Crescimento para Crianças Nascidas Pré-Termo (INTERGROWTH-21st), de 27 a 64 semanas",
       "especie": "StringLiteral",
@@ -966,7 +994,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 273,
+      "linha": 281,
       "classe": "citacao",
       "texto": "p. 86, cálculo da idade corrigida do recém-nascido pré-termo: 40 semanas menos a IG ao nascer, descontado da idade cronológica",
       "especie": "StringLiteral",
@@ -974,7 +1002,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 277,
+      "linha": 285,
       "classe": "citacao",
       "texto": "p. 85, diferença de 0,7 cm entre a estatura medida deitada e em pé",
       "especie": "StringLiteral",
@@ -982,7 +1010,7 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 281,
+      "linha": 289,
       "classe": "citacao",
       "texto": "pp. 85–97, Acompanhando o Crescimento: gráficos de 0 a 10 anos, e de 0 a 2 anos no perímetro cefálico",
       "especie": "StringLiteral",
@@ -990,16 +1018,16 @@
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 306,
+      "linha": 314,
       "classe": "autoral",
       "texto": "Dois rótulos de classificação são exibidos com a concordância corrigida: onde a Caderneta da Criança imprime “Comprimento adequada para idade” e “Baixa comprimento para idade”, esta tela lê “Comprimento adequado para idade” e “Baixo comprimento para idade”. A correção alcança a concordância e nada mais: os demais rótulos, inclusive “Muito baixo comprimento para idade” e a elipse do artigo em “para idade”, são reproduzidos como a fonte os imprime.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/puericultura/fonte-clinica.ts",
-      "linha": 309,
+      "linha": 317,
       "classe": "autoral",
-      "texto": "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas — vários pontos unidos formam a linha que mostra como a criança evolui —, e um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.",
+      "texto": "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas, cujos pontos unidos formam a linha que mostra como a criança evolui; um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.",
       "especie": "StringLiteral"
     },
     {
@@ -1138,7 +1166,14 @@
     },
     {
       "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
-      "linha": 156,
+      "linha": 17,
+      "classe": "identificador",
+      "texto": "2013 ACC/AHA Guideline — Pooled Cohort Equations",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
+      "linha": 160,
       "classe": "citacao",
       "texto": "Pooled Cohort Equations, Tabela A (Goff et al., 2013): risco de ASCVD em 10 anos, adultos de 40 a 79 anos sem DCV prévia",
       "especie": "StringLiteral",
@@ -1146,7 +1181,7 @@
     },
     {
       "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
-      "linha": 159,
+      "linha": 163,
       "classe": "citacao",
       "texto": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: cortes de risco 5% / 7,5% / 20%",
       "especie": "StringLiteral",
@@ -1154,7 +1189,7 @@
     },
     {
       "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
-      "linha": 162,
+      "linha": 166,
       "classe": "citacao",
       "texto": "ASCVD Risk Estimator Plus (ACC): faixa de validação 40–79 anos, prevenção primária (sem DCV prévia)",
       "especie": "StringLiteral",
@@ -1162,7 +1197,7 @@
     },
     {
       "arquivo": "models/risco-cardiovascular/fonte-clinica.ts",
-      "linha": 168,
+      "linha": 172,
       "classe": "autoral",
       "texto": "As Pooled Cohort Equations foram derivadas de coortes dos Estados Unidos (ARIC, CHS, CARDIA, Framingham) e são específicas para as categorias raciais branco e afro-americano do contexto norte-americano. Não há calibração validada para a população brasileira; a categoria “outra” adota os coeficientes de brancos, como o ASCVD Risk Estimator Plus oficial. Use a estimativa como apoio à decisão, ponderando essa limitação de transportabilidade.",
       "especie": "StringLiteral"
@@ -1227,14 +1262,14 @@
       "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
       "linha": 63,
       "classe": "autoral",
-      "texto": "Dose atual de metformina (mg/dia) — opcional",
+      "texto": "Dose atual de metformina (mg/dia), opcional",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/antidiabeticos-orais.tsx",
       "linha": 77,
       "classe": "autoral",
-      "texto": "TFG (mL/min/1,73 m²) — opcional",
+      "texto": "TFG (mL/min/1,73 m²), opcional",
       "especie": "JsxText"
     },
     {
@@ -1402,7 +1437,7 @@
       "arquivo": "interface/calculadora/formulario.tsx",
       "linha": 205,
       "classe": "autoral",
-      "texto": "HbA1c (%) — opcional",
+      "texto": "HbA1c (%), opcional",
       "especie": "JsxText"
     },
     {
@@ -1513,7 +1548,7 @@
     {
       "arquivo": "interface/calculadora/resultado.tsx",
       "linha": 107,
-      "classe": "autoral",
+      "classe": "identificador",
       "texto": "—",
       "especie": "JsxText"
     },
@@ -2409,7 +2444,7 @@
     {
       "arquivo": "interface/gestacao/resultado.tsx",
       "linha": 42,
-      "classe": "autoral",
+      "classe": "identificador",
       "texto": "—",
       "especie": "JsxText"
     },
@@ -3185,42 +3220,42 @@
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 29,
+      "linha": 32,
       "classe": "autoral",
       "texto": "Por que Pooled Cohort Equations, e não a AHA PREVENT?",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 32,
+      "linha": 35,
       "classe": "autoral",
-      "texto": "A AHA PREVENT (2023) é uma calculadora mais recente — sexo-específica e sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de incorporar função renal e determinantes sociais —, criada para modernizar a estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.",
+      "texto": "A AHA PREVENT (2023) é uma calculadora mais recente, sexo-específica e sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de incorporar função renal e determinantes sociais. Foi criada para modernizar a estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 38,
+      "linha": 42,
       "classe": "autoral",
-      "texto": "Esta ferramenta usa, ainda assim, as Pooled Cohort Equations porque a recomendação de estatina em prevenção primária da USPSTF (2022) — o limiar que dá sentido clínico ao número estimado — foi calibrada sobre as PCE. A PREVENT estima risco sistematicamente menor; adotá-la descasaria o risco estimado do limiar que fundamenta a conduta. A PREVENT fica como candidata a uma calculadora futura, como fonte distinta.",
+      "texto": "Esta ferramenta usa, ainda assim, as Pooled Cohort Equations, porque a recomendação de estatina em prevenção primária da USPSTF (2022) foi calibrada sobre elas, e é esse limiar que dá sentido clínico ao número estimado. A PREVENT estima risco sistematicamente menor: adotá-la descasaria o risco estimado do limiar que fundamenta a conduta. Fica como candidata a uma calculadora futura, com fonte própria.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 46,
+      "linha": 50,
       "classe": "autoral",
       "texto": "Calculadora AHA PREVENT (site oficial, em inglês):",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 47,
+      "linha": 51,
       "classe": "identificador",
       "texto": "noopener noreferrer",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/risco-cardiovascular/proveniencia.tsx",
-      "linha": 48,
+      "linha": 52,
       "classe": "autoral",
       "texto": "professional.heart.org · PREVENT™ Online Calculator",
       "especie": "JsxText"
@@ -3653,7 +3688,7 @@
       "arquivo": "README.md",
       "linha": 9,
       "classe": "autoral",
-      "texto": "| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |",
+      "texto": "| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido Diabetes Mellitus — SMS-Rio, 2023 | `models/insulina/` |",
       "especie": "Markdown"
     },
     {
@@ -3674,14 +3709,14 @@
       "arquivo": "README.md",
       "linha": 12,
       "classe": "autoral",
-      "texto": "| Cardiologia | Risco cardiovascular em 10 anos (ASCVD) | `/cardiologia/risco-cardiovascular` | Pooled Cohort Equations — 2013 ACC/AHA Guideline (Goff et al., 2014) | `models/risco-cardiovascular/` |",
+      "texto": "| Cardiologia | Risco cardiovascular em 10 anos (ASCVD) | `/cardiologia/risco-cardiovascular` | 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014) | `models/risco-cardiovascular/` |",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 13,
       "classe": "autoral",
-      "texto": "| Puericultura | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento` | Caderneta da Criança — Ministério da Saúde, 2.ª ed., 2020, pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/` |",
+      "texto": "| Puericultura | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento` | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/` |",
       "especie": "Markdown"
     },
     {
@@ -3744,7 +3779,7 @@
       "arquivo": "README.md",
       "linha": 33,
       "classe": "autoral",
-      "texto": "- **Três classes de texto** — autoral, citação e identificador. A classe vem da origem do",
+      "texto": "- **Três classes de texto**: autoral, citação e identificador. A classe vem da origem do",
       "especie": "Markdown"
     },
     {
@@ -3779,852 +3814,866 @@
       "arquivo": "README.md",
       "linha": 38,
       "classe": "autoral",
-      "texto": "- **Pontuação com o eixo expressivo racionado** — travessão `—` e nunca `-`, no máximo um",
+      "texto": "- **O eixo expressivo fica fora.** Nenhum travessão, nenhuma reticência e nenhuma",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 39,
       "classe": "autoral",
-      "texto": "par por bloco, nenhuma reticência e nenhuma exclamação. O ponto médio `·` é recurso",
+      "texto": "exclamação na prosa autoral: onde um deles separava ou introduzia, escreve-se o sinal",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 40,
       "classe": "autoral",
-      "texto": "tipográfico e permanece onde está.",
+      "texto": "sintático que faz esse trabalho. A exceção única é o nome pelo qual a fonte clínica se",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 41,
+      "classe": "autoral",
+      "texto": "publica, conferido contra `NOME_PUBLICADO` no domínio. O ponto médio `·` é recurso",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 42,
       "classe": "autoral",
-      "texto": "A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 43,
-      "classe": "autoral",
-      "texto": "verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que",
+      "texto": "tipográfico, não pontuação, e permanece onde está.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 44,
       "classe": "autoral",
-      "texto": "ninguém confunda \"a suíte passou\" com \"o texto está bom\".",
+      "texto": "A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 45,
+      "classe": "autoral",
+      "texto": "verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 46,
       "classe": "autoral",
-      "texto": "### Inventário da superfície textual",
+      "texto": "ninguém confunda \"a suíte passou\" com \"o texto está bom\".",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 48,
       "classe": "autoral",
+      "texto": "### Inventário da superfície textual",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 50,
+      "classe": "autoral",
       "texto": "Terceiro gerador idempotente do projeto, no molde de `gerar-tabelas-oms.mts` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 49,
+      "linha": 51,
       "classe": "autoral",
-      "texto": "`congelar-casos-oraculo.mts` — e, como eles, com o `git diff` vazio por resultado esperado:",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 57,
-      "classe": "autoral",
-      "texto": "O inventário é a lista fechada do que são \"todos os textos\": 624 literais com arquivo,",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 58,
-      "classe": "autoral",
-      "texto": "linha e classe. Ele serve a três papéis ao mesmo tempo — lista fechada, oráculo do",
+      "texto": "`congelar-casos-oraculo.mts`, e, como eles, com o `git diff` vazio por resultado esperado:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 59,
       "classe": "autoral",
-      "texto": "congelamento e entrada do verificador de norma —, e por isso é **regerado** ao fim de toda",
+      "texto": "O inventário é a lista fechada do que são \"todos os textos\", cada um com arquivo, linha e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 60,
       "classe": "autoral",
-      "texto": "revisão de texto.",
+      "texto": "classe; a contagem vive no próprio arquivo, e não nesta linha. Ele serve a três papéis ao",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 61,
+      "classe": "autoral",
+      "texto": "mesmo tempo (lista fechada, oráculo do congelamento e entrada do verificador de norma), e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 62,
       "classe": "autoral",
-      "texto": "**Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 63,
-      "classe": "autoral",
-      "texto": "por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha",
+      "texto": "por isso é **regerado** ao fim de toda revisão de texto.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 64,
       "classe": "autoral",
-      "texto": "e o módulo em que declarar — falha ruidosa por desenho: literal sem classe é decisão",
+      "texto": "**Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 65,
       "classe": "autoral",
-      "texto": "adiada, não acidente. A classe vem da origem do texto, jamais do diretório.",
+      "texto": "por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 66,
+      "classe": "autoral",
+      "texto": "e o módulo em que declarar. A falha é ruidosa por desenho: literal sem classe é decisão",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 67,
       "classe": "autoral",
+      "texto": "adiada, não acidente. A classe vem da origem do texto, jamais do diretório.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 69,
+      "classe": "autoral",
       "texto": "**A linha de base da citação é outro arquivo, e é outro de propósito:**",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 73,
-      "classe": "autoral",
-      "texto": "Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 74,
-      "classe": "autoral",
-      "texto": "a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 75,
       "classe": "autoral",
-      "texto": "O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz",
+      "texto": "Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 76,
       "classe": "autoral",
-      "texto": "por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo — verde",
+      "texto": "a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 77,
       "classe": "autoral",
-      "texto": "para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.",
+      "texto": "O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 78,
+      "classe": "autoral",
+      "texto": "por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo: verde",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 79,
       "classe": "autoral",
-      "texto": "## Estilo das telas (Primer, feature 004)",
+      "texto": "para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 81,
       "classe": "autoral",
-      "texto": "A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 82,
-      "classe": "autoral",
-      "texto": "(componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos",
+      "texto": "## Estilo das telas (Primer, feature 004)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 83,
       "classe": "autoral",
-      "texto": "pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa",
+      "texto": "A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 84,
       "classe": "autoral",
-      "texto": "(CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,",
+      "texto": "(componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 85,
       "classe": "autoral",
-      "texto": "nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das",
+      "texto": "pinados e servidos pelo bundle próprio, de modo que nenhum recurso de estilo sai de origem externa",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 86,
       "classe": "autoral",
-      "texto": "calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e",
+      "texto": "(CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 87,
       "classe": "autoral",
-      "texto": "`interface/estilos/cabecalho.css` a camada de logo do cabeçalho (feature 009), ambos",
+      "texto": "nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 88,
       "classe": "autoral",
-      "texto": "mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e",
+      "texto": "calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 89,
       "classe": "autoral",
-      "texto": "`@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,",
+      "texto": "`interface/estilos/cabecalho.css` a camada de logo do cabeçalho (feature 009), ambos",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 90,
       "classe": "autoral",
-      "texto": "vêm de `@primer/octicons-react` (mesma família, pinado).",
+      "texto": "mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 91,
+      "classe": "autoral",
+      "texto": "`@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 92,
       "classe": "autoral",
-      "texto": "### Identidade da marca (logo APSi, feature 009)",
+      "texto": "vêm de `@primer/octicons-react` (mesma família, pinado).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 94,
       "classe": "autoral",
-      "texto": "A logo vive em `public/` como ativo estático same-origin (sob a CSP, fora do bundle JS):",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 95,
-      "classe": "autoral",
-      "texto": "`apsi-light.png`/`apsi-dark.png` para o cabeçalho claro/escuro, `apsi-tile.png` (512) e",
+      "texto": "### Identidade da marca (logo APSi, feature 009)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 96,
       "classe": "autoral",
-      "texto": "`apsi-tile-192.png` para favicon, `apple-touch-icon` e o `manifest.webmanifest` (PWA",
+      "texto": "A logo vive em `public/` como ativo estático same-origin (sob a CSP, fora do bundle JS):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 97,
       "classe": "autoral",
-      "texto": "instalável, declarado em `pages/_document.tsx`). `apsi-white.png`/`apsi-navy.png` ficam",
+      "texto": "`apsi-light.png`/`apsi-dark.png` para o cabeçalho claro/escuro, `apsi-tile.png` (512) e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 98,
       "classe": "autoral",
-      "texto": "versionadas para sobre-foto/impressão, sem uso na web. A `Moldura` troca a variante da",
+      "texto": "`apsi-tile-192.png` para favicon, `apple-touch-icon` e o `manifest.webmanifest` (PWA",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 99,
       "classe": "autoral",
-      "texto": "logo pelo tema já lido no componente.",
+      "texto": "instalável, declarado em `pages/_document.tsx`). `apsi-white.png`/`apsi-navy.png` ficam",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 100,
+      "classe": "autoral",
+      "texto": "versionadas para sobre-foto/impressão, sem uso na web. A `Moldura` troca a variante da",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 101,
       "classe": "autoral",
-      "texto": "Para **criar uma tela nova**:",
+      "texto": "logo pelo tema já lido no componente.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 103,
       "classe": "autoral",
-      "texto": "1. O provider já está no shell (`pages/_app.tsx` → `interface/calculadora/provedor-tema.tsx`,",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 104,
-      "classe": "autoral",
-      "texto": "que liga a preferência persistida em `localStorage[\"aps-inteligente:tema\"]` ao color",
+      "texto": "Para **criar uma tela nova**:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 105,
       "classe": "autoral",
-      "texto": "mode do Primer). Nenhum setup adicional por página.",
+      "texto": "1. O provider já está no shell (`pages/_app.tsx` → `interface/calculadora/provedor-tema.tsx`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 106,
       "classe": "autoral",
-      "texto": "2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,",
+      "texto": "que liga a preferência persistida em `localStorage[\"aps-inteligente:tema\"]` ao color",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 107,
       "classe": "autoral",
-      "texto": "`TextInput`, `Flash`, `Heading`, entre outros); recorra ao `globais.css` apenas para cola de",
+      "texto": "mode do Primer). Nenhum setup adicional por página.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 108,
       "classe": "autoral",
-      "texto": "layout, usando variáveis funcionais do Primer.",
+      "texto": "2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 109,
       "classe": "autoral",
-      "texto": "3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`",
+      "texto": "`TextInput`, `Flash`, `Heading`, entre outros); recorra ao `globais.css` apenas para cola de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 110,
       "classe": "autoral",
-      "texto": "(contrato `role=\"alert\"` asserido pelos testes).",
+      "texto": "layout, usando variáveis funcionais do Primer.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 111,
       "classe": "autoral",
-      "texto": "4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de",
+      "texto": "3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 112,
       "classe": "autoral",
-      "texto": "acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.",
+      "texto": "(contrato `role=\"alert\"` asserido pelos testes).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 113,
+      "classe": "autoral",
+      "texto": "4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 114,
       "classe": "autoral",
-      "texto": "## Como adicionar uma calculadora nova (feature 007)",
+      "texto": "acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 116,
       "classe": "autoral",
-      "texto": "1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 117,
-      "classe": "autoral",
-      "texto": "`interface/inicio/catalogo.ts` — a home renderiza a partir dele; seção nova só nasce",
+      "texto": "## Como adicionar uma calculadora nova (feature 007)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 118,
       "classe": "autoral",
-      "texto": "com pelo menos uma calculadora.",
+      "texto": "1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 119,
       "classe": "autoral",
-      "texto": "2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,",
+      "texto": "`interface/inicio/catalogo.ts`: a home renderiza a partir dele, e seção nova só nasce",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 120,
       "classe": "autoral",
-      "texto": "`fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),",
+      "texto": "com pelo menos uma calculadora.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 121,
       "classe": "autoral",
-      "texto": "`validacao.ts` (coleta total de ofensores) e fachada; erros como valores, sem ler o",
+      "texto": "2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 122,
       "classe": "autoral",
-      "texto": "relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).",
+      "texto": "`fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 123,
       "classe": "autoral",
-      "texto": "3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)",
+      "texto": "`validacao.ts` (coleta total de ofensores) e fachada; erros como valores, sem ler o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 124,
       "classe": "autoral",
-      "texto": "e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho",
+      "texto": "relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 125,
       "classe": "autoral",
-      "texto": "declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho",
+      "texto": "3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 126,
       "classe": "autoral",
-      "texto": "acima de um `<h1>` **textual** em toda tela — inclusive a home (feature 016): a identidade",
+      "texto": "e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 127,
       "classe": "autoral",
-      "texto": "é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`",
+      "texto": "declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 128,
       "classe": "autoral",
-      "texto": "nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).",
+      "texto": "acima de um `<h1>` **textual** em toda tela, inclusive a home (feature 016): a identidade",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 129,
       "classe": "autoral",
-      "texto": "4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em",
+      "texto": "é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 130,
       "classe": "autoral",
-      "texto": "`interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).",
+      "texto": "nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 131,
       "classe": "autoral",
-      "texto": "O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.",
+      "texto": "4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 132,
       "classe": "autoral",
-      "texto": "5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor",
+      "texto": "`interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 133,
       "classe": "autoral",
-      "texto": "carregando `ReferenciaClinica` com página/seção.",
+      "texto": "O ícone é decorativo (`aria-hidden`), e o catálogo permanece a fonte de navegação.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 134,
+      "classe": "autoral",
+      "texto": "5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 135,
       "classe": "autoral",
-      "texto": "## Tabelas de referência da OMS (feature 017)",
+      "texto": "carregando `ReferenciaClinica` com página/seção.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 137,
       "classe": "autoral",
-      "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 138,
-      "classe": "autoral",
-      "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
+      "texto": "## Tabelas de referência da OMS (feature 017)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 139,
       "classe": "autoral",
-      "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
+      "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 140,
       "classe": "autoral",
-      "texto": "mão**, e ficam versionados junto do gerador que os produziu — quem clona o repositório não",
+      "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 141,
       "classe": "autoral",
-      "texto": "precisa baixar nada para rodar os testes.",
+      "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 142,
+      "classe": "autoral",
+      "texto": "mão**, e ficam versionados junto do gerador que os produziu, de modo que quem clona o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 143,
       "classe": "autoral",
+      "texto": "repositório não precisa baixar nada para rodar os testes.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 145,
+      "classe": "autoral",
       "texto": "A cadeia tem duas ferramentas, e só a primeira toca a rede:",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 151,
-      "classe": "autoral",
-      "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 152,
-      "classe": "autoral",
-      "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado —",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 153,
       "classe": "autoral",
-      "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
+      "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 154,
       "classe": "autoral",
-      "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
+      "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 155,
       "classe": "autoral",
-      "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
+      "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 156,
       "classe": "autoral",
-      "texto": "`node scripts/congelar-casos-oraculo.mts`.",
+      "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 157,
+      "classe": "autoral",
+      "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 158,
       "classe": "autoral",
-      "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 159,
-      "classe": "autoral",
-      "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
+      "texto": "`node scripts/congelar-casos-oraculo.mts`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 160,
       "classe": "autoral",
-      "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
+      "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 161,
+      "classe": "autoral",
+      "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 162,
       "classe": "autoral",
-      "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 163,
-      "classe": "autoral",
-      "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
+      "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 164,
       "classe": "autoral",
-      "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter — o limite",
+      "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 165,
       "classe": "autoral",
-      "texto": "existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
+      "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 166,
       "classe": "autoral",
-      "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
+      "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter, e o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 167,
       "classe": "autoral",
-      "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
+      "texto": "limite existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 168,
       "classe": "autoral",
-      "texto": "outras calculadoras — o teto de função mira lógica, e essa fica nos `models/`.",
+      "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 169,
+      "classe": "autoral",
+      "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 170,
       "classe": "autoral",
-      "texto": "## Banco de dados (fundação, feature 003)",
+      "texto": "outras calculadoras: o teto de função mira lógica, e essa fica nos `models/`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 172,
       "classe": "autoral",
-      "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 173,
-      "classe": "autoral",
-      "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
+      "texto": "## Banco de dados (fundação, feature 003)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 174,
       "classe": "autoral",
-      "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
+      "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 175,
       "classe": "autoral",
-      "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
+      "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 176,
       "classe": "autoral",
+      "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 177,
+      "classe": "autoral",
+      "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 178,
+      "classe": "autoral",
       "texto": "Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 186,
-      "classe": "autoral",
-      "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 187,
-      "classe": "autoral",
-      "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 188,
       "classe": "autoral",
-      "texto": "conexão pode sofrer cold start (autosuspend do plano Free) — limites e roteiro completo em",
+      "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 189,
       "classe": "autoral",
-      "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
+      "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 190,
+      "classe": "autoral",
+      "texto": "conexão pode sofrer cold start (autosuspend do plano Free); limites e roteiro completo em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 191,
       "classe": "autoral",
-      "texto": "## Como verificar saúde",
+      "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 193,
       "classe": "autoral",
+      "texto": "## Como verificar saúde",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 195,
+      "classe": "autoral",
       "texto": "Local, contra o build de produção (CSP ativa):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 202,
+      "linha": 204,
       "classe": "autoral",
       "texto": "Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 208,
+      "linha": 210,
       "classe": "autoral",
       "texto": "Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 209,
+      "linha": 211,
       "classe": "autoral",
       "texto": "produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 210,
+      "linha": 212,
       "classe": "autoral",
       "texto": "a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 211,
+      "linha": 213,
       "classe": "autoral",
       "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 212,
+      "linha": 214,
       "classe": "autoral",
       "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 214,
+      "linha": 216,
       "classe": "autoral",
       "texto": "## Como publicar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 216,
+      "linha": 218,
       "classe": "autoral",
       "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 217,
+      "linha": 219,
       "classe": "autoral",
       "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 218,
+      "linha": 220,
       "classe": "autoral",
       "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 219,
+      "linha": 221,
       "classe": "autoral",
       "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 221,
+      "linha": 223,
       "classe": "autoral",
       "texto": "## Documentação",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 223,
+      "linha": 225,
       "classe": "autoral",
       "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 224,
+      "linha": 226,
       "classe": "autoral",
       "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 225,
+      "linha": 227,
       "classe": "autoral",
       "texto": "actions → legacy-impact → regression-watch).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 226,
+      "linha": 228,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

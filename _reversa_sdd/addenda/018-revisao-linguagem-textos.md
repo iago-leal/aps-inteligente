@@ -83,3 +83,47 @@ herdadas L-07, L-10 e L-11 — ficam na seção "Observações" do mesmo arquivo
 - `_reversa_forward/018-revisao-linguagem-textos/relatorio-revisao.md`
 - `_reversa_forward/018-revisao-linguagem-textos/actions.md`
 - `_reversa_forward/018-revisao-linguagem-textos/progress.jsonl`
+
+## Atualização 2026-07-27
+
+A norma que este adendo registra foi **emendada no mesmo dia em que entrou**, por leitura do
+mantenedor sobre o bloco `ContextoDaFonte` da tela de risco cardiovascular. A ficha é
+`MD-0020`; o que segue é o delta sobre o que está acima, e não o substitui.
+
+**O teto do eixo expressivo passou de um par por bloco a zero.** A 018 racionara o
+travessão; a emenda o retira da prosa autoral inteira, em régua única para tela, metadado,
+manifesto e `README.md`. A razão é de eixo e não de dose: o travessão marca subjetividade, e
+uma ferramenta que informa dose, escore e probabilidade não tem subjetividade a marcar. A
+inspeção confirmou que não havia uso legítimo a preservar — dos dezoito travessões autorais,
+nenhum comentava, e todos faziam ofício de dois-pontos, de vírgula ou de ponto. A exceção
+única é o nome pelo qual a fonte se publica.
+
+| Artefato | Seção | Tipo de impacto | Delta |
+|----------|-------|-----------------|-------|
+| `_reversa_sdd/architecture.md` | #1 — camadas | regra-alterada | Os cinco `models/*/fonte-clinica.ts` passam a exportar **`NOME_PUBLICADO`**, o nome pelo qual a fonte se publica. Aditivo, sem mudança de comportamento: nenhuma fachada, nenhum cálculo e nenhum congelamento foram tocados |
+| `_reversa_sdd/architecture.md` | #5 Qualidade e testes | regra-alterada | `norma.test.ts` troca a asserção de "mais de um par" por "nenhum travessão", descontados os nomes publicados que importa do domínio. Contagem de arquivos e de testes inalterada: 52 e 673 |
+| `_reversa_sdd/code-analysis.md` | Módulo 9 · Módulo 6 · puericultura (via `addenda/017`) | regra-alterada | Seis literais reescritos: três apostos entre travessões (a nota de proveniência da puericultura e os dois parágrafos do `ContextoDaFonte`) e três qualificadores de rótulo (`— opcional` vira `, opcional`). Nenhuma afirmação clínica se moveu, e nenhuma asserção de teste precisou mudar |
+| `docs/redacao.md` | §3.2 · §3.1 · §3.4 · §7 | regra-alterada | A seção do travessão foi reescrita inteira: a antiga ensinava o teto revogado e trazia um exemplo "depois" que hoje é violação. O guia também foi alinhado à própria norma que fixa |
+| `README.md` | Tabela de fontes · prosa | **delta-de-contrato-externo** | Cinco nomes de fonte **uniformizados ao domínio** e catorze travessões de prosa reescritos. O drift dos nomes é o achado da emenda, e não era visível antes |
+
+**O que a emenda ensinou, e vale mais que a regra.** O verificador confere a exceção contra
+`NOME_PUBLICADO` no domínio, e não contra uma lista escrita no arquivo de teste. Foi essa
+escolha que expôs o drift: o `README.md` nomeava três das cinco fontes de maneira que as
+telas não usam — `Guia Rápido DM` por `Guia Rápido Diabetes Mellitus`, as duas metades das
+Pooled Cohort Equations invertidas, e um travessão a mais na Caderneta da Criança. Uma lista
+à mão teria aceitado as três. É a doutrina de `W012` aplicada a outro objeto: o oráculo mora
+onde o dado nasce.
+
+**Watch items:** nenhum dos vinte e quatro é revogado — nenhum deles asseverava o teto. Dois
+passam a valer com leitura mais estrita, e a lista canônica segue em
+`_reversa_forward/018-revisao-linguagem-textos/regression-watch.md`. Acrescenta-se um, que
+esta emenda instala:
+
+| ID | Origem | Regra esperada | Sinal de violação |
+|---|---|---|---|
+| W025 | `models/*/fonte-clinica.ts` — `NOME_PUBLICADO` | As cinco constantes existem e são a **única** fonte da exceção do travessão; `norma.test.ts` as importa do domínio | Lista de nomes escrita dentro do teste, ou exceção concedida por padrão de texto. Uma lista à mão aceita a forma divergente e continua verde depois de a fonte mudar de nome |
+
+**Verificação:** vitest 52 arquivos e 673 testes, e2e 36/36, `typecheck` e `eslint` limpos.
+`tests/apoio/citacao-linha-de-base.json` **intocada** (W007) e `e2e/axe-baseline.json`
+**intocado** (W022). O verificador endurecido foi visto reprovar antes de aceito: 27 literais
+na primeira execução, entre eles os cinco de drift.

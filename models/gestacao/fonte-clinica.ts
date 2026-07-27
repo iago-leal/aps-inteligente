@@ -8,6 +8,9 @@ import type { ReferenciaClinica } from "./tipos";
 export const FONTE_ID = "guia-rapido-pre-natal-sms-rio";
 export const VERSAO_EDICAO = "4.ª ed., 2025";
 
+/** Nome publicado da fonte; oráculo da exceção do travessão (`docs/redacao.md` §3.2, MD-0020). */
+export const NOME_PUBLICADO = "Guia Rápido Pré-Natal — SMS-Rio";
+
 export function referencia(localizacao: string): ReferenciaClinica {
   return Object.freeze({
     fonteId: FONTE_ID,

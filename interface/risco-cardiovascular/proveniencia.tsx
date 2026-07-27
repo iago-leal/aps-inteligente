@@ -24,23 +24,27 @@ export function NotaDeProveniencia() {
 
 export function ContextoDaFonte() {
   return (
-    <section className="referencias-complementares" aria-labelledby="contexto-fonte-titulo">
+    <section
+      className="referencias-complementares"
+      aria-labelledby="contexto-fonte-titulo"
+    >
       <Heading as="h2" id="contexto-fonte-titulo">
         Por que Pooled Cohort Equations, e não a AHA PREVENT?
       </Heading>
       <Text as="p" size="small">
-        A AHA PREVENT (2023) é uma calculadora mais recente — sexo-específica e sem
-        variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de
-        incorporar função renal e determinantes sociais —, criada para modernizar a
-        estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.
+        A AHA PREVENT (2023) é uma calculadora mais recente, sexo-específica e
+        sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz
+        de incorporar função renal e determinantes sociais. Foi criada para
+        modernizar a estimativa e ampliar sua aplicabilidade à população geral
+        dos Estados Unidos.
       </Text>
       <Text as="p" size="small">
-        Esta ferramenta usa, ainda assim, as Pooled Cohort Equations porque a
-        recomendação de estatina em prevenção primária da USPSTF (2022) — o limiar
-        que dá sentido clínico ao número estimado — foi calibrada sobre as PCE. A
-        PREVENT estima risco sistematicamente menor; adotá-la descasaria o risco
-        estimado do limiar que fundamenta a conduta. A PREVENT fica como candidata a
-        uma calculadora futura, como fonte distinta.
+        Esta ferramenta usa, ainda assim, as Pooled Cohort Equations, porque a
+        recomendação de estatina em prevenção primária da USPSTF (2022) foi
+        calibrada sobre elas, e é esse limiar que dá sentido clínico ao número
+        estimado. A PREVENT estima risco sistematicamente menor: adotá-la
+        descasaria o risco estimado do limiar que fundamenta a conduta. Fica
+        como candidata a uma calculadora futura, com fonte própria.
       </Text>
       <Text as="p" size="small">
         Calculadora AHA PREVENT (site oficial, em inglês):{" "}

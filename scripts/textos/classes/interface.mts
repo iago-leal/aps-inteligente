@@ -24,7 +24,7 @@
 // Módulo DEV-TIME: nunca é importado por código de aplicação.
 
 import type { MapaDeClasses } from "../classificacao.mts";
-import { autorais, citacoes, identificadores } from "./declarar.mts";
+import { autorais, citacoes, glifos, identificadores } from "./declarar.mts";
 
 const TELECONDUTAS =
   "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)";
@@ -37,8 +37,8 @@ export const MAPA: MapaDeClasses = {
       "Dose de metformina inválida: use apenas números.",
       "TFG inválida: use apenas números.",
       "Antidiabéticos orais e função renal",
-      "Dose atual de metformina (mg/dia) — opcional",
-      "TFG (mL/min/1,73 m²) — opcional",
+      "Dose atual de metformina (mg/dia), opcional",
+      "TFG (mL/min/1,73 m²), opcional",
     ]),
   ],
 
@@ -77,7 +77,7 @@ export const MAPA: MapaDeClasses = {
       "Titulação de dose",
       "Dados do paciente",
       "Peso (kg)",
-      "HbA1c (%) — opcional",
+      "HbA1c (%), opcional",
       "Uso de sulfonilureia",
       "Não informado",
       "Sim",
@@ -100,11 +100,12 @@ export const MAPA: MapaDeClasses = {
 
   // O arquivo mais denso do código (39 candidatos, 35 literais distintos).
   "interface/calculadora/resultado.tsx": [
+    ...glifos(["—"]),
+
     ...autorais([
       "Copiar plano",
       "Plano copiado: cole no prontuário.",
       "Não foi possível copiar. Transcreva o plano manualmente a partir desta tela.",
-      "—",
       "UI",
       "Recomendações ao prescritor",
       "Fonte clínica",
@@ -302,9 +303,10 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "interface/gestacao/resultado.tsx": [
+    ...glifos(["—"]),
+
     ...autorais([
       "Idade gestacional:",
-      "—",
       ".º trimestre",
       "Data provável do parto:",
       "DUM equivalente:",
@@ -430,7 +432,10 @@ export const MAPA: MapaDeClasses = {
       "Índices antropométricos",
     ]),
     // Nomes de classe CSS, apanhados pelo corte de duas palavras.
-    ...identificadores(["indice indice-ausente", "indice indice-fora-do-escopo"]),
+    ...identificadores([
+      "indice indice-ausente",
+      "indice indice-fora-do-escopo",
+    ]),
   ],
 
   "interface/puericultura/tela.tsx": [
@@ -471,8 +476,8 @@ export const MAPA: MapaDeClasses = {
   "interface/risco-cardiovascular/proveniencia.tsx": [
     ...autorais([
       "Por que Pooled Cohort Equations, e não a AHA PREVENT?",
-      "A AHA PREVENT (2023) é uma calculadora mais recente — sexo-específica e sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de incorporar função renal e determinantes sociais —, criada para modernizar a estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.",
-      "Esta ferramenta usa, ainda assim, as Pooled Cohort Equations porque a recomendação de estatina em prevenção primária da USPSTF (2022) — o limiar que dá sentido clínico ao número estimado — foi calibrada sobre as PCE. A PREVENT estima risco sistematicamente menor; adotá-la descasaria o risco estimado do limiar que fundamenta a conduta. A PREVENT fica como candidata a uma calculadora futura, como fonte distinta.",
+      "A AHA PREVENT (2023) é uma calculadora mais recente, sexo-específica e sem variável de raça, derivada de mais de 6,5 milhões de adultos e capaz de incorporar função renal e determinantes sociais. Foi criada para modernizar a estimativa e ampliar sua aplicabilidade à população geral dos Estados Unidos.",
+      "Esta ferramenta usa, ainda assim, as Pooled Cohort Equations, porque a recomendação de estatina em prevenção primária da USPSTF (2022) foi calibrada sobre elas, e é esse limiar que dá sentido clínico ao número estimado. A PREVENT estima risco sistematicamente menor: adotá-la descasaria o risco estimado do limiar que fundamenta a conduta. Fica como candidata a uma calculadora futura, com fonte própria.",
       "Calculadora AHA PREVENT (site oficial, em inglês):",
       "professional.heart.org · PREVENT™ Online Calculator",
     ]),

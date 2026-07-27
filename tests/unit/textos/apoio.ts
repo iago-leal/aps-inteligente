@@ -6,14 +6,47 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { NOME_PUBLICADO as NOME_CARDIOPATIA } from "models/cardiopatia-isquemica/fonte-clinica";
+import { NOME_PUBLICADO as NOME_GESTACAO } from "models/gestacao/fonte-clinica";
+import { NOME_PUBLICADO as NOME_INSULINA } from "models/insulina/fonte-clinica";
+import { NOME_PUBLICADO as NOME_PUERICULTURA } from "models/puericultura/fonte-clinica";
+import { NOME_PUBLICADO as NOME_RISCO } from "models/risco-cardiovascular/fonte-clinica";
+
 const RAIZ = join(import.meta.dirname, "..", "..", "..");
+
+/**
+ * Os cinco nomes publicados, lidos do domínio e não escritos aqui. A diferença é a mesma
+ * que o catálogo faz pela descrição da home: uma lista à mão neste arquivo aceitaria como
+ * exceção um travessão que nenhuma fonte usa, e continuaria verde depois de a fonte mudar
+ * de nome. Fonte nova entra na exceção por publicar `NOME_PUBLICADO`, não por ser lembrada.
+ */
+export const NOMES_PUBLICADOS: readonly string[] = Object.freeze([
+  NOME_INSULINA,
+  NOME_GESTACAO,
+  NOME_CARDIOPATIA,
+  NOME_RISCO,
+  NOME_PUERICULTURA,
+]);
+
+/**
+ * Apaga do literal os nomes de fonte, para que o que sobra seja só o que o produto redigiu.
+ * É como a exceção de MD-0020 se torna verificável: o travessão que restar depois disto não
+ * transcreve nome nenhum, e portanto está fazendo ofício que pertence a outro sinal.
+ */
+export function semNomesDeFonte(texto: string): string {
+  return NOMES_PUBLICADOS.reduce(
+    (restante, nome) => restante.split(nome).join("«nome da fonte»"),
+    texto,
+  );
+}
 
 export type EntradaDoInventario = {
   readonly arquivo: string;
   readonly linha: number;
   readonly classe: "autoral" | "citacao" | "identificador";
   readonly texto: string;
-  readonly especie: "StringLiteral" | "Template" | "JsxText" | "JsonField" | "Markdown";
+  readonly especie:
+    "StringLiteral" | "Template" | "JsxText" | "JsonField" | "Markdown";
   readonly origem?: string;
   readonly excecao?: string;
 };
@@ -28,7 +61,9 @@ export function ehFragmento(entrada: EntradaDoInventario): boolean {
   return entrada.especie === "JsxText";
 }
 
-export type EntradaAutoral = EntradaDoInventario & { readonly classe: "autoral" };
+export type EntradaAutoral = EntradaDoInventario & {
+  readonly classe: "autoral";
+};
 
 export type EntradaDaLinhaDeBase = {
   readonly arquivo: string;

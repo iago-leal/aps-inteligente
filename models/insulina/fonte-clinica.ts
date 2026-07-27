@@ -9,6 +9,15 @@ import type { ReferenciaClinica } from "./tipos";
 export const FONTE_ID = "guia-rapido-dm-sms-rio";
 export const VERSAO_EDICAO = "2.ª ed. atualizada, 2023";
 
+/**
+ * Nome pelo qual a fonte se publica, travessão incluído. Existe por duas razões, e a
+ * segunda não é óbvia: nomeia a fonte ao leitor e serve de oráculo à única exceção da
+ * norma de redação — o travessão não comparece na prosa autoral do produto, salvo aqui,
+ * onde o literal transcreve um nome em vez de redigir (`docs/redacao.md` §3.2, MD-0020).
+ * Quem alterar esta cadeia altera o que o verificador de norma aceita.
+ */
+export const NOME_PUBLICADO = "Guia Rápido Diabetes Mellitus — SMS-Rio";
+
 export function referencia(localizacao: string): ReferenciaClinica {
   return Object.freeze({
     fonteId: FONTE_ID,

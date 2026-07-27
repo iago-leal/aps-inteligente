@@ -13,9 +13,15 @@
 // Módulo DEV-TIME: nunca é importado por código de aplicação.
 
 import type { MapaDeClasses } from "../classificacao.mts";
-import { autorais, citacoes, identificadores } from "./declarar.mts";
+import {
+  autorais,
+  citacoes,
+  identificadores,
+  nomesDeFonte,
+} from "./declarar.mts";
 
-const GUIA = "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023)";
+const GUIA =
+  "Guia Rápido Diabetes Mellitus (SMS-Rio, 2.ª ed. atualizada, 2023)";
 
 export const MAPA: MapaDeClasses = {
   "models/insulina/calculadora.ts": [
@@ -27,6 +33,8 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "models/insulina/fonte-clinica.ts": [
+    ...nomesDeFonte(["Guia Rápido Diabetes Mellitus — SMS-Rio"]),
+
     ...citacoes(GUIA, ["2.ª ed. atualizada, 2023"]),
 
     // As vinte e quatro localizações do catálogo de referências.

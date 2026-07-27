@@ -202,7 +202,7 @@ export function FormularioCalculadora({
 
         <div className="campo">
           <FormControl>
-            <FormControl.Label>HbA1c (%) — opcional</FormControl.Label>
+            <FormControl.Label>HbA1c (%), opcional</FormControl.Label>
             <TextInput
               inputMode="decimal"
               value={hba1cBruta}

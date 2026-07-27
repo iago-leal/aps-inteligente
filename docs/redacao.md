@@ -29,7 +29,7 @@ vem da **origem** do texto, jamais do diretório onde ele mora: mensagens de val
 erraria nas duas direções, e erraria em silêncio.
 
 A classe não se infere: declara-se em `scripts/textos/classes/`. Literal novo sem entrada
-faz o gerador do inventário parar, nomeando arquivo e linha. É falha ruidosa por desenho —
+faz o gerador do inventário parar, nomeando arquivo e linha. É falha ruidosa por desenho:
 literal sem classe é decisão adiada, não acidente.
 
 ### 2.1 Autoral
@@ -83,9 +83,9 @@ texto. Estão **fora** do alcance desta norma, e mudá-los é refatoração, nã
 A pontuação se distribui por três eixos funcionais, classificados pela operação que
 executam e não pelo glifo:
 
-- **Sintático** — estrutura o período: ponto, vírgula, ponto e vírgula, dois-pontos.
-- **Expressivo** — marca subjetividade: travessão, reticências, parênteses quando comentam.
-- **Modal** — fixa o ato de fala: o ponto assere, a interrogação pergunta, a exclamação
+- **Sintático**: estrutura o período, ponto, vírgula, ponto e vírgula, dois-pontos.
+- **Expressivo**: marca subjetividade, travessão, reticências, parênteses quando comentam.
+- **Modal**: fixa o ato de fala, o ponto assere, a interrogação pergunta, a exclamação
   exclama.
 
 Um mesmo sinal ocupa mais de um eixo conforme o uso. O ponto é sintático e modal; o
@@ -93,47 +93,65 @@ parêntese é expressivo quando comenta e sintático quando explica sigla, e é 
 `doença arterial coronariana (DAC)` não conta como sinal expressivo em lugar nenhum deste
 guia. O hífen fica fora do sistema: é sinal ortográfico, e não se confunde com o travessão.
 
-**A regra que atravessa os três eixos:** o sintático é livre, o expressivo é racionado, o
+**A regra que atravessa os três eixos:** o sintático é livre, o expressivo fica fora, o
 modal é assertivo. Prosa de produto clínico assere; ela não interpela o leitor nem se
 espanta com ele.
 
 Uma ressalva, e ela vem do próprio produto. A interrogação é admitida quando **nomeia a
-pergunta que a seção responde** — `Por que Pooled Cohort Equations, e não a AHA PREVENT?`,
+pergunta que a seção responde**. `Por que Pooled Cohort Equations, e não a AHA PREVENT?`,
 título do bloco de proveniência do risco cardiovascular, é o exemplo vivo. Ali a pergunta é
 o assunto, não a interpelação: quem lê já a tinha, e o título a reconhece antes de
-respondê-la. O que fica vedado é a interrogação que cobra do leitor uma reação — "Já
-conferiu a dose?" —, e a exclamação em qualquer posição.
+respondê-la. O que fica vedado é a interrogação que cobra do leitor uma reação, do tipo
+"Já conferiu a dose?", e a exclamação em qualquer posição.
 
-### 3.2 O travessão: no máximo um par por bloco
+### 3.2 O travessão fica fora
 
-O travessão é `—` (travessão), jamais `-` (hífen) nem `--` (dois hifens). E **cada bloco de
-texto autoral admite no máximo um par de travessões**. O segundo par não intensifica: ele
-dilui o primeiro, e converte o aparte em maneirismo.
+**Nenhum travessão na prosa autoral do produto.** Não é teto de dose, é questão de eixo: o
+travessão é sinal expressivo, marca subjetividade, e um texto que informa não tem
+subjetividade a marcar. Onde ele aparecia, estava sempre fazendo trabalho alheio, e a
+correção é devolver esse trabalho a quem o faz.
 
-"Bloco" é a unidade que o inventário registra: um literal, um parágrafo, um campo de
-metadado. Dois literais vizinhos não somam.
+| O que o travessão fazia | Quem faz esse trabalho |
+|---|---|
+| Introduzia a consequência ou o esclarecimento | dois-pontos |
+| Separava o aposto de uma enumeração curta | vírgula |
+| Emendava duas afirmações independentes | ponto, ou ponto e vírgula |
+| Encaixava um aposto longo, com vírgulas internas | parênteses, ou uma oração própria |
 
-Antes, na nota de proveniência da puericultura, com dois pares no mesmo bloco:
-
-> A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas **—**
-> vários pontos unidos formam a linha que mostra como a criança evolui **—**, e um ponto
-> único não substitui essa leitura. […] A tabela é lida na linha publicada **—** por dia até
-> os 5 anos e por mês completo depois **—**, sem interpolação.
-
-Depois, com o segundo aparte convertido em oração e o primeiro preservado, que é o que de
-fato comenta:
+Antes, na nota de proveniência da puericultura:
 
 > A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas **—**
 > vários pontos unidos formam a linha que mostra como a criança evolui **—**, e um ponto
-> único não substitui essa leitura. […] A tabela é lida na linha publicada, por dia até os
-> 5 anos e por mês completo depois, sem interpolação.
+> único não substitui essa leitura.
+
+Depois, com o aposto convertido em oração relativa:
+
+> A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas,
+> **cujos** pontos unidos formam a linha que mostra como a criança evolui**;** um ponto
+> único não substitui essa leitura.
 
 Nada do conteúdo se moveu: as afirmações sobre curvas, faixas e ausência de interpolação
 continuam inteiras. Foi a moldura que mudou, e é só a moldura que esta norma governa.
 
-**O travessão que pertence a nome próprio não conta.** `TeleCondutas — Cardiopatia
-Isquêmica` é como a fonte se chama, e o teto de RN-03 não o alcança, pela mesma razão que
-não alcança a citação.
+**A exceção é uma, e é verificável: o nome pelo qual a fonte se publica.** Em
+`TeleCondutas — Cardiopatia Isquêmica` o literal transcreve um nome em vez de redigir uma
+frase, e alterá-lo seria reescrever o título de um documento alheio. A exceção não se
+confere por memória nem por lista escrita no teste: cada `models/*/fonte-clinica.ts`
+publica a constante `NOME_PUBLICADO`, e o verificador apaga esses nomes do literal antes de
+procurar travessão. Fonte nova entra na exceção por publicar a constante, e não por alguém
+lembrar de acrescentá-la a uma lista.
+
+Vale a pena dizer o que essa escolha já rendeu. Quando o verificador passou a valer, ele
+reprovou cinco linhas do `README.md` que nomeavam as fontes de maneira diferente da que as
+telas usam: `Guia Rápido DM` em vez de `Guia Rápido Diabetes Mellitus`, e as
+`Pooled Cohort Equations` antes do `2013 ACC/AHA Guideline`, e não depois. Uma lista de
+exceções escrita à mão teria aceitado as três formas sem reclamar. O oráculo no domínio não
+aceitou, e o drift apareceu.
+
+**O hífen continua fora do sistema.** Ele é sinal ortográfico: `pré-teste` e `afro-americano`
+são grafia de palavra, não pontuação, e nenhuma regra desta seção os alcança. O que a norma
+proíbe é o hífen **fazendo ofício de travessão**, ladeado por espaços, e a proibição hoje é
+redundante: se nem o travessão comparece, o seu substituto tipográfico também não.
 
 ### 3.3 Reticências e exclamação ficam fora
 
@@ -147,8 +165,8 @@ Isto não alcança a citação: se a fonte imprimir reticências, elas ficam.
 ### 3.4 O ponto médio não é pontuação
 
 O `·` é recurso **tipográfico** de separação, não sinal de pontuação: não responde aos três
-eixos e não entra no teto de travessões. Ele separa unidades de informação de **mesma
-hierarquia** — o nome e a marca no `<title>`, a fonte e a localização na proveniência, o
+eixos e não responde à proibição de 3.2. Ele separa unidades de informação de **mesma
+hierarquia**: o nome e a marca no `<title>`, a fonte e a localização na proveniência, o
 nome e a qualificação num subtítulo.
 
 Forma fixa, e só ela é verificável:
@@ -196,8 +214,8 @@ dois-pontos:
 
 > `Informe ao menos uma glicemia capilar para calcular a titulação.`
 
-Ambos terminam em ponto. Ambos tratam o leitor por imperativo — `informe`, `verifique`,
-`use` —, que é a forma mais curta de dizer o que fazer a seguir.
+Ambos terminam em ponto. Ambos tratam o leitor por imperativo (`informe`, `verifique`,
+`use`), que é a forma mais curta de dizer o que fazer a seguir.
 
 ### 5.1 O complemento é facultativo, e a referência à fonte é vedada
 
@@ -211,7 +229,7 @@ A mesma recusa hoje existe em três redações entre os domínios, e a norma esc
 
 A regra que essas três linhas realizam:
 
-1. **O núcleo é obrigatório** — diagnóstico e instrução, ou instrução só, conforme o molde
+1. **O núcleo é obrigatório**: diagnóstico e instrução, ou instrução só, conforme o molde
    acima.
 2. **O complemento é facultativo, e admite-se no máximo um.** Ele entra quando responde
    "por que o sistema não pode seguir sem isto?" de um modo que a instrução não responde
@@ -219,7 +237,7 @@ A regra que essas três linhas realizam:
    faixa que a instrução já deu, não.
 3. **A referência à fonte é vedada na mensagem de validação.** Toda saída do domínio já
    carrega a sua `ReferenciaClinica`, e reescrever a localização dentro do texto criaria
-   segunda fonte para o mesmo dado — exatamente o que a disciplina de fonte única existe
+   segunda fonte para o mesmo dado, que é exatamente o que a disciplina de fonte única existe
    para impedir. A localização pertence à referência, não à recusa.
 
 A recusa **clínica**, que não é validação de campo, segue outra lógica e pode nomear a
@@ -262,7 +280,7 @@ Pré-Natal`, `TeleCondutas — Cardiopatia Isquêmica`.
 ### 6.3 A descrição descreve o que existe
 
 A `description` que enumera o que a plataforma cobre **nomeia todas as seções vigentes**.
-Enumeração desatualizada é defeito de exatidão, não questão de estilo — e é o defeito que
+Enumeração desatualizada é defeito de exatidão, não questão de estilo, e é o defeito que
 esta feature encontrou:
 
 > **Antes:** Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes
@@ -271,8 +289,8 @@ esta feature encontrou:
 > **Depois:** Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes
 > Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura.
 
-Onde o teto de comprimento impede a enumeração — é o caso do manifesto do aplicativo
-instalável, truncado na tela de instalação —, a descrição **não enumera subconjunto
+Onde o teto de comprimento impede a enumeração (é o caso do manifesto do aplicativo
+instalável, truncado na tela de instalação), a descrição **não enumera subconjunto
 próprio**: ou nomeia todas, ou não nomeia nenhuma. Descrever a plataforma pela metade é
 pior que não a descrever por seções.
 
@@ -284,12 +302,12 @@ esta norma pode reescrevê-la; **a afirmação não pode desaparecer**.
 Este guia mistura duas naturezas de regra, e confundi-las produziria o pior dos dois
 mundos: alguém tomaria "a suíte passou" por "o texto está bom".
 
-**Verificado por teste** — falha o gate, com mensagem que aponta a regra violada:
+**Verificado por teste**, falhando o gate com mensagem que aponta a regra violada:
 
 | Regra | Seção | Verificador |
 |---|---|---|
-| Travessão `—`, nunca `-` nem `--` | 3.2 | `tests/unit/textos/norma.test.ts` |
-| No máximo um par de travessões por bloco | 3.2 | idem |
+| Nenhum travessão, salvo o nome publicado da fonte | 3.2 | `tests/unit/textos/norma.test.ts` |
+| Hífen não faz ofício de travessão | 3.2 | idem |
 | Sem reticências e sem exclamação | 3.3 | idem |
 | Ponto médio ladeado por espaço simples, não acumulado | 3.4 | idem |
 | Citação preservada byte a byte, salvo a lista fechada | 2.2 | `tests/unit/textos/citacao.test.ts` |
@@ -305,7 +323,7 @@ mundos: alguém tomaria "a suíte passou" por "o texto está bom".
 - coesão entre períodos, e a preferência por conectivo em vez de justaposição;
 - progressão econômica: cada período avança o raciocínio, sem redundância nem ornamento;
 - adequação do complemento facultativo de 5.1, que só o sentido decide;
-- se o texto revisado ainda diz a mesma coisa clínica que dizia — que é a única regra deste
+- se o texto revisado ainda diz a mesma coisa clínica que dizia, que é a única regra deste
   guia cuja violação não é questão de forma, e cuja guarda é a leitura humana do par
   antes/depois, mais os oráculos do domínio.
 

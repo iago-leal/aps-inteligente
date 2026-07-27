@@ -60,7 +60,7 @@ export function AntidiabeticosOrais({
       <div className="campo">
         <FormControl>
           <FormControl.Label>
-            Dose atual de metformina (mg/dia) — opcional
+            Dose atual de metformina (mg/dia), opcional
           </FormControl.Label>
           <TextInput
             inputMode="decimal"
@@ -74,7 +74,7 @@ export function AntidiabeticosOrais({
       </div>
       <div className="campo">
         <FormControl>
-          <FormControl.Label>TFG (mL/min/1,73 m²) — opcional</FormControl.Label>
+          <FormControl.Label>TFG (mL/min/1,73 m²), opcional</FormControl.Label>
           <TextInput
             inputMode="decimal"
             value={tfgBruta}

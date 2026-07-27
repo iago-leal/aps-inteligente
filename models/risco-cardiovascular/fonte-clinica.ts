@@ -12,6 +12,10 @@ import type { GrupoPce, ReferenciaClinica } from "./tipos";
 export const FONTE_ID = "pce-acc-aha-2013";
 export const VERSAO_EDICAO = "ACC/AHA 2013 (Goff et al., Circulation 2014)";
 
+/** Nome publicado da fonte; oráculo da exceção do travessão (`docs/redacao.md` §3.2, MD-0020). */
+export const NOME_PUBLICADO =
+  "2013 ACC/AHA Guideline — Pooled Cohort Equations";
+
 export function referencia(localizacao: string): ReferenciaClinica {
   return Object.freeze({
     fonteId: FONTE_ID,

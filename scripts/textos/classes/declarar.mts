@@ -57,6 +57,45 @@ export function identificadores(
 }
 
 /**
+ * `NOME_PUBLICADO`: o nome pelo qual a fonte clínica se publica, guardado no domínio como
+ * oráculo da exceção do travessão (MD-0020).
+ *
+ * Por que `identificador` e não `citacao`, que a origem do texto sugeriria. A classe citação
+ * carrega uma consequência operacional precisa: entrar na comparação contra
+ * `citacao-linha-de-base.json`, que se emitiu uma vez e jamais se regera. Aquela linha de
+ * base é oráculo dos RÓTULOS EXIBIDOS, que o prescritor confere contra a página impressa, e
+ * o verificador reprova toda citação nova que não seja um dos dois afastamentos de
+ * `MD-0015`. Declarar estas constantes como citação obrigaria a afrouxar esse guarda para
+ * acomodá-las, que é desfazer o gate em vez de passar por ele. Elas não são rótulo
+ * conferível: são chave de comparação, e é isso que `identificador` nomeia.
+ *
+ * A classe muda no dia em que as telas passarem a consumir a constante em vez de reescrever
+ * o nome à mão. Aí o literal chega à tela, e o que chega à tela não é chave.
+ */
+export function nomesDeFonte(textos: readonly string[]): readonly Declaracao[] {
+  return textos.map((texto) => ({
+    texto,
+    classe: "identificador" as const,
+    nota: "nome publicado da fonte: chave de comparação do verificador de norma (MD-0020), não texto exibido",
+  }));
+}
+
+/**
+ * Glifo tipográfico que ocupa o lugar de um valor ausente, como o travessão sozinho de uma
+ * célula sem dado. Não é prosa: não se lê, se vê. Fica fora da norma por natureza, e não
+ * por exceção, e a distinção importa desde MD-0020, que zerou o travessão na prosa autoral.
+ * Declarado como `identificador`, a única das três classes de RN-01 que significa "fora do
+ * alcance da revisão"; a nota existe porque a razão não se lê no literal.
+ */
+export function glifos(textos: readonly string[]): readonly Declaracao[] {
+  return textos.map((texto) => ({
+    texto,
+    classe: "identificador" as const,
+    nota: "glifo de valor ausente: ocupa na tela o lugar do dado que não existe, e não se lê como prosa",
+  }));
+}
+
+/**
  * Mensagem de invariante interno: existe para o desenvolvedor, jamais chega à tela, e por
  * isso fica fora da revisão de linguagem (T059, D-16). Carrega a classe `identificador`
  * porque é a única das três de RN-01 que significa "fora do alcance", e carrega a nota

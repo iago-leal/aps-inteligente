@@ -18,6 +18,7 @@ import {
   autoraisDoInventario,
   ehFragmento,
   paraNorma,
+  semNomesDeFonte,
   type EntradaAutoral,
 } from "./apoio";
 
@@ -29,7 +30,8 @@ function violacoes(
   ofende: (texto: string, entrada: EntradaAutoral) => boolean,
 ): string[] {
   return AUTORAIS.filter((e: EntradaAutoral) => ofende(paraNorma(e), e)).map(
-    (e) => `  ${e.arquivo}:${e.linha}\n    ${JSON.stringify(paraNorma(e))}\n    ↳ ${regra}`,
+    (e) =>
+      `  ${e.arquivo}:${e.linha}\n    ${JSON.stringify(paraNorma(e))}\n    ↳ ${regra}`,
   );
 }
 
@@ -55,12 +57,19 @@ describe("norma de redação, regras mecânicas (docs/redacao.md §3)", () => {
     );
   });
 
-  it("no máximo um par de travessões por bloco (§3.2)", () => {
+  it("o travessão não comparece na prosa autoral, salvo no nome publicado da fonte (§3.2)", () => {
+    // MD-0020 zerou o teto que a 018 fixara em um par por bloco. A razão é de eixo, não de
+    // dose: num texto que informa não há subjetividade a marcar, e o travessão que sobrava
+    // estava sempre fazendo trabalho de dois-pontos, de vírgula ou de ponto. A exceção
+    // única é o nome pelo qual a fonte se publica, onde o literal transcreve em vez de
+    // redigir, e ela se confere contra `NOME_PUBLICADO` no domínio.
     relatar(
-      "mais de um par de travessões no mesmo bloco",
+      "travessão em prosa autoral",
       violacoes(
-        "teto de um par (dois `—`) por bloco — docs/redacao.md §3.2",
-        (t) => (t.match(/—/g) ?? []).length > 2,
+        "o eixo expressivo fica fora do texto do produto: onde o travessão separa ou " +
+          "introduz, use o sinal sintático que faz esse trabalho (dois-pontos, vírgula, " +
+          "ponto). Exceção única: o nome publicado da fonte. Ver docs/redacao.md §3.2 e MD-0020",
+        (t) => semNomesDeFonte(t).includes("—"),
       ),
     );
   });
@@ -85,7 +94,8 @@ describe("norma de redação, regras mecânicas (docs/redacao.md §3)", () => {
           if (!t.includes("·")) return false;
           // Num fragmento de JSX, o começo e o fim não são começo e fim de linha: o que
           // vem antes e depois é o valor interpolado que a montagem insere.
-          if (!ehFragmento(entrada) && (t.startsWith("·") || t.endsWith("·"))) return true;
+          if (!ehFragmento(entrada) && (t.startsWith("·") || t.endsWith("·")))
+            return true;
           if (/[,—]\s*·|·\s*[,—]/.test(t)) return true;
           return /\S·|·\S|\s{2,}·|·\s{2,}/.test(t);
         },
@@ -99,7 +109,9 @@ describe("norma de redação, regras mecânicas (docs/redacao.md §3)", () => {
     // autoral, e passam por serem citação. Se algum dia a classe deixasse de isentar, este
     // teste falharia antes dos outros e diria por quê.
     const textos = AUTORAIS.map((e) => e.texto);
-    expect(textos).not.toContain("p. 4-5 (estratos < 10% / 10–90% / > 90% e conduta de investigação; nota ** do Quadro 2)");
+    expect(textos).not.toContain(
+      "p. 4-5 (estratos < 10% / 10–90% / > 90% e conduta de investigação; nota ** do Quadro 2)",
+    );
     expect(textos).not.toContain("PC acima do esperado para a idade");
   });
 });

@@ -34,6 +34,14 @@ export const FONTE_ID = "caderneta-da-crianca-ms-2ed-2020";
 export const VERSAO_EDICAO =
   "Caderneta da Criança (Ministério da Saúde, 2.ª ed., Brasília, 2020)";
 
+/**
+ * Nome publicado da fonte; oráculo da exceção do travessão (`docs/redacao.md` §3.2,
+ * MD-0020). Esta fonte se publica sem travessão no nome, e a entrada existe assim mesmo:
+ * o verificador lê as cinco, e uma lista que pulasse a fonte sem travessão ensinaria que
+ * a exceção vale por fonte, quando ela vale por nome.
+ */
+export const NOME_PUBLICADO = "Caderneta da Criança";
+
 export function referencia(localizacao: string): ReferenciaClinica {
   return Object.freeze({
     fonteId: FONTE_ID,
@@ -306,4 +314,4 @@ export const NOTA_CORRECAO_DE_CONCORDANCIA =
   "Dois rótulos de classificação são exibidos com a concordância corrigida: onde a Caderneta da Criança imprime “Comprimento adequada para idade” e “Baixa comprimento para idade”, esta tela lê “Comprimento adequado para idade” e “Baixo comprimento para idade”. A correção alcança a concordância e nada mais: os demais rótulos, inclusive “Muito baixo comprimento para idade” e a elipse do artigo em “para idade”, são reproduzidos como a fonte os imprime.";
 
 export const NOTA_PROVENIENCIA =
-  "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas — vários pontos unidos formam a linha que mostra como a criança evolui —, e um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.";
+  "A classificação vale para esta medição isolada. A Caderneta da Criança avalia o crescimento pela tendência de medidas sucessivas, cujos pontos unidos formam a linha que mostra como a criança evolui; um ponto único não substitui essa leitura. Os escores usam as curvas da Organização Mundial da Saúde (padrões de 2006 para 0 a 5 anos e referência de 2007 para 5 a 10 anos) e, na criança nascida pré-termo entre 27 e 64 semanas pós-menstruais, as curvas INTERGROWTH-21st reproduzidas na p. 87. A tabela é lida na linha publicada, por dia até os 5 anos e por mês completo depois, sem interpolação: nenhum valor do cálculo é estimado.";

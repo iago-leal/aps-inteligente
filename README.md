@@ -6,11 +6,11 @@ as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citáv
 
 | Seção                    | Calculadora                                                                 | Rota                                | Fonte                                                                                                | Domínio                         |
 | ------------------------ | --------------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------- |
-| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação)                                | `/dm2/insulina`                     | Guia Rápido DM — SMS-Rio, 2023                                                                       | `models/insulina/`              |
+| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação)                                | `/dm2/insulina`                     | Guia Rápido Diabetes Mellitus — SMS-Rio, 2023                                                                       | `models/insulina/`              |
 | Pré-natal                | Idade gestacional (DUM e/ou ultrassom)                                      | `/pre-natal/idade-gestacional`      | Guia Rápido Pré-Natal — SMS-Rio, 2025                                                                | `models/gestacao/`              |
 | Cardiologia              | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica             | `/cardiologia/dor-toracica`         | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)                                      | `models/cardiopatia-isquemica/` |
-| Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | Pooled Cohort Equations — 2013 ACC/AHA Guideline (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
-| Puericultura             | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento`         | Caderneta da Criança — Ministério da Saúde, 2.ª ed., 2020, pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/`          |
+| Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
+| Puericultura             | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento`         | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/`          |
 
 Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
 em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).
@@ -30,14 +30,16 @@ Todo texto que a plataforma exibe responde a uma norma escrita, em **[`docs/reda
 Leia-a antes de escrever ou reescrever qualquer literal que chegue à tela, ao `<title>`, à
 `<meta name="description">` ou ao manifesto. Em resumo:
 
-- **Três classes de texto** — autoral, citação e identificador. A classe vem da origem do
+- **Três classes de texto**: autoral, citação e identificador. A classe vem da origem do
   texto, jamais do diretório onde ele mora, e se **declara** em `scripts/textos/classes/`.
 - **A revisão de estilo alcança só a autoral.** A citação da fonte clínica permanece byte a
   byte, com uma exceção estrita: desvio de concordância se corrige **e se declara ao
   leitor**, sobre lista fechada.
-- **Pontuação com o eixo expressivo racionado** — travessão `—` e nunca `-`, no máximo um
-  par por bloco, nenhuma reticência e nenhuma exclamação. O ponto médio `·` é recurso
-  tipográfico e permanece onde está.
+- **O eixo expressivo fica fora.** Nenhum travessão, nenhuma reticência e nenhuma
+  exclamação na prosa autoral: onde um deles separava ou introduzia, escreve-se o sinal
+  sintático que faz esse trabalho. A exceção única é o nome pelo qual a fonte clínica se
+  publica, conferido contra `NOME_PUBLICADO` no domínio. O ponto médio `·` é recurso
+  tipográfico, não pontuação, e permanece onde está.
 
 A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é
 verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que
@@ -46,7 +48,7 @@ ninguém confunda "a suíte passou" com "o texto está bom".
 ### Inventário da superfície textual
 
 Terceiro gerador idempotente do projeto, no molde de `gerar-tabelas-oms.mts` e
-`congelar-casos-oraculo.mts` — e, como eles, com o `git diff` vazio por resultado esperado:
+`congelar-casos-oraculo.mts`, e, como eles, com o `git diff` vazio por resultado esperado:
 
 ```bash
 node scripts/inventariar-textos.mts --listar          # candidatos, sem exigir classe
@@ -54,14 +56,14 @@ node scripts/inventariar-textos.mts --gerar           # → tests/apoio/inventar
 git diff                                              # ← a verificação
 ```
 
-O inventário é a lista fechada do que são "todos os textos": 624 literais com arquivo,
-linha e classe. Ele serve a três papéis ao mesmo tempo — lista fechada, oráculo do
-congelamento e entrada do verificador de norma —, e por isso é **regerado** ao fim de toda
-revisão de texto.
+O inventário é a lista fechada do que são "todos os textos", cada um com arquivo, linha e
+classe; a contagem vive no próprio arquivo, e não nesta linha. Ele serve a três papéis ao
+mesmo tempo (lista fechada, oráculo do congelamento e entrada do verificador de norma), e
+por isso é **regerado** ao fim de toda revisão de texto.
 
 **Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo
 por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha
-e o módulo em que declarar — falha ruidosa por desenho: literal sem classe é decisão
+e o módulo em que declarar. A falha é ruidosa por desenho: literal sem classe é decisão
 adiada, não acidente. A classe vem da origem do texto, jamais do diretório.
 
 **A linha de base da citação é outro arquivo, e é outro de propósito:**
@@ -73,14 +75,14 @@ node scripts/inventariar-textos.mts --linha-de-base   # → tests/apoio/citacao-
 Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que
 a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.
 O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz
-por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo — verde
+por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo: verde
 para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.
 
 ## Estilo das telas (Primer, feature 004)
 
 A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`
 (componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos
-pinados e servidos pelo bundle próprio — nenhum recurso de estilo sai de origem externa
+pinados e servidos pelo bundle próprio, de modo que nenhum recurso de estilo sai de origem externa
 (CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,
 nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das
 calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e
@@ -114,7 +116,7 @@ Para **criar uma tela nova**:
 ## Como adicionar uma calculadora nova (feature 007)
 
 1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em
-   `interface/inicio/catalogo.ts` — a home renderiza a partir dele; seção nova só nasce
+   `interface/inicio/catalogo.ts`: a home renderiza a partir dele, e seção nova só nasce
    com pelo menos uma calculadora.
 2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,
    `fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),
@@ -123,12 +125,12 @@ Para **criar uma tela nova**:
 3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)
    e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho
    declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho
-   acima de um `<h1>` **textual** em toda tela — inclusive a home (feature 016): a identidade
+   acima de um `<h1>` **textual** em toda tela, inclusive a home (feature 016): a identidade
    é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`
    nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).
 4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em
    `interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).
-   O ícone é decorativo (`aria-hidden`) — o catálogo permanece a fonte de navegação.
+   O ícone é decorativo (`aria-hidden`), e o catálogo permanece a fonte de navegação.
 5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
    carregando `ReferenciaClinica` com página/seção.
 
@@ -137,8 +139,8 @@ Para **criar uma tela nova**:
 A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as
 12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a
 10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à
-mão**, e ficam versionados junto do gerador que os produziu — quem clona o repositório não
-precisa baixar nada para rodar os testes.
+mão**, e ficam versionados junto do gerador que os produziu, de modo que quem clona o
+repositório não precisa baixar nada para rodar os testes.
 
 A cadeia tem duas ferramentas, e só a primeira toca a rede:
 
@@ -149,7 +151,7 @@ git diff                               # ← a verificação
 ```
 
 **O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o
-gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado —
+gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado:
 ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a
 linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em
 `tests/apoio/casos-oraculo-puericultura.json`, regenerável por
@@ -161,11 +163,11 @@ coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.m
 
 **Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior
 tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,
-porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter — o limite
-existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua
+porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter, e o
+limite existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua
 sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes
 de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas
-outras calculadoras — o teto de função mira lógica, e essa fica nos `models/`.
+outras calculadoras: o teto de função mira lógica, e essa fica nos `models/`.
 
 ## Banco de dados (fundação, feature 003)
 
@@ -185,7 +187,7 @@ npm run db:down              # derrubar e remover o volume (próxima subida part
 
 A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar
 a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira
-conexão pode sofrer cold start (autosuspend do plano Free) — limites e roteiro completo em
+conexão pode sofrer cold start (autosuspend do plano Free); limites e roteiro completo em
 `_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.
 
 ## Como verificar saúde

@@ -9,12 +9,19 @@
 // Módulo DEV-TIME: nunca é importado por código de aplicação.
 
 import type { MapaDeClasses } from "../classificacao.mts";
-import { autorais, citacoes, identificadores, internas } from "./declarar.mts";
+import {
+  autorais,
+  citacoes,
+  identificadores,
+  internas,
+  nomesDeFonte,
+} from "./declarar.mts";
 
 const TELECONDUTAS =
   "TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)";
 const PRE_NATAL = "Guia Rápido Pré-Natal (SMS-Rio, 4.ª ed., 2025)";
-const PCE = "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)";
+const PCE =
+  "Pooled Cohort Equations (ACC/AHA 2013; Goff et al., Circulation 2014)";
 
 export const MAPA: MapaDeClasses = {
   // ─── Cardiopatia isquêmica ──────────────────────────────────────────────────────
@@ -25,6 +32,8 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "models/cardiopatia-isquemica/fonte-clinica.ts": [
+    ...nomesDeFonte(["TeleCondutas — Cardiopatia Isquêmica"]),
+
     ...citacoes(TELECONDUTAS, ["TelessaúdeRS-UFRGS, 2017"]),
     ...citacoes(`${TELECONDUTAS}, pp. 4–6`, [
       "Quadro 1, p. 4 (classificação clínica da dor torácica; CESAR et al., 2014)",
@@ -56,7 +65,9 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "models/cardiopatia-isquemica/validacao.ts": [
-    ...autorais(["Sexo inválido: informe masculino ou feminino. A probabilidade pré-teste é específica por sexo."]),
+    ...autorais([
+      "Sexo inválido: informe masculino ou feminino. A probabilidade pré-teste é específica por sexo.",
+    ]),
   ],
 
   // ─── Gestação ───────────────────────────────────────────────────────────────────
@@ -72,6 +83,8 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "models/gestacao/fonte-clinica.ts": [
+    ...nomesDeFonte(["Guia Rápido Pré-Natal — SMS-Rio"]),
+
     ...citacoes(PRE_NATAL, ["4.ª ed., 2025"]),
     ...citacoes(`${PRE_NATAL}, pp. 31–113`, [
       "p. 31 (dias decorridos desde a DUM ÷ 7, em semanas e dias)",
@@ -112,6 +125,8 @@ export const MAPA: MapaDeClasses = {
   ],
 
   "models/risco-cardiovascular/fonte-clinica.ts": [
+    ...nomesDeFonte(["2013 ACC/AHA Guideline — Pooled Cohort Equations"]),
+
     ...citacoes(PCE, [
       "ACC/AHA 2013 (Goff et al., Circulation 2014)",
       "Pooled Cohort Equations, Tabela A (Goff et al., 2013): risco de ASCVD em 10 anos, adultos de 40 a 79 anos sem DCV prévia",
