@@ -10,3 +10,5 @@
 - **MD-0008** — A idempotência do gerador é propriedade do texto emitido, não promessa da ferramenta
 - **MD-0009** — A leitura da tabela informa a ausência de linha; a recusa clínica é de quem tem a fonte na mão
 - **MD-0010** — O oráculo do escore z é a fonte primária, não uma segunda implementação dela
+- **MD-0011** — Duas idades, dois papéis: a cronológica mede o corpo, a corrigida lê a curva
+- **MD-0012** — O rótulo clínico é do domínio; a tela nomeia o índice pela forma neutra

@@ -8,7 +8,7 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Total de ações | 52 · **39 concluídas** — a Preparação (T001–T006), a Fase 2 de Testes inteira (T007–T019) e a Fase 3 do Núcleo inteira (T020–T039). Restam as 13 da Integração e do Polimento (T040–T052) |
+| Total de ações | 52 · **52 concluídas** — todas as cinco fases: Preparação (T001–T006), Testes (T007–T019), Núcleo (T020–T039), Integração (T040–T048) e Polimento (T049–T052) |
 | Paralelizáveis (`[//]`) | 27 |
 | Maior cadeia de dependência | 12 (T003 → T029 → T030 → T032 → T033 → T034 → T039 → T043 → T044 → T045 → T048 → T049) |
 
@@ -84,15 +84,15 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 
 | ID | Descrição | Dependências | Paralelismo | Arquivo alvo | Confidência | Status |
 |----|-----------|--------------|-------------|--------------|-------------|--------|
-| T040 | Formulário: sexo, data de nascimento, data da medição, peso, comprimento/estatura com posição explícita (sem default silencioso), perímetro cefálico e idade gestacional ao nascer em semanas + dias, com `erro-de-campo.tsx` para os ofensores (RF-11, RN-09) | T020 | `[//]` | `interface/puericultura/formulario.tsx` | 🟢 | `[ ]` |
-| T041 | Painel de resultado: um bloco por índice com escore z de uma casa decimal e sinal sempre explícito, classificação literal, padrão, idade usada e página; variantes `ausente` e `fora-do-escopo` distinguidas; painel honesto em falha de invariante (RF-11, RF-21, D-13) | T020 | `[//]` | `interface/puericultura/resultado.tsx` | 🟡 | `[ ]` |
-| T042 | Bloco de proveniência fora do painel de resultado, lendo o texto congelado no domínio (RF-13, molde da 014) | T023 | `[//]` | `interface/puericultura/proveniencia.tsx` | 🟢 | `[ ]` |
-| T043 | Contêiner: estado efêmero, motor injetável, invalidação por edição marcando o resultado como desatualizado, `RelatorDeErros` nulo e **sem** ritual de revisão (RF-12, RF-15, RF-21) | T039, T040, T041, T042 | - | `interface/puericultura/app.tsx` | 🟢 | `[ ]` |
-| T044 | Tela: composição da `Moldura` com `comInicio` (contrato do adendo 016; `logoComoTitulo` não existe mais), título e subtítulo com a fonte única | T043 | - | `interface/puericultura/tela.tsx` | 🟢 | `[ ]` |
-| T045 | Rota `/puericultura/crescimento` com metadados próprios, no molde de `pages/cardiologia/risco-cardiovascular.tsx` | T044, T046 | - | `pages/puericultura/crescimento.tsx` | 🟢 | `[ ]` |
-| T046 | Folha de estilo da tela nova e o seu `import` no shell, no molde de `risco-cardiovascular.css` — só apresentação, sobre os tokens do Primer | T041 | - | `interface/estilos/puericultura.css` | 🟢 | `[ ]` |
-| T047 | Teste de integração da tela: campos presentes, escore com uma casa decimal, invalidação por edição, ausência de caixa de confirmação, proveniência fora do painel, recusas honestas em tela e painel honesto na falha inesperada (RF-11 a RF-16, RF-21) | T043 | - | `tests/integration/interface/puericultura.test.tsx` | 🟢 | `[ ]` |
-| T048 | E2e: navegação da home ao cartão da seção Puericultura e varredura axe da rota nova, com delta 0/0 e sem alterar `e2e/axe-baseline.json` (RF-14, RNF de acessibilidade) | T005, T006, T045 | - | `e2e/puericultura.spec.ts` | 🟢 | `[ ]` |
+| T040 | Formulário: sexo, data de nascimento, data da medição, peso, comprimento/estatura com posição explícita (sem default silencioso), perímetro cefálico e idade gestacional ao nascer em semanas + dias, com `erro-de-campo.tsx` para os ofensores (RF-11, RN-09) | T020 | `[//]` | `interface/puericultura/formulario.tsx` | 🟢 | `[X]` |
+| T041 | Painel de resultado: um bloco por índice com escore z de uma casa decimal e sinal sempre explícito, classificação literal, padrão, idade usada e página; variantes `ausente` e `fora-do-escopo` distinguidas; painel honesto em falha de invariante (RF-11, RF-21, D-13) | T020 | `[//]` | `interface/puericultura/resultado.tsx` | 🟡 | `[X]` |
+| T042 | Bloco de proveniência fora do painel de resultado, lendo o texto congelado no domínio (RF-13, molde da 014) | T023 | `[//]` | `interface/puericultura/proveniencia.tsx` | 🟢 | `[X]` |
+| T043 | Contêiner: estado efêmero, motor injetável, invalidação por edição marcando o resultado como desatualizado, `RelatorDeErros` nulo e **sem** ritual de revisão (RF-12, RF-15, RF-21) | T039, T040, T041, T042 | - | `interface/puericultura/app.tsx` | 🟢 | `[X]` |
+| T044 | Tela: composição da `Moldura` com `comInicio` (contrato do adendo 016; `logoComoTitulo` não existe mais), título e subtítulo com a fonte única | T043 | - | `interface/puericultura/tela.tsx` | 🟢 | `[X]` |
+| T045 | Rota `/puericultura/crescimento` com metadados próprios, no molde de `pages/cardiologia/risco-cardiovascular.tsx` | T044, T046 | - | `pages/puericultura/crescimento.tsx` | 🟢 | `[X]` |
+| T046 | Folha de estilo da tela nova e o seu `import` no shell, no molde de `risco-cardiovascular.css` — só apresentação, sobre os tokens do Primer | T041 | - | `interface/estilos/puericultura.css` | 🟢 | `[X]` |
+| T047 | Teste de integração da tela: campos presentes, escore com uma casa decimal, invalidação por edição, ausência de caixa de confirmação, proveniência fora do painel, recusas honestas em tela e painel honesto na falha inesperada (RF-11 a RF-16, RF-21) | T043 | - | `tests/integration/interface/puericultura.test.tsx` | 🟢 | `[X]` |
+| T048 | E2e: navegação da home ao cartão da seção Puericultura e varredura axe da rota nova, com delta 0/0 e sem alterar `e2e/axe-baseline.json` (RF-14, RNF de acessibilidade) | T005, T006, T045 | - | `e2e/puericultura.spec.ts` | 🟢 | `[X]` |
 
 ## Fase 5, Polimento
 
@@ -100,10 +100,10 @@ que a origina (Princípio VI); nenhuma ação de domínio importa framework (RF-
 
 | ID | Descrição | Dependências | Paralelismo | Arquivo alvo | Confidência | Status |
 |----|-----------|--------------|-------------|--------------|-------------|--------|
-| T049 | Medir o bundle com `next build` e registrar a comparação do *First Load JS* das rotas existentes contra `main`: elas devem ficar inalteradas, e só `/puericultura/crescimento` pode crescer (D-09). O registro vai em arquivo próprio, não nas notas de execução deste documento, que o template reserva ao `/reversa-coding` | T048 | - | `_reversa_forward/017-puericultura-crescimento/medicao-bundle.md` | 🟡 | `[ ]` |
-| T050 | Conferir a cobertura de `models/**` ≥ 90% com o quinto domínio incluído; se os módulos de dados gerados distorcerem a métrica, excluí-los do `include` por decisão registrada, nunca por ajuste silencioso do limite | T039, T047 | - | `vitest.config.ts` | 🟡 | `[ ]` |
-| T051 | README: linha da quinta calculadora na tabela de rotas, menção à seção nova e o procedimento de regeneração das tabelas da OMS com a leitura do `git diff` vazio | T045 | `[//]` | `README.md` | 🟢 | `[ ]` |
-| T052 | Conferir os tetos do mantenedor nos arquivos novos — nenhum arquivo de **código** acima de 400 linhas, nenhuma função acima de 50 —, com a exceção dos módulos de dados gerados declarada onde ela vale | T039 | `[//]` | `models/puericultura/` | 🟢 | `[ ]` |
+| T049 | Medir o bundle com `next build` e registrar a comparação do *First Load JS* das rotas existentes contra `main`: elas devem ficar inalteradas, e só `/puericultura/crescimento` pode crescer (D-09). O registro vai em arquivo próprio, não nas notas de execução deste documento, que o template reserva ao `/reversa-coding` | T048 | - | `_reversa_forward/017-puericultura-crescimento/medicao-bundle.md` | 🟡 | `[X]` |
+| T050 | Conferir a cobertura de `models/**` ≥ 90% com o quinto domínio incluído; se os módulos de dados gerados distorcerem a métrica, excluí-los do `include` por decisão registrada, nunca por ajuste silencioso do limite | T039, T047 | - | `vitest.config.ts` | 🟡 | `[X]` |
+| T051 | README: linha da quinta calculadora na tabela de rotas, menção à seção nova e o procedimento de regeneração das tabelas da OMS com a leitura do `git diff` vazio | T045 | `[//]` | `README.md` | 🟢 | `[X]` |
+| T052 | Conferir os tetos do mantenedor nos arquivos novos — nenhum arquivo de **código** acima de 400 linhas, nenhuma função acima de 50 —, com a exceção dos módulos de dados gerados declarada onde ela vale | T039 | `[//]` | `models/puericultura/` | 🟢 | `[X]` |
 
 ## Cobertura dos cenários
 
@@ -333,6 +333,72 @@ importar de fora dele, mencionar React/Next/Primer ou ler o relógio.
 **Tetos do mantenedor:** nenhum arquivo de código do domínio passa de 400 linhas — o
 maior é `oms/leitura.ts`, com 331, e o segundo é a fachada, com 296.
 
+### Rodada de 2026-07-28 — integração e polimento (T040 a T052)
+
+**Decisões de implementação da tela, declaradas porque divergem do molde ou porque a
+alternativa era razoável:**
+
+1. **Campo vazio é ausência, não erro** (`formulario.tsx`, RF-06). O molde da 014
+   converte campo vazio em `NaN` para o motor recusá-lo, porque lá todo campo é
+   obrigatório. Aqui a falta de uma medida suprime só o índice que dela depende, então o
+   vazio vira `undefined`. Só texto não-numérico produz `NaN` — e esse o motor recusa
+   como digitação inválida, que é o que ele é.
+2. **A posição da medição não tem rádio pré-marcado** (RN-09). Supor "deitado" erraria
+   por 0,7 cm em silêncio, na medida exata que o escore de estatura e o de IMC consomem.
+3. **Idade gestacional: semanas preenchidas com dias em branco contam zero.** "32
+   semanas" é a forma corrente de dizer "32 semanas e 0 dias"; já os dois campos em
+   branco significam idade gestacional não informada, e disparam a premissa de termo
+   declarada (RN-15). Dias preenchidos sem semanas produz ofensor, como deve.
+4. **O título do bloco de índice é neutro** (`resultado.tsx`). A caderneta troca o
+   substantivo aos 2 anos — "Comprimento" antes, "Estatura" depois —, e o rótulo literal
+   que o domínio devolve já traz o certo. Escrevê-lo também no título seria a segunda
+   implementação da fronteira dos 730 dias, agora na camada mais livre para divergir do
+   motor numa refatoração futura.
+5. **A tela formata, nunca recalcula.** Uma casa decimal e sinal explícito inclusive no
+   zero (D-13); o valor não arredondado fica intacto no objeto de saída. Consequência
+   aceita: um escore de −0,04 exibe-se como `+0.0`, porque o que se mostra é o valor
+   arredondado, e ele é zero.
+6. **A proveniência aparece antes do primeiro número.** RF-13 pede o bloco fora do
+   painel; a tela o mantém visível desde o carregamento. Os limites do que a ferramenta
+   pode afirmar valem para quem ainda vai digitar.
+7. **As referências são impressas a partir de `referencia.versaoEdicao`**, e não de uma
+   string repetida na tela — mesma disciplina anti-drift da nota de proveniência.
+
+**Duas correções de forma que T052 encontrou, e que não eram cosméticas.**
+`validarMedidas` tinha 62 linhas por repetir três vezes o mesmo bloco de faixa: virou a
+tabela `MEDIDAS_VALIDAVEIS`, com 40, e uma quarta medida um dia passa a ser uma linha.
+O formulário repetia cinco vezes a anatomia campo → erro → blur: ganhou o subcomponente
+`CampoNumerico` e caiu de 258 para 226 linhas. Nenhuma mensagem, código de ofensor ou
+rótulo mudou — os 218 testes do domínio e da tela passaram sem edição, que é a prova de
+que a refatoração foi de forma.
+
+**Como a rodada foi provada.** Suíte de 625 para **642 testes em 45 arquivos** e **36
+testes e2e**, todos verdes; `typecheck` e `eslint` limpos. Cobertura de `models/**` em
+97,02% de statements (96,05 branches, 98,33 funções, 97,16 linhas), **sem exclusão
+alguma** — T050 previa excluir os módulos de dados se distorcessem a métrica, e eles não
+distorcem, por serem cobertos ao ser importados. `vitest.config.ts` e
+`e2e/axe-baseline.json` ficaram intocados.
+
+**Três achados de ferramenta e de ambiente, registrados para quem repetir:**
+
+- **O `next build` não publica mais o *First Load JS*.** O Next 16 com Turbopack imprime
+  só a lista de rotas. A comparação de D-09 foi reconstruída de
+  `.next/build-manifest.json`; o registro está em `medicao-bundle.md`.
+- **e2e vermelho em bloco é suspeita de servidor obsoleto, não de regressão.** A primeira
+  execução falhou em 35 dos 36 testes, inclusive os que a rodada não tocou, porque o
+  Playwright reutilizou um `next-server` de quatro horas antes. Encerrado o processo,
+  tudo passou.
+- **O `next build` reescreve `next-env.d.ts`** (troca `.next/dev/types` por
+  `.next/types`). É artefato gerado; `git checkout --` depois da medição mantém o diff
+  limpo.
+
+**Tetos, reconferidos com a tela dentro:** nenhum arquivo escrito à mão acima de 400
+linhas (o maior é `formulario.tsx`, com 344) e nenhuma função de domínio acima de 50 (a
+maior tem 40). Os componentes de tela excedem as 50 linhas por função — 226 e 108 —,
+como já ocorre nas outras calculadoras: o corpo é JSX declarativo, e o teto mira lógica.
+A exceção dos seis módulos de dados acima de 400 linhas está declarada no README, com o
+seu limite.
+
 ## Histórico de alterações
 
 | Data | Alteração | Autor |
@@ -343,3 +409,4 @@ maior é `oms/leitura.ts`, com 331, e o segundo é a fachada, com 296.
 | 2026-07-27 | Cadeia do gerador executada (T030 a T033): 14 módulos de dado emitidos e verificados. Quatro achados de conteúdo reconciliados no contrato de aquisição (aba `LFA_*`, 15 colunas na estatura 2007, os dois degraus de V5 e a natureza do ruído de ponto flutuante) | reversa-coding |
 | 2026-07-26 | Reconciliação sobre a auditoria cruzada: T002 concluída fora do ciclo de código (A001/A009); T003 vira a ferramenta de aquisição e T029 o leitor nativo (A007); T008 passa a congelar também o oráculo `SDn` da OMS e T010 depende dela, não de `referencias/` (A003); RF-06 citado em T018 e T020 (A002); pares de limite 3682/3683 e 730/731 em T011, T015 e T016 (A005/A006); T033 aponta para os valores-âncora do contrato (A008); T045 passa a depender de T046 (A015); T049 grava em arquivo próprio (A014); mapa dos dezoito cenários e observações de plano acrescentados (A011, A010, A013, A016) | reversa |
 | 2026-07-27 | Casos-oráculo congelados (T008): 356 casos de 14 tabelas da OMS (3204 pares conferidos) e as 1596 células do INTERGROWTH-21st, em `tests/apoio/casos-oraculo-puericultura.json`. Terceira fonte (`gigs`/`anthro`) dispensada por MD-0010. Achado da rodada — a coluna `SD4` já vem com a cauda aplicada nos indicadores de peso, e é silenciosa em C-E/I e PC/I por `L = 1` — reconciliado em RF-03, no roadmap (D-10, D-10.1) e no contrato §5 | reversa-coding |
+| 2026-07-28 | Integração e polimento (T040–T052): a feature passa a existir para o usuário — formulário, painel, proveniência, contêiner, tela, rota, folha própria, 17 testes de integração e 5 e2e com axe em zero. D-09 medida e confirmada (as sete rotas existentes com first-load bruto idêntico byte a byte); cobertura de `models/**` em 97,02% sem exclusão alguma; dois excessos de teto achados e corrigidos (`validarMedidas` 62→40, formulário 258→226). 52/52 ações | reversa-coding |

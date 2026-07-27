@@ -40,12 +40,51 @@ function medidaForaDaFaixa(valor: number, faixa: FaixaFechada): boolean {
   return !Number.isFinite(valor) || valor <= faixa.min || valor > faixa.max;
 }
 
+/**
+ * As três medidas, cada uma com a sua faixa e o seu ofensor. A tabela existe para que
+ * acrescentar uma quarta medida um dia seja acrescentar uma LINHA, e não repetir pela
+ * quarta vez o mesmo bloco `if` — e para manter `validarMedidas` dentro do teto de 50
+ * linhas do mantenedor, que a repetição estourava.
+ */
+const MEDIDAS_VALIDAVEIS = Object.freeze([
+  {
+    campo: "pesoKg",
+    codigo: "PESO_INVALIDO",
+    rotulo: "Peso",
+    unidade: "kg",
+    faixa: pesoKg,
+    ler: (e: EntradaAvaliacao) => e.pesoKg,
+  },
+  {
+    campo: "comprimentoCm",
+    codigo: "COMPRIMENTO_INVALIDO",
+    rotulo: "Comprimento/estatura",
+    unidade: "cm",
+    faixa: comprimentoCm,
+    ler: (e: EntradaAvaliacao) => e.comprimentoCm,
+  },
+  {
+    campo: "perimetroCefalicoCm",
+    codigo: "PERIMETRO_CEFALICO_INVALIDO",
+    rotulo: "Perímetro cefálico",
+    unidade: "cm",
+    faixa: perimetroCefalicoCm,
+    ler: (e: EntradaAvaliacao) => e.perimetroCefalicoCm,
+  },
+] as const satisfies readonly {
+  campo: string;
+  codigo: CodigoOfensor;
+  rotulo: string;
+  unidade: string;
+  faixa: FaixaFechada;
+  ler: (e: EntradaAvaliacao) => number | undefined;
+}[]);
+
 function validarMedidas(entrada: EntradaAvaliacao): Ofensor[] {
   const ofensores: Ofensor[] = [];
-  const { pesoKg: peso, comprimentoCm: comprimento } = entrada;
-  const pc = entrada.perimetroCefalicoCm;
+  const comprimento = entrada.comprimentoCm;
 
-  if (peso === undefined && comprimento === undefined && pc === undefined) {
+  if (MEDIDAS_VALIDAVEIS.every((m) => m.ler(entrada) === undefined)) {
     ofensores.push(
       ofensor(
         "medidas",
@@ -55,25 +94,15 @@ function validarMedidas(entrada: EntradaAvaliacao): Ofensor[] {
     );
   }
 
-  if (peso !== undefined && medidaForaDaFaixa(peso, pesoKg)) {
+  for (const medida of MEDIDAS_VALIDAVEIS) {
+    const valor = medida.ler(entrada);
+    if (valor === undefined || !medidaForaDaFaixa(valor, medida.faixa))
+      continue;
     ofensores.push(
       ofensor(
-        "pesoKg",
-        "PESO_INVALIDO",
-        `Peso inválido: informe um valor entre ${pesoKg.min} e ${pesoKg.max} kg.`,
-      ),
-    );
-  }
-
-  if (
-    comprimento !== undefined &&
-    medidaForaDaFaixa(comprimento, comprimentoCm)
-  ) {
-    ofensores.push(
-      ofensor(
-        "comprimentoCm",
-        "COMPRIMENTO_INVALIDO",
-        `Comprimento/estatura inválido: informe um valor entre ${comprimentoCm.min} e ${comprimentoCm.max} cm.`,
+        medida.campo,
+        medida.codigo,
+        `${medida.rotulo} inválido: informe um valor entre ${medida.faixa.min} e ${medida.faixa.max} ${medida.unidade}.`,
       ),
     );
   }
@@ -86,16 +115,6 @@ function validarMedidas(entrada: EntradaAvaliacao): Ofensor[] {
         "posicaoDaMedicao",
         "POSICAO_DA_MEDICAO_AUSENTE",
         "Informe se a medida foi aferida deitada (comprimento) ou em pé (estatura): a conversão de 0,7 cm depende disso.",
-      ),
-    );
-  }
-
-  if (pc !== undefined && medidaForaDaFaixa(pc, perimetroCefalicoCm)) {
-    ofensores.push(
-      ofensor(
-        "perimetroCefalicoCm",
-        "PERIMETRO_CEFALICO_INVALIDO",
-        `Perímetro cefálico inválido: informe um valor entre ${perimetroCefalicoCm.min} e ${perimetroCefalicoCm.max} cm.`,
       ),
     );
   }

@@ -43,6 +43,13 @@
 | W032 | `calculadora.ts` — o escopo precede o preenchimento | Numa criança acima de 730 dias, o perímetro cefálico sai `fora-do-escopo` mesmo quando a medida não foi informada | presença | Ordem invertida, devolvendo `MEDIDA_NAO_INFORMADA`: sugeriria ao prescritor que ele deveria ter informado o perímetro cefálico de uma criança de três anos, quando a caderneta simplesmente não o classifica nessa idade |
 | W033 | `roadmap.md` D-11 — o aviso da conversão alcança dois índices | O aviso `CONVERSAO_DE_POSICAO_APLICADA` acompanha o índice de comprimento/estatura **e** o de IMC, porque ambos consomem a medida convertida; o de peso não o carrega | presença | Aviso pendurado só na estatura. O IMC teria mudado de valor sem que a tela dissesse por quê |
 | W034 | T012 — o empate de arredondamento nomeado | O teste do INTERGROWTH-21st nomeia a única célula das 1596 que excede 0,005 (peso masculino, semana 55, `z = −3`: publicado 4,40, calculado 4,40503) e exige que ela seja a única | presença | Tolerância global afrouxada para acomodá-la. Uma folga maior passaria a acomodar também coeficiente errado, que é o que esta conferência existe para vigiar |
+| W035 | `requirements.md` RF-13 (RN-14) — proveniência fora do painel | O bloco de proveniência é irmão do painel de resultado, nunca filho, e está no DOM **desde o primeiro carregamento**, antes de existir escore | presença | Bloco migrado para dentro do `aside` de resultado, ou renderizado só depois de avaliar. Os limites do que a ferramenta pode afirmar valem para quem ainda vai digitar, e um bloco que só aparece com o número já está tarde |
+| W036 | `requirements.md` RF-15 (RN-13) — sem ritual de revisão | A tela de crescimento não tem **nenhum** `checkbox` no DOM, antes ou depois de avaliar; o botão de ação nunca é gated por confirmação | ausência | Qualquer `checkbox` na tela. O ritual é da insulina, onde há dose a conferir; classificar crescimento informa, não prescreve, e importar o ritual por simetria de estilo confundiria as duas coisas |
+| W037 | `roadmap.md` D-13 — como o escore chega à tela | O escore z é exibido com **uma casa decimal e sinal sempre explícito**, inclusive no zero (`+0.0`); o valor não arredondado permanece intacto no objeto de saída | redação | Escore exibido cru (ruído de ponto flutuante), com duas casas (precisão que a leitura clínica não usa) ou sem o `+` no positivo — que convida a leitura apressada a supor o lado |
+| W038 | `interface/puericultura/resultado.tsx` — a tela não reimplementa fronteira | O título do bloco de comprimento/estatura é **neutro** ("Comprimento/estatura para a idade"); o substantivo correto para a idade vem apenas do rótulo literal que o domínio devolve | ausência | Título trocando de substantivo por conta própria em função da idade. Seria a segunda implementação da fronteira dos 730 dias, na camada mais livre para divergir do motor |
+| W039 | `requirements.md` RNF de acessibilidade — a tela nova nasce limpa | `/puericultura/crescimento` tem **zero** violação axe, antes e depois do resultado, e `e2e/axe-baseline.json` permanece **sem entrada** para ela | presença | Entrada nova no arquivo de linha de base para a rota de crescimento. A linha de base existe para tolerar dívida herdada; registrar zero nela só cria o lugar onde afrouxá-la depois |
+| W040 | `roadmap.md` D-09 — isolamento de custo por rota | O *first load* das sete rotas existentes não cresce com a feature: medido em T049, bruto **idêntico byte a byte**. Só `/puericultura/crescimento` paga as tabelas | presença | Qualquer rota existente crescendo numa medição futura — sinal de que o dado vazou do *code-splitting*, e o caso em que a porta de D-08 (repositório injetável) deve ser usada para migrar à carga dinâmica |
+| W041 | `vitest.config.ts` — cobertura sem exceção | `coverage.include` continua `["models/**"]`, **sem exclusão** dos módulos de dados gerados, e os limites seguem em 90 nas quatro métricas | ausência | Exclusão acrescentada ou limite rebaixado. T050 previa a exceção como possibilidade e ela não foi necessária: o dado gerado é integralmente coberto por ser importado. Rebaixar o limite depois disso seria ajuste sem causa |
 
 ## Observações (sem peso de regressão)
 
@@ -141,6 +148,44 @@ Acrescentado na terceira rodada de 2026-07-27 (T008):
   expressões regulares contra o código-fonte. Pega o que se quer pegar hoje (import externo,
   menção a framework, leitura de relógio) e não pegaria uma violação escrita de forma criativa —
   `globalThis["Da"+"te"].now()`, por exemplo. É guarda de disciplina, não barreira contra malícia.
+
+### Acrescentadas na rodada da integração e do polimento (2026-07-28, T040 a T052)
+
+- **Supera a observação "estado intermediário assumido".** A rota `/puericultura/crescimento`
+  existe desde T045, e o cartão do catálogo deixou de apontar para o vazio. A observação original
+  fica registrada como estava, sem reescrita, para que o documento acompanhe o andamento real.
+- **Supera a observação "`models/**` cresceu 376 kB de dado gerado".** As duas consequências
+  previstas foram medidas, e nenhuma exigiu ajuste: a cobertura ficou em 97,02% de statements
+  **sem** exclusão alguma (os módulos de dados são cobertos por serem importados — só exportam
+  literais), e o teto de 400 linhas foi excedido apenas pelos seis módulos de tabela, com a
+  exceção agora **escrita no README** e delimitada a `models/puericultura/oms/tabelas/`. O que a
+  observação temia — limite ajustado em silêncio — não aconteceu porque não houve ajuste.
+- **D-09 pode ser promovida de 🟡 a 🟢 no `/reversa-sync`.** A premissa nasceu amarela por depender
+  de medição, e a medição de T049 a confirmou: as sete rotas existentes têm *first load* bruto
+  idêntico byte a byte, e o custo das tabelas (+80,3 kB gzip) ficou inteiro na rota que o criou.
+  O registro completo está em `medicao-bundle.md`.
+- **Achado de ferramenta: o `next build` não publica mais o *First Load JS*.** O Next 16 com
+  Turbopack imprime só a lista de rotas e o modo de renderização. A comparação que D-09 exige foi
+  reconstruída de `.next/build-manifest.json`, somando os chunks por rota — método mais confiável
+  de todo modo, porque mede o artefato. Quem repetir a medição no futuro não deve procurar a
+  tabela antiga: ela não volta.
+- **Achado de ambiente, que quase virou falso alarme de regressão.** A primeira execução do e2e
+  falhou em 35 dos 36 testes, inclusive os pré-existentes. A causa não era código: o Playwright
+  reutilizou (`reuseExistingServer` fora do CI) um `next-server` de quatro horas antes, servindo
+  build velho. Encerrado o processo, tudo passou. Vale a regra: **e2e vermelho em bloco, incluindo
+  testes que a rodada não tocou, é suspeita de servidor obsoleto na porta 3000, não de regressão.**
+- **Os componentes de tela excedem as 50 linhas por função, e isso é precedente, não novidade.**
+  `FormularioCrescimento` tem 226 linhas e `PainelCrescimento`, 108 — como já ocorre em
+  `FormularioRiscoCardiovascular` (174) e `PainelRiscoCardiovascular` (113). O corpo é JSX
+  declarativo; o teto de função mira lógica, e a lógica está nos `models/`, onde a maior função
+  tem 40 linhas. Fica declarado em vez de silencioso, e é candidato a subcomponentes se algum
+  desses corpos voltar a crescer.
+- **Dívida corrigida de outra feature.** A tabela de rotas do README omitia a calculadora de risco
+  cardiovascular desde a 014. Foi acrescentada junto com a quinta, porque um índice de rotas que
+  esconde uma delas engana mais do que ajuda.
+- **A dívida de higiene do `format:check` continua aberta**, e continua alheia à feature: são
+  arquivos de documentação pré-existente do Reversa, fora do gate do CI. Segue valendo o ticket
+  próprio com `--write` de uma vez.
 
 ## Histórico de re-extrações
 

@@ -4,11 +4,13 @@ Plataforma web dedicada à prática médica na APS, 100% client-side: nenhum dad
 sai do navegador (ADR 0002). A raiz (`/`) é a **página inicial por seções** (feature 007);
 as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citável:
 
-| Seção | Calculadora | Rota | Fonte | Domínio |
-|---|---|---|---|---|
-| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |
-| Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |
-| Cardiologia | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica | `/cardiologia/dor-toracica` | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017) | `models/cardiopatia-isquemica/` |
+| Seção                    | Calculadora                                                                 | Rota                                | Fonte                                                                                                | Domínio                         |
+| ------------------------ | --------------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------- |
+| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação)                                | `/dm2/insulina`                     | Guia Rápido DM — SMS-Rio, 2023                                                                       | `models/insulina/`              |
+| Pré-natal                | Idade gestacional (DUM e/ou ultrassom)                                      | `/pre-natal/idade-gestacional`      | Guia Rápido Pré-Natal — SMS-Rio, 2025                                                                | `models/gestacao/`              |
+| Cardiologia              | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica             | `/cardiologia/dor-toracica`         | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)                                      | `models/cardiopatia-isquemica/` |
+| Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | Pooled Cohort Equations — 2013 ACC/AHA Guideline (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
+| Puericultura             | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento`         | Caderneta da Criança — Ministério da Saúde, 2.ª ed., 2020, pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/`          |
 
 Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
 em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).
@@ -78,6 +80,41 @@ Para **criar uma tela nova**:
 5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
    carregando `ReferenciaClinica` com página/seção.
 
+## Tabelas de referência da OMS (feature 017)
+
+A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as
+12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a
+10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à
+mão**, e ficam versionados junto do gerador que os produziu — quem clona o repositório não
+precisa baixar nada para rodar os testes.
+
+A cadeia tem duas ferramentas, e só a primeira toca a rede:
+
+```bash
+node scripts/baixar-tabelas-oms.mts    # 14 .xlsx da OMS → referencias/oms/ (fora do git), com sha256 no manifesto
+node scripts/gerar-tabelas-oms.mts     # .xlsx → os 14 módulos .ts versionados
+git diff                               # ← a verificação
+```
+
+**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o
+gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado —
+ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a
+linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em
+`tests/apoio/casos-oraculo-puericultura.json`, regenerável por
+`node scripts/congelar-casos-oraculo.mts`.
+
+Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não
+vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas
+coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).
+
+**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior
+tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,
+porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter — o limite
+existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua
+sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes
+de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas
+outras calculadoras — o teto de função mira lógica, e essa fica nos `models/`.
+
 ## Banco de dados (fundação, feature 003)
 
 PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)
@@ -118,7 +155,7 @@ curl -iL https://apsinteligente.app/api/v1/status
 
 Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em
 produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar
-a home com as duas seções, e cada calculadora deve abrir na sua rota. Roteiro completo:
+a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:
 `_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e
 `_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.
 
