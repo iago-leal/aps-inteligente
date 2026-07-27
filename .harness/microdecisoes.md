@@ -12,3 +12,4 @@
 - **MD-0010** — O oráculo do escore z é a fonte primária, não uma segunda implementação dela
 - **MD-0011** — Duas idades, dois papéis: a cronológica mede o corpo, a corrigida lê a curva
 - **MD-0012** — O rótulo clínico é do domínio; a tela nomeia o índice pela forma neutra
+- **MD-0013** — O adendo de uma feature grande cita os watch items por família e reserva seção própria para o que a spec previu errado
