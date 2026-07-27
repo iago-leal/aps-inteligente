@@ -2,6 +2,13 @@
 // Sem `Date` em fuso local: fusos e horário de verão tornam "diferença de dias"
 // ambígua; aqui toda conta é inteira sobre Date.UTC. Data inválida é valor (null),
 // nunca exceção (ADR 0004). Feature 007-idade-gestacional-e-home.
+//
+// GÊMEO DECLARADO (feature 017, D-07). `models/puericultura/datas.ts` repete
+// `paraDiasEpoch` e a constante do dia, por decisão registrada: manter os dois
+// domínios independentes valeu mais que evitar ~30 linhas duplicadas. A dívida de
+// convergência para um `models/comum/` está declarada lá e vence quando um terceiro
+// domínio precisar da mesma aritmética. Alterar a regra aqui — o tratamento de
+// calendário impossível, sobretudo — pede a mesma alteração no gêmeo.
 import type { DataIso } from "./tipos";
 
 const MS_POR_DIA = 86_400_000;
