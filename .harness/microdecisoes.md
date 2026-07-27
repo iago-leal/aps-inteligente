@@ -15,3 +15,5 @@
 - **MD-0013** — O adendo de uma feature grande cita os watch items por família e reserva seção própria para o que a spec previu errado
 - **MD-0014** — A classe de um texto vem da sua origem, não do arquivo onde ele mora; e a citação de fonte clínica fica fora da revisão de linguagem
 - **MD-0015** — Corrigir a concordância da fonte é lícito quando vem declarado; o que a citação não admite é a diferença silenciosa
+- **MD-0016** — A superfície textual vira dado gerado; a classe de cada literal, decisão declarada à mão
+- **MD-0017** — Watch item revogado por decisão posterior é reescrito no lugar, com a superação declarada; nem apagado, nem contornado

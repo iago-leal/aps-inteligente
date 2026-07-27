@@ -1,0 +1,143 @@
+# Roadmap: Revisão da linguagem dos textos da plataforma
+
+> Identificador: `018-revisao-linguagem-textos`
+> Data: `2026-07-27`
+> Requirements: `_reversa_forward/018-revisao-linguagem-textos/requirements.md`
+> Confidência: 🟢 CONFIRMADO, 🟡 INFERIDO, 🔴 LACUNA
+
+## 1. Resumo da abordagem
+
+A feature não é uma passagem de revisor sobre a prosa: é a construção de um **aparato que sabe o que é texto do produto**, seguida da revisão que esse aparato torna verificável. O eixo técnico é um artefato único, o inventário classificado, que serve simultaneamente a quatro requisitos — é a lista fechada de RF-02, o oráculo congelado de RF-06, a entrada do verificador de RF-05 e a linha de base da comparação de RF-07. Sem ele, "todos os textos" não tem critério de pronto e a preservação da citação não tem prova.
+
+O inventário nasce como **dado gerado e versionado**, no molde já praticado em `scripts/gerar-tabelas-oms.mts` e `scripts/congelar-casos-oraculo.mts`: script idempotente, escrita atômica, `git diff` vazio como sinal de que nada mudou na origem. A extração dos literais percorre a árvore sintática do TypeScript, não expressões regulares — o compilador já é dependência de desenvolvimento do projeto, e a diferença entre um literal exibido e a mesma sequência dentro de um comentário só a árvore resolve com segurança. A classe de cada literal, por RN-02, **não é inferida**: vive num mapa declarado, e literal candidato sem entrada faz o gerador parar com a mensagem apontando arquivo e linha.
+
+Sobre essa base, a revisão procede em três frentes que a suíte separa bem: a prosa autoral (RF-03), que quebra asserções de texto e as tem atualizadas no mesmo passo; a exatidão da descrição da plataforma (RF-04), defeito já constatado e verificado contra o `CATALOGO`; e a exceção estreita da citação (RN-09), dois rótulos e a declaração que os acompanha, cercada pela comparação que reprova qualquer terceiro delta.
+
+Precede tudo a passagem por `/reversa-principles` (RF-11), porque o guia de redação remete ao princípio IX para ter razão de ser, e escrever o guia antes do princípio inverteria a cadeia de derivação do Princípio II.
+
+## 2. Princípios aplicados
+
+| Princípio | Como a feature se relaciona | Status |
+|-----------|------------------------------|--------|
+| I. Invariante-mãe: a spec é a fonte de verdade | RF-09 existe justamente para não deixar o código divergir da extração: os artefatos que transcrevem literais alterados são listados para absorção por `/reversa-sync`. A feature acrescenta um caso incomum — a spec da 017 (`regression-watch.md`, W022) descreve como **modo de falha** aquilo que a 018 passa a fazer por decisão; reconciliar é obrigação, não cortesia | respeita |
+| II. Cadeia de derivação | Cada RF nasce de decisão registrada: RN-09/RF-10 de `MD-0015`, RF-01/RF-11 da resolução de L-03, RN-10 da de L-04. Nada entra sem origem | respeita |
+| III. Clarificação precede solução | As seis lacunas foram fechadas em 27/07 com o código na mão (`EXAME_DO_REAL`); a decisão custosa (L-02) parou na arbitragem do usuário em vez de ser resolvida por conta própria | respeita |
+| IV. Portão G1 | Requirements sem `[DÚVIDA]` na entrada deste roadmap; nenhuma solução foi esboçada antes disso | respeita |
+| V. Fase 2 proporcional | A coleção desta feature dispensa molde de dados relacionais (nada toca o banco) e ganha, em troca, um molde que o projeto ainda não tinha: a norma de redação. `data-delta.md` registra a dispensa em vez de simulá-la | respeita |
+| VI. Rastreabilidade bidirecional | O inventário classificado é, ele próprio, um instrumento de rastreabilidade: cada literal aponta arquivo, linha e classe. RF-09 fecha o circuito na direção spec → código | respeita |
+| VII. Testes: metade da fonte de verdade | RF-05 e RF-06 convertem a norma em teste de validação; RF-07 é teste de invariante sobre a classe citação ("para qualquer literal citado fora da lista de §2.4, o texto é idêntico") | respeita |
+| VIII. Proporcionalidade | O projeto é **Aplicação** (usuários reais, evolução contínua), e o rigor segue pleno. A única concessão declarada é D-10: o `README.md` é revisado e verificado nas regras mecânicas, mas não congelado literal a literal | respeita |
+
+Nenhum conflito de princípio identificado. A tensão real da feature — fidelidade à fonte versus correção gramatical — foi resolvida fora do plano, em `MD-0015`, e chega aqui como regra e não como dilema.
+
+## 3. Decisões técnicas
+
+| ID | Decisão | Justificativa | Alternativas descartadas | Confidência |
+|----|---------|----------------|--------------------------|-------------|
+| D-01 | O guia de RF-01 mora em `docs/redacao.md`, arquivo novo, citado por `CLAUDE.md` e pelo `README.md` | Precisa ser encontrável por quem chega ao repositório e por agente de codificação, sem estar embutido num arquivo que já tem 193 linhas de outra coisa. `docs/` é pasta nova, mas previsível: quem abre o projeto em 6 meses procura ali | (a) emendar no `CLAUDE.md`, que dobraria de tamanho e misturaria instrução de harness com norma de produto; (b) `REDACAO.md` na raiz, que polui a raiz sem ganho; (c) dentro de `.reversa/`, que é território do framework e some numa reinstalação | 🟢 |
+| D-02 | O inventário de RF-02 é **dado gerado e versionado**: `scripts/inventariar-textos.mts` emite `tests/apoio/inventario-textual.json` | Um inventário em prosa envelhece na primeira feature seguinte e ninguém o reconfere. Gerado, ele é reproduzível, e o `git diff` vazio vira o sinal de que a superfície textual não mudou — a mesma disciplina de `gerar-tabelas-oms.mts` e `congelar-casos-oraculo.mts`, já compreendida no projeto | (a) tabela markdown escrita à mão; (b) inventário implícito, deduzido dos testes existentes, que só cobre o que já é asseverado e por isso não fecha a lista | 🟢 |
+| D-03 | A coleta de literais percorre a **árvore sintática** via `typescript`, já devDependency, e não expressões regulares | Regex confunde literal exibido com sequência dentro de comentário, e o repositório é denso em comentário longo — `models/puericultura/fonte-clinica.ts` tem 15 travessões, quase todos em prosa de cabeçalho. A árvore distingue `StringLiteral`, template sem substituição e `JsxText` de comentário sem heurística | (a) regex sobre o fonte, frágil exatamente onde o projeto é denso; (b) nova dependência de parser, contra o filtro de dependências enxutas | 🟢 |
+| D-04 | A classe (autoral / citação / identificador) é **declarada** num mapa exaustivo, não inferida; candidato sem entrada faz o gerador parar | RN-02 proíbe classificar por diretório, e é a regra certa: `models/*/validacao.ts` é autoral, `interface/**` pode ser citação. Qualquer inferência erraria nas duas direções, e erraria em silêncio | (a) classificação por caminho de arquivo, vedada por RN-02; (b) anotação por comentário no próprio código, que espalha a decisão por 40 arquivos e não é conferível em conjunto; (c) classe default "autoral", que faria a citação ser revisada por omissão — o pior modo de falha possível nesta feature | 🟢 |
+| D-05 | RF-04 **verifica**, não deriva: a descrição da home continua escrita à mão, e um teste assevera que toda seção de `CATALOGO` está nomeada nela | Derivar por concatenação produz frase de máquina justamente no texto que sai para o buscador. Verificar preserva a prosa e mantém o anti-drift: acrescentar a sexta seção sem tocar na descrição quebra a suíte | (a) gerar a descrição a partir do catálogo em tempo de render, que além de mecânica atrapalha o `<meta>` estático; (b) confiar na revisão humana periódica, que é o mecanismo que já falhou e produziu o defeito de §2.3 | 🟢 |
+| D-06 | A declaração de RF-10 entra como **constante nova** em `models/puericultura/fonte-clinica.ts` (`NOTA_CORRECAO_DE_CONCORDANCIA`), renderizada como parágrafo próprio pelo `ProvenienciaDoCrescimento`, e não como emenda dentro de `NOTA_PROVENIENCIA` | São dois assuntos distintos: um descreve o limite da avaliação, o outro o afastamento da transcrição. Emendar produziria um bloco único com três pares de travessão, contra o teto de RN-03, e enterraria a declaração no meio de um parágrafo que ninguém lê até o fim | (a) emenda na `NOTA_PROVENIENCIA`; (b) escrever o texto direto em `proveniencia.tsx`, que viola RN-05 e o anti-drift declarado no cabeçalho daquele componente | 🟢 |
+| D-07 | RF-05 é **teste de vitest sobre o inventário**, não regra de ESLint | A regra de lint pegaria o desvio mais cedo, na edição, mas exige plugin próprio e manutenção que um mantenedor intermitente não sustenta. O teste roda no mesmo gate, com mensagem que aponta a regra do guia, e o custo de manutenção é o de um arquivo de teste | (a) plugin ESLint customizado; (b) verificação por hook de pre-commit, que não roda no CI e some em clone novo | 🟢 |
+| D-08 | RF-06 se realiza **pelo próprio inventário versionado** mais um teste que compara o código ao JSON congelado, em vez de 200 asserções novas espalhadas | Congelar literal a literal em arquivos de teste multiplicaria o acoplamento que §2.2 já mede em centenas de ocorrências. Com o JSON, alterar um literal autoral produz duas falhas úteis: a do teste de congelamento e a do `git diff` do inventário | (a) uma asserção por literal, dívida de manutenção desproporcional; (b) snapshot de vitest, que se atualiza sozinho com `-u` e por isso não congela nada de fato | 🟢 |
+| D-09 | `/reversa-principles` roda **antes** da escrita do guia, na primeira fase da execução | RF-01 pede que o guia remeta ao princípio IX, e RF-11 que o princípio remeta ao guia. Escrever o guia primeiro inverteria a cadeia do Princípio II e deixaria uma referência pendente no artefato mais lido da feature | (a) rodar ao final, como formalização do que já foi feito — cômodo e falso; (b) tratar o princípio como opcional, contra o Must de RF-11 | 🟢 |
+| D-10 | O `README.md` é revisado (RF-03) e passa pelas regras mecânicas (RF-05), mas **não** entra no congelamento de RF-06 | São 174 linhas de documentação que mudam a cada feature; congelá-las literal a literal transformaria toda alteração de README em atualização de oráculo. As regras mecânicas — travessão, tetos, ponto médio — são verificáveis por leitura direta do arquivo, sem árvore sintática | (a) congelar o README inteiro; (b) deixá-lo fora também das regras mecânicas, o que contrariaria a decisão de L-01 de trazê-lo para o escopo | 🟡 |
+| D-11 | **W022** do `regression-watch.md` da feature 017 é revogado em parte e reescrito no mesmo lugar, com nota de superação apontando `MD-0015` | W022 vigia hoje exatamente o que a 018 passa a fazer: seu modo de falha declarado é "rótulo 'corrigido' para a norma culta". Deixá-lo intacto faria a próxima verificação de regressão acusar vermelho legítimo sobre uma decisão deliberada — e faria a spec mentir, contra o Princípio I | (a) apagar W022, que perderia a vigilância sobre os vinte e três rótulos que **continuam** intocáveis; (b) deixá-lo como está e explicar no adendo, que empurra a contradição para quem ler o watch sem o adendo ao lado | 🟢 |
+| D-12 | A execução separa o que mantém a suíte verde do que a quebra: norma, inventário e verificadores primeiro; reescritas depois | Construir o aparato com a suíte verde permite conferir que o próprio aparato está certo antes de usá-lo como juiz. Invertida a ordem, uma falha do verificador seria indistinguível de uma reescrita malfeita | (a) reescrever primeiro e verificar depois, que mistura as duas causas de falha; (b) fazer tudo num passo, que produziria uma mudança grande demais para revisar | 🟢 |
+| D-13 | A uniformização do separador dos `<title>` é decisão do guia, e não do plano, mas o achado entra no roadmap para não se perder | O levantamento mostra três padrões convivendo: `—` só (home), `—` e `·` no mesmo título (`/dm2/insulina`), `·` só (gestação, puericultura, cardiologia). É desvio de forma, cabe em RN-10 e RF-03, e a escolha do padrão único pertence ao artefato que fixa a norma | (a) fixar o padrão aqui, antecipando decisão que o guia é o lugar de tomar | 🟢 |
+
+## 4. Premissas
+
+Não há `[DÚVIDA]` pendente no `requirements.md`: as seis lacunas do clarify foram fechadas em 27/07. Restam dois itens abertos que **não bloqueiam o plano** e que a execução resolve dentro dos artefatos que já lhe cabem, mais uma premissa de dimensionamento.
+
+| Premissa | Origem (`requirements.md` seção) | Risco se errada |
+|----------|----------------------------------|-----------------|
+| A forma da mensagem de validação admite justificativa clínica anexa, e o guia decide se ela é obrigatória, facultativa ou vedada durante a redação de RF-01 | §10, L-08 (🟡) | Baixo. Errada, produz um guia que descreve mal o que já existe em três redações; corrige-se no próprio guia, sem tocar código de domínio |
+| A discrepância de `_reversa_sdd/domain.md` §7.2 sobre `logoComoTitulo` não alcança esta feature | §10, L-07 (🟡) | Baixo. É desalinhamento herdado da extração, cuja correção pertence à re-extração nº 4; se alcançar, aparece como citação inconsistente no relatório de RF-09 |
+| A superfície textual é da ordem de 400 a 450 literais candidatos, e o mapa de classificação exaustivo é redigível numa sessão | §2.1, contagem heurística | Médio. Subestimada, o mapa vira o gargalo da feature; o `actions.md` deve prever a classificação como fase própria, com a contagem exata do gerador substituindo a heurística antes de qualquer reescrita |
+
+## 5. Delta arquitetural
+
+| Componente | Arquivo de origem no legado | Tipo de mudança | Resumo |
+|------------|------------------------------|-----------------|--------|
+| Norma de redação do produto | — (não existe na extração) | componente-novo | `docs/redacao.md`, primeiro artefato normativo de linguagem do projeto, materialização operacional do princípio IX |
+| Princípios do projeto | `.reversa/principles.md` | regra-alterada | Ganha o princípio **IX**, com impacto declarado nos templates dependentes (RF-11) |
+| Gerador do inventário textual | `_reversa_sdd/architecture.md#2-containers-e-componentes` (família dos scripts `.mts` de geração) | componente-novo | `scripts/inventariar-textos.mts` + `tests/apoio/inventario-textual.json`, terceiro gerador idempotente do projeto |
+| `interface/inicio` — catálogo | `_reversa_sdd/code-analysis.md#módulo-10--interfaceinicio` | regra-alterada | O `CATALOGO` passa a ser oráculo da descrição da plataforma (D-05); as fichas em si podem ser reescritas em forma, jamais em conteúdo clínico (RN-04) |
+| `pages` — metadados das rotas | `_reversa_sdd/code-analysis.md#módulo-12--pages` | contrato-alterado | `<title>` e `<meta name="description">` das seis rotas: correção do defeito de §2.3 e uniformização do separador; detalhe em `interfaces/metadados-html.md` |
+| Manifesto do aplicativo instalável | `_reversa_sdd/code-analysis.md#módulo-12--pages` (ativos de `public/`, feature 009) | contrato-alterado | `description` do `manifest.webmanifest` alinhada ao catálogo; detalhe em `interfaces/manifesto-pwa.md` |
+| `models/puericultura` — fonte clínica | `_reversa_sdd/addenda/017-puericultura-crescimento.md` | regra-alterada | Dois rótulos de §2.4 corrigidos na concordância; constante nova `NOTA_CORRECAO_DE_CONCORDANCIA` (D-06); cabeçalho do arquivo reescrito, inclusive a imprecisão da linha 9 |
+| `interface/puericultura` — proveniência | `_reversa_sdd/addenda/017-puericultura-crescimento.md` | regra-alterada | `ProvenienciaDoCrescimento` ganha um parágrafo, lido do domínio; segue sem texto próprio (RN-05) |
+| Vigilância de regressão da 017 | `_reversa_forward/017-puericultura-crescimento/regression-watch.md` | regra-alterada | **W022** revogado em parte e reescrito (D-11): vigia os vinte e três rótulos remanescentes e passa a vigiar também a permanência da declaração |
+| Suíte de testes | `_reversa_sdd/architecture.md#5-qualidade-e-testes` | regra-alterada | Asserções de texto atualizadas (RF-08, ~251 ocorrências em 14 arquivos pela varredura de conferência); três arquivos novos de verificação (norma, congelamento, citação) |
+| `CLAUDE.md` e `README.md` do projeto | raiz | regra-alterada | Passam a apontar o guia; o `README.md` é ele próprio revisado (decisão de L-01) |
+
+Fora do delta, e é o que sustenta o RNF de compatibilidade: nenhum dos quatro domínios de cálculo muda de comportamento, nenhuma rota nasce ou morre, o esquema do banco fica intacto e a `openapi/status.yaml` não é tocada.
+
+## 6. Delta no modelo de dados
+
+- Resumo das mudanças: **nenhuma alteração no modelo relacional.** A feature não cria tabela, coluna, índice nem migração; o banco só é exercido pelo teste de contrato de infraestrutura, que não lê texto de interface. O delta se dá em dois lugares que o `data-delta.md` trata como dado por serem congelados e versionados: as constantes de `models/puericultura/fonte-clinica.ts` — dois rótulos e uma constante nova — e o artefato novo `tests/apoio/inventario-textual.json`, cujo esquema é declarado ali.
+- Detalhe completo em: `_reversa_forward/018-revisao-linguagem-textos/data-delta.md`
+
+## 7. Delta de contratos externos
+
+| Contrato | Tipo | Arquivo de detalhe |
+|----------|------|--------------------|
+| Metadados HTML das rotas (`<title>`, `<meta name="description">`) | arquivo / superfície de saída | `_reversa_forward/018-revisao-linguagem-textos/interfaces/metadados-html.md` |
+| Manifesto do aplicativo instalável (`public/manifest.webmanifest`) | arquivo | `_reversa_forward/018-revisao-linguagem-textos/interfaces/manifesto-pwa.md` |
+
+`GET /api/v1/status` não é tocado: seu corpo não contém prosa revisável, e `_reversa_sdd/openapi/status.yaml` permanece como está.
+
+## 8. Plano de migração
+
+Não há migração de dados. Há, em compensação, uma ordem de execução que importa, e é ela que o `actions.md` deve decompor:
+
+1. **Princípio antes da norma.** `/reversa-principles` cria o princípio IX e declara o impacto nos templates (D-09, RF-11).
+2. **Norma antes do inventário.** `docs/redacao.md` fixa as regras, incluindo o que ficou aberto em L-08 e o separador de D-13, e é citado por `CLAUDE.md` e `README.md`.
+3. **Aparato com a suíte verde** (D-12). Gerador, mapa de classificação e os três verificadores — norma (RF-05), congelamento (RF-06) e citação (RF-07) — entram com o texto ainda intocado. Neste ponto o inventário registra o estado **anterior**, que é a linha de base de RF-07, e todos os verificadores passam sobre o texto atual, exceto os que a revisão pretende quebrar.
+4. **Reescritas, por frente.** Prosa autoral de `interface/**` e `models/*/validacao.ts`; metadados e manifesto (RF-04); `README.md`. Cada literal reescrito registra o par antes/depois.
+5. **A exceção da citação, em ato único.** Os dois rótulos de §2.4, a constante `NOTA_CORRECAO_DE_CONCORDANCIA`, o parágrafo na proveniência, o cabeçalho de `fonte-clinica.ts` — inclusive a correção da imprecisão da linha 9 — e a comparação de RF-07 conferida.
+6. **Asserções atualizadas, nenhuma removida** (RF-08), incluindo os três arquivos de teste que transcrevem os rótulos: `tests/unit/dominio-puericultura/classificacao.test.ts`, `.../fachada.test.ts` e `tests/integration/interface/puericultura.test.tsx`.
+7. **Vigilância reconciliada** (D-11) e lista de RF-09 fechada para `/reversa-sync`.
+8. **Gates**: `npm run lint`, `npm run typecheck`, `npm run test`, `npm run test:e2e` e a medição de bundle pelo método de `_reversa_forward/017-puericultura-crescimento/medicao-bundle.md`.
+
+Nota de execução verificada nesta sessão: o oráculo congelado `tests/apoio/casos-oraculo-puericultura.json` **não** contém rótulo de classificação — só valores da OMS e do INTERGROWTH. Nenhum passo depende, portanto, de reexecutar `scripts/congelar-casos-oraculo.mts`, que exigiria as fontes de `referencias/`, ausentes do git. O que o requirements chamou de "oráculos congelados" dos dois rótulos são as asserções literais dos três arquivos de teste acima. 🟢
+
+## 9. Riscos e mitigações
+
+| Risco | Impacto | Probabilidade | Mitigação |
+|-------|---------|---------------|-----------|
+| A revisão escapa de "forma" e vira reescrita de conteúdo clínico | alto | médio | RN-04 como regra de recusa, par antes/depois obrigatório por literal, e o cenário Gherkin que reprova a alteração de unidade de dose |
+| Uma correção de citação escapa dos dois rótulos autorizados | alto | baixo | RF-07 compara a classe citação inteira contra a linha de base e reprova qualquer terceiro delta; a lista de §2.4 é fechada e conferida rótulo a rótulo |
+| Asserções de texto são removidas em vez de atualizadas, para fazer a suíte passar | alto | médio | RF-08 proíbe remoção; a contagem de asserções antes e depois entra no relatório da feature, e queda inexplicada reprova |
+| **W022 da 017 fica intocado** e a próxima verificação de regressão acusa vermelho legítimo | médio | alto se esquecido | D-11 o trata como passo explícito do plano de migração, não como consequência; a lista de RF-09 o inclui |
+| O mapa exaustivo de classificação vira dívida: todo literal novo passa a exigir entrada | médio | alto | É o preço declarado da falha ruidosa, e o efeito desejado — literal novo sem classe é decisão adiada, não acidente. Mitiga-se com mensagem de erro que ensina onde declarar, e com o mapa organizado por arquivo |
+| A contagem heurística de §2.1 subestima a superfície e a fase de classificação estoura | médio | médio | O gerador roda antes de qualquer reescrita (passo 3) e substitui a heurística pela contagem exata; se o número surpreender, o escopo se renegocia antes de haver trabalho perdido |
+| Aplicar RN-03 à `NOTA_PROVENIENCIA`, que hoje tem dois pares de travessão, altera texto de valor clínico | médio | médio | O bloco é autoral e revisável em forma, mas RN-04 protege o conteúdo; a reescrita preserva integralmente as afirmações sobre curvas, faixas e ausência de interpolação, e o resultado passa pelo mesmo teste de integração que já assevera o bloco |
+| A revisão degrada nome acessível e derruba o baseline de acessibilidade | alto | baixo | RN-07 como restrição explícita; `e2e/axe-baseline.json` mantém 0/0 por rota como gate, e o cenário Gherkin correspondente cobre o cabeçalho |
+
+## 10. Critério de pronto
+
+- [ ] Todas as ações do `actions.md` marcadas `[X]`
+- [ ] `cross-check.md` (se executado) sem CRITICAL nem HIGH
+- [ ] `regression-watch.md` gerado
+- [ ] Re-extração reversa executada e sem regressão vermelha (recomendado, não obrigatório)
+- [ ] `.reversa/principles.md` contém o princípio **IX**, e `docs/redacao.md` existe, é citado por `CLAUDE.md` e remete ao princípio nas duas direções (RF-01, RF-11)
+- [ ] `tests/apoio/inventario-textual.json` cobre `interface/**`, `pages/**`, `models/**`, `public/manifest.webmanifest` e `README.md`, sem literal candidato órfão, e o gerador é idempotente (`git diff` vazio na segunda execução)
+- [ ] Cada literal autoral do inventário consta do relatório como mantido, com justificativa de uma linha, ou reescrito, com par antes/depois (RF-03)
+- [ ] A comparação de RF-07 acusa exatamente **dois** deltas na classe citação, ambos de concordância, ambos de §2.4
+- [ ] `NOTA_CORRECAO_DE_CONCORDANCIA` existe no domínio, nomeia as formas impressas originais e é renderizada pela proveniência sem segunda fonte na tela (RF-10)
+- [ ] A descrição da home e a do manifesto nomeiam as quatro seções de `CATALOGO`, verificado por teste (RF-04)
+- [ ] Suíte integralmente verde — `lint`, `typecheck`, `test`, `test:e2e` — com contagem de asserções de texto igual ou maior à de entrada, nenhuma removida (RF-08)
+- [ ] `axe` permanece 0/0 por rota e nenhum elemento interativo perde nome acessível
+- [ ] Variação de bundle medida e, se acima de 1 kB gzip por rota, declarada
+- [ ] **W022** da 017 reescrito com nota de superação apontando `MD-0015` (D-11)
+- [ ] Lista de reconciliação de RF-09 fechada, incluindo `_reversa_sdd/addenda/017-puericultura-crescimento.md`, `MD-0012`, `MD-0014` e o `regression-watch.md` da 017
+
+## 11. Histórico de alterações
+
+| Data | Alteração | Autor |
+|------|-----------|-------|
+| 2026-07-27 | Versão inicial gerada por `/reversa-plan` | reversa |
