@@ -1,7 +1,7 @@
 ---
-commit: 533d70fc583d01c0896a3c7cde1b0b238df04465
+commit: 0f1091d253c7986c7b10ab11f4852554dca42a75
 feature: default_feature
-start_time: '2026-07-27T21:33:40.713530+00:00'
+start_time: '2026-07-27T22:29:11.472699+00:00'
 status: inactive
 ---
 
@@ -12,15 +12,24 @@ status: inactive
 - **Suíte verde conferida nesta sessão:** 52 arquivos, 673 testes, 6,2 s; `typecheck` e `eslint` limpos. Os três arquivos de `tests/contract/` ficam fora do `vitest run` padrão — daí o `find` contar 55 e o runner, 52.
 - **CI verde e produção no SHA novo, confirmados e não deixados como pendência.** O run do `533d70f` concluiu em 2 min 1 s e `/api/v1/status` responde `533d70fc583d…`. Foi a primeira vez em sete sessões que a confirmação de deploy não passou para a retomada seguinte.
 - **A nota do vault (`~/Notas/Projetos/aps-inteligente.md`) foi atualizada**, e não só acrescida: o bloco da 017, que ainda a descrevia como "EM CURSO, planejada", passou a **ENTREGUE** com o registro do que se previu preservado abaixo; entrou o bloco da 018; a pendência do PDF da Caderneta foi riscada como resolvida; e a linha de Retomada deixou de apontar `/reversa-to-do` para apontar a re-extração nº 4.
+- **Depois do primeiro encerramento, a sessão continuou, e o que veio depois vale mais que o que veio antes: o usuário leu a tela do risco cardiovascular e não reconheceu a revisão.** Tinha razão, e o meu primeiro diagnóstico foi estreito: tratei como dois parágrafos mal pontuados o que era **régua frouxa**. A 018 racionara o travessão em um par por bloco; num texto que só informa, o teto certo é **zero**, porque o travessão marca subjetividade e não há subjetividade a marcar. Racionar pressupunha uso legítimo a preservar, e a medição mostrou que não havia: dos **18** travessões da prosa autoral, **nenhum comentava** — 3 encaixavam aposto, 3 qualificavam rótulo, 2 eram glifo de célula vazia e 9 pertenciam a nome de fonte. Todos faziam ofício de dois-pontos, de vírgula ou de ponto, que é o defeito que a própria 018 corrigira em `resultado.tsx`.
+- **A régua antiga não via o que o leitor via.** Cada parágrafo do `ContextoDaFonte` tinha exatamente um par, e portanto passava; os dois vizinhos concentravam **metade de todo o travessão autoral do produto**. Contagem por bloco, percepção por seção: a mesma família de erro de `MD-0019`, que media tamanho quando queria medir exibição.
+- **A emenda saiu inteira, fora do ciclo forward, por proporcionalidade** (`MD-0020`, commit **`0f1091d`** pushado): teto zero em régua única para tela, metadado, manifesto e `README.md`; seis literais reescritos sem mover afirmação clínica; dois reclassificados como **glifo** de valor ausente, que nem prosa são; `docs/redacao.md` §3.2 reescrita, §3.1, §3.4 e a tabela do §7 acompanhando; e o próprio guia alinhado à norma que fixa, porque enunciava a regra violando-a.
+- **A exceção do nome da fonte virou dado, e foi ela que achou o defeito de verdade.** Os cinco `models/*/fonte-clinica.ts` passaram a exportar **`NOME_PUBLICADO`**, e `norma.test.ts` apaga esses nomes antes de procurar travessão. Ao ligar o verificador, **cinco linhas do `README.md` reprovaram** por nomear as fontes de forma que as telas não usam: `Guia Rápido DM` por `Guia Rápido Diabetes Mellitus`, as duas metades das Pooled Cohort Equations **invertidas**, e um travessão a mais na Caderneta da Criança. Uma lista de exceções escrita no arquivo de teste teria aceitado as três, e continuaria verde depois de a fonte mudar de nome.
+- **O verificador foi visto reprovar antes de aceito: 27 literais na primeira execução.** Verificação final da emenda: vitest 52 arquivos e 673 testes, e2e **36/36**, `typecheck` e `eslint` limpos; `citacao-linha-de-base.json` **intocada** (W007) e `e2e/axe-baseline.json` **intocado**. Desfiz também uma reformatação que o `prettier --write` fizera na matriz de 24 células do Quadro 2: números idênticos, mas diff sujo em arquivo de constante clínica atrapalha a conferência contra a página impressa.
+- Encerramento anterior (âncora `533d70f`) não versionado por esquecimento meu; registrado depois em `040b2a9`, por caminho.
 - Encerramento não versionado: o estado de sessão ficou como mudança pendente no working tree.
 
 ## Próximos passos
 - **A re-extração `/reversa` nº 4 é a candidata mais forte da retomada**, e por acúmulo: quatro adendos vigentes a absorver (**015, 016, 017, 018**), duas dívidas que só ela fecha (**L-07** e **L-11**) e um sistema que cresceu de quatro para **cinco domínios** desde a nº 3, com uma camada dev-time de geradores e sete verificadores de texto que a extração ainda não conhece.
 - Alternativa legítima: **`/reversa-forward`** com feature nova. A primeira que trouxer esquema de negócio nasce com migração junto (D-09).
 - **Abrir ticket para L-10**, as duas violações axe toleradas em `e2e/axe-baseline.json` (`telaInicial` e `telaComResultado`, herdadas da feature 004). É dívida sem dono há três features.
+- **Consumir `NOME_PUBLICADO` nas telas**, que hoje reescrevem o nome da fonte à mão em sete literais. Fecharia por construção o drift que a emenda encontrou no `README.md`, e a ficha `MD-0020` já declara a consequência: quando a constante chegar à tela, ela deixa de ser chave e vira citação, com a classe mudando junto.
+- ~~Conferir o CI e o SHA `0f1091d`~~ — **confirmado no fechamento**: run verde em 2 min 8 s e `/api/v1/status` respondendo `0f1091d253c7…`. Nada de deploy fica para a retomada.
 
 ## Pendências / bloqueios
-- **Nada em curso.** O repositório está limpo, a 018 está no histórico e em produção, e não há feature ativa a meio caminho. É um ponto de parada raro neste projeto: as últimas seis retomadas começavam por confirmar um deploy.
+- **Nada em curso, e o repositório está limpo.** Não há feature ativa a meio caminho: a 018 está no histórico, e a emenda `MD-0020` também.
+- **Nenhuma pendência de deploy.** O CI do `0f1091d` fechou verde e a produção está nele, conferido depois de o script de encerramento rodar.
 - **As cifras erradas continuam nos artefatos da 018.** O `legacy-impact.md` e a `reconciliacao-spec.md` §4 seguem dizendo "52 para 59"; o adendo declara a correção, mas os artefatos da feature são somente leitura para o `/reversa-sync`. A re-extração nº 4 deve ler o adendo, não os dois.
 - **Três premissas 🟡 da 017 a validar pelo prescritor**: os 1095 dias da correção de idade, a idade cronológica governando a posição de medida no prematuro, e o escore z com uma casa decimal. Somam-se às 13 da re-extração nº 3.
 - **Dívida de higiene alheia à feature:** `npm run format:check` segue acusando centenas de arquivos, quase todos documentação pré-existente do Reversa. Não é gate do CI.
@@ -30,8 +39,11 @@ status: inactive
 - **A regra que esta sessão confirmou pela terceira vez em dois dias:** número escrito em prosa envelhece, e o dano não é o engano — é o verificador que nasce vermelho sobre texto sem defeito e ensina alguém a afrouxá-lo. A 018 registrou três cifras envelhecidas durante a própria execução; a quarta apareceu no commit dela.
 - **Onde a correção da cifra vive:** `_reversa_sdd/addenda/018-revisao-linguagem-textos.md`, linha de `architecture.md #5`, com a divergência nomeada. O sync não corrige artefato alheio: anota.
 - **O que a 018 deixou como regra permanente para quem escrever texto novo:** literal sem classe declarada em `scripts/textos/classes/` **para o gerador**. A norma vive em `docs/redacao.md`, apontada pelo `CLAUDE.md` e pelo `README.md`, sob o princípio **IX**.
-- **A linha de base da citação (`tests/apoio/citacao-linha-de-base.json`) jamais se regera.** Um segundo commit nesse arquivo transforma a comparação de RF-07 em verde perpétuo e incapaz de reprovar. É o W007 da 018, e o modo de falha mais silencioso da feature.
-- Feature 018: **encerrada**. Quinze arquivos em `_reversa_forward/018-revisao-linguagem-textos/`; o ponteiro em `.reversa/active-requirements.json` marca `coding`, e o sync não o avança.
-- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0019`**. `MD-0014` segue `superado-parcialmente`. Índice em `.harness/microdecisoes.md`.
+- **A linha de base da citação (`tests/apoio/citacao-linha-de-base.json`) jamais se regera.** Um segundo commit nesse arquivo transforma a comparação de RF-07 em verde perpétuo e incapaz de reprovar. É o W007 da 018, e o modo de falha mais silencioso da feature. Foi por ela que `NOME_PUBLICADO` ficou `identificador` e não `citacao`: acomodar constante nova na comparação exigiria afrouxar o guarda, que é desfazer o gate em vez de passar por ele.
+- **A regra nova, em uma linha:** sinal racionado é sinal que ainda se admite, e admitir sinal expressivo em texto que só informa é decidir que existe subjetividade a marcar ali. Quando a resposta for não, o teto certo é zero.
+- **A doutrina que se ampliou:** oráculo mora onde o dado nasce. `W012` já o dizia da descrição da home contra o `CATALOGO`; `MD-0020` o repete para o nome da fonte contra o domínio, e nos dois casos a alternativa — lista escrita no teste — teria aceitado a forma divergente sem reclamar.
+- **W025 nasceu na emenda** e vive na seção `Atualização 2026-07-27` do adendo 018: as cinco constantes são a única fonte da exceção do travessão, e `norma.test.ts` as importa do domínio.
+- Feature 018: **encerrada**, e emendada no mesmo dia por `MD-0020`, fora do ciclo forward. Quinze arquivos em `_reversa_forward/018-revisao-linguagem-textos/`; o ponteiro em `.reversa/active-requirements.json` marca `coding`, e nem o sync nem a emenda o avançam.
+- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0020`**. `MD-0014` segue `superado-parcialmente`. Índice em `.harness/microdecisoes.md`.
 - **Adendos vigentes:** 015, 016, 017 e **018**; os de 001 a 014 foram superados pela re-extração nº 3 (commit `ab075ac`).
-- Produção: https://apsinteligente.app · saúde em `/api/v1/status`. SHA **`533d70f`**, confirmado nesta sessão com CI verde.
+- Produção: https://apsinteligente.app · saúde em `/api/v1/status`. SHA **`0f1091d`** (a emenda `MD-0020`), com CI verde e liveness conferida.
