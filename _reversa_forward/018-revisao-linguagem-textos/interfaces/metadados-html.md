@@ -36,6 +36,8 @@ Observação de capitalização: os títulos oscilam entre caixa alta de título
 
 **Depois**: prosa autoral reescrita que nomeie as **quatro** seções vigentes de `CATALOGO` — Diabetes Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura —, preservada a cláusula de privacidade. O texto continua escrito à mão; o que a feature acrescenta é o teste que o compara ao catálogo (D-05), de modo que a quinta seção não possa entrar sem que a descrição seja revisitada.
 
+Esta é a **forma positiva** da verificação, e ela vale só aqui. A descrição do manifesto responde à forma negativa — não enumerar subconjunto próprio —, porque ali um teto prático de comprimento governa o texto e a enumeração seria truncada na tela de instalação. As duas formas cumprem o mesmo propósito e não se trocam de lugar (RN-06, D-17). 🟢
+
 ### 3.2 Uniformização do separador — decorrente do guia (RF-03, RN-10)
 
 Um padrão único para os seis títulos, fixado em `docs/redacao.md`. O caso de `/dm2/insulina` é o que força a decisão: acumula `—` e `·` no mesmo título, contra a regra de forma de RN-10.
@@ -64,11 +66,11 @@ Não se aplicam no sentido de contrato de rede: o documento é gerado em build e
 
 | O que se verifica | Onde |
 |---|---|
-| A `description` da raiz nomeia as quatro seções de `CATALOGO` | Teste novo de RF-04, comparação contra a constante |
+| A `description` da raiz nomeia as quatro seções de `CATALOGO` | Teste novo de RF-04, em `tests/unit/textos/`, comparação contra a constante, na **forma positiva** (D-15, D-17) |
 | Os seis títulos usam o separador único do guia | Teste de norma de RF-05, sobre a classe autoral do inventário |
 | Nenhum literal de metadado saiu do inventário sem classe | Gerador de RF-02, falha ruidosa |
 | Os títulos revisados permanecem congelados | Teste de RF-06, contra `tests/apoio/inventario-textual.json` |
-| A cláusula de privacidade sobrevive nas seis rotas | Asserção explícita, a criar |
+| A cláusula de privacidade sobrevive nas seis rotas | Asserção explícita em `tests/unit/textos/`, na **forma fraca**: exige que cada uma das seis `description` afirme a privacidade do cálculo, sem congelar a redação de hoje. Congelá-la poria a asserção a vetar a revisão que a feature existe para fazer, já que a cláusula é prosa autoral como qualquer outra; o que não pode sumir por descuido é a afirmação (D-20) |
 
 Nota de implementação para o gerador: o `<title>` de `/cardiologia/risco-cardiovascular` está quebrado em duas linhas no JSX e chega como `JsxText` com quebra e recuo internos. A extração precisa normalizar espaço em branco antes de comparar, sob pena de o inventário registrar um literal que não corresponde ao que o navegador exibe. 🟢
 
@@ -77,3 +79,4 @@ Nota de implementação para o gerador: o `<title>` de `/cardiologia/risco-cardi
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-27 | Versão inicial gerada por `/reversa-plan` | reversa |
+| 2026-07-27 | Terceira passagem: §3.1 declara que a forma positiva da verificação de RF-04 vale só para a home, e não para o manifesto (D-17); §6 fixa a forma **fraca** da asserção da cláusula de privacidade, que era promessa sem forma declarada (D-20) | reversa |

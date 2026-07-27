@@ -17,3 +17,4 @@
 - **MD-0015** — Corrigir a concordância da fonte é lícito quando vem declarado; o que a citação não admite é a diferença silenciosa
 - **MD-0016** — A superfície textual vira dado gerado; a classe de cada literal, decisão declarada à mão
 - **MD-0017** — Watch item revogado por decisão posterior é reescrito no lugar, com a superação declarada; nem apagado, nem contornado
+- **MD-0018** — Linha de base e congelamento são dois artefatos, porque um se regera e o outro não pode

@@ -58,6 +58,22 @@ Descartada, por três razões cumulativas:
 
 O inventário de D-02 alcança o benefício buscado — lista fechada, verificável, versionada — sem mover uma linha de código de produção.
 
+### 2.5 Onde a prosa autoral de `models/**` realmente mora
+
+A primeira versão deste plano supunha que a prosa autoral do domínio se concentrasse nas mensagens de validação, e desenhou a frente de reescrita em torno de `models/*/validacao.ts`. A suposição é intuitiva e está errada, e a medição desta sessão mostra por quanto. Descontados os comentários, os cinco `validacao.ts` somam **18** literais candidatos; os 17 demais arquivos de `models/**` que ficavam de fora somam **47**. A camada excluída era duas vezes e meia a incluída.
+
+| Arquivo | Candidatos | O que há ali |
+|---|---|---|
+| `models/insulina/regra-intensificacao.ts` | 9 | Condutas de intensificação e metas de HbA1c, lidas no painel de resultado |
+| `models/puericultura/oms/leitura.ts` | 5 | Mensagens de leitura da tabela, em boa parte internas |
+| `models/gestacao/calculadora.ts` | 4 | Orquestração e recusas |
+| `models/puericultura/elegibilidade.ts` | 4 | A recusa parcial do perímetro cefálico acima de 2 anos, com a localização citada ao lado |
+| `models/insulina/regra-inicio.ts` | 4 | Conduta de início de insulinização |
+| `models/insulina/calculadora.ts`, `models/puericultura/calculadora.ts` | 3 cada | Alertas e recusas, entre eles o da idade gestacional não informada |
+| Demais onze arquivos | 1 a 2 cada | Recusas pontuais, mensagens de invariante, rótulos internos |
+
+A tabela também expõe a razão de D-04 não poder ser afrouxada aqui: `oms/leitura.ts` mistura mensagem interna de invariante com texto que chega à tela, e `elegibilidade.ts` põe, lado a lado, a recusa autoral e a localização bibliográfica citada. Nenhuma regra de caminho separaria as duas; o mapa declarado separa. 🟡 — a contagem é aproximada, por descontar comentários com expressão regular; a exata continua vindo do gerador.
+
 ## 3. Como verificar uma norma de prosa
 
 ### 3.1 Ferramentas de lint de prosa: o estado real
@@ -91,11 +107,35 @@ A separação importa porque promete demais quem diz que a norma inteira vira te
 
 O guia de RF-01 deve deixar essa fronteira explícita, para que ninguém confunda "a suíte passou" com "o texto está bom".
 
+### 3.3 As duas famílias de asserção, e por que medir só uma não mede
+
+A régua de RF-08 nasceu da forma como a suíte é escrita nas telas: consultas do Testing Library — `getByText`, `getByRole` com `name:`, `getByLabelText`, `toHaveTextContent`, `getByPlaceholderText`, `findByText`, `queryByText` —, que rendem 251 ocorrências em 14 arquivos. É a família visível, e por isso a que primeiro se conta.
+
+Há uma segunda, e ela é justamente onde o acoplamento se adensa. `tests/unit/interface/formatar-plano.test.ts` não consulta o DOM: assevera a cadeia do plano copiável por `expect(texto).toContain(...)`, dezessete vezes, sobre literais como `"A dose exata é fixada pelo prescritor."`, `"Conduta: Reduzir 4 UI. Dose total: 26 UI/dia."` e `"Recomendações ao prescritor:"`. Todos nascem de `interface/calculadora/rotulos.ts` e das regras da insulina — as duas frentes que a revisão mais mexe.
+
+O defeito da régua estreita não é subestimar: é **medir como intacto o arquivo que mais quebra**. Pior, é medir assim justamente na propriedade que RF-08 existe para garantir. Se alguém apagasse cinco das dezessete asserções para fazer a suíte passar, a contagem de saída continuaria batendo com a de entrada, e o critério aprovaria a entrega que ele deveria reprovar. É o mesmo modo de falha que a primeira auditoria encontrou em três verificadores, aparecendo agora num lugar em que ninguém o procurava — na medição, e não no teste. Daí D-19, e daí a regra que o roadmap §9 passou a enunciar: medição nova se confere contra o caso que ela deveria acusar. 🟢
+
 ## 4. Como provar que a citação foi preservada
 
 O problema é de linha de base: para demonstrar que só dois literais de citação mudaram, é preciso ter registro do que eles eram antes. O projeto já resolveu esse problema uma vez, na feature 017, e a solução vale aqui: **congelar em JSON versionado e comparar**.
 
 A diferença é que o congelamento da 017 (`scripts/congelar-casos-oraculo.mts` → `tests/apoio/casos-oraculo-puericultura.json`) depende de fontes em `referencias/`, pasta excluída do git. O inventário de D-02 não depende de nada externo: lê o próprio código. Roda em clone limpo, sem rede e sem PDF na mão.
+
+### 4.1 Por que a linha de base não cabe no inventário
+
+Esta seção afirmava, na primeira versão, que o inventário serviria também de linha de base. A auditoria mostrou que não pode, e a razão é temporal antes de ser técnica: **congelamento e linha de base parecem a mesma coisa e são opostos no tempo.** O congelamento diz "o texto de hoje é este, e alterá-lo tem de doer"; acompanha o presente e se atualiza por ato deliberado a cada revisão, que é justamente o que D-08 quer quando trata o `git diff` do inventário como sinal útil. A linha de base diz "o texto de ontem era aquele", e o seu valor inteiro está em não acompanhar nada: assim que se move, deixa de medir.
+
+Fundidos num arquivo só, o segundo papel morre na primeira regeração, e morre em silêncio. O teste de RF-07 continuaria passando, comparando o estado corrente consigo mesmo, e a suíte verde deixaria de significar o que a feature oferece que ela signifique. Num aparato de verificação esse é o pior modo de falha que existe, porque um verificador que não pode reprovar é indistinguível, no relatório, de um verificador que aprovou.
+
+Três saídas foram consideradas antes de chegar em D-14:
+
+| Saída | Por que foi descartada |
+|---|---|
+| Bloco `linhaDeBase` preservado dentro do inventário, copiado adiante pelo gerador | Põe o gerador a carregar estado que ele não produziu, contra `MD-0008`, segundo o qual a idempotência é propriedade do texto emitido; e um defeito na cópia corromperia a linha de base sem sinal, dentro de um arquivo que ninguém inspeciona porque é gerado |
+| Recuperar o estado anterior pelo `git log` do inventário | Transfere a prova para fora da suíte, contra o RNF de rastreabilidade, que exige a revisão auditável **sem** recorrer ao histórico; e um teste que depende do histórico do repositório não roda em clone raso |
+| Não regerar o inventário, deixando-o como registro do estado anterior | Devolve as asserções literal a literal que D-08 descartou, e deixa o artefato mais consultado da feature descrevendo um texto que já não existe |
+
+O que decidiu a favor do artefato separado, além de eliminar o modo de falha, foi perceber que ele **não é andaime**. Congelado em 27/07/2026, torna-se o guarda permanente do invariante "a citação é byte a byte, salvo dois casos declarados", com as duas exceções visíveis para sempre como exceções em vez de absorvidas na normalidade. O custo, uma disciplina de não regerar, é o mesmo que `casos-oraculo-puericultura.json` já cobra e que o projeto já paga sem atrito. Registrado em `MD-0018`.
 
 **Achado que simplifica a execução.** A conferência desta sessão mostra que `casos-oraculo-puericultura.json` guarda apenas valores numéricos da OMS e do INTERGROWTH — suas chaves são `esquema`, `feature`, `acao`, `geradoPor`, `aviso`, `porQueExiste`, `consumidores`, `oms`, `intergrowth`. **Nenhum rótulo de classificação está lá.** O que o `requirements.md` §2.4 chamou de "oráculos congelados do domínio" são, na verdade, asserções literais em três arquivos de teste: 🟢
 
@@ -126,6 +166,11 @@ Nada do que a feature constrói é forma nova no projeto. Cada peça tem precede
 | Teste de norma (RF-05) | `tests/unit/dominio-*/invariantes.test.ts` | Verificação de propriedade sobre um conjunto, e não caso a caso |
 | Constante `NOTA_CORRECAO_DE_CONCORDANCIA` | `NOTA_PROVENIENCIA` e `REFERENCIAS` da 017 | Texto congelado no domínio, lido pela tela, que não reescreve nada (anti-drift) |
 | Verificação da descrição contra o catálogo (RF-04) | `CATALOGO` como fonte única (D-07 da feature 007) | Anti-drift por teste, e não por disciplina de quem edita |
+| `tests/apoio/citacao-linha-de-base.json` (D-14) | `casos-oraculo-puericultura.json` | Dado congelado versionado que serve de oráculo externo à implementação; a diferença é que este não se regera nunca, e o aviso no arquivo o declara |
+
+### 6.1 Onde os verificadores moram, e por quê
+
+Os quatro testes que a feature acrescenta vão para `tests/unit/textos/`, e não para `tests/contract/`, embora o de integridade do manifesto tenha vizinhança temática com o `cabecalhos.test.ts` que já vive lá. A razão é de execução: `vitest.config.ts` inclui `tests/unit/**`, `tests/integration/**` e `tests/regression/**`, e deixa `tests/contract/**` para `vitest.api.config.ts`, cujo cabeçalho declara que aqueles testes "fazem fetch contra um servidor de pé" e por isso "vivem fora do include da suíte padrão". Um teste que lê três campos de um JSON estático herdaria a dependência de build sem receber nada, e ficaria fora dos gates do plano, o que o faria parecer escrito e verde sem nunca ter rodado. Daí D-15. 🟢
 
 ## 7. Fontes
 
@@ -141,3 +186,5 @@ Nada do que a feature constrói é forma nova no projeto. Cada peça tem precede
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-27 | Versão inicial gerada por `/reversa-plan` | reversa |
+| 2026-07-27 | Segunda passagem: §4.1 registra por que a linha de base não cabe no inventário, com as três saídas descartadas (D-14, `MD-0018`), corrigindo a afirmação original de que o inventário serviria aos dois papéis; §6.1 registra a colocação dos verificadores na suíte padrão (D-15) | reversa |
+| 2026-07-27 | Terceira passagem: §2.5 mede onde a prosa autoral de `models/**` de fato mora e corrige a suposição de que ela se concentrava nas validações — 18 literais dentro da fatia antiga contra 47 fora dela (D-16); §3.3 registra a segunda família de asserção, que a régua de RF-08 não via, e por que medir só a primeira aprovaria a remoção que o requisito proíbe (D-19) | reversa |

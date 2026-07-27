@@ -44,9 +44,19 @@ Classe **autoral**, e portanto revisável em forma por RF-03. O texto atual, de 
 
 `models/insulina/fonte-clinica.ts`, `models/gestacao/fonte-clinica.ts`, `models/cardiopatia-isquemica/fonte-clinica.ts` e `models/risco-cardiovascular/fonte-clinica.ts` têm seus literais **classificados** pelo inventário, e os autorais entre eles são revisáveis em forma; nenhum tem desvio de concordância na classe citação, e a exceção de RN-09 não os alcança. A comparação de RF-07 cobre os cinco arquivos e reprova qualquer delta de citação fora dos dois de §2.4.
 
-## 3. Artefato de dado novo: o inventário textual
+### 2.5 O que a frente ampliada de D-16 acrescenta a este documento
 
-Único arquivo de dado que a feature cria, e o eixo técnico do plano (D-02).
+🟢 **Nada, e a ausência merece registro para não ser confundida com esquecimento.** A terceira passagem do plano estendeu a reescrita a `models/**` por inteiro, alcançando as condutas de `insulina/regra-*.ts`, as elegibilidades da puericultura e do risco cardiovascular e as recusas de `calculadora.ts` dos três domínios. Nenhum desses literais é dado no sentido em que esta seção usa a palavra: não são constantes congeladas por `Object.freeze` nem tabelas versionadas, e sim cadeias escritas dentro do corpo das funções de regra, compiladas junto com a lógica que as emite. Alterá-las é alteração de código, e a rastreabilidade delas vive no inventário de §3, não aqui.
+
+A fronteira que separa os dois casos é a mesma que o projeto já pratica: o que está em `fonte-clinica.ts`, congelado e exportado, é dado; o que a regra monta ao decidir, é código. `models/puericultura/fonte-clinica.ts` continua sendo o único arquivo de `models/**` cujo delta textual entra neste documento.
+
+## 3. Artefatos de dado novos: o inventário e a linha de base
+
+A feature cria **dois** arquivos de dado, e a distinção entre eles é decisão registrada, não detalhe de arranjo: um acompanha o presente e se atualiza por ato deliberado, o outro vale precisamente por não se mover. A primeira versão deste documento declarava um só, e a auditoria mostrou por que não podia ser um só (D-14, `MD-0018`).
+
+### 3.0 O inventário textual
+
+Eixo técnico do plano (D-02), regerado ao fim das reescritas.
 
 - **Caminho:** `tests/apoio/inventario-textual.json`
 - **Gerado por:** `scripts/inventariar-textos.mts`
@@ -79,6 +89,18 @@ Cada entrada de `literais`:
 | `origem` | `string` (opcional) | Para a classe citação, a fonte e a localização que a sustentam |
 | `excecao` | `string` (opcional) | Presente apenas nos dois rótulos de §2.4, apontando `MD-0015` |
 
+### 3.1-bis A linha de base da classe citação
+
+Segundo artefato de dado, e o que dá prova a RF-07.
+
+- **Caminho:** `tests/apoio/citacao-linha-de-base.json`
+- **Gerado por:** `scripts/inventariar-textos.mts`, em modo próprio, **uma única vez**
+- **Versionado:** sim
+- **Regerado:** **nunca.** É a diferença que o separa do inventário, e o aviso no próprio arquivo a declara, para que a primeira pessoa que pensar em atualizá-lo encontre a razão antes de agir
+- **Conteúdo:** as entradas de classe `citacao` do inventário no estado **anterior** às reescritas, com `arquivo`, `texto` e `origem`; nenhum literal autoral entra, porque a revisão os altera por definição
+
+Duas propriedades justificam o arquivo a mais. A primeira é imediata: sem ele, T047 regera o inventário e o verificador de RF-07 passa a comparar o estado corrente consigo mesmo, aprovando por construção. A segunda é durável e não estava no escopo original: congelado em 27/07/2026, o arquivo sobrevive à feature como guarda permanente do invariante "a citação é byte a byte, salvo dois casos declarados", e mantém as duas exceções visíveis **como exceções** em vez de absorvidas na normalidade. É esse guarda que `W022`, reescrito por D-11, passa a apontar.
+
 ### 3.2 O mapa de classificação
 
 Artefato de acompanhamento, não gerado: `scripts/textos/classificacao.mts` 🟡. Chaveado por arquivo e pelo texto do literal — não pela linha, que se move a cada edição e produziria falso desalinhamento. Literal candidato ausente do mapa faz o gerador parar, nomeando arquivo e linha, com a mensagem que ensina onde declarar.
@@ -98,3 +120,5 @@ Não aplicável. Não há dado persistido a migrar, e as constantes alteradas s�
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-27 | Versão inicial gerada por `/reversa-plan` | reversa |
+| 2026-07-27 | Segunda passagem: a seção 3 passa a declarar **dois** artefatos de dado, com a linha de base da citação em §3.1-bis (D-14, `MD-0018`). A afirmação de que o inventário era o único arquivo de dado da feature foi corrigida, e não apagada, porque era ela que a auditoria contradisse | reversa |
+| 2026-07-27 | Terceira passagem: §2.5 registra que a ampliação da frente de reescrita por D-16 **não** produz delta de dados, e fixa a fronteira que separa os dois casos — constante congelada e exportada é dado, cadeia montada dentro da regra é código | reversa |

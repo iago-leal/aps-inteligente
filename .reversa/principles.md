@@ -7,7 +7,7 @@ recebem data de aposentadoria e migram para o final do documento.
 # Princípios do projeto
 
 > Projeto: `aps-inteligente`
-> Data da última alteração: `2026-07-19`
+> Data da última alteração: `2026-07-27`
 > Mantido por: `/reversa-principles`
 
 ## Preâmbulo — Fluxo `/clarificar` (SDD/TDD)
@@ -201,6 +201,44 @@ crítico completo, matriz de rastreabilidade e pirâmide com regressão.
 
 ---
 
+### IX. A prosa do produto tem norma declarada, e a norma é verificável
+
+**Descrição.** Todo literal que o produto exibe pertence a exatamente uma de três classes,
+e a classe é **declarada**, jamais inferida do diretório onde o literal mora: **autoral**
+(escrito pelo produto), **citação** (transcrito de fonte clínica, incluindo rótulo de
+classificação, conduta e localização bibliográfica) ou **identificador** (chave, `id`,
+nome de campo, valor de `data-*`). A classe autoral responde a uma norma de redação
+escrita e versionada, materializada em `docs/redacao.md`. A citação permanece byte a
+byte, com uma exceção estrita: onde a fonte impressa contraria a concordância, o produto
+escreve a forma correta e **declara o afastamento ao leitor** — corrigir sem informar
+troca um desvio gramatical por um desvio de transparência, e este é o pior dos dois numa
+ferramenta clínica. O identificador está fora do alcance da revisão.
+
+A norma se divide pelo que dela se pode provar. O que ela fixa em **regra dura** —
+pontuação pelos três eixos, teto de sinais expressivos por bloco, grafia de números,
+unidades e siglas — é verificado por teste, no mesmo portão dos demais, com mensagem de
+falha que aponta a regra violada. O que ela fixa em **julgamento** — coesão, progressão
+econômica, ausência de ornamento — vive no guia como par "antes/depois" tirado do próprio
+produto. O guia diz qual é qual, para que ninguém confunda "a suíte passou" com "o texto
+está bom".
+
+**Exemplo de aplicação.** Uma calculadora nova precisa de subtítulo. Quem a escreve não
+delibera sobre travessão nem inventa um separador: abre `docs/redacao.md`, encontra a
+regra e o exemplo tirado de uma tela que já existe, e escreve conforme. Se errar, o teste
+de norma reprova antes do commit, e o que reprova é a regra escrita, não o gosto de quem
+revisa. Do outro lado da mesma disciplina: quem transcreve um rótulo novo da caderneta o
+declara como citação, e nenhuma revisão de estilo posterior o alcança.
+
+**Impacto em templates.**
+- `requirements-template.md`: RF que introduza texto exibido declara a classe dos literais que cria; critério de aceite de texto autoral remete ao guia, e não a uma descrição de estilo escrita ali mesmo.
+- `roadmap-template.md`: decisão que crie superfície textual nova declara onde a classe de cada literal será registrada; a seção 2 passa a ter um princípio a mais a conferir.
+- `actions-template.md`: ação que escreva texto exibido é ação de classe declarada; literal novo sem entrada no mapa faz o gerador do inventário parar, e a ação não se dá por concluída enquanto isso não for resolvido.
+
+**Criado em.** `2026-07-27`
+**Última revisão.** `2026-07-27`
+
+---
+
 ## Princípios aposentados
 
 <!-- Nenhum princípio aposentado até o momento. -->
@@ -210,3 +248,4 @@ crítico completo, matriz de rastreabilidade e pirâmide com regressão.
 | Data | Operação | Princípio | Resumo |
 |------|----------|-----------|--------|
 | 2026-07-19 | criar | I–VIII | Versão inicial: doutrina do fluxo `/clarificar` (SDD/TDD) importada do projeto `plano-viagem` (versão de 2026-07-12), adotada sem alteração de conteúdo |
+| 2026-07-27 | adicionar | IX | A prosa do produto tem norma declarada, e a norma é verificável. Nasce da feature 018 (RF-11, roadmap D-09) e da arbitragem de `MD-0015`, que autorizou a exceção de concordância na citação sob condição de declaração ao leitor. É o primeiro princípio deste projeto que não vem da doutrina importada do `/clarificar`: os oito anteriores tratam de **como se chega** ao artefato, e este trata de **como o artefato fala**. Materialização operacional em `docs/redacao.md`, que o princípio nomeia e que remete de volta a ele. Relatório de impacto em `.reversa/principles-impact-20260727.md` |
