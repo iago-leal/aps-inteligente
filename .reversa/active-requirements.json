@@ -1,17 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/017-puericultura-crescimento",
-  "feature-id": "017",
-  "short-name": "puericultura-crescimento",
-  "started-at": "2026-07-26T20:00:52Z",
-  "current-stage": "coding",
-  "stages-completed": [
-    "requirements",
-    "clarify",
-    "plan",
-    "to-do",
-    "audit",
-    "coding"
-  ],
+  "feature-dir": "_reversa_forward/018-revisao-linguagem-textos",
+  "feature-id": "018",
+  "short-name": "revisao-linguagem-textos",
+  "started-at": "2026-07-27T02:06:49Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
   "paused-features": []
 }
