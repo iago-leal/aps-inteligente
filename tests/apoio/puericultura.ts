@@ -73,6 +73,16 @@ export function repositorioSintetico(
   };
 }
 
+/**
+ * Data civil `n` dias depois de outra. Escrita com `Date.UTC` cru, e não com a
+ * aritmética do domínio, de propósito: um teste que gera as suas datas com o mesmo
+ * código que ele exercita não prova nada sobre esse código.
+ */
+export function dataApos(inicio: string, dias: number): string {
+  const ms = Date.parse(`${inicio}T00:00:00Z`) + dias * 86_400_000;
+  return new Date(ms).toISOString().slice(0, 10);
+}
+
 /** Menino nascido em 2026-01-10 e medido aos 7 meses — o primeiro cenário Gherkin. */
 export function entradaAvaliacao(
   extras: Partial<EntradaAvaliacao> = {},

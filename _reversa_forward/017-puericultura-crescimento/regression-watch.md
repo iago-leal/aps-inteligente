@@ -30,6 +30,19 @@
 | W019 | T008 — o congelado é gerado, não escrito | Rodar `node scripts/congelar-casos-oraculo.mts` sobre as mesmas fontes deixa o `git diff` **vazio**; o cabeçalho do arquivo declara `geradoPor` e o aviso de não editar à mão | reprodutibilidade | Diff no JSON sem diff correspondente no congelador ou no manifesto — edição à mão de um oráculo, que é o modo de falha mais perigoso possível: o número passa a confirmar a implementação em vez de julgá-la |
 | W020 | Contrato de aquisição §5 — V6 para em ±3 | A reconstrução de V6 continua limitada a `SD3neg`…`SD3`; **não** se estende a `SD4neg`/`SD4` | ausência | V6 alcançando ±4: o gerador passaria a abortar em oito das catorze tabelas com dado íntegro, porque a OMS publica essas duas colunas já com a correção de cauda aplicada |
 | W021 | `roadmap.md` D-10.1 — onde a cauda se prova | O teste da **não**-aplicação da cauda a C-E/I e PC/I corre sobre acervo sintético com `L ≠ 1`; o da aplicação a P/I e IMC/I corre sobre a coluna `SD4` real | presença | O par "aplica / não aplica" inteiro apoiado no dado real da OMS: ali `L = 1` iguala as duas regras (diferença de 1e-14) e o teste passa com a implementação certa **e** com a errada — um teste que não distingue nada, com aparência de rigor |
+| W022 | `requirements.md` RN-04 a RN-07 — rótulos literais | Os rótulos de `fonte-clinica.ts` são a transcrição EXATA da caderneta, inclusive onde a concordância do original destoa: "Comprimento adequada para idade", "Baixa comprimento para idade", "Muito baixo comprimento para idade", "Peso elevado para idade" (sem artigo) e os três do perímetro cefálico com a SIGLA | redação | Rótulo "corrigido" para a norma culta, ou artigo acrescentado. A tela deixaria de coincidir com o documento impresso que o médico tem na mão, e a divergência apareceria como erro da ferramenta |
+| W023 | `fonte-clinica.ts` + `classificacao.ts` — a segunda troca de rótulo | O índice de comprimento/estatura troca de SUBSTANTIVO aos 730 dias: "Comprimento" até lá, "Estatura" a partir de 731 — a mesma fronteira de D-16 | presença | Conjunto único para toda a faixa etária. O plano não previa esta troca (achado de T023), e perdê-la faria a tela chamar de "estatura" o que a caderneta chama de "comprimento" na criança de colo |
+| W024 | `requirements.md` RN-06 — a troca de nomenclatura do IMC | Aos 1826 dias os três rótulos superiores deslizam um degrau: o que era "Sobrepeso" vira "Obesidade", "Obesidade" vira "Obesidade grave" e "Risco de sobrepeso" vira "Sobrepeso". Os três inferiores não mudam | presença | Conjunto único de rótulos do IMC, ou troca deslocada para 1856 dias (a fronteira de TABELA). É a armadilha central da fonte: errá-la produz laudo nutricional trocado sem que nenhum número pareça errado |
+| W025 | `roadmap.md` D-10 — a quem a cauda se aplica | `INDICES_COM_CORRECAO_DE_CAUDA` contém exatamente `peso-idade` e `imc-idade`, e é lista de dados, não `if` espalhado | presença | Índice acrescentado ou removido da lista. Acrescentar estatura ou perímetro cefálico é clinicamente inócuo (ali `L = 1` iguala as regras), mas remover peso ou IMC desloca o escore em até 10,4 unidades justamente na desnutrição e na obesidade graves |
+| W026 | `calculadora.ts` — as duas idades governam coisas diferentes | A idade CRONOLÓGICA (`idades.diasDeVida`) governa a posição de medida esperada; a que INDEXA a curva (`diasCorrigidos`, corrigida enquanto a correção vale) governa leitura, escopo e faixa de rótulo | presença | As duas colapsadas numa só. Num prematuro com correção ativa, usar a corrigida para a posição faria a régua de aferição atrasar semanas; usar a cronológica para a curva anularia a correção que RN-16 manda aplicar |
+| W027 | `roadmap.md` D-01 — a régua se escolhe num lugar só | `padrao.ts` é o único módulo que decide entre INTERGROWTH-21st (27 ≤ pós-menstruais ≤ 64) e OMS, e a escolha é por CRIANÇA, nunca por índice | presença | Decisão de régua replicada dentro do cálculo de algum índice, ou resultado em que índices declaram padrões diferentes. O invariante property-based que vigia isso ("nenhum resultado mistura as duas réguas") é o guarda desta linha |
+| W028 | `requirements.md` RN-16 — os limites da correção de idade | A correção vale enquanto `diasDeVida ≤ 730`, ou `≤ 1095` quando a IG ao nascer for < 28 semanas; passado o limite, a leitura volta à idade cronológica pura e o desconto continua declarado | presença | Limite ausente (prematuro carregando desconto pela vida inteira), trocado de unidade, ou a extensão do terceiro ano estendida a toda prematuridade em vez de só à IG < 28 semanas |
+| W029 | `requirements.md` RN-17 — o IMC no pré-termo | Na janela do INTERGROWTH-21st, o índice de IMC sai `ausente` com motivo `IMC_INEXISTENTE_NO_PRETERMO`, jamais `MEDIDA_NAO_INFORMADA` e jamais erro | presença | Motivo colapsado no de medida ausente, o que diria ao prescritor que faltou informar algo; ou IMC calculado na janela, que inventaria índice onde a fonte não publica |
+| W030 | `requirements.md` RN-11 — as faixas de plausibilidade travam | Medida fora da faixa antropométrica (peso ≤ 150 kg, comprimento 20–200 cm, PC 20–70 cm) é OFENSOR, e não valor clampado com aviso como no molde da feature 014 | presença | Adoção do clamp da 014 por simetria de estilo. Aqui a faixa é de plausibilidade, não de validação de equação: clampar 200 kg para 150 devolveria escore extremo com aparência de cálculo |
+| W031 | `_reversa_sdd/domain.md` §7 invariante 1 — domínio puro, agora testado | `invariantes.test.ts` varre `models/puericultura/**` e falha se algum arquivo importar de fora do domínio, mencionar React/Next/Primer, ou ler o relógio (`Date.now()`, `new Date()` sem argumento, `process.env`, `fetch`) | ausência | Teste removido ou varredura que deixe de achar arquivos (a guarda de sanidade exige ≥ 20). Um teste de fronteira que varre pasta vazia passa dizendo o contrário do que se quer provar |
+| W032 | `calculadora.ts` — o escopo precede o preenchimento | Numa criança acima de 730 dias, o perímetro cefálico sai `fora-do-escopo` mesmo quando a medida não foi informada | presença | Ordem invertida, devolvendo `MEDIDA_NAO_INFORMADA`: sugeriria ao prescritor que ele deveria ter informado o perímetro cefálico de uma criança de três anos, quando a caderneta simplesmente não o classifica nessa idade |
+| W033 | `roadmap.md` D-11 — o aviso da conversão alcança dois índices | O aviso `CONVERSAO_DE_POSICAO_APLICADA` acompanha o índice de comprimento/estatura **e** o de IMC, porque ambos consomem a medida convertida; o de peso não o carrega | presença | Aviso pendurado só na estatura. O IMC teria mudado de valor sem que a tela dissesse por quê |
+| W034 | T012 — o empate de arredondamento nomeado | O teste do INTERGROWTH-21st nomeia a única célula das 1596 que excede 0,005 (peso masculino, semana 55, `z = −3`: publicado 4,40, calculado 4,40503) e exige que ela seja a única | presença | Tolerância global afrouxada para acomodá-la. Uma folga maior passaria a acomodar também coeficiente errado, que é o que esta conferência existe para vigiar |
 
 ## Observações (sem peso de regressão)
 
@@ -107,6 +120,27 @@ Acrescentado na terceira rodada de 2026-07-27 (T008):
   checagem cruzada por implementação independente da leitura que fazemos da LMS. O que cobre a
   lacuna é o próprio congelamento, que reprova antes de escrever se a fórmula divergir da fonte em
   qualquer dos 3204 pares. Reavaliar se aparecer oráculo que não seja reimplementação da regra.
+
+### Acrescentadas na rodada do motor (2026-07-27)
+
+- **Premissa 🟡 nova: os três anos da correção estendida valem 1095 dias.** RN-16 fala em "3
+  anos" e a ficha `MD-0006` só traduzira em dias a fronteira dos dois. Adotou-se a mesma
+  disciplina — ano de 365 dias corridos, não data civil de aniversário —, de modo que as duas
+  fronteiras da mesma regra se meçam na mesma unidade. Fica a validar pelo prescritor; o efeito
+  prático é de até um dia, em bissexto.
+- **Premissa 🟡 nova: a idade cronológica governa a posição de medida no prematuro.** A caderneta
+  diz que "crianças menores de 2 anos devem ser medidas deitadas", sem dizer se o corte é de idade
+  cronológica ou corrigida. Adotou-se a cronológica, por ser regra de aferição sobre o corpo da
+  criança, e não sobre a curva. A alternativa mudaria a posição esperada de um prematuro em até
+  três meses.
+- **O IMC dos casos-oráculo é construído, não medido.** Em `casos-oraculo.test.ts`, o IMC alvo é
+  obtido com 100 cm de comprimento, o que faz o denominador valer 1 m² e o IMC igualar-se
+  numericamente ao peso. É artifício de teste, legítimo porque a validação só exige
+  plausibilidade, mas quem ler o arquivo procurando casos clínicos realistas não os encontrará ali.
+- **A varredura de fronteira arquitetural é textual, não semântica.** `invariantes.test.ts` casa
+  expressões regulares contra o código-fonte. Pega o que se quer pegar hoje (import externo,
+  menção a framework, leitura de relógio) e não pegaria uma violação escrita de forma criativa —
+  `globalThis["Da"+"te"].now()`, por exemplo. É guarda de disciplina, não barreira contra malícia.
 
 ## Histórico de re-extrações
 
