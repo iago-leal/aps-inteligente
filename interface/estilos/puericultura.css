@@ -1,0 +1,33 @@
+/* Feature 017 (RF-11): estilo das peças novas da tela de crescimento infantil, sobre
+   tokens Primer (zero cor própria). globais.css permanece intocado — folha própria,
+   importada em _app.tsx depois dos globais. Classes genéricas (formulario,
+   grupo-campos, campo, campo-radios, painel-resultado, bloco-fonte, lista-ofensores,
+   dado-clinico, referencias-complementares) vêm de globais/cardiologia e seguem sem
+   regra própria, como ganchos semânticos. Aqui ficam só as três classes que a tela
+   introduz: o bloco por índice, a sua linha de procedência e a nota de campo. */
+
+.indice {
+  margin-block: var(--stack-gap-normal, 1rem);
+  padding-inline-start: var(--stack-padding-condensed, 0.5rem);
+  border-inline-start: var(--borderWidth-thick, 2px) solid
+    var(--borderColor-muted, #d0d7de);
+}
+
+/* Índice sem número em tela — ausência de medida ou fora do escopo da fonte — pesa
+   menos que o índice calculado, sem sumir: a falta também é informação (RF-06). */
+.indice-ausente,
+.indice-fora-do-escopo {
+  border-inline-start-color: var(--borderColor-default, #d0d7de);
+}
+
+/* RF-20: padrão, idade usada e página do gráfico. Texto de auditoria, não de leitura
+   principal — daí a cor discreta e a quebra livre em telas estreitas. */
+.procedencia-indice {
+  color: var(--fgColor-muted, #59636e);
+}
+
+.nota-campo {
+  margin-block-end: var(--stack-gap-condensed, 0.5rem);
+  color: var(--fgColor-muted, #59636e);
+  font-size: var(--text-body-size-small, 0.75rem);
+}
