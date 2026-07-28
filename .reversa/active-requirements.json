@@ -1,15 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/019-contribuicao-voluntaria-pix",
-  "feature-id": "019",
-  "short-name": "contribuicao-voluntaria-pix",
-  "started-at": "2026-07-28T13:43:09Z",
-  "current-stage": "to-do",
-  "stages-completed": [
-    "requirements",
-    "clarify",
-    "plan",
-    "to-do"
-  ],
+  "feature-dir": "_reversa_forward/020-consulta-puericultura-soap",
+  "feature-id": "020",
+  "short-name": "consulta-puericultura-soap",
+  "started-at": "2026-07-28T18:10:00Z",
+  "current-stage": "requirements",
+  "stages-completed": [],
   "paused-features": []
 }
