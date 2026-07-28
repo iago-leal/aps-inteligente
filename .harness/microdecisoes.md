@@ -28,3 +28,4 @@
 - **MD-0026** — A citação admite supressão declarada quando a fonte imprime campo inaplicável, e o limite continua sendo a lista fechada
 - **MD-0027** — Citação nova se isenta da linha de base por subárvore nomeada, e só quando tiver oráculo mais forte
 - **MD-0028** — O sinal de alerta se reparte por quem o constata, e o critério vale para as dez fichas
+- **MD-0029** — A coluna do corpo mora na moldura, e a guarda que a vigia lê o catálogo

@@ -31,10 +31,12 @@
 
 /* ── Coluna das seções (RF-02) ────────────────────────────────────────── */
 
+/* Feature 021 (RN-01b, corolário): a coluna de 720px subiu para o <main> da
+   Moldura, em moldura.css, onde o cabeçalho da variante `destaque` já era
+   calibrado. Aqui fica o ritmo vertical das seções. */
+
 .inicio-secoes {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 40px 32px 64px;
+  padding-block: 40px 64px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -164,7 +166,7 @@
   }
 
   .inicio-secoes {
-    padding: 24px 16px 48px;
+    padding-block: 24px 48px;
     gap: 32px;
   }
 }

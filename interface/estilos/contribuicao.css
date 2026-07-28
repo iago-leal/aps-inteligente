@@ -18,16 +18,26 @@
 
 /* ── Bloco ao pé da home ──────────────────────────────────────────────── */
 
+/* Feature 021 (RN-01b, corolário; D-09): este bloco era o TERCEIRO declarante da
+   coluna de 720px, e o único que a leitura inicial não viu — vive dentro do
+   mesmo <main> da home por tela.tsx, de modo que mantê-la aqui produziria coluna
+   aninhada em coluna e recuo lateral dobrado.
+
+   Duas particularidades da subtração, que uma conversão desatenta perde:
+
+    · o eixo vertical efetivo era 32px … 64px, e não 0 … 64px, porque o
+      `padding-top: 32px` que vinha logo abaixo sobrescrevia o zero do atalho;
+    · esta folha NÃO tem media query própria, e por isso mantinha 32px de recuo
+      lateral no telefone, onde as seções acima já caíam para 16px. Ceder a
+      coluna ao <main> alinha os dois. É mudança visível, e é correção. */
+
 .contribuicao-bloco {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 32px 64px;
+  padding-block: 32px 64px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
   border-top: 1px solid var(--borderColor-muted);
-  padding-top: 32px;
 }
 
 .contribuicao-bloco h2 {

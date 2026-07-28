@@ -5,7 +5,17 @@
 // (RN-07), e o teste espelha a aritmética como oráculo.
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { CATALOGO } from "interface/inicio/catalogo";
 import linhaDeBase from "./axe-baseline.json";
+
+// Feature 021 (RF-03, RN-04; D-05): as rotas da guarda geométrica vêm do
+// catálogo, que a feature 007 estabeleceu como fonte única anti-drift (D-07).
+// O teste o LÊ e jamais o escreve, de modo que RF-09 permanece satisfeito.
+// Calculadora nova entra no catálogo e cai sob a guarda no mesmo ato, sem que
+// ninguém precise lembrar de estender este arquivo.
+const ROTAS_DO_CATALOGO: readonly string[] = CATALOGO.flatMap((secao) =>
+  secao.calculadoras.map((calculadora) => calculadora.rota),
+);
 
 const MS_POR_DIA = 86_400_000;
 
@@ -369,31 +379,81 @@ test("idade fora de 30–69: fora do escopo da fonte (RF-06)", async ({ page }) 
   await expect(painel.getByText(/30 a 69/)).toBeVisible();
 });
 
-// T002 (feature 013-cabecalho-proporcoes) — proporções do cabeçalho padrão
-// alinhadas à home: o conteúdo do cabeçalho encaixa na coluna do corpo (RF-01)
-// e a logo tem o mesmo tamanho da home (RF-07). Guarda geométrica, tolerância 2px.
-test("cabeçalho da calculadora alinha à coluna do corpo em viewport largo (RF-01)", async ({
-  page,
-}) => {
-  const GUTTER = 32; // padding lateral do .calc-regioes
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/dm2/insulina");
-  // Espera o layout pintar antes de medir (auto-wait dos locators/boundingBox).
-  await expect(
-    page.getByRole("heading", { level: 1, name: "Calculadora de insulina no DM2" }),
-  ).toBeVisible();
+// T002 (feature 013-cabecalho-proporcoes), generalizada em T003/T004 (feature
+// 021-coluna-da-ficha-de-consulta) — o conteúdo do cabeçalho encaixa na coluna
+// do corpo (RF-01) em TODA tela, e não numa rota nomeada à mão.
+//
+// Por que a guarda mudou. Na forma de 013 ela media /dm2/insulina, localizava o
+// corpo por .calc-regioes e repetia o recuo num GUTTER = 32 chumbado. As três
+// coisas descreviam UMA tela, quando a invariante é da plataforma: a rota da
+// feature 020 nasceu fora do alcance dela, com classe própria, e o defeito
+// passou. Agora as rotas vêm do catálogo, o alvo é o <main> que a Moldura emite
+// em toda tela, e o recuo é lido do estilo computado. Sobra chumbada apenas a
+// tolerância, que é a afirmação que a guarda de fato faz.
+//
+// O que esta guarda NÃO deve fazer: parametrizar o seletor de classe por rota.
+// Isso reintroduziria no teste o acoplamento a nome de classe que é a causa raiz
+// do defeito no CSS.
+const TOLERANCIA_PX = 2;
 
+async function medeEncaixeNaColuna(
+  page: Page,
+  rota: string,
+): Promise<string | null> {
+  await page.goto(rota);
+  // Espera o layout pintar antes de medir (auto-wait dos locators/boundingBox).
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const corpoLocator = page.locator("main");
   const ident = (await page.locator(".cabecalho-identidade").boundingBox())!;
   const acoes = (await page.locator(".cabecalho-acoes").boundingBox())!;
-  const corpo = (await page.locator(".calc-regioes").boundingBox())!;
+  const corpo = (await corpoLocator.boundingBox())!;
+  const recuo = await corpoLocator.evaluate((el) => {
+    const estilo = getComputedStyle(el);
+    return {
+      esquerda: Number.parseFloat(estilo.paddingLeft),
+      direita: Number.parseFloat(estilo.paddingRight),
+    };
+  });
 
   const identEsq = ident.x;
   const acoesDir = acoes.x + acoes.width;
-  const corpoEsq = corpo.x + GUTTER;
-  const corpoDir = corpo.x + corpo.width - GUTTER;
+  const corpoEsq = corpo.x + recuo.esquerda;
+  const corpoDir = corpo.x + corpo.width - recuo.direita;
 
-  expect(Math.abs(identEsq - corpoEsq)).toBeLessThanOrEqual(2);
-  expect(Math.abs(acoesDir - corpoDir)).toBeLessThanOrEqual(2);
+  const folgaEsq = Math.abs(identEsq - corpoEsq);
+  const folgaDir = Math.abs(acoesDir - corpoDir);
+  if (folgaEsq <= TOLERANCIA_PX && folgaDir <= TOLERANCIA_PX) return null;
+
+  return `${rota} — esquerda fora por ${folgaEsq.toFixed(1)}px (cabeçalho ${identEsq.toFixed(1)}, corpo ${corpoEsq.toFixed(1)}); direita fora por ${folgaDir.toFixed(1)}px (cabeçalho ${acoesDir.toFixed(1)}, corpo ${corpoDir.toFixed(1)})`;
+}
+
+test("o corpo de toda tela encaixa na coluna do cabeçalho em viewport largo (RF-01, RF-03)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+
+  // T004 (feature 021): a home entra como SÉTIMO caso, à parte da lista
+  // derivada. O catálogo não a declara, porque ela não calcula nada; mas é a
+  // única tela da variante `destaque` e a que cede max-width em duas folhas de
+  // uma vez. Deixá-la fora seria confiar a invariância de uma variante inteira à
+  // inspeção visual. A aferição é a mesma das demais e nada fica chumbado: o
+  // cabeçalho da home é calibrado por calc(50% - 328px) em inicio.css, e a
+  // guarda compara corpo com cabeçalho, não com número escrito aqui.
+  const casos: readonly string[] = [...ROTAS_DO_CATALOGO, "/"];
+
+  // Acumula em vez de falhar na primeira: quem lê o log precisa saber QUAIS
+  // rotas desalinharam, que é o critério de aceite literal de RF-03.
+  const desalinhadas: string[] = [];
+  for (const rota of casos) {
+    const falha = await medeEncaixeNaColuna(page, rota);
+    if (falha !== null) desalinhadas.push(falha);
+  }
+
+  expect(
+    desalinhadas,
+    `rotas desalinhadas:\n${desalinhadas.join("\n")}`,
+  ).toEqual([]);
 });
 
 test("logo do cabeçalho tem o mesmo tamanho na calculadora e na home (RF-07)", async ({

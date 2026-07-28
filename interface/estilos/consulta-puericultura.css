@@ -18,7 +18,12 @@
    sem idade não há ficha a sugerir (RF-02, RF-03). */
 .consulta-identificacao {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  /* Feature 021 (RF-08, D-06): o piso sobe de 12rem para 22rem, o que dentro da
+     coluna corrigida produz três campos por faixa em 1280px e um no telefone.
+     Continua sendo uma linha declarativa: repeat(3, 1fr) daria o mesmo em tela
+     larga, mas exigiria media query de acompanhamento — dívida pela porta dos
+     fundos, onde o auto-fit resolve sozinho. */
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   gap: var(--stack-gap-condensed, 0.5rem);
   align-items: start;
 }

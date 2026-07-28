@@ -171,3 +171,118 @@ test("privacidade: o preenchimento não cria durável novo no navegador (RN-13)"
   await page.reload();
   await expect(page.locator(".consulta-registro-texto")).toHaveCount(0);
 });
+
+// ── T006 e T007 (feature 021-coluna-da-ficha-de-consulta) ────────────────────
+// Os dois roteiros que a correção de enquadramento precisa deixar verdadeiros.
+// Ambos medem o <main>, que a feature 021 tornou a sede da coluna do corpo
+// (RN-01b): antes dela a ficha ocupava a janela inteira, e o que segue reprovava.
+
+/** Bordas do CONTEÚDO do corpo, isto é, já descontado o recuo lateral da coluna. */
+async function medeCorpo(page: Page, rota: string) {
+  await page.goto(rota);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const corpo = page.locator("main");
+  const caixa = (await corpo.boundingBox())!;
+  const recuo = await corpo.evaluate((el) => {
+    const estilo = getComputedStyle(el);
+    return {
+      esquerda: Number.parseFloat(estilo.paddingLeft),
+      direita: Number.parseFloat(estilo.paddingRight),
+    };
+  });
+  const transbordo = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth + 1,
+  );
+
+  return {
+    esquerda: caixa.x + recuo.esquerda,
+    direita: caixa.x + caixa.width - recuo.direita,
+    transbordo,
+  };
+}
+
+test("telefone: a ficha respira como a tela irmã e a página não rola de lado (RF-02)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+
+  const consulta = await medeCorpo(page, "/puericultura/consulta");
+  const crescimento = await medeCorpo(page, "/puericultura/crescimento");
+
+  // Nenhum texto encosta na borda: o conteúdo começa depois do recuo e termina
+  // antes da borda oposta.
+  expect(consulta.esquerda).toBeGreaterThan(0);
+  expect(consulta.direita).toBeLessThan(375);
+
+  // E o recuo é o MESMO da tela irmã, que é o que RF-02 afirma. Comparar com a
+  // tela irmã, e não com um número escrito aqui, mantém o teste solidário à
+  // folha: se o recuo do telefone mudar por decisão, ele muda nas duas.
+  expect(
+    Math.abs(consulta.esquerda - crescimento.esquerda),
+  ).toBeLessThanOrEqual(1);
+  expect(Math.abs(consulta.direita - crescimento.direita)).toBeLessThanOrEqual(
+    1,
+  );
+
+  expect(consulta.transbordo).toBe(false);
+});
+
+/** Uma palavra sem espaço algum: é o que de fato exercita `overflow-wrap: anywhere`. */
+const PALAVRA_SEM_QUEBRA =
+  "hepatoesplenomegaliapersistentecomlinfadenopatiageneralizadaeirritabilidadeaoexame";
+
+test("registro longo: o texto quebra dentro da coluna, sem rolagem lateral (RF-05, RN-05)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/puericultura/consulta");
+
+  // 35 dias: idade que indica a ficha do 1.º Mês, a do cenário de aceite.
+  await page.getByLabel(/^masculino$/i).check();
+  await page
+    .getByLabel(/data de nascimento/i)
+    .fill(nascimentoParaIdadeEmDias(35));
+  await expect(
+    page.getByRole("button", { name: /consulta do 1º mês/i }),
+  ).toBeVisible();
+
+  // A ficha INTEIRA, que é o que RF-05 pede: toda marcação respondida e todo
+  // campo livre com texto que não oferece ponto de quebra.
+  const marcacoes = page.getByRole("radio", { name: "Sim" });
+  for (let i = 0; i < (await marcacoes.count()); i += 1) {
+    await marcacoes.nth(i).check();
+  }
+  const livres = page.locator("main textarea, main input[type='text']");
+  for (let i = 0; i < (await livres.count()); i += 1) {
+    await livres.nth(i).fill(PALAVRA_SEM_QUEBRA);
+  }
+
+  const registro = page.locator(".consulta-registro-texto");
+  await expect(registro).toBeVisible();
+
+  for (const largura of [1280, 375]) {
+    await page.setViewportSize({ width: largura, height: 900 });
+
+    const caixaRegistro = (await registro.boundingBox())!;
+    const corpo = (await page.locator("main").boundingBox())!;
+    const recuoDireito = await page
+      .locator("main")
+      .evaluate((el) => Number.parseFloat(getComputedStyle(el).paddingRight));
+
+    // O bloco quebra DENTRO da coluna: não passa da borda de conteúdo do corpo.
+    expect(
+      caixaRegistro.x + caixaRegistro.width,
+      `o registro estoura a coluna em ${largura}px`,
+    ).toBeLessThanOrEqual(corpo.x + corpo.width - recuoDireito + 1);
+
+    const transbordo = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth + 1,
+    );
+    expect(transbordo, `a página rola de lado em ${largura}px`).toBe(false);
+  }
+});

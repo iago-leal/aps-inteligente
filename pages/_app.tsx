@@ -20,6 +20,9 @@ import "@primer/primitives/dist/css/functional/typography/typography.css";
 import "@primer/primitives/dist/css/functional/themes/light.css";
 import "@primer/primitives/dist/css/functional/themes/dark.css";
 import "interface/estilos/globais.css";
+// Feature 021 (RN-01b, D-03): a coluna do corpo vem logo após globais.css e
+// antes das folhas de tela, que declaram o eixo vertical sobre ela.
+import "interface/estilos/moldura.css";
 import "interface/estilos/cabecalho.css";
 import "interface/estilos/inicio.css";
 import "interface/estilos/cardiologia.css";

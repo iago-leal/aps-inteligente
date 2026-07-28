@@ -1,0 +1,79 @@
+/* Coluna do corpo, sede única do enquadramento horizontal (feature 021,
+   RN-01b; roadmap D-01 a D-04, D-11; microdecisão MD-0029).
+
+   Por que esta folha existe. Até a feature 020, a coluna do corpo valia por
+   repetição: as cinco primeiras telas herdavam largura, centralização e recuo
+   lateral por reusarem a classe .calc-regioes, e não por regra enunciada em
+   lugar algum. A sexta tela precisou de outro arranjo interno, escreveu classe
+   própria e não herdou nada — e o cabeçalho, que a feature 013 calibrou CONTRA
+   a coluna do corpo, ficou desalinhado do que enquadra. A coincidência de nome
+   de classe era a única coisa segurando a invariante, e não sobreviveu à
+   primeira tela com arranjo diferente.
+
+   O que mora aqui, e o que não mora. Só o eixo HORIZONTAL: largura máxima,
+   centralização e recuo lateral (D-02). O eixo vertical continua na folha de
+   cada tela, porque varia com legitimidade — 28px/56px nas calculadoras,
+   40px/64px na home, 32px/64px no bloco de apoio. Tratar os dois eixos como uma
+   propriedade só é o que faria a invariância das telas antigas depender de
+   sorte.
+
+   Por que no <main> da Moldura, e por seletor de atributo. O <main> de
+   moldura.tsx existe em toda tela por construção, e o .pagina que o envolve já
+   emite data-apresentacao, a mesma chave por onde o cabeçalho é calibrado em
+   cabecalho.css (calc(50% - 558px)) e em inicio.css (calc(50% - 328px)). Os dois
+   números são metade da coluna menos o recuo: 1180/2 − 32 = 558 e 720/2 − 32 =
+   328. Faltava só o corpo obedecer à mesma chave. O <main> permanece sem classe
+   e sem atributo próprio: dar-lhe classe tocaria o .tsx, que RN-03 mantém fora
+   do alcance desta feature (D-11).
+
+   Consequência para quem escrever a sétima tela: ela nasce enquadrada, sem
+   precisar lembrar de nada. A tela deixa de saber que existe largura de coluna e
+   passa a saber apenas como dispõe o que é seu por dentro.
+
+   Folha própria, e não acréscimo a globais.css, pela convenção vigente desde a
+   feature 013 e pelo precedente direto da 020 (consulta-puericultura.css):
+   globais.css está em 364 linhas e o teto de 400 é dívida que a re-extração 3
+   acabou de encerrar (D-03). A ordem de importação em _app.tsx importa: esta
+   folha vem logo após globais.css e antes das folhas de tela, que declaram o
+   eixo vertical sobre a coluna que ela estabelece. */
+
+/* ── Coluna das calculadoras (variante padrao) ────────────────────────────
+   1180px, a mesma que .calc-regioes declarava desde a feature 004. Com
+   box-sizing: border-box, a caixa de 1180 já contém o recuo, de modo que a
+   faixa de conteúdo mede 1116px — exatamente a que o cabeçalho ocupa por
+   max(32px, calc(50% - 558px)). */
+
+.pagina[data-apresentacao="padrao"] > main {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+/* ── Coluna da home (variante destaque) ──────────────────────────────────
+   720px, a coluna clínica de leitura que .inicio-secoes declarava, e contra a
+   qual inicio.css calibra o cabeçalho por calc(50% - 328px). */
+
+.pagina[data-apresentacao="destaque"] > main {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+/* ── Recuo lateral em tela estreita, por variante ────────────────────────
+   Os dois pontos de quebra são os que já existiam, e continuam DIFERENTES de
+   propósito (D-04): 900px é onde .calc-regioes desmancha a grade de duas
+   colunas, e 544px é onde a home reduz o respiro. Unificá-los mexeria no
+   comportamento de telas que RF-04 manda não mover, o que é o oposto do que
+   esta feature promete. */
+
+@media (max-width: 900px) {
+  .pagina[data-apresentacao="padrao"] > main {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 544px) {
+  .pagina[data-apresentacao="destaque"] > main {
+    padding-inline: 16px;
+  }
+}

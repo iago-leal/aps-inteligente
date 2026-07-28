@@ -30,10 +30,13 @@ body {
    ali com a camada da logo (observação O-09-04): esta folha ficou no teto de 400
    linhas e a identidade nova ganha folha própria. */
 
+/* Feature 021 (RN-01b, corolário): a coluna do corpo — largura máxima,
+   centralização e recuo lateral — subiu para o <main> da Moldura, em
+   moldura.css. Aqui fica o que é desta tela: o ritmo vertical e a grade. Quem
+   declarar a coluna de novo a produz ANINHADA em outra. */
+
 .calc-regioes {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 28px 32px 56px;
+  padding-block: 28px 56px;
   display: grid;
   grid-template-columns: minmax(360px, 460px) 1fr;
   gap: 24px;
@@ -346,7 +349,7 @@ body {
 @media (max-width: 900px) {
   .calc-regioes {
     grid-template-columns: 1fr;
-    padding: 20px 16px 40px;
+    padding-block: 20px 40px;
   }
 
   .painel-resultado {
