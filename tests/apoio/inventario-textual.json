@@ -10,15 +10,15 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 649,
+    "literais": 655,
     "porClasse": {
-      "autoral": 490,
+      "autoral": 496,
       "citacao": 108,
       "identificador": 51
     },
     "porCamada": {
       "models": 162,
-      "interface": 303,
+      "interface": 309,
       "pages": 33,
       "manifesto": 3,
       "readme": 148
@@ -104,7 +104,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 114,
+      "linha": 81,
       "classe": "citacao",
       "texto": "dor musculoesquelética",
       "especie": "StringLiteral",
@@ -112,7 +112,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 115,
+      "linha": 82,
       "classe": "citacao",
       "texto": "transtornos psiquiátricos (ansiedade, transtorno do pânico)",
       "especie": "StringLiteral",
@@ -120,7 +120,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 116,
+      "linha": 83,
       "classe": "citacao",
       "texto": "distúrbios gastrointestinais (DRGE, cólica biliar, espasmo esofágico)",
       "especie": "StringLiteral",
@@ -128,7 +128,7 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 117,
+      "linha": 84,
       "classe": "citacao",
       "texto": "doenças pulmonares (pneumonia, neoplasia torácica, pneumotórax)",
       "especie": "StringLiteral",
@@ -136,42 +136,42 @@
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 124,
+      "linha": 91,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste baixa (dor não anginosa e sem fatores de risco): exame funcional não indicado na avaliação inicial. Investigar causas não cardíacas.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 126,
+      "linha": 93,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste intermediária: indicar exame não invasivo para confirmar ou afastar a suspeita em quadro clínico duvidoso.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 128,
+      "linha": 95,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste alta: exame não invasivo para estratificação prognóstica e identificação de candidatos à revascularização; probabilidade > 90% requer estratificação por método invasivo, com encaminhamento ao cardiologista.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 129,
+      "linha": 97,
       "classe": "autoral",
       "texto": "Exame inicial: ECG de repouso e teste ergométrico.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 131,
+      "linha": 99,
       "classe": "autoral",
       "texto": "ECG basal impede a interpretação da ergometria ou o paciente não pode exercitar: preferir método não invasivo (ecocardiograma de estresse, cintilografia miocárdica ou ressonância magnética cardiovascular).",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "models/cardiopatia-isquemica/fonte-clinica.ts",
-      "linha": 136,
+      "linha": 104,
       "classe": "autoral",
       "texto": "Sinais de angina instável ou dor aguda: alta probabilidade de evento agudo em curto prazo. Encaminhar para atendimento emergencial, e não seguir o fluxo eletivo de investigação.",
       "especie": "StringLiteral"
@@ -1358,28 +1358,28 @@
     },
     {
       "arquivo": "interface/calculadora/formatar-plano.ts",
-      "linha": 15,
+      "linha": 16,
       "classe": "autoral",
       "texto": "Plano elaborado com apoio de ferramenta de decisão clínica; a prescrição é responsabilidade do médico.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/calculadora/formatar-plano.ts",
-      "linha": 22,
+      "linha": 23,
       "classe": "autoral",
       "texto": "A dose exata é fixada pelo prescritor.",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/calculadora/formatar-plano.ts",
-      "linha": 45,
+      "linha": 46,
       "classe": "autoral",
       "texto": "Recomendações ao prescritor:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/calculadora/formatar-plano.ts",
-      "linha": 53,
+      "linha": 54,
       "classe": "autoral",
       "texto": "Fonte clínica:",
       "especie": "StringLiteral"
@@ -1526,63 +1526,63 @@
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 80,
+      "linha": 81,
       "classe": "autoral",
       "texto": "Copiar plano",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 84,
+      "linha": 85,
       "classe": "autoral",
       "texto": "Plano copiado: cole no prontuário.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 89,
+      "linha": 90,
       "classe": "autoral",
       "texto": "Não foi possível copiar. Transcreva o plano manualmente a partir desta tela.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 107,
+      "linha": 108,
       "classe": "identificador",
       "texto": "—",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 121,
+      "linha": 122,
       "classe": "autoral",
       "texto": "UI",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 130,
+      "linha": 131,
       "classe": "autoral",
       "texto": "Recomendações ao prescritor",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 152,
+      "linha": 153,
       "classe": "autoral",
       "texto": "Fonte clínica",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 156,
+      "linha": 157,
       "classe": "autoral",
-      "texto": "Guia Rápido Diabetes Mellitus — SMS-Rio,",
+      "texto": ",",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/calculadora/resultado.tsx",
-      "linha": 156,
+      "linha": 157,
       "classe": "autoral",
       "texto": ":",
       "especie": "JsxText"
@@ -1806,16 +1806,23 @@
     },
     {
       "arquivo": "interface/calculadora/tela.tsx",
-      "linha": 11,
+      "linha": 12,
       "classe": "autoral",
-      "texto": "Calculadora de insulina no DM2",
+      "texto": "APS Inteligente · Fonte única:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/calculadora/tela.tsx",
-      "linha": 12,
+      "linha": 14,
       "classe": "autoral",
-      "texto": "APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023",
+      "texto": ", 2.ª ed. atualizada, 2023",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/calculadora/tela.tsx",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Calculadora de insulina no DM2",
       "especie": "StringLiteral"
     },
     {
@@ -1984,14 +1991,14 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 20,
+      "linha": 21,
       "classe": "autoral",
       "texto": "Classificação funcional da angina estável (CCS)",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 21,
+      "linha": 22,
       "classe": "citacao",
       "texto": "Quadro 3, p. 5 (Sociedade Canadense Cardiovascular)",
       "especie": "StringLiteral",
@@ -1999,7 +2006,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 23,
+      "linha": 24,
       "classe": "citacao",
       "texto": "Classe I — atividades comuns (caminhar, subir escadas) não causam angina; sintoma só em esforço extenuante ou prolongado.",
       "especie": "StringLiteral",
@@ -2007,7 +2014,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 24,
+      "linha": 25,
       "classe": "citacao",
       "texto": "Classe II — limitação leve; angina ao caminhar mais de duas quadras no plano ou subir mais de um lance de escadas.",
       "especie": "StringLiteral",
@@ -2015,7 +2022,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 25,
+      "linha": 26,
       "classe": "citacao",
       "texto": "Classe III — limitação marcada; angina ao caminhar 1 a 2 quadras ou subir um lance de escadas.",
       "especie": "StringLiteral",
@@ -2023,7 +2030,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 26,
+      "linha": 27,
       "classe": "citacao",
       "texto": "Classe IV — angina a qualquer atividade física, podendo ocorrer em repouso.",
       "especie": "StringLiteral",
@@ -2031,14 +2038,14 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 31,
+      "linha": 32,
       "classe": "autoral",
       "texto": "Tratamento farmacológico e Tabela 1 de medicamentos",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 32,
+      "linha": 33,
       "classe": "citacao",
       "texto": "p. 9-11 (cardiopatia isquêmica estabelecida)",
       "especie": "StringLiteral",
@@ -2046,7 +2053,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 34,
+      "linha": 35,
       "classe": "citacao",
       "texto": "Prevenção cardiovascular: antiagregante plaquetário (AAS 100 mg/dia; clopidogrel 75 mg/dia na intolerância ou alergia) e estatina de alta intensidade como prevenção secundária.",
       "especie": "StringLiteral",
@@ -2054,7 +2061,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 35,
+      "linha": 36,
       "classe": "citacao",
       "texto": "Antianginosos: betabloqueador (primeira escolha, alvo de FC próxima a 60 bpm), bloqueador de canal de cálcio (anlodipino, verapamil ou diltiazem) e nitrato (sublingual para sintomas agudos; de uso fixo com intervalo livre de 12 h para evitar tolerância).",
       "especie": "StringLiteral",
@@ -2062,7 +2069,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 36,
+      "linha": 37,
       "classe": "citacao",
       "texto": "IECA: benéfico na redução de mortalidade e eventos, sobretudo pós-infarto, disfunção ventricular, diabetes e hipertensão.",
       "especie": "StringLiteral",
@@ -2070,7 +2077,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 39,
+      "linha": 40,
       "classe": "citacao",
       "texto": "Betabloqueadores: propranolol, atenolol, metoprolol, carvedilol.",
       "especie": "StringLiteral",
@@ -2078,7 +2085,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 40,
+      "linha": 41,
       "classe": "citacao",
       "texto": "Bloqueadores de canal de cálcio: anlodipino, verapamil, diltiazem (nifedipina retard).",
       "especie": "StringLiteral",
@@ -2086,7 +2093,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 41,
+      "linha": 42,
       "classe": "citacao",
       "texto": "Nitratos: isossorbida (di/mononitrato); dinitrato sublingual 5 mg até 3 comprimidos; propatilnitrato.",
       "especie": "StringLiteral",
@@ -2094,7 +2101,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 42,
+      "linha": 43,
       "classe": "citacao",
       "texto": "IECA: enalapril, captopril. Antiplaquetários: AAS, clopidogrel, ticlopidina. Estatinas: sinvastatina, atorvastatina, rosuvastatina, pravastatina.",
       "especie": "StringLiteral",
@@ -2102,14 +2109,14 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 47,
+      "linha": 48,
       "classe": "autoral",
       "texto": "Acompanhamento na APS",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 48,
+      "linha": 49,
       "classe": "citacao",
       "texto": "p. 8-9 (periodicidade e controle de fatores de risco)",
       "especie": "StringLiteral",
@@ -2117,7 +2124,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 50,
+      "linha": 51,
       "classe": "citacao",
       "texto": "Periodicidade das consultas: em torno de 4 a 12 meses, conforme gravidade, adesão e fatores de risco.",
       "especie": "StringLiteral",
@@ -2125,7 +2132,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 51,
+      "linha": 52,
       "classe": "citacao",
       "texto": "A cada consulta, reavaliar a classe funcional da angina; piora sugere otimizar tratamento e investigar fatores de descompensação.",
       "especie": "StringLiteral",
@@ -2133,7 +2140,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 52,
+      "linha": 53,
       "classe": "citacao",
       "texto": "Controle de fatores de risco: cessação do tabagismo, dieta cardioprotetora, exercício regular, PA < 140/90 e, em diabéticos, HbA1c < 7%.",
       "especie": "StringLiteral",
@@ -2141,7 +2148,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 53,
+      "linha": 54,
       "classe": "citacao",
       "texto": "Aumento da frequência ou duração da dor, ou dor em repouso: encaminhar à emergência (angina instável / IAM).",
       "especie": "StringLiteral",
@@ -2149,14 +2156,14 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 58,
+      "linha": 59,
       "classe": "autoral",
       "texto": "Manejo da doença arterial coronariana aguda e encaminhamento",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 59,
+      "linha": 60,
       "classe": "citacao",
       "texto": "p. 12 (suspeita de IAM ou angina instável)",
       "especie": "StringLiteral",
@@ -2164,7 +2171,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 61,
+      "linha": 62,
       "classe": "citacao",
       "texto": "Suspeita de IAM ou angina instável: encaminhar para atendimento emergencial.",
       "especie": "StringLiteral",
@@ -2172,7 +2179,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 62,
+      "linha": 63,
       "classe": "citacao",
       "texto": "Enquanto aguarda a ambulância: repouso, sinais vitais e ECG, AAS 100 mg (3 comprimidos mastigados), oxigênio se hipóxia e nitrato sublingual (exceto em hipotensão ou uso de inibidores da fosfodiesterase-5).",
       "especie": "StringLiteral",
@@ -2180,7 +2187,7 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 63,
+      "linha": 64,
       "classe": "citacao",
       "texto": "Encaminhamento ao cardiologista: estratificação após evento agudo; diagnóstico recente de alto risco (> 90%); sintomático apesar de tratamento otimizado; ou impossibilidade de investigação não invasiva em probabilidade intermediária/alta.",
       "especie": "StringLiteral",
@@ -2188,21 +2195,28 @@
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 72,
+      "linha": 73,
       "classe": "autoral",
       "texto": "Material de referência",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/referencias.tsx",
-      "linha": 75,
+      "linha": 76,
       "classe": "autoral",
-      "texto": "Conteúdo consultável do TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.",
+      "texto": "Conteúdo consultável do",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/cardiologia/referencias.tsx",
+      "linha": 76,
+      "classe": "autoral",
+      "texto": "(TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 23,
+      "linha": 24,
       "classe": "citacao",
       "texto": "Angina típica",
       "especie": "StringLiteral",
@@ -2210,7 +2224,7 @@
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 24,
+      "linha": 25,
       "classe": "citacao",
       "texto": "Angina atípica",
       "especie": "StringLiteral",
@@ -2218,7 +2232,7 @@
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 25,
+      "linha": 26,
       "classe": "citacao",
       "texto": "Dor não anginosa",
       "especie": "StringLiteral",
@@ -2226,86 +2240,86 @@
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 45,
+      "linha": 46,
       "classe": "autoral",
       "texto": "Probabilidade pré-teste (base):",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 45,
+      "linha": 46,
       "classe": "autoral",
       "texto": "%",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 49,
+      "linha": 50,
       "classe": "autoral",
       "texto": "Ajustada por fatores de risco:",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 49,
+      "linha": 50,
       "classe": "autoral",
       "texto": "% a",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 50,
+      "linha": 51,
       "classe": "autoral",
       "texto": "(pode ultrapassar 90%)",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 70,
+      "linha": 71,
       "classe": "autoral",
       "texto": "Resultado",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 72,
+      "linha": 73,
       "classe": "autoral",
       "texto": "Informe idade, sexo, as características da dor e os fatores de risco, e avalie.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 83,
+      "linha": 84,
       "classe": "autoral",
       "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça a avaliação.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 87,
+      "linha": 88,
       "classe": "autoral",
       "texto": "Nova avaliação",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 96,
+      "linha": 97,
       "classe": "autoral",
       "texto": "Fora do escopo da fonte",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 99,
+      "linha": 100,
       "classe": "autoral",
       "texto": "Fonte clínica",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/cardiologia/resultado.tsx",
-      "linha": 102,
+      "linha": 103,
       "classe": "autoral",
-      "texto": "TeleCondutas — Cardiopatia Isquêmica ·",
+      "texto": "·",
       "especie": "JsxText"
     },
     {
@@ -2345,16 +2359,23 @@
     },
     {
       "arquivo": "interface/cardiologia/tela.tsx",
-      "linha": 11,
+      "linha": 12,
       "classe": "autoral",
-      "texto": "Probabilidade pré-teste de cardiopatia isquêmica",
+      "texto": "APS Inteligente · Fonte única:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/cardiologia/tela.tsx",
-      "linha": 12,
+      "linha": 14,
       "classe": "autoral",
-      "texto": "APS Inteligente · Fonte única: TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)",
+      "texto": "(TelessaúdeRS-UFRGS, 2017)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/cardiologia/tela.tsx",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Probabilidade pré-teste de cardiopatia isquêmica",
       "especie": "StringLiteral"
     },
     {
@@ -2436,149 +2457,156 @@
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 42,
+      "linha": 43,
       "classe": "autoral",
       "texto": "Idade gestacional:",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 42,
+      "linha": 43,
       "classe": "identificador",
       "texto": "—",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 43,
+      "linha": 44,
       "classe": "autoral",
       "texto": ".º trimestre",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 46,
+      "linha": 47,
       "classe": "autoral",
       "texto": "Data provável do parto:",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 49,
+      "linha": 50,
       "classe": "autoral",
       "texto": "DUM equivalente:",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 68,
+      "linha": 69,
       "classe": "autoral",
       "texto": "Resultado",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 70,
+      "linha": 71,
       "classe": "autoral",
       "texto": "Informe a DUM, o último ultrassom, ou ambos, e calcule.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 80,
+      "linha": 81,
       "classe": "autoral",
       "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça o cálculo.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 84,
+      "linha": 85,
       "classe": "autoral",
       "texto": "Novo cálculo",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 93,
+      "linha": 94,
       "classe": "autoral",
       "texto": "Entrada incompleta ou implausível",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 113,
+      "linha": 114,
       "classe": "autoral",
       "texto": "Resultado desatualizado: os dados foram editados após o cálculo. Calcule novamente.",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 118,
+      "linha": 119,
       "classe": "autoral",
       "texto": "Idade gestacional",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 120,
+      "linha": 121,
       "classe": "autoral",
       "texto": "Calculada na data de referência",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 120,
+      "linha": 121,
       "classe": "autoral",
       "texto": ".",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 124,
+      "linha": 125,
       "classe": "autoral",
       "texto": "Pela DUM",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 127,
+      "linha": 128,
       "classe": "autoral",
       "texto": "Pelo ultrassom",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 152,
+      "linha": 153,
       "classe": "autoral",
       "texto": "Fonte clínica",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 156,
+      "linha": 157,
       "classe": "autoral",
-      "texto": "Guia Rápido Pré-Natal — SMS-Rio,",
+      "texto": ",",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/resultado.tsx",
-      "linha": 156,
+      "linha": 157,
       "classe": "autoral",
       "texto": "·",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/gestacao/tela.tsx",
-      "linha": 10,
+      "linha": 11,
       "classe": "autoral",
-      "texto": "Calculadora de idade gestacional",
+      "texto": "APS Inteligente · Fonte única:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/gestacao/tela.tsx",
       "linha": 11,
       "classe": "autoral",
-      "texto": "APS Inteligente · Fonte única: Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025",
+      "texto": ", 4.ª ed., 2025",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/gestacao/tela.tsx",
+      "linha": 16,
+      "classe": "autoral",
+      "texto": "Calculadora de idade gestacional",
       "especie": "StringLiteral"
     },
     {
@@ -3052,16 +3080,23 @@
     },
     {
       "arquivo": "interface/puericultura/tela.tsx",
-      "linha": 11,
+      "linha": 12,
       "classe": "autoral",
-      "texto": "Avaliação do crescimento infantil",
+      "texto": "APS Inteligente · Fonte única:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/puericultura/tela.tsx",
-      "linha": 12,
+      "linha": 14,
       "classe": "autoral",
-      "texto": "APS Inteligente · Fonte única: Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97",
+      "texto": "(Ministério da Saúde, 2.ª ed., 2020), pp. 85–97",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/puericultura/tela.tsx",
+      "linha": 19,
+      "classe": "autoral",
+      "texto": "Avaliação do crescimento infantil",
       "especie": "StringLiteral"
     },
     {
@@ -3378,16 +3413,23 @@
     },
     {
       "arquivo": "interface/risco-cardiovascular/tela.tsx",
-      "linha": 10,
+      "linha": 11,
       "classe": "autoral",
-      "texto": "Risco cardiovascular em 10 anos (Pooled Cohort Equations)",
+      "texto": "APS Inteligente · Fonte única:",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/risco-cardiovascular/tela.tsx",
       "linha": 11,
       "classe": "autoral",
-      "texto": "APS Inteligente · Fonte única: 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)",
+      "texto": "(Goff et al., 2014)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/risco-cardiovascular/tela.tsx",
+      "linha": 16,
+      "classe": "autoral",
+      "texto": "Risco cardiovascular em 10 anos (Pooled Cohort Equations)",
       "especie": "StringLiteral"
     },
     {

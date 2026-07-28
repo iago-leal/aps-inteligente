@@ -19,6 +19,7 @@ import { agruparRecomendacoes } from "./agrupar-recomendacoes";
 import { copiarParaAreaDeTransferencia } from "./area-de-transferencia";
 import { formatarPlano } from "./formatar-plano";
 import { ROTULO_MOMENTO, textoDoDelta } from "./rotulos";
+import { NOME_PUBLICADO } from "models/insulina/fonte-clinica";
 import type {
   Alerta,
   AplicacaoInsulina,
@@ -153,8 +154,7 @@ function Referencias({ resultado }: { resultado: ResultadoCalculo }) {
       <ul>
         {resultado.referencias.map((ref) => (
           <li key={ref.localizacao}>
-            Guia Rápido Diabetes Mellitus — SMS-Rio, {ref.versaoEdicao}:{" "}
-            {ref.localizacao}
+            {NOME_PUBLICADO}, {ref.versaoEdicao}: {ref.localizacao}
           </li>
         ))}
       </ul>

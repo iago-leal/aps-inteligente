@@ -5,6 +5,7 @@
 // seguimento na APS e manejo da doença arterial aguda. Cada bloco cita a página
 // da fonte. <details> nativo: consultável, acessível e sem JavaScript.
 import { Heading, Text } from "@primer/react";
+import { NOME_PUBLICADO } from "models/cardiopatia-isquemica/fonte-clinica";
 
 interface BlocoReferencia {
   readonly id: string;
@@ -72,8 +73,8 @@ export function ReferenciasComplementares() {
         Material de referência
       </Heading>
       <Text as="p" size="small">
-        Conteúdo consultável do TeleCondutas — Cardiopatia Isquêmica
-        (TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.
+        Conteúdo consultável do {NOME_PUBLICADO} (TelessaúdeRS-UFRGS, 2017),
+        fora do cálculo desta ferramenta.
       </Text>
       {BLOCOS.map((bloco) => (
         <details key={bloco.id} className="referencia-bloco">

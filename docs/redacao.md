@@ -76,6 +76,16 @@ Chave, `id`, nome de campo, código de erro, valor de `data-*`, discriminante de
 `MEDIDA_NAO_INFORMADA` e `peso-idade` são identificadores, ainda que morem num campo de
 texto. Estão **fora** do alcance desta norma, e mudá-los é refatoração, não revisão.
 
+A classe é mais larga do que a lista acima sugere: ela nomeia **tudo que a revisão de
+linguagem não alcança**, e não só o que é código. O caso que a alarga é o `NOME_PUBLICADO`
+de cada `models/*/fonte-clinica.ts`, que desde `MD-0021` as telas consomem em vez de
+reescrever à mão. Ele chega à tela, e ainda assim permanece identificador: o nome de um
+documento alheio não se revisa nem quando aparece no subtítulo, e alterá-lo continua sendo
+refatoração de dado. A classe citação, que a origem do texto sugeriria, traria consigo a
+comparação contra a linha de base de §2.2, e ali os cinco nomes entrariam como afastamentos
+que ninguém cometeu. O congelamento de RF-06 já os protege da alteração silenciosa, que é a
+força de guarda adequada a um nome que muda a cada edição nova da fonte.
+
 ## 3. Pontuação
 
 ### 3.1 Os três eixos
@@ -140,6 +150,13 @@ confere por memória nem por lista escrita no teste: cada `models/*/fonte-clinic
 publica a constante `NOME_PUBLICADO`, e o verificador apaga esses nomes do literal antes de
 procurar travessão. Fonte nova entra na exceção por publicar a constante, e não por alguém
 lembrar de acrescentá-la a uma lista.
+
+Desde `MD-0021` a mesma constante é o que as telas **exibem**, nos onze lugares em que o
+nome faz ofício de rótulo bibliográfico. A exceção deixou de depender de quem escreve
+lembrar da forma certa: o nome tem um lugar só, e as telas o leem de lá. Fica de fora o
+nome que comparece como substantivo dentro de frase corrida, e ficam de fora as formas
+descritivas do catálogo da home, que não divergem da publicada por erro, e sim por serem
+outro registro.
 
 Vale a pena dizer o que essa escolha já rendeu. Quando o verificador passou a valer, ele
 reprovou cinco linhas do `README.md` que nomeavam as fontes de maneira diferente da que as

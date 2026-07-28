@@ -109,7 +109,7 @@ export const MAPA: MapaDeClasses = {
       "UI",
       "Recomendações ao prescritor",
       "Fonte clínica",
-      "Guia Rápido Diabetes Mellitus — SMS-Rio,",
+      ",",
       ":",
       "Insulina",
       ". Dose inicial pela fonte:",
@@ -151,10 +151,14 @@ export const MAPA: MapaDeClasses = {
     ]),
   ],
 
+  // O subtítulo é composto: a prosa fica aqui em duas metades, e o nome da fonte entra do
+  // domínio por `NOME_PUBLICADO` (MD-0021). É por isso que a tela concatena em vez de usar
+  // template — literal dentro de template interpolado é invisível ao extrator.
   "interface/calculadora/tela.tsx": [
     ...autorais([
       "Calculadora de insulina no DM2",
-      "APS Inteligente · Fonte única: Guia Rápido Diabetes Mellitus — SMS-Rio, 2.ª ed. atualizada, 2023",
+      "APS Inteligente · Fonte única:",
+      ", 2.ª ed. atualizada, 2023",
     ]),
   ],
 
@@ -204,7 +208,8 @@ export const MAPA: MapaDeClasses = {
       "Acompanhamento na APS",
       "Manejo da doença arterial coronariana aguda e encaminhamento",
       "Material de referência",
-      "Conteúdo consultável do TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.",
+      "Conteúdo consultável do",
+      "(TelessaúdeRS-UFRGS, 2017), fora do cálculo desta ferramenta.",
     ]),
 
     ...citacoes(`${TELECONDUTAS}, Quadro 3, p. 5`, [
@@ -260,7 +265,7 @@ export const MAPA: MapaDeClasses = {
       "Nova avaliação",
       "Fora do escopo da fonte",
       "Fonte clínica",
-      "TeleCondutas — Cardiopatia Isquêmica ·",
+      "·",
       "Entrada incompleta ou implausível",
       "Resultado desatualizado: os dados foram editados após a avaliação. Avalie novamente.",
       "Estrato de probabilidade:",
@@ -272,7 +277,8 @@ export const MAPA: MapaDeClasses = {
   "interface/cardiologia/tela.tsx": [
     ...autorais([
       "Probabilidade pré-teste de cardiopatia isquêmica",
-      "APS Inteligente · Fonte única: TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)",
+      "APS Inteligente · Fonte única:",
+      "(TelessaúdeRS-UFRGS, 2017)",
     ]),
   ],
 
@@ -322,7 +328,7 @@ export const MAPA: MapaDeClasses = {
       "Pela DUM",
       "Pelo ultrassom",
       "Fonte clínica",
-      "Guia Rápido Pré-Natal — SMS-Rio,",
+      ",",
       "·",
     ]),
   ],
@@ -330,7 +336,8 @@ export const MAPA: MapaDeClasses = {
   "interface/gestacao/tela.tsx": [
     ...autorais([
       "Calculadora de idade gestacional",
-      "APS Inteligente · Fonte única: Guia Rápido Pré-Natal — SMS-Rio, 4.ª ed., 2025",
+      "APS Inteligente · Fonte única:",
+      ", 4.ª ed., 2025",
     ]),
   ],
 
@@ -441,7 +448,8 @@ export const MAPA: MapaDeClasses = {
   "interface/puericultura/tela.tsx": [
     ...autorais([
       "Avaliação do crescimento infantil",
-      "APS Inteligente · Fonte única: Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97",
+      "APS Inteligente · Fonte única:",
+      "(Ministério da Saúde, 2.ª ed., 2020), pp. 85–97",
     ]),
   ],
 
@@ -515,7 +523,8 @@ export const MAPA: MapaDeClasses = {
   "interface/risco-cardiovascular/tela.tsx": [
     ...autorais([
       "Risco cardiovascular em 10 anos (Pooled Cohort Equations)",
-      "APS Inteligente · Fonte única: 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)",
+      "APS Inteligente · Fonte única:",
+      "(Goff et al., 2014)",
     ]),
   ],
 };

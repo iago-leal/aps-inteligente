@@ -4,6 +4,7 @@
 // referências e notas — SEM ritual de revisão (D-08: datação não prescreve).
 // Erros do motor exibidos como valores; falha inesperada tem painel honesto.
 import { Button, Flash, Heading, Text } from "@primer/react";
+import { NOME_PUBLICADO } from "models/gestacao/fonte-clinica";
 import type {
   DatacaoCalculada,
   DatacaoPorUltrassom,
@@ -153,7 +154,7 @@ export function PainelIdadeGestacional({
         <ul>
           {saida.referencias.map((referencia) => (
             <li key={referencia.localizacao}>
-              Guia Rápido Pré-Natal — SMS-Rio, {referencia.versaoEdicao} ·{" "}
+              {NOME_PUBLICADO}, {referencia.versaoEdicao} ·{" "}
               {referencia.localizacao}
             </li>
           ))}

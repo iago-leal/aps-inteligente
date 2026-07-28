@@ -4,6 +4,7 @@
 // estrato, conduta e advertências — cada saída com referência à fonte. Erros do
 // motor exibidos como valores; falha inesperada tem painel honesto (EC-07).
 import { Button, Flash, Heading, Label, Text } from "@primer/react";
+import { NOME_PUBLICADO } from "models/cardiopatia-isquemica/fonte-clinica";
 import type {
   ClassificacaoDor,
   EntradaInvalida,
@@ -99,8 +100,7 @@ export function PainelCardiologia({
           <Heading as="h3">Fonte clínica</Heading>
           <ul>
             <li>
-              TeleCondutas — Cardiopatia Isquêmica ·{" "}
-              {estado.saida.referencia.localizacao}
+              {NOME_PUBLICADO} · {estado.saida.referencia.localizacao}
             </li>
           </ul>
         </section>
@@ -178,7 +178,7 @@ export function PainelCardiologia({
         <ul>
           {saida.referencias.map((referencia) => (
             <li key={referencia.localizacao}>
-              TeleCondutas — Cardiopatia Isquêmica · {referencia.localizacao}
+              {NOME_PUBLICADO} · {referencia.localizacao}
             </li>
           ))}
         </ul>

@@ -4,6 +4,7 @@
 // Alertas e condutas alternativas ficam fora (D-04): o Plano registra a conduta
 // sugerida; a escolha entre equivalentes é do prescritor (ADR 0005).
 import { agruparRecomendacoes } from "./agrupar-recomendacoes";
+import { NOME_PUBLICADO } from "models/insulina/fonte-clinica";
 import { ROTULO_MOMENTO, textoDoDelta } from "./rotulos";
 import type {
   ResultadoCalculo,
@@ -48,7 +49,7 @@ function parteRecomendacoes(resultado: ResultadoCalculo): string | null {
 function parteFonte(resultado: ResultadoCalculo): string {
   const linhas = resultado.referencias.map(
     (ref) =>
-      `- Guia Rápido Diabetes Mellitus — SMS-Rio, ${ref.versaoEdicao}: ${ref.localizacao}`,
+      `- ${NOME_PUBLICADO}, ${ref.versaoEdicao}: ${ref.localizacao}`,
   );
   return ["Fonte clínica:", ...linhas].join("\n");
 }
