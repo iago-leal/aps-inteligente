@@ -1,16 +1,14 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/018-revisao-linguagem-textos",
-  "feature-id": "018",
-  "short-name": "revisao-linguagem-textos",
-  "started-at": "2026-07-27T02:06:49Z",
-  "current-stage": "coding",
+  "feature-dir": "_reversa_forward/019-contribuicao-voluntaria-pix",
+  "feature-id": "019",
+  "short-name": "contribuicao-voluntaria-pix",
+  "started-at": "2026-07-28T13:43:09Z",
+  "current-stage": "plan",
   "stages-completed": [
     "requirements",
     "clarify",
-    "plan",
-    "audit",
-    "coding"
+    "plan"
   ],
   "paused-features": []
 }
