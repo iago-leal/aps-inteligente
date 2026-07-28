@@ -4,11 +4,12 @@
   "feature-id": "019",
   "short-name": "contribuicao-voluntaria-pix",
   "started-at": "2026-07-28T13:43:09Z",
-  "current-stage": "plan",
+  "current-stage": "to-do",
   "stages-completed": [
     "requirements",
     "clarify",
-    "plan"
+    "plan",
+    "to-do"
   ],
   "paused-features": []
 }

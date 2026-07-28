@@ -22,3 +22,4 @@
 - **MD-0020** — O eixo expressivo fica fora da prosa do produto, e a única exceção é o nome da fonte
 - **MD-0021** — O nome publicado da fonte chega à tela pelo domínio, e permanece `identificador` ao chegar
 - **MD-0022** — Matéria não clínica entra com isenção declarada, e a fronteira se marca em duas camadas
+- **MD-0023** — A fase de uma ação vem da consequência que a ordem tem, e verificação que espera por humano se parte em duas
