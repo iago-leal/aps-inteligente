@@ -20,6 +20,7 @@
     "db:down": "docker compose --env-file .env.local -f infra/compose.yaml down -v",
     "db:psql": "docker compose --env-file .env.local -f infra/compose.yaml exec banco psql -U aps -d aps_inteligente",
     "test:e2e": "playwright test",
+    "status:conferir": "node scripts/conferir-producao.mts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

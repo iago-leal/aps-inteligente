@@ -10,9 +10,9 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 1161,
+    "literais": 1168,
     "porClasse": {
-      "autoral": 627,
+      "autoral": 634,
       "citacao": 472,
       "identificador": 62
     },
@@ -21,7 +21,7 @@
       "interface": 379,
       "pages": 38,
       "manifesto": 3,
-      "readme": 197
+      "readme": 204
     }
   },
   "literais": [
@@ -8518,110 +8518,159 @@
       "arquivo": "README.md",
       "linha": 270,
       "classe": "autoral",
-      "texto": "Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 276,
-      "classe": "autoral",
-      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 277,
-      "classe": "autoral",
-      "texto": "produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar",
+      "texto": "Produção, pelo comando que já faz a comparação (é o caminho curto):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 278,
       "classe": "autoral",
-      "texto": "a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 279,
-      "classe": "autoral",
-      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}` e `Cache-Control: no-store`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 280,
       "classe": "autoral",
-      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 281,
+      "classe": "autoral",
+      "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 282,
       "classe": "autoral",
-      "texto": "## Como publicar",
+      "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 283,
+      "classe": "autoral",
+      "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 284,
       "classe": "autoral",
-      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 285,
       "classe": "autoral",
-      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 286,
       "classe": "autoral",
-      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "texto": "não existia.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 287,
+      "linha": 288,
       "classe": "autoral",
-      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "texto": "A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 289,
       "classe": "autoral",
-      "texto": "## Documentação",
+      "texto": "sua rota. Roteiro completo:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 290,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 291,
       "classe": "autoral",
-      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 292,
-      "classe": "autoral",
-      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 293,
       "classe": "autoral",
+      "texto": "## Como publicar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 295,
+      "classe": "autoral",
+      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 296,
+      "classe": "autoral",
+      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 297,
+      "classe": "autoral",
+      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 298,
+      "classe": "autoral",
+      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 300,
+      "classe": "autoral",
+      "texto": "## Documentação",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 302,
+      "classe": "autoral",
+      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 303,
+      "classe": "autoral",
+      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 304,
+      "classe": "autoral",
       "texto": "actions → legacy-impact → regression-watch).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 294,
+      "linha": 305,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

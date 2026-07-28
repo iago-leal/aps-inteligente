@@ -267,15 +267,26 @@ npm run test:e2e                    # e2e Playwright + axe (sobe o build sozinho
 curl -i http://localhost:3000/api/v1/status
 ```
 
-Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):
+Produção, pelo comando que já faz a comparação (é o caminho curto):
 
 ```bash
-curl -iL https://apsinteligente.app/api/v1/status
+npm run status:conferir             # veredito em uma linha; 0 em dia, 1 defasada, 2 erro
+npm run status:conferir -- --json   # o mesmo, para consumo por máquina
+curl -iL https://apsinteligente.app/api/v1/status   # domínio próprio: o apex redireciona
 ```
 
-Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em
-produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar
-a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:
+Esperado: `200` com `{atualizado_em, versao, commit}` e `Cache-Control: no-store`.
+
+**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao
+SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do
+Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último
+commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o
+publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o
+que sustentou, por quatro sessões de julho de 2026, uma pendência de "produção defasada" que
+não existia.
+
+A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na
+sua rota. Roteiro completo:
 `_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e
 `_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.
 
