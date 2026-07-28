@@ -1,36 +1,85 @@
 # Plano de Exploração — aps-inteligente
 
-> Criado pelo Reversa em 2026-07-19 · **3ª passagem iniciada em 2026-07-23**
+> Criado pelo Reversa em 2026-07-19 · **4ª passagem iniciada em 2026-07-28**
 > Marque cada tarefa com ✅ quando concluída.
-> Esta é a 3ª passagem do núcleo: absorve as features **011–014** do ciclo forward
-> sobre a base da re-extração 2 (que já cobria 001–010).
+> Esta é a 4ª passagem do núcleo: absorve as features **015–022** do ciclo forward
+> sobre a base da re-extração 3 (que já cobria 001–014).
 
 ---
 
-## Delta desta passagem (o que mudou desde a re-extração 2)
+## Delta desta passagem (o que mudou desde a re-extração 3)
 
-- 🆕 **`models/risco-cardiovascular`** — calculadora de risco cardiovascular por Pooled
-  Cohort Equations (feature 014). **Domínio novo**, análise do zero.
-- 🆕 **`interface/risco-cardiovascular`** — tela da feature 014. **Tela nova**.
-- 🔧 **`interface/comum`** — cabeçalho refatorado (toggle de tema icônico, retorno à home;
-  features 011/013) e selo de privacidade movido para a identidade.
-- 🔧 **`interface/estilos`** — `cabecalho.css` consolidada; proporções alinhadas à home
-  (features 011/013).
-- 🔧 **`interface/inicio`** — possível novo cartão da calculadora de risco na home.
-- 📄 **Adendo 012** — domínio próprio `apsinteligente.app` (infra/docs; sem código de app).
-- ♻️ Reconciliar os adendos **011–014** em `_reversa_sdd/addenda/` (marcar "Superado pela
-  re-extração" quando absorvidos na base).
+**Domínio — a família `models/` deixa de ser homogênea:**
 
-Os módulos intocados (insulina, gestacao, cardiopatia-isquemica, calculadora, cardiologia,
-gestacao, pages, infra) são **reconfirmados** contra o código, não reescritos sem motivo.
+- 🆕 **`models/puericultura`** — quinto domínio clínico (feature 017): escores z de crescimento
+  infantil por LMS, curvas da OMS e INTERGROWTH-21st, 18 regras novas. Traz o primeiro
+  **acervo tabular embarcado** (12.964 linhas L/M/S em 14 módulos gerados, com `sha256`) e um
+  **oráculo congelado** de 356 casos + 1596 células. **Domínio novo, análise do zero.**
+- 🆕 **Submódulo `models/puericultura/consulta/`** — a mesma unit ganha a **segunda fachada**,
+  `RegistroDeConsultaPuericultura.montar` (feature 020). Primeiro caso de duas fachadas sob uma
+  unit, e primeira saída do produto que **não é um número**, mas texto SOAP com contrato de forma.
+- 🆕 **`models/contribuicao`** — primeiro unit de domínio **não clínico** (feature 019): BR Code
+  PIX estático, CRC16. Isento por escrito de fonte clínica única, `ReferenciaClinica` e catálogo
+  congelado (`MD-0022`), conservando os demais invariantes da família.
+
+**Interface — o cabeçalho fecha e a moldura cresce:**
+
+- 🔧 **`interface/comum`** — contrato da `Moldura` alterado: `logoComoTitulo` **removida**,
+  `comInicio` acrescentada (016); e a `Moldura` passa a ser **dona do enquadramento horizontal**
+  de toda tela, com a coluna do corpo no `<main>` (021).
+- 🆕 **`interface/puericultura`** (tela de crescimento, 017) e **`interface/puericultura/consulta`**
+  (ficha SOAP, 020). **Telas novas.**
+- 🆕 **`interface/contribuicao`** — painel de apoio via PIX na home (019). **Tela nova.**
+- 🔧 **`interface/inicio`** — catálogo com **quatro seções** e duas fichas de puericultura;
+  bloco de apoio **fora** do `map` do `CATALOGO`; o catálogo vira também oráculo da descrição
+  da plataforma (018).
+- 🔧 **`interface/estilos`** — de cinco para **nove** folhas: `puericultura.css`,
+  `contribuicao.css`, `consulta-puericultura.css`, `moldura.css`; `inicio.css` reduzida ao
+  mínimo; `globais.css` encolhe abaixo das 364 linhas.
+- 🔧 **`interface/calculadora`** e demais telas — cinco literais revistos; `comInicio` declarada.
+
+**Shell, API e infraestrutura:**
+
+- 🔧 **`pages`** — duas rotas novas (`/puericultura/crescimento`, `/puericultura/consulta`),
+  totalizando nove; os doze metadados das rotas revisados, com correção de exatidão na
+  `description` da raiz (018).
+- 🔧 **`pages/api/v1/status`** — **a inversão desta passagem**: o handler passa a `async`, consulta
+  o banco de verdade e devolve **seis** chaves (`publicado_em`, `ambiente`, `banco` acrescidas).
+  200 em todo estado do banco, inclusive degradado (`MD-0031`).
+- 🔧 **`infra`** — deixa de ser arquivo único: nasce `infra/saude.ts`; o pool ganha
+  `connectionTimeoutMillis` e `statement_timeout` derivados de `APS_TIMEOUT_SAUDE_MS`;
+  `CausaDeErroDeBanco` ganha a quarta causa, `tempo_esgotado`.
+
+**Camada nova, que a extração 3 não conhece:**
+
+- 🆕 **`scripts/**` — camada dev-time** acima das três: quatro geradores idempotentes
+  (tabelas da OMS, oráculo congelado, inventário textual, fichas da caderneta). Não entra no
+  bundle e não é importada por `models/`, `interface/` nem `pages/`.
+- 🆕 **`tests/unit/textos/`** — sete verificadores da norma de redação (018), com
+  `docs/redacao.md` e o princípio **IX** de `.reversa/principles.md`.
+
+**Dívidas que só esta passagem fecha:**
+
+- **L-07** — `domain.md` §7.2, item 11, ainda descreve a `Moldura` governada por
+  `logoComoTitulo`, prop que o componente não tem mais (apontado pelo adendo 021).
+- **L-11** — a cifra de testes de `architecture.md` §5 ("37 arquivos") está defasada desde a
+  feature 018; a suíte real fechou a 022 com **816 testes em 67 arquivos**.
+- **Rota de status sem I/O** — `code-analysis.md` (módulo 13) e `architecture.md` §1/§2/§4
+  descrevem um handler síncrono sem dependência.
+
+**Reconciliação:** marcar os adendos **015–022** como "Superado pela re-extração" quando
+absorvidos na base; `MD-0022` a `MD-0032` entram como decisões registradas.
+
+Os módulos intocados (insulina, gestacao, cardiopatia-isquemica, risco-cardiovascular,
+cardiologia) são **reconfirmados** contra o código, não reescritos sem motivo.
 
 ---
 
 ## Fase 1: Reconhecimento 🔍
 
-- [x] **Scout** — Mapeamento de estrutura de pastas e tecnologias ✅
-- [x] **Scout** — Análise de dependências e gerenciadores de pacotes ✅
-- [x] **Scout** — Identificação de entry points, CI/CD e configurações ✅
+- [x] **Scout** — Mapeamento de estrutura de pastas e tecnologias (incl. `scripts/**` dev-time) ✅ 21 módulos
+- [x] **Scout** — Análise de dependências (`react-qr-code@2.2.0`, primeira desde a 010) ✅ + `prop-types` por arrasto
+- [x] **Scout** — Identificação de entry points, CI/CD e configurações ✅ 18 entry points, 3 jobs de CI
 
 ## Decisão de organização das specs 🗂️
 
@@ -38,49 +87,58 @@ gestacao, pages, infra) são **reconfirmados** contra o código, não reescritos
 
 ## Fase 2: Escavação 🏗️
 
-> Quatro domínios + interface + shell + infra. Foco de esforço no delta 011–014.
+> Cinco domínios clínicos + um não clínico + interface + shell + infra + dev-time.
+> Foco de esforço no delta 015–022.
 
 **Domínio (`models/`):**
-- [x] **Arqueólogo** — `models/insulina` (reconfirmado; motor intocado) ✅
-- [x] **Arqueólogo** — `models/gestacao` (reconfirmado) ✅
-- [x] **Arqueólogo** — `models/cardiopatia-isquemica` (reconfirmado) ✅
-- [x] 🆕 **Arqueólogo** — `models/risco-cardiovascular` (PCE — feature 014, análise nova) ✅
+- [x] **Arqueólogo** — `models/insulina` ✅ (reconfirmado; motor intocado)
+- [x] **Arqueólogo** — `models/gestacao` ✅ (reconfirmado; só comentário em `datas.ts`)
+- [x] **Arqueólogo** — `models/cardiopatia-isquemica` ✅ (reconfirmado)
+- [x] **Arqueólogo** — `models/risco-cardiovascular` ✅ (reconfirmado)
+- [x] 🆕 **Arqueólogo** — `models/puericultura` — motor de crescimento + acervo tabular (017)
+- [x] 🆕 **Arqueólogo** — `models/puericultura/consulta` — segunda fachada, SOAP (020)
+- [x] 🆕 **Arqueólogo** — `models/contribuicao` — unit não clínico, BR Code + CRC16 (019)
 
 **Interface (`interface/`):**
-- [x] 🔧 **Arqueólogo** — `interface/comum` (cabeçalho refatorado — 011/013) + `interface/calculadora` ✅
-- [x] 🆕 **Arqueólogo** — `interface/risco-cardiovascular` (tela nova) + `interface/cardiologia` ✅
-- [x] **Arqueólogo** — `interface/gestacao` + `interface/inicio` (home + cartão de risco) + 🔧 `interface/estilos` (globais 400→364, dívida resolvida) ✅
+- [x] 🔧 **Arqueólogo** — `interface/comum` (`Moldura`: `comInicio`, coluna do corpo — 016/021)
+- [x] 🆕 **Arqueólogo** — `interface/puericultura` + `interface/puericultura/consulta`
+- [x] 🆕 **Arqueólogo** — `interface/contribuicao` (painel PIX)
+- [x] 🔧 **Arqueólogo** — `interface/inicio` (catálogo em quatro seções + bloco de apoio)
+- [x] 🔧 **Arqueólogo** — `interface/estilos` (nove folhas) + `interface/calculadora` (literais revistos)
+- [x] **Arqueólogo** — `interface/cardiologia` + `interface/gestacao` + `interface/risco-cardiovascular` ✅ (reconfirmados)
 
-**Shell e infraestrutura:**
-- [x] **Arqueólogo** — `pages` (shell Next.js, rotas, PWA — nova rota de risco) + `pages/api/v1/status` ✅
-- [x] **Arqueólogo** — `infra` (pool pg + compose PostgreSQL; reconfirmado) ✅
+**Shell, infraestrutura e camada dev-time:**
+- [x] 🔧 **Arqueólogo** — `pages` (nove rotas, metadados revistos — 018)
+- [x] 🔧 **Arqueólogo** — `pages/api/v1/status` (I/O real, seis campos — 022)
+- [x] 🔧 **Arqueólogo** — `infra` (`saude.ts`, tetos, quarta causa — 022)
+- [x] 🆕 **Arqueólogo** — `scripts/**` (camada dev-time: quatro geradores idempotentes)
 
 ## Fase 3: Interpretação 🧠
 
-- [x] **Detetive** — Arqueologia Git e ADRs retroativos (features 011–014) ✅ (+2 ADRs: 0014 PCE, 0015 domínio próprio)
-- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado (PCE) ✅
-- [x] **Detetive** — Matriz de permissões (RBAC/ACL) ✅ (inalterada: sem RBAC por design)
-- [x] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes — 4º domínio) ✅
-- [x] **Arquiteto** — ERD completo e integrações externas ✅
-- [x] **Arquiteto** — Spec Impact Matrix ✅
+- [ ] **Detetive** — Arqueologia Git e ADRs retroativos (features 015–022, `MD-0022`–`MD-0032`)
+- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado (puericultura, consulta, contribuição)
+- [ ] **Detetive** — Matriz de permissões (RBAC/ACL)
+- [ ] **Arquiteto** — Diagramas C4 (5º e 6º units de `models/`, camada dev-time)
+- [ ] **Arquiteto** — ERD completo e integrações externas (OMS, INTERGROWTH-21st, BR Code, Neon em runtime)
+- [ ] **Arquiteto** — Spec Impact Matrix (duas fachadas sob uma unit — arranjo inédito)
 
 ## Fase 4: Geração 📝
 
-- [x] **Redator** — Specs SDD por componente ✅ (2 units novas + 4 units atualizadas)
-- [x] **Redator** — OpenAPI ✅ (`openapi/status.yaml` já citava `apsinteligente.app`; sem mudança)
-- [x] **Redator** — User Stories ✅ (`estimativa-risco-cardiovascular.md`)
-- [x] **Redator** — Code/Spec Matrix ✅ (4 domínios)
+- [ ] **Redator** — Specs SDD por componente (units novas + atualizadas)
+- [ ] **Redator** — OpenAPI (`openapi/status.yaml`: seis chaves, exemplo defasado)
+- [ ] **Redator** — User Stories (crescimento infantil, consulta SOAP, contribuição)
+- [ ] **Redator** — Code/Spec Matrix (duas fachadas sob `models/puericultura`)
 
 ## Fase 5: Revisão ✅
 
-- [x] **Revisor** — Revisão cruzada de specs ✅ (14 units; 1 afirmação corrigida via oráculo; Codex indisponível)
-- [x] **Revisor** — Resolução de lacunas com o usuário ✅ (13 premissas 🟡 mantidas por política herdada; Q-R1..R4 novas)
-- [x] **Revisor** — Relatório de confiança final ✅ (~94% 🟢)
+- [ ] **Revisor** — Revisão cruzada de specs
+- [ ] **Revisor** — Resolução de lacunas com o usuário
+- [ ] **Revisor** — Relatório de confiança final
 
 ## Fase 6: Verificação de regressão 🔁
 
-- [x] Verificar os `regression-watch.md` de `_reversa_forward/` (incl. 011, 013, 014) contra o SDD regenerado ✅ (10 features, 60 watch items: 60🟢 / 0🟡 / 0🔴; dívida amarela da re-extração 2 encerrada)
-- [x] Reconciliar os adendos 011–014 de `_reversa_sdd/addenda/` (marcar "Superado pela re-extração") ✅ (4 adendos superados)
+- [ ] Verificar os `regression-watch.md` de `_reversa_forward/` (21 features) contra o SDD regenerado
+- [ ] Reconciliar os adendos 015–022 de `_reversa_sdd/addenda/` (marcar "Superado pela re-extração")
 
 ---
 

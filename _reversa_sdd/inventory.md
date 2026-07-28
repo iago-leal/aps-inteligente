@@ -1,111 +1,166 @@
 # Inventário — aps-inteligente
 
-> Gerado pelo Reversa Scout em 2026-07-19 · **Re-extração 3 em 2026-07-23** (absorve as features 011–014 sobre a base 001–010).
+> Gerado pelo Reversa Scout em 2026-07-19 · **Re-extração 4 em 2026-07-28** (absorve as features 015–022 sobre a base 001–014).
 > Escala de confiança: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
 
 ## Visão geral
 
 🟢 **aps-inteligente** é um website Next.js (Pages Router) dedicado à prática médica na APS (Atenção Primária à Saúde), concebido como **plataforma guarda-chuva** de calculadoras clínicas, cada uma ancorada em uma fonte clínica citável. O cálculo é **100% client-side**: nenhum dado clínico sai do navegador (ADR 0002).
 
-🟢 A re-extração 2 (23/07) refletia **três calculadoras**. Esta 3ª passagem absorve as features 011–014: uma **quarta calculadora** (risco cardiovascular por Pooled Cohort Equations, feature 014), o **cabeçalho refatorado** (toggle de tema icônico e retorno à home; features 011/013) e o **domínio próprio `apsinteligente.app`** (adendo 012, infra/DNS). O motor das três calculadoras anteriores permanece intocado.
+🟢 A re-extração 3 (23/07) refletia **quatro calculadoras** e quatro domínios, todos clínicos. Esta 4ª passagem absorve as features **015–022** e encontra um sistema que mudou de forma, não só de tamanho. Quatro deltas estruturais, cada um sem precedente na base anterior:
 
-🟢 As quatro calculadoras e suas fontes (README, catálogo tipado em `interface/inicio/catalogo.ts`):
+1. **Quinto domínio clínico** — `models/puericultura` (feature 017): escores z de crescimento infantil por LMS, com o primeiro **acervo tabular embarcado** da plataforma (14 módulos gerados, 376 kB, com procedência `sha256`) e um **oráculo congelado** que julga o motor com números que não vieram dele.
+2. **Duas fachadas sob uma unit** — o submódulo `models/puericultura/consulta` (feature 020) acrescenta `RegistroDeConsultaPuericultura.montar` ao lado de `CalculadoraCrescimentoInfantil.avaliar`. É também a primeira saída do produto que **não é um número**, mas texto SOAP para colar no prontuário.
+3. **Primeiro unit não clínico** — `models/contribuicao` (feature 019): BR Code PIX estático e CRC16, isento por escrito de fonte clínica única, `ReferenciaClinica` e catálogo congelado (`MD-0022`), conservando os demais invariantes da família.
+4. **Camada dev-time** — `scripts/**` (features 017–020): quatro geradores idempotentes que não entram no bundle e não são importados por `models/`, `interface/` nem `pages/`.
+
+🟢 Some-se a **inversão da rota de status** (feature 022): `GET /api/v1/status` deixou de ser handler síncrono sem dependência e passou a consultar o banco de verdade, devolvendo seis chaves. O motor das quatro calculadoras anteriores permanece intocado.
+
+🟢 As seis calculadoras e suas fontes (`interface/inicio/catalogo.ts`, fonte única e congelada):
 
 | Seção | Calculadora | Rota | Fonte clínica | Domínio |
 |---|---|---|---|---|
 | Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação) | `/dm2/insulina` | Guia Rápido DM — SMS-Rio, 2023 | `models/insulina/` |
 | Pré-natal | Idade gestacional (DUM e/ou ultrassom) | `/pre-natal/idade-gestacional` | Guia Rápido Pré-Natal — SMS-Rio, 2025 | `models/gestacao/` |
 | Cardiologia | Dor torácica e probabilidade pré-teste de DAC | `/cardiologia/dor-toracica` | TeleCondutas Cardiopatia Isquêmica — TelessaúdeRS-UFRGS, 2017 | `models/cardiopatia-isquemica/` |
-| Cardiologia | Risco cardiovascular em 10 anos (Pooled Cohort Equations) | `/cardiologia/risco-cardiovascular` | ACC/AHA Pooled Cohort Equations, 2013 (feature 014) | `models/risco-cardiovascular/` |
+| Cardiologia | Risco cardiovascular em 10 anos (PCE) | `/cardiologia/risco-cardiovascular` | ACC/AHA Pooled Cohort Equations, 2013 | `models/risco-cardiovascular/` |
+| Puericultura | 🆕 Avaliação do crescimento infantil (escores z) | `/puericultura/crescimento` | Caderneta da Criança — MS, 2.ª ed., 2020 (OMS + INTERGROWTH-21st) | `models/puericultura/` |
+| Puericultura | 🆕 Ficha de consulta em SOAP | `/puericultura/consulta` | Caderneta da Criança — MS, 2.ª ed., 2020 (pp. 66–75) | `models/puericultura/consulta/` |
+
+🟢 Fora do catálogo, e por decisão explícita: o **bloco de apoio via PIX** na home (feature 019) fica **fora do `map` do `CATALOGO`**, porque o catálogo é fonte única de calculadoras e, desde a feature 018, oráculo da descrição da plataforma.
 
 ## Arquitetura em camadas
 
-🟢 Separação estrita, verificável por `git diff` vazio entre camadas nas features de apresentação:
+🟢 Separação estrita, verificável por `git diff` vazio entre camadas nas features de apresentação, e agora **verificada por teste** no quinto domínio (`invariantes.test.ts` varre `models/puericultura/**` e falha se algum arquivo importar de fora, mencionar React/Next/Primer ou ler o relógio):
 
-- **Domínio** (`models/`) — lógica pura, determinista, sem React nem framework. Erros como valores; exceção só para bug de invariante (ADR 0004). Toda saída carrega `ReferenciaClinica` (ADR 0001).
-- **Interface** (`interface/`) — componentes React; a `Moldura` comum é o esqueleto compartilhado das telas (cabeçalho refatorado nas features 011/013).
+- **Domínio** (`models/`) — lógica pura, determinista, sem React nem framework. Erros como valores; exceção só para bug de invariante (ADR 0004). Toda saída de domínio **clínico** carrega `ReferenciaClinica` (ADR 0001); `models/contribuicao` é isento por `MD-0022`.
+- **Interface** (`interface/`) — componentes React; a `Moldura` comum é o esqueleto compartilhado das telas e, desde a feature 021, **dona do enquadramento horizontal** de todas elas.
 - **Shell/rotas** (`pages/`) — Next.js Pages Router; uma rota por calculadora, home na raiz, `_app`/`_document`.
-- **Infraestrutura** (`infra/`) — pool `pg` e compose do PostgreSQL local; toca só o status.
+- **Infraestrutura** (`infra/`) — pool `pg`, adaptador de saúde e compose do PostgreSQL local; consumida em produção pelo healthcheck.
+- 🆕 **Dev-time** (`scripts/`) — aquisição, verificação, emissão e congelamento. **Não entra no bundle** e não é importada por nenhuma das quatro camadas acima.
 
 ## Estrutura de pastas
 
 ```
 aps-inteligente/
-├── models/                          # DOMÍNIO puro (4 calculadoras, ~3.133 LOC .ts)
-│   ├── insulina/                    # DM2 — 8 arq., 1.352 LOC (intocado)
-│   │   ├── calculadora.ts · regra-inicio.ts · regra-intensificacao.ts
-│   │   ├── regra-titulacao-basal.ts · regra-metformina.ts (feature 005)
-│   │   ├── fonte-clinica.ts · tipos.ts · validacao.ts
-│   ├── gestacao/                    # Idade gestacional — 6 arq., 609 LOC (feature 007, intocado)
-│   │   ├── calculadora.ts · datacao.ts · datas.ts · fonte-clinica.ts · tipos.ts · validacao.ts
-│   ├── cardiopatia-isquemica/       # Dor torácica/pré-teste — 7 arq., 572 LOC (feature 010, intocado)
-│   │   ├── calculadora.ts · classificacao.ts · probabilidade.ts · conduta.ts
-│   │   ├── fonte-clinica.ts · tipos.ts · validacao.ts
-│   └── risco-cardiovascular/        # 🆕 Risco CV 10 anos (PCE) — 7 arq., 600 LOC (feature 014)
-│       ├── calculadora.ts (53)      # Fachada/orquestração
-│       ├── equacao.ts (56)          # Pooled Cohort Equations (ln, coeficientes por sexo/raça)
-│       ├── categoria.ts (12)        # Faixa de risco (baixo/limítrofe/intermediário/alto)
-│       ├── elegibilidade.ts (39)    # Faixa etária/parâmetros elegíveis à equação
-│       ├── fonte-clinica.ts (168) · tipos.ts (109) · validacao.ts (163)
-├── interface/                       # APRESENTAÇÃO React (~3.844 LOC)
-│   ├── comum/moldura.tsx            # Moldura compartilhada — cabeçalho refatorado (011/013)
-│   ├── calculadora/                 # Tela da insulina — 16 arq. (intocado)
-│   ├── gestacao/                    # Tela da IG — 4 arq. (feature 007)
-│   ├── cardiologia/                 # Tela da dor torácica — 5 arq. (feature 010)
-│   ├── risco-cardiovascular/        # 🆕 Tela do risco CV — 5 arq., 537 LOC (feature 014)
-│   │   ├── tela.tsx · app.tsx · formulario.tsx · resultado.tsx
-│   │   └── proveniencia.tsx         # Bloco de proveniência da fonte (PCE)
-│   ├── inicio/                      # Home por seções — 3 arq. (features 007/008 + cartão de risco 014)
-│   │   ├── catalogo.ts · icones.tsx · tela.tsx
-│   └── estilos/                     # CSS sobre tokens Primer — 5 arq., 723 LOC
-│       ├── globais.css (364) · inicio.css (188) · cabecalho.css (116, consolidado 011/013)
-│       ├── cardiologia.css (47) · risco-cardiovascular.css (8)
-├── pages/                           # SHELL Next.js (Pages Router)
+├── models/                          # DOMÍNIO puro — 6 units, ~8.222 LOC .ts (+ 376 kB gerados)
+│   ├── insulina/                    # DM2 — 8 arq., 1.361 LOC (intocado)
+│   ├── gestacao/                    # Idade gestacional — 6 arq., 619 LOC (só comentário em datas.ts)
+│   ├── cardiopatia-isquemica/       # Dor torácica/pré-teste — 7 arq., 575 LOC (intocado)
+│   ├── risco-cardiovascular/        # Risco CV 10 anos (PCE) — 7 arq., 604 LOC (intocado)
+│   ├── puericultura/                # 🆕 5º domínio clínico — feature 017
+│   │   ├── calculadora.ts           # Fachada 1: CalculadoraCrescimentoInfantil.avaliar
+│   │   ├── classificacao.ts · elegibilidade.ts · idades.ts · medidas.ts · datas.ts
+│   │   ├── padrao.ts · tipos.ts · validacao.ts · fonte-clinica.ts   (10 arq., 1.618 LOC)
+│   │   ├── oms/                     # Leitura LMS (433 LOC) + tabelas/ (14 módulos gerados,
+│   │   │   └── tabelas/             #   12.964 linhas L/M/S, 376 kB, manifesto.json com sha256)
+│   │   ├── intergrowth/             # Equações fechadas do pré-termo — 2 arq., 192 LOC
+│   │   └── consulta/                # 🆕 2ª FACHADA — feature 020, 17 arq., 2.484 LOC
+│   │       ├── calculadora.ts       # Fachada 2: RegistroDeConsultaPuericultura.montar
+│   │       ├── registro.ts · selecao.ts · tipos.ts · fonte-clinica.ts
+│   │       └── fichas/              # 10 consultas datadas da caderneta + campos.ts + indice.ts
+│   └── contribuicao/                # 🆕 1º unit NÃO CLÍNICO — feature 019, 5 arq., 336 LOC
+│       └── br-code.ts · campo.ts · crc16.ts · tipos.ts · validacao.ts
+├── interface/                       # APRESENTAÇÃO React — ~5.432 LOC .tsx/.ts + 1.086 LOC CSS
+│   ├── comum/moldura.tsx (118)      # Moldura: `comInicio` (016) e coluna do corpo (021)
+│   ├── calculadora/                 # Tela da insulina — 16 arq., 1.390 LOC
+│   ├── gestacao/ (4) · cardiologia/ (5) · risco-cardiovascular/ (5)
+│   ├── puericultura/                # 🆕 Tela do crescimento — 5 arq., 774 LOC (017)
+│   │   └── consulta/                # 🆕 Ficha SOAP — 9 arq., 1.055 LOC (020)
+│   ├── contribuicao/                # 🆕 Painel PIX — 5 arq., 324 LOC (019)
+│   ├── inicio/                      # Home: catalogo.ts (4 seções, 6 fichas) · icones.tsx · tela.tsx
+│   └── estilos/                     # 🔧 NOVE folhas CSS sobre tokens Primer — 1.086 LOC
+│       ├── globais.css (367) · inicio.css (185) · contribuicao.css (133)
+│       ├── cabecalho.css (121) · consulta-puericultura.css (113) · moldura.css (79)
+│       └── cardiologia.css (47) · puericultura.css (33) · risco-cardiovascular.css (8)
+├── pages/                           # SHELL Next.js (Pages Router) — 270 LOC
 │   ├── index.tsx · _app.tsx · _document.tsx (PWA, feature 009)
-│   ├── dm2/insulina.tsx
-│   ├── pre-natal/idade-gestacional.tsx
-│   ├── cardiologia/dor-toracica.tsx
-│   ├── cardiologia/risco-cardiovascular.tsx   # 🆕 rota da feature 014
-│   └── api/v1/status.ts             # GET /api/v1/status (feature 002)
-├── infra/                           # INFRAESTRUTURA de dados (feature 003)
-│   ├── database.ts · compose.yaml   # postgres:17.10-alpine local
-├── public/                          # Ativos PWA/logo (feature 009) — same-origin
-├── referencias/                     # PDFs das fontes clínicas (fora do git, MD-0008)
-├── tests/ · e2e/                    # unidade + integração + contrato + regressão + Playwright/axe
-├── .github/workflows/ci.yml         # CI: verificação → contrato → deploy
-└── next.config.ts · vercel.json · tsconfig.json · eslint.config.mjs · *.config.ts
+│   ├── dm2/insulina.tsx · pre-natal/idade-gestacional.tsx
+│   ├── cardiologia/{dor-toracica,risco-cardiovascular}.tsx
+│   ├── puericultura/{crescimento,consulta}.tsx     # 🆕 rotas das features 017 e 020
+│   └── api/v1/status.ts (57)        # 🔧 async, com I/O e seis chaves (feature 022)
+├── infra/                           # INFRAESTRUTURA de dados — 326 LOC
+│   ├── database.ts (284)            # 🔧 pool pg com tetos derivados de APS_TIMEOUT_SAUDE_MS
+│   ├── saude.ts (42)                # 🆕 adaptador: ErroDeBanco vira valor (feature 022)
+│   └── compose.yaml                 # PostgreSQL 17.10-alpine local
+├── scripts/                         # 🆕 DEV-TIME — 23 arq. .mts, 5.517 LOC (features 017–020)
+│   ├── baixar-tabelas-oms.mts · gerar-tabelas-oms.mts · oms/ (6 arq.)
+│   ├── congelar-casos-oraculo.mts · oraculo/{oms,intergrowth}.mts
+│   ├── congelar-fichas-caderneta.mts
+│   ├── inventariar-textos.mts · textos/ (classificacao + classes/ com 6 mapas)
+│   ├── conferir-producao.mts        # Confere o SHA e a saúde da produção pela régua certa
+│   └── lib/planilha.mts
+├── tests/                           # 77 arq. .ts/.tsx — unit, integration, contract, regression
+├── e2e/                             # 6 roteiros Playwright + axe-baseline.json
+├── docs/redacao.md                  # 🆕 Norma de redação do produto (feature 018)
+├── referencias/                     # PDFs e planilhas das fontes (fora do bundle)
+│   ├── caderneta/ (2 PDFs) · oms/ (14 .xlsx) · intergrowth/ (6 PDFs)
+└── public/                          # Ativos da logo e manifesto PWA (feature 009)
 ```
 
-## Tecnologias
+## Superfície em números
 
-🟢 **Linguagem primária:** TypeScript (110 arquivos `.ts`/`.tsx` em código de aplicação e testes). CSS (5, sobre tokens Primer). Node `>=24` (campo `engines`).
+| Métrica | Re-extração 3 (23/07) | **Re-extração 4 (28/07)** |
+|---|---|---|
+| Units de `models/` | 4 (todos clínicos) | **6** (5 clínicos + 1 não clínico) |
+| Fachadas de domínio | 4 | **6** (duas sob `models/puericultura`) |
+| Calculadoras no catálogo | 4, em 3 seções | **6, em 4 seções** |
+| Rotas de página | 5 (home + 4) | **7** (home + 6) |
+| Folhas de estilo | 5 | **9** |
+| Arquivos de teste (suíte padrão) | 37 | **67** 🟢 aferido |
+| Testes (suíte padrão) | — | **816** 🟢 aferido em 28/07, 8,6 s |
+| Roteiros e2e | — | **6 arquivos**, 56 roteiros |
+| Camadas | 4 | **5** (com dev-time) |
+| Dependências de runtime | 7 | **8** (`react-qr-code@2.2.0`) |
 
-🟢 **Framework:** Next.js 16.2.10 (Pages Router, Turbopack), React 19.2.4. Sistema de design **GitHub Primer** (`@primer/react` 38.33.0, `@primer/octicons-react` 19.29.2, `@primer/primitives` 11.9.0). TypeScript 6.0.3.
-
-🟢 **Dados:** `pg` 8.22.0 — único uso é o healthcheck em `/api/v1/status`; produção via integração **Neon** (Vercel Marketplace), local via compose. Nenhum dado clínico persiste (ADR 0002/0008).
-
-🟢 **Domínio próprio (adendo 012):** `apsinteligente.app` no ar (apex → www 308); `*.vercel.app` segue válido.
+> 🟢 A cifra de testes foi **medida** nesta passagem (`npx vitest run`: 67 arquivos, 816 testes, exit 0), e não copiada dos adendos. Isso encerra a dívida **L-11**, que apontava `architecture.md` §5 preso em "37 arquivos" desde a feature 018. Fora da suíte padrão correm 3 arquivos de contrato (`vitest.api.config.ts`, exigem servidor de pé) e os 6 roteiros e2e.
 
 ## Pontos de entrada
 
-🟢 Home: `pages/index.tsx`. Rotas de calculadora: `pages/dm2/insulina.tsx`, `pages/pre-natal/idade-gestacional.tsx`, `pages/cardiologia/dor-toracica.tsx`, `pages/cardiologia/risco-cardiovascular.tsx` (🆕 feature 014). Shell: `pages/_app.tsx` (CSS globais + por-tela), `pages/_document.tsx` (PWA). API: `pages/api/v1/status.ts`.
+🟢
 
-🟢 **CI/CD:** `.github/workflows/ci.yml` — três jobs em cadeia: (1) lint+typecheck+testes em todo push; (2) contrato contra o build de produção com CSP ativa e Postgres efêmero; (3) deploy Vercel só em `main` com 1–2 verdes. Auto-deploy por push desligado (`vercel.json`: `git.deploymentEnabled=false`).
+| Caminho | Tipo | Observação |
+|---|---|---|
+| `pages/_app.tsx` | app_entry | Importa as nove folhas de estilo e provê o tema |
+| `pages/_document.tsx` | document_entry | Metadados do PWA e da logo (feature 009) |
+| `pages/index.tsx` | page_entry | Home por seções, com o bloco de apoio ao pé |
+| `pages/api/v1/status.ts` | api_entry | 🔧 Único caminho de rede da plataforma; agora com I/O |
+| `infra/database.ts` | infra_entry | Pool `pg`; único importador em produção é `infra/saude.ts` |
+| `scripts/*.mts` | devtime_entry | Quatro geradores idempotentes, executados à mão |
 
-🟢 **Segurança de borda:** CSP sem terceiros só em produção (`next.config.ts`); `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`.
+## Configuração
+
+🟢 `next.config.ts` (CSP sem terceiros em produção, carimbo `APS_PUBLICADO_EM` no build, `transpilePackages` do Primer) · `tsconfig.json` · `eslint.config.mjs` · `vitest.config.ts` (suíte padrão) · `vitest.api.config.ts` (contrato) · `playwright.config.ts` · `vercel.json` (auto-deploy **desligado**: o CI é o único caminho para produção) · `.env.example` (`DATABASE_URL`, `APS_TIMEOUT_SAUDE_MS`, `POSTGRES_PORT`).
+
+## CI/CD
+
+🟢 `.github/workflows/ci.yml`, três jobs em cadeia:
+
+1. **verificacao** — `lint`, `typecheck`, `test` em todo push.
+2. **contrato** — build de produção com CSP ativa contra um Postgres 17.10-alpine efêmero; desde a feature 022 sobe **dois** servidores, um íntegro e outro com o banco inalcançável (`PORT=3001`), para aferir a denylist no estado degradado sobre o corpo realmente serializado.
+3. **deploy** — Vercel via CLI, só em `main` e só com os dois anteriores verdes; falha barulhenta se faltar secret.
 
 ## Banco de dados (superficial)
 
-🟢 Sem DDL, migrations nem ORM. `infra/database.ts` expõe um pool `pg` lazy consumido apenas pelo teste de saúde do status. O schema é vazio por design (a plataforma não persiste dado clínico).
+🟢 Não há DDL, migration, ORM nem schema versionado: **nenhum dado é persistido**. O PostgreSQL existe para o healthcheck comprovar conectividade, e a consulta é `SELECT $1::int AS ok`. Local por `infra/compose.yaml` (17.10-alpine); em produção, instância Neon injetada por integração de marketplace. O `reversa-data-master` não tem schema a analisar — o dado do sistema vive em memória, como value objects, e em módulos estáticos (as tabelas da OMS).
 
 ## Testes
 
-🟢 **37 arquivos** de teste. Vitest (unidade + integração jsdom + contrato) e Playwright (e2e + axe-core de acessibilidade). `fast-check` para property-based no domínio.
+🟢 **Vitest 4.1.10** (unidade, integração, regressão e contrato), **Playwright 1.61.1** com `@axe-core/playwright` (ponta a ponta e acessibilidade) e **fast-check 4.9.0** (propriedade, no motor do BR Code).
 
-- **Unidade** (`tests/unit/`): domínio insulina (8), gestação (3), cardiopatia (6), **risco-cardiovascular (2: `equacao`, `invariantes`)**, interface (2).
-- **Integração** (`tests/integration/interface/`): 9 telas/componentes (moldura, formulário, resultado, início, gestacao, cardiologia, **risco-cardiovascular**, provedor-tema, relator-de-erros).
-- **Contrato** (`tests/contract/`): status da API, banco, cabeçalhos da plataforma.
-- **Regressão** (`tests/regression/`): BUG-20260719-RHZ5.
-- **E2E** (`e2e/`): `cabecalho.spec.ts` (guardas geométricas das features 011/013), `calculadora.spec.ts`, `plataforma.spec.ts`, `axe-baseline.json`.
+| Nível | Local | Arquivos |
+|---|---|---|
+| Unidade — domínio | `tests/unit/dominio*` (6 pastas, uma por unit) | 39 |
+| Unidade — interface e textos | `tests/unit/interface`, `tests/unit/textos` | 12 |
+| Unidade — infra | `tests/unit/infra/saude.test.ts` | 1 |
+| Integração | `tests/integration/interface` | 12 |
+| Regressão | `tests/regression` (BUG-20260719-RHZ5) | 1 |
+| **Subtotal da suíte padrão** | `vitest run` | **67 · 816 testes** |
+| Contrato | `tests/contract` (API, infra, plataforma) | 3 |
+| Ponta a ponta | `e2e` | 6 · 56 roteiros |
 
-🟢 Cobertura com threshold alto em `models/**` (config em `vitest.config.ts`).
+🟢 Cobertura exigida em `models/**`: 90% de linhas, statements, funções e branches (limiar do `vitest.config.ts`).
+
+## Fontes clínicas versionadas
+
+🟢 `referencias/` guarda as fontes primárias fora do bundle: as duas tiragens da *Caderneta da Criança*, 14 planilhas da OMS e 6 PDFs do INTERGROWTH-21st, além dos guias de DM2, pré-natal e cardiopatia isquêmica. A cadeia dev-time as consome; o código de aplicação, nunca.

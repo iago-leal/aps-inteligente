@@ -8,13 +8,25 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "concluido",
+  "phase": "interpretacao",
   "re_extraction": {
-    "number": 3,
-    "started_at": "2026-07-23",
-    "reason": "absorver features 011-014 do ciclo forward (novo domínio risco-cardiovascular PCE + refatoração do cabeçalho)",
-    "previous_completed_at": "2026-07-23T14:10:00Z",
-    "completed_at": "2026-07-23T21:42:00Z"
+    "number": 4,
+    "started_at": "2026-07-28",
+    "reason": "absorver features 015-022 do ciclo forward: quinto domínio clínico models/puericultura (017) com segunda fachada SOAP (020), primeiro unit não clínico models/contribuicao (019), camada dev-time scripts/** com quatro geradores idempotentes, norma de redação (018), Moldura sem logoComoTitulo e dona da coluna do corpo (016/021) e a rota /api/v1/status com I/O real (022)",
+    "previous_completed_at": "2026-07-23T21:42:00Z",
+    "completed_at": null,
+    "dividas_alvo": [
+      "L-07: domain.md §7.2 item 11 ainda cita logoComoTitulo, prop removida na feature 016",
+      "L-11: cifra de testes de architecture.md §5 defasada desde a 018 (real: 816 testes em 67 arquivos)",
+      "rota /api/v1/status descrita como sem I/O em code-analysis.md módulo 13 e architecture.md §1/§2/§4"
+    ],
+    "historico": {
+      "re_extraction_3": {
+        "started_at": "2026-07-23",
+        "completed_at": "2026-07-23T21:42:00Z",
+        "reason": "absorver features 011-014 (novo domínio risco-cardiovascular PCE + refatoração do cabeçalho)"
+      }
+    }
   },
   "regression_check": {
     "re_extraction": 3,
@@ -109,8 +121,9 @@
       "traceability/code-spec-matrix.md"
     ]
   },
-  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao", "regressao"],
-  "pending": [],
+  "completed": ["reconhecimento", "escavacao"],
+  "pending": ["interpretacao", "geracao", "revisao", "regressao"],
+  "completed_re3": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao", "regressao"],
   "checkpoints": {
     "reviewer": {
       "completed_at": "2026-07-23T21:30:00Z",
@@ -180,8 +193,30 @@
       ]
     },
     "archaeologist": {
-      "completed_at": "2026-07-23T21:05:00Z",
-      "re_extraction": 3,
+      "completed_at": "2026-07-28T22:45:00Z",
+      "re_extraction": 4,
+      "modules_analyzed_re4": [
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
+        "models/puericultura", "models/puericultura/consulta", "models/contribuicao",
+        "interface/comum", "interface/calculadora", "interface/gestacao", "interface/cardiologia",
+        "interface/risco-cardiovascular", "interface/puericultura", "interface/puericultura/consulta",
+        "interface/contribuicao", "interface/inicio", "interface/estilos",
+        "pages", "pages/api/v1/status", "infra", "scripts"
+      ],
+      "modules_pending_re4": [],
+      "delta_re4": "5o dominio clinico models/puericultura (LMS, correcao de cauda, duas especies de recusa, duas fronteiras dos 5 anos que de proposito nao coincidem) + submodulo consulta com SEGUNDA fachada (registro SOAP, primeira saida que nao e numero) + models/contribuicao nao clinico com isencao declarada (MD-0022) + camada dev-time scripts/** com 5.517 LOC em 23 arquivos + Moldura sem logoComoTitulo e dona da coluna do corpo + /api/v1/status com I/O real e seis chaves + infra/saude.ts com a quarta causa tempo_esgotado",
+      "achado_alto": "ehEstouroDeTempo (infra/database.ts:110) reconhece o estouro por FRASE do driver e precisa preceder ehErroDeConexao; atualizacao de pg e gatilho de revisao (watch W007 da 022)",
+      "files_re4": [
+        "_reversa_sdd/code-analysis.md",
+        "_reversa_sdd/data-dictionary.md",
+        "_reversa_sdd/flowcharts/models-puericultura.md",
+        "_reversa_sdd/flowcharts/models-puericultura-consulta.md",
+        "_reversa_sdd/flowcharts/models-contribuicao.md",
+        "_reversa_sdd/flowcharts/pages.md",
+        ".reversa/context/modules.json"
+      ],
+      "completed_at_re3": "2026-07-23T21:05:00Z",
+      "re_extraction_anterior": 3,
       "modules_analyzed": [
         "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
         "interface/comum", "interface/calculadora", "interface/gestacao",
@@ -203,8 +238,25 @@
       ]
     },
     "scout": {
-      "completed_at": "2026-07-23T21:02:00Z",
-      "re_extraction": 3,
+      "completed_at": "2026-07-28T22:10:00Z",
+      "re_extraction": 4,
+      "modules_identified_re4": [
+        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
+        "models/puericultura", "models/puericultura/consulta", "models/contribuicao",
+        "interface/comum", "interface/calculadora", "interface/gestacao", "interface/cardiologia",
+        "interface/risco-cardiovascular", "interface/puericultura", "interface/puericultura/consulta",
+        "interface/contribuicao", "interface/inicio", "interface/estilos",
+        "pages", "pages/api/v1/status", "infra", "scripts"
+      ],
+      "delta_re4": "21 modulos (era 14): 5o dominio clinico models/puericultura com acervo tabular de 14 modulos gerados + submodulo consulta com SEGUNDA fachada; 1o unit nao clinico models/contribuicao; camada dev-time scripts/** com 23 arquivos .mts; 9 folhas de estilo (era 5); 7 rotas de pagina (era 5); /api/v1/status com I/O real e seis chaves; react-qr-code@2.2.0 primeira dependencia de runtime desde a 010",
+      "suite_aferida": { "arquivos": 67, "testes": 816, "duracao_s": 8.6, "exit": 0, "nota": "medida em 28/07 por npx vitest run; encerra a divida L-11 com numero aferido, nao copiado dos adendos" },
+      "files_re4": [
+        "_reversa_sdd/inventory.md",
+        "_reversa_sdd/dependencies.md",
+        ".reversa/context/surface.json"
+      ],
+      "completed_at_re3": "2026-07-23T21:02:00Z",
+      "re_extraction_anterior": 3,
       "modules_identified": [
         "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
         "interface/calculadora", "interface/cardiologia", "interface/gestacao", "interface/risco-cardiovascular",

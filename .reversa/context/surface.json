@@ -1,81 +1,161 @@
 {
-  "generated_at": "2026-07-23T21:00:00Z",
+  "generated_at": "2026-07-28T22:10:00Z",
+  "re_extraction": 4,
   "project_root": "/Users/iagoleal/dev/aps-inteligente",
-  "re_extraction": 3,
   "languages": [
-    { "name": "TypeScript", "extensions": [".ts", ".tsx"], "file_count": 110 },
-    { "name": "CSS", "extensions": [".css"], "file_count": 5 },
-    { "name": "JavaScript", "extensions": [".js", ".mjs"], "file_count": 4 }
+    { "name": "TypeScript", "extensions": [".ts", ".tsx", ".mts"], "file_count": 254 },
+    { "name": "CSS", "extensions": [".css"], "file_count": 9 },
+    { "name": "Markdown", "extensions": [".md"], "file_count": 639 },
+    { "name": "JSON", "extensions": [".json"], "file_count": 37 }
   ],
   "primary_language": "TypeScript",
   "frameworks": [
     { "name": "Next.js", "version": "16.2.10", "source": "package.json", "note": "Pages Router, Turbopack" },
     { "name": "React", "version": "19.2.4", "source": "package.json" },
-    { "name": "@primer/react", "version": "38.33.0", "source": "package.json", "note": "sistema de design GitHub Primer (feature 004+)" },
+    { "name": "@primer/react", "version": "38.33.0", "source": "package.json", "note": "sistema de design (feature 004)" },
     { "name": "@primer/primitives", "version": "11.9.0", "source": "package.json" },
     { "name": "@primer/octicons-react", "version": "19.29.2", "source": "package.json" },
-    { "name": "pg", "version": "8.22.0", "source": "package.json", "note": "driver PostgreSQL — so healthcheck de status (feature 003)" },
-    { "name": "Vitest", "version": "4.1.10", "source": "package.json", "note": "unidade + integracao + contrato" },
-    { "name": "Playwright", "version": "1.61.1", "source": "package.json", "note": "e2e + axe-core acessibilidade" },
-    { "name": "fast-check", "version": "4.9.0", "source": "package.json", "note": "property-based testing do dominio" },
-    { "name": "TypeScript", "version": "6.0.3", "source": "package.json" }
+    { "name": "pg", "version": "8.22.0", "source": "package.json", "note": "driver PostgreSQL; consumido em producao pelo healthcheck desde a feature 022" },
+    { "name": "react-qr-code", "version": "2.2.0", "source": "package.json", "note": "NOVA na feature 019; primeira dependencia de runtime desde a 010" },
+    { "name": "Vitest", "version": "4.1.10", "source": "package.json" },
+    { "name": "Playwright", "version": "1.61.1", "source": "package.json" },
+    { "name": "fast-check", "version": "4.9.0", "source": "package.json", "note": "testes de propriedade no motor do BR Code" }
   ],
   "package_manager": "npm",
+  "node_engine": ">=24",
   "entry_points": [
-    { "path": "pages/index.tsx", "type": "app_entry", "note": "home por secoes (feature 007/008)" },
-    { "path": "pages/_app.tsx", "type": "app_shell", "note": "importa globais.css, inicio.css, cabecalho.css, cardiologia.css, risco-cardiovascular.css" },
-    { "path": "pages/_document.tsx", "type": "document", "note": "links de icone/manifest/theme-color, PWA (feature 009)" },
-    { "path": "pages/dm2/insulina.tsx", "type": "page_route" },
-    { "path": "pages/pre-natal/idade-gestacional.tsx", "type": "page_route" },
-    { "path": "pages/cardiologia/dor-toracica.tsx", "type": "page_route" },
-    { "path": "pages/cardiologia/risco-cardiovascular.tsx", "type": "page_route", "note": "NOVO — risco CV por PCE (feature 014)" },
-    { "path": "pages/api/v1/status.ts", "type": "api_route", "note": "GET /api/v1/status — contrato fixo (feature 002)" }
+    { "path": "pages/_app.tsx", "type": "app_entry" },
+    { "path": "pages/_document.tsx", "type": "document_entry" },
+    { "path": "pages/index.tsx", "type": "page_entry" },
+    { "path": "pages/dm2/insulina.tsx", "type": "page_entry" },
+    { "path": "pages/pre-natal/idade-gestacional.tsx", "type": "page_entry" },
+    { "path": "pages/cardiologia/dor-toracica.tsx", "type": "page_entry" },
+    { "path": "pages/cardiologia/risco-cardiovascular.tsx", "type": "page_entry" },
+    { "path": "pages/puericultura/crescimento.tsx", "type": "page_entry", "new_in": "017" },
+    { "path": "pages/puericultura/consulta.tsx", "type": "page_entry", "new_in": "020" },
+    { "path": "pages/api/v1/status.ts", "type": "api_entry", "changed_in": "022", "note": "handler async com I/O real; seis chaves no corpo" },
+    { "path": "infra/database.ts", "type": "infra_entry" },
+    { "path": "infra/saude.ts", "type": "infra_entry", "new_in": "022" },
+    { "path": "scripts/baixar-tabelas-oms.mts", "type": "devtime_entry", "new_in": "017" },
+    { "path": "scripts/gerar-tabelas-oms.mts", "type": "devtime_entry", "new_in": "017" },
+    { "path": "scripts/congelar-casos-oraculo.mts", "type": "devtime_entry", "new_in": "017" },
+    { "path": "scripts/inventariar-textos.mts", "type": "devtime_entry", "new_in": "018" },
+    { "path": "scripts/congelar-fichas-caderneta.mts", "type": "devtime_entry", "new_in": "020" },
+    { "path": "scripts/conferir-producao.mts", "type": "devtime_entry", "new_in": "022" }
   ],
   "config_files": [
-    "next.config.ts", "tsconfig.json", "vercel.json", "eslint.config.mjs",
-    "vitest.config.ts", "vitest.api.config.ts", "playwright.config.ts",
-    ".env.example", "infra/compose.yaml"
+    "next.config.ts",
+    "tsconfig.json",
+    "eslint.config.mjs",
+    "vitest.config.ts",
+    "vitest.api.config.ts",
+    "playwright.config.ts",
+    "vercel.json",
+    ".env.example",
+    "infra/compose.yaml"
   ],
-  "ci_cd": [
-    ".github/workflows/ci.yml"
-  ],
-  "docker": {
-    "compose": "infra/compose.yaml"
-  },
+  "ci_cd": [".github/workflows/ci.yml"],
+  "ci_jobs": ["verificacao", "contrato", "deploy"],
+  "docker": { "compose": "infra/compose.yaml", "image": "postgres:17.10-alpine" },
   "database_hints": [
-    { "path": "infra/database.ts", "type": "pg_pool_singleton", "note": "pool pg lazy; usado so pelo healthcheck de status" },
-    { "path": "infra/compose.yaml", "type": "compose_service", "note": "postgres:17.10-alpine local; producao via integracao Neon (Vercel Marketplace)" }
+    { "path": "infra/compose.yaml", "type": "compose_service" },
+    { "path": "infra/database.ts", "type": "connection_pool" },
+    { "path": "infra/saude.ts", "type": "health_adapter" }
   ],
-  "test_framework": "Vitest + Playwright",
-  "test_file_count": 37,
+  "database_note": "Sem DDL, migration, ORM ou schema versionado: nada e persistido. O banco existe para o healthcheck comprovar conectividade (SELECT $1::int AS ok).",
+  "test_framework": "Vitest 4.1.10 + Playwright 1.61.1 + fast-check 4.9.0",
+  "test_file_count": 76,
+  "test_counts": {
+    "suite_padrao": { "arquivos": 67, "testes": 816, "aferido_em": "2026-07-28", "duracao_s": 8.6 },
+    "contrato": { "arquivos": 3, "nota": "fora do include padrao; exigem servidor de pe (vitest.api.config.ts)" },
+    "e2e": { "arquivos": 6, "roteiros": 56 }
+  },
   "modules": [
     "models/insulina",
     "models/gestacao",
     "models/cardiopatia-isquemica",
     "models/risco-cardiovascular",
-    "interface/calculadora",
-    "interface/cardiologia",
-    "interface/gestacao",
-    "interface/risco-cardiovascular",
-    "interface/inicio",
+    "models/puericultura",
+    "models/puericultura/consulta",
+    "models/contribuicao",
     "interface/comum",
+    "interface/calculadora",
+    "interface/gestacao",
+    "interface/cardiologia",
+    "interface/risco-cardiovascular",
+    "interface/puericultura",
+    "interface/puericultura/consulta",
+    "interface/contribuicao",
+    "interface/inicio",
     "interface/estilos",
+    "pages",
+    "pages/api/v1/status",
+    "infra",
+    "scripts"
+  ],
+  "modules_new_since_re3": [
+    "models/puericultura",
+    "models/puericultura/consulta",
+    "models/contribuicao",
+    "interface/puericultura",
+    "interface/puericultura/consulta",
+    "interface/contribuicao",
+    "scripts"
+  ],
+  "modules_changed_since_re3": [
+    "interface/comum",
+    "interface/inicio",
+    "interface/estilos",
+    "interface/calculadora",
     "pages",
     "pages/api/v1/status",
     "infra"
   ],
-  "total_files": 117,
-  "delta_desde_extracao_2": {
-    "novos": ["models/risco-cardiovascular", "interface/risco-cardiovascular", "pages/cardiologia/risco-cardiovascular.tsx", "interface/estilos/risco-cardiovascular.css"],
-    "alterados": ["interface/comum/moldura.tsx", "interface/estilos/cabecalho.css", "interface/inicio/catalogo.ts", "interface/inicio/icones.tsx", "pages/_app.tsx"],
-    "features_absorvidas": ["011-refatora-cabecalho", "012-dominio-proprio", "013-cabecalho-proporcoes", "014-risco-cardiovascular-pce"]
-  },
+  "layers": [
+    { "name": "dominio", "path": "models/", "units": 6, "note": "5 clinicos + 1 nao clinico (contribuicao, MD-0022)" },
+    { "name": "apresentacao", "path": "interface/", "note": "Moldura dona do enquadramento horizontal desde a feature 021" },
+    { "name": "shell", "path": "pages/", "note": "7 rotas de pagina + 1 de API" },
+    { "name": "infraestrutura", "path": "infra/" },
+    { "name": "dev-time", "path": "scripts/", "new_in": "017", "note": "quatro geradores idempotentes; nao entra no bundle nem e importada pelas demais camadas" }
+  ],
+  "structural_deltas": [
+    "Quinto dominio clinico models/puericultura com acervo tabular embarcado (14 modulos gerados, 376 kB, sha256 no manifesto) e oraculo congelado",
+    "Primeira unit com DUAS fachadas: CalculadoraCrescimentoInfantil.avaliar e RegistroDeConsultaPuericultura.montar",
+    "Primeiro unit de dominio NAO clinico: models/contribuicao (BR Code PIX, CRC16)",
+    "Primeira saida do produto que nao e um numero: texto SOAP com contrato de forma escrito",
+    "Camada dev-time scripts/** acima das quatro existentes",
+    "Rota /api/v1/status deixa de ser sincrona sem dependencia e passa a consultar o banco, com seis chaves e 200 em todo estado (MD-0031)",
+    "Contrato da Moldura: logoComoTitulo removida, comInicio acrescentada (feature 016)",
+    "Norma de redacao do produto (docs/redacao.md, principio IX) com sete verificadores em tests/unit/textos"
+  ],
+  "known_debts_to_close": [
+    "L-07: domain.md 7.2 item 11 cita logoComoTitulo, prop removida na feature 016",
+    "L-11: cifra de testes de architecture.md 5 defasada; valor aferido nesta passagem e 67 arquivos / 816 testes",
+    "code-analysis.md modulo 13 e architecture.md 1/2/4 descrevem /api/v1/status como sem I/O",
+    "scripts/textos/classes/interface.mts em 684 linhas, acima do teto de 400 (divida amarela herdada da feature 020)"
+  ],
+  "total_files": 1059,
   "organization_suggestion": {
     "granularity": "module",
-    "rationale": "Pastas top-level por dominio em models/ (agora 4: insulina, gestacao, cardiopatia-isquemica, risco-cardiovascular) e interface/ espelhadas em pages/ por rota; organizacao por modulo ja persistida em config.toml.",
+    "rationale": "As pastas de primeiro nivel continuam nomeadas por dominio e por camada, e o delta desta passagem so reforca o padrao: cada unit nova nasceu como pasta propria em models/ e em interface/.",
     "signals": [
-      { "type": "top_level_domain_folders", "evidence": ["models/insulina/", "models/gestacao/", "models/cardiopatia-isquemica/", "models/risco-cardiovascular/", "interface/calculadora/", "interface/cardiologia/", "interface/risco-cardiovascular/"] },
-      { "type": "route_folders", "evidence": ["pages/dm2/insulina.tsx", "pages/pre-natal/idade-gestacional.tsx", "pages/cardiologia/dor-toracica.tsx", "pages/cardiologia/risco-cardiovascular.tsx"] }
+      {
+        "type": "top_level_domain_folders",
+        "evidence": [
+          "models/insulina/",
+          "models/gestacao/",
+          "models/cardiopatia-isquemica/",
+          "models/risco-cardiovascular/",
+          "models/puericultura/",
+          "models/contribuicao/",
+          "interface/puericultura/",
+          "interface/contribuicao/"
+        ]
+      },
+      {
+        "type": "layered_folders",
+        "evidence": ["models/", "interface/", "pages/", "infra/", "scripts/"]
+      }
     ],
     "features": []
   }

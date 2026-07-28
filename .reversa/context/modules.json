@@ -1,1277 +1,484 @@
 {
-  "generated_at": "2026-07-23T21:05:00Z",
-  "re_extraction": 3,
+  "generated_at": "2026-07-28T22:40:00Z",
+  "re_extraction": 4,
+  "nota": "21 modulos (era 14). Regenerado na re-extracao 4, absorvendo as features 015-022. Os modulos com reconfirmado:true foram lidos e conferidos contra o codigo sem alteracao de comportamento. Detalhamento em prosa: _reversa_sdd/code-analysis.md",
   "modules": [
     {
       "name": "models/insulina",
       "path": "models/insulina",
-      "purpose": "Motor de cálculo de insulina DM2: início, titulação basal, fracionamento, intensificação e regra transversal de antidiabéticos orais.",
+      "purpose": "Motor de insulina DM2: inicio, titulacao basal, fracionamento, intensificacao e antidiabeticos orais",
+      "reconfirmado": true,
       "primary_files": [
         "models/insulina/calculadora.ts",
-        "models/insulina/tipos.ts",
-        "models/insulina/fonte-clinica.ts",
-        "models/insulina/validacao.ts",
         "models/insulina/regra-inicio.ts",
         "models/insulina/regra-titulacao-basal.ts",
         "models/insulina/regra-intensificacao.ts",
-        "models/insulina/regra-metformina.ts"
+        "models/insulina/regra-metformina.ts",
+        "models/insulina/fonte-clinica.ts"
       ],
       "functions": [
-        {
-          "name": "CalculadoraInsulinaDM2.calcular",
-          "file": "models/insulina/calculadora.ts",
-          "params": [
-            "entrada: EntradaCalculo"
-          ],
-          "returns": "SaidaCalculo",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "RegraMetformina.avaliar",
-          "file": "models/insulina/regra-metformina.ts",
-          "params": [
-            "entrada: EntradaCalculo"
-          ],
-          "returns": "SaidaAntidiabeticosOrais",
-          "confidence": "confirmed"
-        }
+        { "name": "CalculadoraInsulinaDM2.calcular", "file": "models/insulina/calculadora.ts", "params": ["entrada: EntradaCalculo"], "returns": "SaidaCalculo", "confidence": "confirmed" }
       ],
       "entities": [
-        {
-          "name": "EntradaCalculo",
-          "fields": [
-            {
-              "name": "modo",
-              "type": "\"inicio\"|\"titulacao\"",
-              "required": true
-            },
-            {
-              "name": "pesoKg",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "glicemias",
-              "type": "GlicemiaAferida[]",
-              "required": true
-            },
-            {
-              "name": "hba1cPercent",
-              "type": "number",
-              "required": false
-            },
-            {
-              "name": "usoSulfonilureia",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "name": "esquemaAtual",
-              "type": "EsquemaInsulina",
-              "required": false
-            },
-            {
-              "name": "doseMetforminaMgDia",
-              "type": "number",
-              "required": false
-            },
-            {
-              "name": "tfg",
-              "type": "number",
-              "required": false
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "SaidaCalculo",
-          "fields": [
-            {
-              "name": "union",
-              "type": "ResultadoInicio|ResultadoTitulacao|ErroValidacao|ForaDoEscopoDaFonte",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        { "name": "EntradaCalculo", "confidence": "confirmed" },
+        { "name": "ResultadoInicio", "confidence": "confirmed" },
+        { "name": "ResultadoTitulacao", "confidence": "confirmed" },
+        { "name": "Peso | Glicemia | DoseUi", "nota": "value objects com invariante no construtor", "confidence": "confirmed" }
       ],
       "business_rules": [
-        {
-          "description": "Início devolve faixa, nunca dose única (AMB-01); alerta INDICACAO_INSULINA se HbA1c>=10% ou jejum>=300",
-          "location": "models/insulina/regra-inicio.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Titulação: hipoglicemia (<=70) prevalece sobre a média do jejum (AMB-06); clamp físico 1-60 UI",
-          "location": "models/insulina/regra-titulacao-basal.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Caso AJ (AMB-03): duas condutas equivalentes devolvidas como condutasAlternativas; o motor não escolhe",
-          "location": "models/insulina/regra-intensificacao.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "TFG<30 suspende metformina; 30<=TFG<=45 reduz 50%; alerta de otimizar suprimido quando TFG em faixa de ajuste (feature 005)",
-          "location": "models/insulina/regra-metformina.ts",
-          "confidence": "confirmed"
-        }
+        { "description": "Hipoglicemia (<=70) prevalece sobre a media do jejum", "location": "models/insulina/regra-titulacao-basal.ts", "confidence": "confirmed" },
+        { "description": "Fracionamento quando NPH unica > 30 UI ou > 0,4 UI/kg", "location": "models/insulina/regra-titulacao-basal.ts", "confidence": "confirmed" },
+        { "description": "Caso AJ devolve duas condutas equivalentes; o motor nao escolhe", "location": "models/insulina/regra-intensificacao.ts", "confidence": "confirmed" },
+        { "description": "Precedencia metformina x TFG: suspender <30, reduzir 30-45, alerta de otimizacao suprimido em faixa de ajuste renal", "location": "models/insulina/regra-metformina.ts", "confidence": "confirmed" }
       ],
       "dependencies": [],
-      "algorithms": [
-        "titulação por média com prevalência de hipoglicemia",
-        "fracionamento 1/2 e 2/3",
-        "gate de HbA1c na intensificação",
-        "mapeamento aferição->aplicação deslocado"
-      ],
-      "complexity": "high"
+      "algorithms": ["titulacao por tabela de delta", "fracionamento 1/2+1/2 e 2/3+1/3", "ordenacao de alertas por severidade"],
+      "complexity": "medium-high",
+      "loc": 1361
     },
     {
       "name": "models/gestacao",
       "path": "models/gestacao",
-      "purpose": "Datação gestacional pura: idade gestacional, DPP por Naegele e trimestre, por DUM, ultrassom ou ambos com comparação arbitrada pela margem da USG.",
-      "primary_files": [
-        "models/gestacao/calculadora.ts",
-        "models/gestacao/datacao.ts",
-        "models/gestacao/datas.ts",
-        "models/gestacao/validacao.ts",
-        "models/gestacao/tipos.ts",
-        "models/gestacao/fonte-clinica.ts"
-      ],
+      "purpose": "Datacao gestacional: IG, DPP por Naegele, trimestre e comparacao DUM x USG",
+      "reconfirmado": true,
+      "delta_re4": "datas.ts aberto SO para declarar em comentario o gemeo models/puericultura/datas.ts (divida de convergencia). Nenhuma linha executavel mudou.",
+      "primary_files": ["models/gestacao/calculadora.ts", "models/gestacao/datacao.ts", "models/gestacao/datas.ts"],
       "functions": [
-        {
-          "name": "CalculadoraIdadeGestacional.calcular",
-          "file": "models/gestacao/calculadora.ts",
-          "params": [
-            "entrada: EntradaDatacao"
-          ],
-          "returns": "SaidaDatacao",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "igEntre",
-          "file": "models/gestacao/datacao.ts",
-          "params": [
-            "dum: DataIso",
-            "dataReferencia: DataIso"
-          ],
-          "returns": "IdadeGestacional",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "dppPorNaegele",
-          "file": "models/gestacao/datacao.ts",
-          "params": [
-            "dum: DataIso"
-          ],
-          "returns": "DataIso",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "paraDiasEpoch",
-          "file": "models/gestacao/datas.ts",
-          "params": [
-            "data: DataIso"
-          ],
-          "returns": "number|null",
-          "confidence": "confirmed"
-        }
+        { "name": "CalculadoraIdadeGestacional.calcular", "file": "models/gestacao/calculadora.ts", "params": ["entrada: EntradaDatacao"], "returns": "SaidaDatacao", "confidence": "confirmed" }
       ],
-      "entities": [
-        {
-          "name": "EntradaDatacao",
-          "fields": [
-            {
-              "name": "dataReferencia",
-              "type": "DataIso",
-              "required": true
-            },
-            {
-              "name": "dum",
-              "type": "DataIso",
-              "required": false
-            },
-            {
-              "name": "ultrassom",
-              "type": "DatacaoUltrassom",
-              "required": false
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "ResultadoDatacao",
-          "fields": [
-            {
-              "name": "porDum",
-              "type": "DatacaoCalculada",
-              "required": false
-            },
-            {
-              "name": "porUltrassom",
-              "type": "DatacaoPorUltrassom",
-              "required": false
-            },
-            {
-              "name": "comparacao",
-              "type": "ComparacaoDatacoes",
-              "required": false
-            },
-            {
-              "name": "notas",
-              "type": "NotaAoPrescritor[]",
-              "required": true
-            },
-            {
-              "name": "referencias",
-              "type": "ReferenciaClinica[]",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
-      ],
+      "entities": [{ "name": "ResultadoDatacao", "confidence": "confirmed" }, { "name": "ComparacaoDatacoes", "confidence": "confirmed" }],
       "business_rules": [
-        {
-          "description": "IG = floor(dias/7) semanas + dias%7 (RN-01, p.31)",
-          "location": "models/gestacao/datacao.ts:14",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "DPP por Naegele calendárico +7 dias +9 meses (RN-02, p.32)",
-          "location": "models/gestacao/datacao.ts:30",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Comparação DUMxUSG pela margem do trimestre do exame: 7d/14d/sem parâmetro no 3.º; motor informa veredito, não escolhe (RN-11)",
-          "location": "models/gestacao/calculadora.ts:127",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Cortes de trimestre 13+6/27+6 são premissa a validar (RN-04)",
-          "location": "models/gestacao/fonte-clinica.ts:43",
-          "confidence": "inferred"
-        }
+        { "description": "Aritmetica em dias epoch UTC; data impossivel devolve null, nunca normaliza em silencio", "location": "models/gestacao/datas.ts", "confidence": "confirmed" },
+        { "description": "Margem por trimestre: 7 dias no 1o, 14 no 2o, sem parametro no 3o", "location": "models/gestacao/calculadora.ts", "confidence": "confirmed" }
       ],
       "dependencies": [],
-      "algorithms": [
-        "aritmética de datas em dias epoch UTC",
-        "regra de Naegele calendárica",
-        "DUM equivalente do ultrassom"
-      ],
-      "complexity": "medium"
+      "algorithms": ["Naegele (+7 dias, +9 meses)", "IG por divisao inteira em semanas e dias"],
+      "complexity": "medium",
+      "loc": 619
     },
     {
       "name": "models/cardiopatia-isquemica",
       "path": "models/cardiopatia-isquemica",
-      "purpose": "Classificação da dor torácica, probabilidade pré-teste de DAC (Quadro 2, 24 células), ajuste por fatores de risco, conduta de investigação e advertência de angina instável.",
-      "primary_files": [
-        "models/cardiopatia-isquemica/calculadora.ts",
-        "models/cardiopatia-isquemica/classificacao.ts",
-        "models/cardiopatia-isquemica/probabilidade.ts",
-        "models/cardiopatia-isquemica/conduta.ts",
-        "models/cardiopatia-isquemica/validacao.ts",
-        "models/cardiopatia-isquemica/tipos.ts",
-        "models/cardiopatia-isquemica/fonte-clinica.ts"
-      ],
+      "purpose": "Classificacao da dor toracica, probabilidade pre-teste de DAC e conduta de investigacao",
+      "reconfirmado": true,
+      "primary_files": ["models/cardiopatia-isquemica/calculadora.ts", "models/cardiopatia-isquemica/probabilidade.ts", "models/cardiopatia-isquemica/conduta.ts"],
       "functions": [
-        {
-          "name": "CalculadoraCardiopatiaIsquemica.avaliar",
-          "file": "models/cardiopatia-isquemica/calculadora.ts",
-          "params": [
-            "entrada: EntradaAvaliacao"
-          ],
-          "returns": "SaidaAvaliacao",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "classificarDor",
-          "file": "models/cardiopatia-isquemica/classificacao.ts",
-          "params": [
-            "c: CaracteristicasDor"
-          ],
-          "returns": "ClassificacaoDor",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "estratoDe",
-          "file": "models/cardiopatia-isquemica/probabilidade.ts",
-          "params": [
-            "classificacao",
-            "basePct",
-            "ajustada"
-          ],
-          "returns": "Estrato",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "condutaPara",
-          "file": "models/cardiopatia-isquemica/conduta.ts",
-          "params": [
-            "estrato",
-            "impedimentoErgometria"
-          ],
-          "returns": "Conduta",
-          "confidence": "confirmed"
-        }
+        { "name": "CalculadoraCardiopatiaIsquemica.avaliar", "file": "models/cardiopatia-isquemica/calculadora.ts", "params": ["entrada: EntradaAvaliacao"], "returns": "SaidaAvaliacao", "confidence": "confirmed" }
       ],
-      "entities": [
-        {
-          "name": "EntradaAvaliacao",
-          "fields": [
-            {
-              "name": "idadeAnos",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "sexo",
-              "type": "\"masculino\"|\"feminino\"",
-              "required": true
-            },
-            {
-              "name": "caracteristicas",
-              "type": "CaracteristicasDor",
-              "required": true
-            },
-            {
-              "name": "fatoresDeRisco",
-              "type": "FatorDeRisco[]",
-              "required": true
-            },
-            {
-              "name": "impedimentoErgometria",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "name": "sinaisInstabilidade",
-              "type": "boolean",
-              "required": false
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "ResultadoAvaliacao",
-          "fields": [
-            {
-              "name": "classificacaoDor",
-              "type": "ClassificacaoDor",
-              "required": true
-            },
-            {
-              "name": "faixaEtaria",
-              "type": "FaixaEtaria",
-              "required": true
-            },
-            {
-              "name": "probabilidadeBasePct",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "probabilidadeAjustada",
-              "type": "FaixaProbabilidade",
-              "required": false
-            },
-            {
-              "name": "estrato",
-              "type": "Estrato",
-              "required": true
-            },
-            {
-              "name": "conduta",
-              "type": "Conduta",
-              "required": true
-            },
-            {
-              "name": "advertencias",
-              "type": "Advertencia[]",
-              "required": true
-            },
-            {
-              "name": "referencias",
-              "type": "ReferenciaClinica[]",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
-      ],
+      "entities": [{ "name": "ResultadoAvaliacao", "confidence": "confirmed" }, { "name": "FaixaProbabilidade", "confidence": "confirmed" }],
       "business_rules": [
-        {
-          "description": "3 características->típica, 2->atípica, 0-1->não anginosa (RN-01, Quadro 1)",
-          "location": "models/cardiopatia-isquemica/classificacao.ts:15",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Probabilidade-base por lookup na matriz 24 células classe x sexo x faixa (RN-02, Quadro 2)",
-          "location": "models/cardiopatia-isquemica/fonte-clinica.ts:48",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Ajuste base×2-base×3 capado em 99%; excedeAlta se extremo>90% (RN-03, D-03)",
-          "location": "models/cardiopatia-isquemica/probabilidade.ts:43",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Estrato baixa = não anginosa E sem fatores (descrição clínica, não corte numérico); qualquer fator impede baixa (RN-04)",
-          "location": "models/cardiopatia-isquemica/probabilidade.ts:67",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Idade fora de 30-69 -> ForaDoEscopoDaFonte sem estimar (RN-06)",
-          "location": "models/cardiopatia-isquemica/calculadora.ts:41",
-          "confidence": "confirmed"
-        }
+        { "description": "Matriz congelada de 24 celulas (3 classes x 2 sexos x 4 faixas etarias)", "location": "models/cardiopatia-isquemica/fonte-clinica.ts", "confidence": "confirmed" },
+        { "description": "Estrato baixa exige dor nao anginosa E ausencia de fatores de risco", "location": "models/cardiopatia-isquemica/probabilidade.ts", "confidence": "confirmed" },
+        { "description": "Recusa honesta fora de 30-69 anos, sem numero estimado", "location": "models/cardiopatia-isquemica/calculadora.ts", "confidence": "confirmed" }
       ],
       "dependencies": [],
-      "algorithms": [
-        "lookup em matriz congelada",
-        "faixa de probabilidade capada",
-        "estrato descritivo"
-      ],
-      "complexity": "medium"
+      "algorithms": ["lookup em matriz congelada", "ajuste por fatores (x2 a x3, capado em 99%)"],
+      "complexity": "medium",
+      "loc": 575
     },
     {
       "name": "models/risco-cardiovascular",
       "path": "models/risco-cardiovascular",
-      "purpose": "Estimar risco de ASCVD 'hard' em 10 anos pelas Pooled Cohort Equations (Goff 2013); classificar em categoria de risco; informar limitacao de transportabilidade sem emitir conduta (ADR 0005). Feature 014.",
-      "primary_files": [
-        "models/risco-cardiovascular/calculadora.ts",
-        "models/risco-cardiovascular/equacao.ts",
-        "models/risco-cardiovascular/categoria.ts",
-        "models/risco-cardiovascular/elegibilidade.ts",
-        "models/risco-cardiovascular/validacao.ts",
-        "models/risco-cardiovascular/fonte-clinica.ts",
-        "models/risco-cardiovascular/tipos.ts"
-      ],
+      "purpose": "Risco de ASCVD em 10 anos pelas Pooled Cohort Equations, com categoria e nota de proveniencia",
+      "reconfirmado": true,
+      "primary_files": ["models/risco-cardiovascular/calculadora.ts", "models/risco-cardiovascular/equacao.ts", "models/risco-cardiovascular/fonte-clinica.ts"],
       "functions": [
-        {
-          "name": "CalculadoraRiscoCardiovascular.estimar",
-          "file": "models/risco-cardiovascular/calculadora.ts",
-          "params": [
-            "entrada: EntradaEstimativa"
-          ],
-          "returns": "SaidaEstimativa",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "riscoAscvdPct",
-          "file": "models/risco-cardiovascular/equacao.ts",
-          "params": [
-            "grupo: GrupoPce",
-            "v: VariaveisEquacao"
-          ],
-          "returns": "number (0-100)",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "grupoDe",
-          "file": "models/risco-cardiovascular/equacao.ts",
-          "params": [
-            "sexo: Sexo",
-            "raca: Raca"
-          ],
-          "returns": "GrupoPce",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "categoriaDe",
-          "file": "models/risco-cardiovascular/categoria.ts",
-          "params": [
-            "riscoPct: number"
-          ],
-          "returns": "CategoriaRisco",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "foraDoEscopo",
-          "file": "models/risco-cardiovascular/elegibilidade.ts",
-          "params": [
-            "entrada: EntradaEstimativa"
-          ],
-          "returns": "ForaDoEscopoDaFonte | null",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "validarEntrada",
-          "file": "models/risco-cardiovascular/validacao.ts",
-          "params": [
-            "entrada: EntradaEstimativa"
-          ],
-          "returns": "Ofensor[]",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "clamparEntrada",
-          "file": "models/risco-cardiovascular/validacao.ts",
-          "params": [
-            "entrada: EntradaEstimativa"
-          ],
-          "returns": "EntradaClampada",
-          "confidence": "confirmed"
-        }
+        { "name": "CalculadoraRiscoCardiovascular.estimar", "file": "models/risco-cardiovascular/calculadora.ts", "params": ["entrada: EntradaEstimativa"], "returns": "SaidaEstimativa", "confidence": "confirmed" },
+        { "name": "riscoAscvdPct", "file": "models/risco-cardiovascular/equacao.ts", "params": ["grupo: GrupoPce", "v: Variaveis"], "returns": "number", "confidence": "confirmed" }
       ],
       "entities": [
-        {
-          "name": "EntradaEstimativa",
-          "fields": [
-            {
-              "name": "sexo",
-              "type": "\"masculino\"|\"feminino\"",
-              "required": true
-            },
-            {
-              "name": "raca",
-              "type": "\"branco\"|\"afro-americano\"|\"outra\"",
-              "required": true
-            },
-            {
-              "name": "idadeAnos",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "colesterolTotalMgDl",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "hdlMgDl",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "pasMmHg",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "emTratamentoAntiHipertensivo",
-              "type": "boolean",
-              "required": true
-            },
-            {
-              "name": "diabetes",
-              "type": "boolean",
-              "required": true
-            },
-            {
-              "name": "tabagismoAtual",
-              "type": "boolean",
-              "required": true
-            },
-            {
-              "name": "dcvPrevia",
-              "type": "boolean",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "ResultadoEstimativa",
-          "fields": [
-            {
-              "name": "riscoPct",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "categoria",
-              "type": "CategoriaRisco",
-              "required": true
-            },
-            {
-              "name": "avisos",
-              "type": "Aviso[]",
-              "required": true
-            },
-            {
-              "name": "notaProveniencia",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "referencias",
-              "type": "ReferenciaClinica[] (nunca vazia)",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "SaidaEstimativa",
-          "fields": [
-            {
-              "name": "union",
-              "type": "ResultadoEstimativa|ForaDoEscopoDaFonte|EntradaInvalida",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        { "name": "ResultadoEstimativa", "confidence": "confirmed" },
+        { "name": "Aviso", "nota": "clamp fisiologico, distinto de Ofensor", "confidence": "confirmed" }
       ],
       "business_rules": [
-        {
-          "description": "Equacao PCE: Risco10 = 1 - S0^exp(sum(beta*X) - mean_grupo); variaveis continuas em ln; PAS por 1 de 2 coeficientes (tratada x nao-tratada) (RF-06/RN-03)",
-          "location": "models/risco-cardiovascular/equacao.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "raca 'outra' adota coeficientes de branco, como o ASCVD Estimator oficial (RN-05, D-05)",
-          "location": "models/risco-cardiovascular/equacao.ts:11",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Fora de escopo: DCV previa ou idade fora de 40-79 -> ForaDoEscopoDaFonte sem numero (RF-05/RN-02, D-06)",
-          "location": "models/risco-cardiovascular/elegibilidade.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Valor fora da faixa fisiologica (colesterol 130-320, HDL 20-100, PAS 90-200) e clampado e sinalizado por Aviso, nao trava (RN-07/D-07)",
-          "location": "models/risco-cardiovascular/validacao.ts:100",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Categoria por cortes 5/7,5/20% (2019 ACC/AHA Primary Prevention) (RF-07)",
-          "location": "models/risco-cardiovascular/categoria.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Nota de proveniencia unica congelada: coorte EUA, sem calibracao BR, transportabilidade limitada (RF-10/RN-09, D-09)",
-          "location": "models/risco-cardiovascular/fonte-clinica.ts:167",
-          "confidence": "confirmed"
-        }
+        { "description": "Risco = 1 - S0^exp(sum(beta*X) - mean_grupo); variaveis continuas em ln, com interacoes ln(idade)*X", "location": "models/risco-cardiovascular/equacao.ts", "confidence": "confirmed" },
+        { "description": "raca 'outra' adota coeficientes de branco, como o ASCVD Risk Estimator Plus", "location": "models/risco-cardiovascular/equacao.ts", "confidence": "confirmed" },
+        { "description": "Valor fora da faixa fisiologica e clampado e sinalizado por Aviso, nao trava", "location": "models/risco-cardiovascular/validacao.ts", "confidence": "confirmed" }
       ],
       "dependencies": [],
-      "algorithms": [
-        "Pooled Cohort Equations (Cox log-linear sexo x raca)",
-        "clamp fisiologico com aviso de vies",
-        "coleta total de ofensores"
+      "algorithms": ["Cox log-linear, 4 modelos sexo x raca"],
+      "complexity": "medium-high",
+      "loc": 604
+    },
+    {
+      "name": "models/puericultura",
+      "path": "models/puericultura",
+      "purpose": "Escores z de crescimento infantil (peso, comprimento/estatura, IMC e perimetro cefalico) e classificacao nutricional literal da Caderneta da Crianca, inclusive no nascido pre-termo",
+      "novo_em": "017",
+      "primary_files": [
+        "models/puericultura/calculadora.ts",
+        "models/puericultura/idades.ts",
+        "models/puericultura/padrao.ts",
+        "models/puericultura/elegibilidade.ts",
+        "models/puericultura/classificacao.ts",
+        "models/puericultura/medidas.ts",
+        "models/puericultura/oms/lms.ts",
+        "models/puericultura/oms/leitura.ts",
+        "models/puericultura/intergrowth/escore.ts",
+        "models/puericultura/fonte-clinica.ts"
       ],
-      "complexity": "medium-high"
+      "functions": [
+        { "name": "CalculadoraCrescimentoInfantil.avaliar", "file": "models/puericultura/calculadora.ts", "params": ["entrada: EntradaAvaliacao"], "returns": "SaidaAvaliacao", "confidence": "confirmed" },
+        { "name": "derivarIdades", "file": "models/puericultura/idades.ts", "params": ["entrada: EntradaAvaliacao"], "returns": "IdadesDerivadas", "confidence": "confirmed" },
+        { "name": "escolherPadrao", "file": "models/puericultura/padrao.ts", "params": ["idades: IdadesDerivadas"], "returns": "EscolhaDePadrao", "confidence": "confirmed" },
+        { "name": "escoreZ", "file": "models/puericultura/oms/lms.ts", "params": ["medida: number", "parametros: ParametrosLms", "aplicaCauda: boolean"], "returns": "number", "confidence": "confirmed" },
+        { "name": "lerLms", "file": "models/puericultura/oms/leitura.ts", "params": ["indice", "sexo", "diasDeVida", "repositorio?"], "returns": "LeituraLms", "confidence": "confirmed" },
+        { "name": "foraDoEscopo", "file": "models/puericultura/elegibilidade.ts", "params": ["idades: IdadesDerivadas"], "returns": "ForaDoEscopoDaFonte | null", "confidence": "confirmed" },
+        { "name": "perimetroCefalicoForaDoEscopo", "file": "models/puericultura/elegibilidade.ts", "params": ["idades: IdadesDerivadas"], "returns": "IndiceForaDoEscopo | null", "confidence": "confirmed" },
+        { "name": "escoreZPreTermo", "file": "models/puericultura/intergrowth/escore.ts", "params": ["medida", "valor", "sexo", "semanasPosMenstruais"], "returns": "number", "confidence": "confirmed" },
+        { "name": "classificar", "file": "models/puericultura/classificacao.ts", "params": ["indice", "escoreZ", "diasParaRotulo"], "returns": "string", "confidence": "confirmed" },
+        { "name": "converterPosicao", "file": "models/puericultura/medidas.ts", "params": ["comprimentoCm", "posicaoInformada", "diasDeVida"], "returns": "ComprimentoParaAvaliar", "confidence": "confirmed" }
+      ],
+      "entities": [
+        { "name": "EntradaAvaliacao", "nota": "nenhum campo identifica a crianca", "confidence": "confirmed" },
+        { "name": "IdadesDerivadas", "nota": "tres idades: cronologica, corrigida, pos-menstrual", "confidence": "confirmed" },
+        { "name": "IndiceAntropometrico", "nota": "uniao por 'estado': calculado | ausente | fora-do-escopo", "confidence": "confirmed" },
+        { "name": "TabelaLms", "nota": "arrays paralelos l/m/s indexados por posicao", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "Escore z por LMS: ((X/M)^L - 1)/(L*S), ou ln(X/M)/S quando L=0", "location": "models/puericultura/oms/lms.ts:46", "confidence": "confirmed" },
+        { "description": "Correcao de cauda alem de |z|>3 SO nos indicadores baseados em peso (peso-idade e imc-idade); a lista e dado, nao if", "location": "models/puericultura/oms/lms.ts:36", "confidence": "confirmed" },
+        { "description": "Idade CRONOLOGICA governa escopo, posicao de medida e validade da correcao; a que INDEXA a curva governa leitura e rotulo", "location": "models/puericultura/calculadora.ts:8", "confidence": "confirmed" },
+        { "description": "Correcao de prematuridade ate 730 dias, ou 1095 quando IG < 28 semanas", "location": "models/puericultura/idades.ts:69", "confidence": "confirmed" },
+        { "description": "IG ausente nao e pre-termo: e crianca tratada como termo, com a premissa DECLARADA na saida", "location": "models/puericultura/calculadora.ts:161", "confidence": "confirmed" },
+        { "description": "Escolha da regua e POR CRIANCA, nao por indice: INTERGROWTH-21st entre 27 e 64 semanas pos-menstruais, OMS depois", "location": "models/puericultura/padrao.ts:40", "confidence": "confirmed" },
+        { "description": "Duas especies de recusa: GLOBAL (idade fora da cobertura ou abaixo da curva de pre-termo) e PARCIAL (PC acima de 730 dias, sem derrubar os demais indices)", "location": "models/puericultura/elegibilidade.ts", "confidence": "confirmed" },
+        { "description": "Duas fronteiras dos 5 anos que de proposito nao coincidem: rotulo em 1826 dias, tabela em 1856", "location": "models/puericultura/classificacao.ts:15", "confidence": "confirmed" },
+        { "description": "IMC troca de nomenclatura aos 5 anos; comprimento troca de substantivo aos 2", "location": "models/puericultura/classificacao.ts:4", "confidence": "confirmed" },
+        { "description": "Conversao de posicao de 0,7 cm e declarada, nunca silenciosa, e o aviso acompanha os DOIS indices que consomem a medida convertida", "location": "models/puericultura/medidas.ts:48", "confidence": "confirmed" },
+        { "description": "Sem interpolacao: dia inteiro ate 5 anos, mes completo depois", "location": "models/puericultura/oms/leitura.ts:6", "confidence": "confirmed" },
+        { "description": "IMC nao existe nas curvas de pre-termo, e isso e ausencia COM MOTIVO, nao erro", "location": "models/puericultura/intergrowth/escore.ts:28", "confidence": "confirmed" }
+      ],
+      "premissas_amarelas": [
+        "Os 1095 dias do limite de correcao estendida",
+        "A idade cronologica governando a posicao de medida",
+        "A exibicao do escore em uma casa decimal",
+        "O dado real e silencioso sobre a metade da regra de cauda que NAO se aplica (L=1 nas 14 tabelas)"
+      ],
+      "dependencies": [],
+      "algorithms": ["LMS de Cole", "extrapolacao linear de cauda no passo SD3-SD2", "busca aritmetica em arrays paralelos", "equacoes fechadas do INTERGROWTH-21st"],
+      "complexity": "high",
+      "loc": 2243,
+      "acervo_gerado": { "modulos": 14, "linhas_lms": 12964, "bytes": 376000, "procedencia": "sha256 em manifesto.json" }
+    },
+    {
+      "name": "models/puericultura/consulta",
+      "path": "models/puericultura/consulta",
+      "purpose": "Ficha de consulta de puericultura: as dez consultas datadas da caderneta viram preenchimento estruturado, devolvido organizado em SOAP",
+      "novo_em": "020",
+      "nota_estrutural": "SEGUNDA FACHADA da unit models/puericultura. A ADR 0011 diz uma FONTE por unit, e nao uma fachada por unit: e a mesma caderneta, em outra secao (pp. 66-75).",
+      "primary_files": [
+        "models/puericultura/consulta/calculadora.ts",
+        "models/puericultura/consulta/registro.ts",
+        "models/puericultura/consulta/selecao.ts",
+        "models/puericultura/consulta/tipos.ts",
+        "models/puericultura/consulta/fichas/indice.ts"
+      ],
+      "functions": [
+        { "name": "RegistroDeConsultaPuericultura.catalogo", "file": "models/puericultura/consulta/calculadora.ts", "params": [], "returns": "readonly Ficha[]", "confidence": "confirmed" },
+        { "name": "RegistroDeConsultaPuericultura.sugerir", "file": "models/puericultura/consulta/calculadora.ts", "params": ["idades: IdadesDerivadas"], "returns": "SugestaoDeFicha", "confidence": "confirmed" },
+        { "name": "RegistroDeConsultaPuericultura.montar", "file": "models/puericultura/consulta/calculadora.ts", "params": ["entrada: EntradaDoRegistro"], "returns": "RegistroDaConsulta", "confidence": "confirmed" },
+        { "name": "montarRegistro", "file": "models/puericultura/consulta/registro.ts", "params": ["entrada: EntradaDoRegistro"], "returns": "RegistroDaConsulta", "confidence": "confirmed" },
+        { "name": "sugerirFicha", "file": "models/puericultura/consulta/selecao.ts", "params": ["idades", "fichas?"], "returns": "SugestaoDeFicha", "confidence": "confirmed" },
+        { "name": "camposAplicaveis", "file": "models/puericultura/consulta/selecao.ts", "params": ["secao: SecaoDaFicha", "sexo: Sexo"], "returns": "readonly Campo[]", "confidence": "confirmed" }
+      ],
+      "entities": [
+        { "name": "Ficha", "nota": "10 fichas, da primeira semana ao 36o mes; faixaEmDias inclusiva", "confidence": "confirmed" },
+        { "name": "Campo", "nota": "uniao por 'natureza': marcacao | escolha | medida | texto", "confidence": "confirmed" },
+        { "name": "Preenchimento", "nota": "ReadonlyMap; chave ausente E campo nao preenchido, sem sentinela", "confidence": "confirmed" },
+        { "name": "RegistroDaConsulta", "nota": "primeira saida do produto que nao e um numero", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "O dominio devolve ESTRUTURA, nunca texto pronto; a projecao em cadeia e da interface e tem dois consumidores", "location": "models/puericultura/consulta/tipos.ts:9", "confidence": "confirmed" },
+        { "description": "Campo sem resposta nao aparece, e secao sem item some INTEIRA, cabecalho incluido", "location": "models/puericultura/consulta/registro.ts:194", "confidence": "confirmed" },
+        { "description": "A ficha e sugerida pela idade CRONOLOGICA, inclusive no pre-termo, porque ela rege o calendario de acompanhamento e o vacinal", "location": "models/puericultura/consulta/selecao.ts:21", "confidence": "confirmed" },
+        { "description": "O motor NAO recalcula escore: transpoe o ResultadoAvaliacao pronto da fachada da 017, com a referencia ja carimbada", "location": "models/puericultura/consulta/registro.ts:154", "confidence": "confirmed" },
+        { "description": "Escores na secao objetiva (a medida); classificacao nutricional na avaliacao (juizo da propria fonte)", "location": "models/puericultura/consulta/registro.ts:148", "confidence": "confirmed" },
+        { "description": "Aplicabilidade por sexo mora no DADO (Campo.sexos), nao em condicional de tela; a restricao e a excecao e por isso e ela que se escreve", "location": "models/puericultura/consulta/selecao.ts:47", "confidence": "confirmed" },
+        { "description": "Flexao por PAR de rotulos declarado (rotulo/rotuloFeminino), jamais por interpolacao", "location": "models/puericultura/consulta/selecao.ts:62", "confidence": "confirmed" },
+        { "description": "O peso vem em GRAMAS, como a caderneta imprime; a conversao para quilos e do produto", "location": "models/puericultura/consulta/tipos.ts:44", "confidence": "confirmed" }
+      ],
+      "premissas_amarelas": [
+        "Idade entre duas consultas previstas cai na ficha imediatamente ANTERIOR; a fonte nao diz o que fazer com a crianca de sete meses",
+        "Tres fichas fora do escopo da fonte, declaradas em NOTA_FICHAS_AUSENTES",
+        "Supressao de campo por sexo com lista de UM item (Criptorquidia), arbitrada por MD-0026"
+      ],
+      "dependencies": ["models/puericultura"],
+      "algorithms": ["selecao por faixa em dias", "agrupamento SOAP com descarte de secao vazia"],
+      "complexity": "medium-high",
+      "loc": 2484
+    },
+    {
+      "name": "models/contribuicao",
+      "path": "models/contribuicao",
+      "purpose": "Monta o payload do BR Code do PIX estatico para a contribuicao voluntaria",
+      "novo_em": "019",
+      "nota_estrutural": "PRIMEIRO unit de dominio NAO CLINICO. Isento por escrito (MD-0022) de fonte clinica unica, ReferenciaClinica e catalogo congelado; conserva pureza, erro como valor e coleta total de ofensores.",
+      "primary_files": [
+        "models/contribuicao/br-code.ts",
+        "models/contribuicao/crc16.ts",
+        "models/contribuicao/campo.ts",
+        "models/contribuicao/validacao.ts",
+        "models/contribuicao/tipos.ts"
+      ],
+      "functions": [
+        { "name": "montarBrCode", "file": "models/contribuicao/br-code.ts", "params": ["parametros: ParametrosPix"], "returns": "SaidaBrCode", "confidence": "confirmed" },
+        { "name": "crc16", "file": "models/contribuicao/crc16.ts", "params": ["cadeia: string"], "returns": "string", "confidence": "confirmed" },
+        { "name": "campo", "file": "models/contribuicao/campo.ts", "params": ["id: string", "valor: string"], "returns": "string", "confidence": "confirmed" },
+        { "name": "subtemplate", "file": "models/contribuicao/campo.ts", "params": ["id: string", "filhos: string[]"], "returns": "string", "confidence": "confirmed" },
+        { "name": "validarParametros", "file": "models/contribuicao/validacao.ts", "params": ["parametros: ParametrosPix"], "returns": "readonly OfensorPix[]", "confidence": "confirmed" },
+        { "name": "normalizarTexto", "file": "models/contribuicao/validacao.ts", "params": ["texto: string"], "returns": "string", "confidence": "confirmed" }
+      ],
+      "entities": [
+        { "name": "ParametrosPix", "confidence": "confirmed" },
+        { "name": "SaidaBrCode", "nota": "uniao por 'tipo': ok | ParametroInvalido", "confidence": "confirmed" },
+        { "name": "OfensorPix", "nota": "limite e observado so quando o motivo e comprimento", "confidence": "confirmed" }
+      ],
+      "business_rules": [
+        { "description": "CRC16-CCITT/FALSE: polinomio 0x1021, inicial 0xFFFF, sem reflexao, sem xor final, 4 digitos hex maiusculos", "location": "models/contribuicao/crc16.ts:16", "confidence": "confirmed" },
+        { "description": "A verificacao se calcula sobre a cadeia que JA contem 6304; so os quatro digitos do valor ficam de fora", "location": "models/contribuicao/br-code.ts:71", "confidence": "confirmed" },
+        { "description": "Limites medidos sobre o texto JA normalizado; acima do limite RECUSA, jamais trunca", "location": "models/contribuicao/validacao.ts", "confidence": "confirmed" },
+        { "description": "Contribuicao ESTATICA: sem transacao, sem confirmacao e sem saber quem contribuiu", "location": "models/contribuicao/br-code.ts", "confidence": "confirmed" }
+      ],
+      "dependencies": [],
+      "algorithms": ["TLV do padrao EMV/QRCPS-MPM", "CRC16-CCITT/FALSE bit a bit"],
+      "complexity": "low-medium",
+      "loc": 336,
+      "contrato_externo": "Emitido SEM canal de erro: lido por software de terceiros sob especificacao do Banco Central; payload malformado falha na mao de quem contribui"
     },
     {
       "name": "interface/comum",
       "path": "interface/comum",
-      "purpose": "Moldura visual comum das telas e da home: cabeçalho com logo APSi por tema, selo de privacidade e alternador de tema.",
-      "primary_files": [
-        "interface/comum/moldura.tsx"
-      ],
+      "purpose": "Moldura compartilhada de todas as telas: cabecalho, identidade, selo de privacidade, acoes e o enquadramento horizontal do corpo",
+      "changed_in": ["016", "021"],
+      "primary_files": ["interface/comum/moldura.tsx"],
       "functions": [
-        {
-          "name": "Moldura",
-          "file": "interface/comum/moldura.tsx",
-          "params": [
-            "props: PropsMoldura"
-          ],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "PropsMoldura",
-          "fields": [
-            {
-              "name": "titulo",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "subtitulo",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "apresentacao",
-              "type": "\"padrao\"|\"destaque\"",
-              "required": false
-            },
-            {
-              "name": "logoComoTitulo",
-              "type": "boolean",
-              "required": false
-            },
-            {
-              "name": "children",
-              "type": "ReactNode",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        { "name": "Moldura", "file": "interface/comum/moldura.tsx", "params": ["titulo", "subtitulo", "apresentacao?", "comInicio?", "children"], "returns": "JSX.Element", "confidence": "confirmed" }
       ],
       "business_rules": [
-        {
-          "description": "logoComoTitulo (home): logo é img dentro do h1 com alt=titulo; sem a prop, logo é marca decorativa aria-hidden fora do heading (feature 009, D-04)",
-          "location": "interface/comum/moldura.tsx:50",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Cabecalho refatorado (features 011/013): alternador de tema como IconButton do tema-alvo; comando de inicio (HomeIcon/Link) so nas calculadoras; selo de privacidade movido para a zona de identidade com ShieldLockIcon",
-          "location": "interface/comum/moldura.tsx",
-          "confidence": "confirmed"
-        }
+        { "description": "DELTA DE CONTRATO: logoComoTitulo REMOVIDA; comInicio acrescentada (default false). Uma responsabilidade por prop.", "location": "interface/comum/moldura.tsx:53", "confidence": "confirmed" },
+        { "description": "Identidade unificada: a logo e SEMPRE marca decorativa (aria-hidden, alt vazio) acima de um h1 SEMPRE textual", "location": "interface/comum/moldura.tsx:74", "confidence": "confirmed" },
+        { "description": "A Moldura passa a ser dona do enquadramento horizontal: a coluna do corpo mora no <main>, por seletor sobre data-apresentacao, sem classe nova no JSX", "location": "interface/estilos/moldura.css", "confidence": "confirmed" },
+        { "description": "Altura do cabecalho igual em todas as rotas POR CONSTRUCAO (209px), sem min-height nem px chumbado", "location": "interface/estilos/cabecalho.css", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "interface/calculadora"
-      ],
-      "algorithms": [],
-      "complexity": "low"
+      "divida_para_a_extracao": "domain.md 7.2 item 11 ainda descreve a Moldura governada por logoComoTitulo (divida L-07)",
+      "divida_residual": "preferencia-de-tema.ts segue em interface/calculadora/, mantendo o acoplamento comum -> calculadora",
+      "dependencies": ["interface/calculadora"],
+      "complexity": "low",
+      "loc": 118
     },
     {
       "name": "interface/calculadora",
       "path": "interface/calculadora",
-      "purpose": "UI da calculadora de insulina: formulário controlado, painel com ritual de revisão e botão Copiar plano (feature 006).",
-      "primary_files": [
-        "interface/calculadora/tela.tsx",
-        "interface/calculadora/calculadora-app.tsx",
-        "interface/calculadora/formulario.tsx",
-        "interface/calculadora/resultado.tsx",
-        "interface/calculadora/formatar-plano.ts",
-        "interface/calculadora/area-de-transferencia.ts",
-        "interface/calculadora/preferencia-de-tema.ts"
-      ],
-      "functions": [
-        {
-          "name": "formatarPlano",
-          "file": "interface/calculadora/formatar-plano.ts",
-          "params": [
-            "resultado: ResultadoCalculo"
-          ],
-          "returns": "string",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "copiarParaAreaDeTransferencia",
-          "file": "interface/calculadora/area-de-transferencia.ts",
-          "params": [
-            "texto: string"
-          ],
-          "returns": "Promise<ResultadoCopia>",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "EstadoResultado",
-          "fields": [
-            {
-              "name": "estado",
-              "type": "vazio|sucesso|erro|falha-inesperada",
-              "required": true
-            },
-            {
-              "name": "desatualizado",
-              "type": "boolean",
-              "required": true
-            },
-            {
-              "name": "revisaoConfirmada",
-              "type": "boolean",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
-      ],
+      "purpose": "Tela da insulina: formulario controlado, ritual de revisao explicita e Copiar plano",
+      "reconfirmado": true,
+      "delta_re4": "Cinco literais de resultado.tsx revistos na feature 018 (travessao fazendo oficio de dois-pontos). rotulos.ts NAO foi tocado, e por isso as 17 assercoes de formatar-plano.test.ts nao quebraram.",
+      "primary_files": ["interface/calculadora/calculadora-app.tsx", "interface/calculadora/formulario.tsx", "interface/calculadora/resultado.tsx", "interface/calculadora/formatar-plano.ts"],
+      "entities": [{ "name": "EstadoResultado", "nota": "vazio -> sucesso | erro | falha-inesperada, com flags desatualizado e revisaoConfirmada", "confidence": "confirmed" }],
+      "dependencies": ["models/insulina", "interface/comum"],
+      "complexity": "medium",
+      "loc": 1390
+    },
+    { "name": "interface/gestacao", "path": "interface/gestacao", "purpose": "Tela da idade gestacional", "reconfirmado": true, "primary_files": ["interface/gestacao/app.tsx"], "dependencies": ["models/gestacao", "interface/comum"], "complexity": "low-medium", "loc": 446 },
+    { "name": "interface/cardiologia", "path": "interface/cardiologia", "purpose": "Tela da dor toracica e probabilidade pre-teste", "reconfirmado": true, "primary_files": ["interface/cardiologia/app.tsx", "interface/cardiologia/referencias.tsx"], "dependencies": ["models/cardiopatia-isquemica", "interface/comum"], "complexity": "medium", "loc": 606 },
+    { "name": "interface/risco-cardiovascular", "path": "interface/risco-cardiovascular", "purpose": "Tela do risco CV em 10 anos, com bloco de proveniencia", "reconfirmado": true, "primary_files": ["interface/risco-cardiovascular/app.tsx", "interface/risco-cardiovascular/proveniencia.tsx"], "dependencies": ["models/risco-cardiovascular", "interface/comum"], "complexity": "medium", "loc": 548 },
+    {
+      "name": "interface/puericultura",
+      "path": "interface/puericultura",
+      "purpose": "Tela da avaliacao do crescimento infantil",
+      "novo_em": "017",
+      "primary_files": ["interface/puericultura/app.tsx", "interface/puericultura/formulario.tsx", "interface/puericultura/resultado.tsx", "interface/puericultura/proveniencia.tsx"],
+      "entities": [{ "name": "EstadoCrescimento", "nota": "vazio -> sucesso | fora-do-escopo | erro | falha-inesperada; sem ritual, com invalidacao por edicao", "confidence": "confirmed" }],
       "business_rules": [
-        {
-          "description": "Copiar plano gated pelo checkbox de revisão; alertas e condutas alternativas ficam fora do texto copiado (feature 006, D-04)",
-          "location": "interface/calculadora/formatar-plano.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Clipboard com erro como valor: contexto inseguro/permissão negada -> {ok:false}, nunca exceção (ADR 0004)",
-          "location": "interface/calculadora/area-de-transferencia.ts",
-          "confidence": "confirmed"
-        }
+        { "description": "O escore e FORMATADO com uma casa decimal e sinal explicito, jamais recalculado", "location": "interface/puericultura/resultado.tsx", "confidence": "confirmed" },
+        { "description": "A tela nomeia o indice pela forma neutra; o rotulo clinico vem do dominio (MD-0012)", "location": "interface/puericultura/resultado.tsx", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "models/insulina"
-      ],
-      "algorithms": [],
-      "complexity": "medium"
+      "dependencies": ["models/puericultura", "interface/comum"],
+      "complexity": "medium",
+      "loc": 774
     },
     {
-      "name": "interface/gestacao",
-      "path": "interface/gestacao",
-      "purpose": "UI da calculadora de idade gestacional: molde do app da insulina sem ritual de revisão; injeta a data do dispositivo.",
+      "name": "interface/puericultura/consulta",
+      "path": "interface/puericultura/consulta",
+      "purpose": "Ficha de consulta preenchivel, com registro SOAP derivado e comando de copia",
+      "novo_em": "020",
       "primary_files": [
-        "interface/gestacao/app.tsx",
-        "interface/gestacao/tela.tsx",
-        "interface/gestacao/formulario.tsx",
-        "interface/gestacao/resultado.tsx"
-      ],
-      "functions": [
-        {
-          "name": "AppIdadeGestacional",
-          "file": "interface/gestacao/app.tsx",
-          "params": [
-            "props"
-          ],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "EstadoIg",
-          "fields": [
-            {
-              "name": "estado",
-              "type": "vazio|sucesso|erro|falha-inesperada",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        "interface/puericultura/consulta/app.tsx",
+        "interface/puericultura/consulta/ficha.tsx",
+        "interface/puericultura/consulta/formatar-registro.ts",
+        "interface/puericultura/consulta/painel-crescimento.tsx",
+        "interface/puericultura/consulta/seletor-de-ficha.tsx"
       ],
       "business_rules": [
-        {
-          "description": "Sem ritual de revisão: datação não prescreve (D-08). Data de referência do dispositivo, injetável para teste (RN-07)",
-          "location": "interface/gestacao/app.tsx",
-          "confidence": "confirmed"
-        }
+        { "description": "SEM ritual de revisao: preencher ficha nao prescreve dose (ADR 0012 restringe o ritual a insulina)", "location": "interface/puericultura/consulta/app.tsx:8", "confidence": "confirmed" },
+        { "description": "SEM invalidacao por edicao: aqui a edicao E o preenchimento, e um aviso de desatualizado acusaria como defeito o comportamento normal da tela", "location": "interface/puericultura/consulta/app.tsx:10", "confidence": "confirmed" },
+        { "description": "O registro e DERIVADO por useMemo, nao submetido: uma cadeia, dois consumidores", "location": "interface/puericultura/consulta/app.tsx:131", "confidence": "confirmed" },
+        { "description": "O painel de crescimento entra por next/dynamic: quem nao o abre nao paga as tabelas antropometricas no primeiro carregamento", "location": "interface/puericultura/consulta/app.tsx:42", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "models/gestacao",
-        "interface/comum",
-        "interface/calculadora"
-      ],
-      "algorithms": [],
-      "complexity": "medium"
+      "dependencies": ["models/puericultura/consulta", "models/puericultura", "interface/comum", "interface/calculadora"],
+      "complexity": "medium-high",
+      "loc": 1055
     },
     {
-      "name": "interface/cardiologia",
-      "path": "interface/cardiologia",
-      "purpose": "UI da avaliação de dor torácica: formulário, painel com estrato colorido e advertências, e material de referência complementar em <details> (RF-10).",
+      "name": "interface/contribuicao",
+      "path": "interface/contribuicao",
+      "purpose": "Bloco de apoio na home e painel de contribuicao voluntaria com chave PIX e BR Code",
+      "novo_em": "019",
       "primary_files": [
-        "interface/cardiologia/app.tsx",
-        "interface/cardiologia/tela.tsx",
-        "interface/cardiologia/formulario.tsx",
-        "interface/cardiologia/resultado.tsx",
-        "interface/cardiologia/referencias.tsx"
-      ],
-      "functions": [
-        {
-          "name": "AppCardiologia",
-          "file": "interface/cardiologia/app.tsx",
-          "params": [
-            "props"
-          ],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "EstadoCardiologia",
-          "fields": [
-            {
-              "name": "estado",
-              "type": "vazio|sucesso|fora-do-escopo|erro|falha-inesperada",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        "interface/contribuicao/bloco-de-apoio.tsx",
+        "interface/contribuicao/painel.tsx",
+        "interface/contribuicao/acao-copiar.tsx",
+        "interface/contribuicao/codigo-qr.tsx",
+        "interface/contribuicao/beneficiario.ts"
       ],
       "business_rules": [
-        {
-          "description": "Sem ritual de revisão: estratificar não é prescrever (D-08). Variante extra fora-do-escopo no estado",
-          "location": "interface/cardiologia/resultado.tsx",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Material complementar (CCS, tratamento, seguimento) consultável em <details>, fora do cálculo (RF-10)",
-          "location": "interface/cardiologia/referencias.tsx",
-          "confidence": "confirmed"
-        }
+        { "description": "Ordem do DOM deliberada: os comandos de copia vem ANTES do QR, porque no proprio celular nao ha como apontar a camera para a tela do mesmo aparelho", "location": "interface/contribuicao/painel.tsx:9", "confidence": "confirmed" },
+        { "description": "beneficiario.ts e ponto UNICO de configuracao, na apresentacao e nao no dominio, porque e dado de instalacao e nao regra", "location": "interface/contribuicao/beneficiario.ts:1", "confidence": "confirmed" },
+        { "description": "A chave e publica por natureza e mora no repositorio; NEXT_PUBLIC_* terminaria no mesmo bundle sem proteger nada", "location": "interface/contribuicao/beneficiario.ts:14", "confidence": "confirmed" },
+        { "description": "EXEMPLO permanece no codigo como ORACULO da guarda que reprova a suite enquanto o beneficiario real for igual a ele", "location": "interface/contribuicao/beneficiario.ts:24", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "models/cardiopatia-isquemica",
-        "interface/comum",
-        "interface/calculadora"
-      ],
-      "algorithms": [],
-      "complexity": "medium"
-    },
-    {
-      "name": "interface/risco-cardiovascular",
-      "path": "interface/risco-cardiovascular",
-      "purpose": "UI da calculadora de risco cardiovascular (feature 014): formulario, painel honesto, bloco de proveniencia. Sem ritual de revisao (D-08). Molde do AppCardiologia. Sem rede, sem storage.",
-      "primary_files": [
-        "interface/risco-cardiovascular/tela.tsx",
-        "interface/risco-cardiovascular/app.tsx",
-        "interface/risco-cardiovascular/formulario.tsx",
-        "interface/risco-cardiovascular/resultado.tsx",
-        "interface/risco-cardiovascular/proveniencia.tsx"
-      ],
-      "functions": [
-        {
-          "name": "TelaRiscoCardiovascular",
-          "file": "interface/risco-cardiovascular/tela.tsx",
-          "params": [],
-          "returns": "JSX (Moldura + AppRiscoCardiovascular)",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "AppRiscoCardiovascular",
-          "file": "interface/risco-cardiovascular/app.tsx",
-          "params": [
-            "{relator?, motor?}"
-          ],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "ContextoDaFonte / NotaDeProveniencia",
-          "file": "interface/risco-cardiovascular/proveniencia.tsx",
-          "params": [],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "EstadoRiscoCardiovascular",
-          "fields": [
-            {
-              "name": "estado",
-              "type": "\"vazio\"|\"sucesso\"|\"fora-do-escopo\"|\"erro\"|\"falha-inesperada\"",
-              "required": true
-            },
-            {
-              "name": "desatualizado",
-              "type": "boolean (flag ortogonal)",
-              "required": false
-            }
-          ],
-          "confidence": "confirmed"
-        }
-      ],
-      "business_rules": [
-        {
-          "description": "Sem ritual de revisao: estimar risco nao prescreve dose (D-08)",
-          "location": "interface/risco-cardiovascular/app.tsx",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "NotaDeProveniencia le NOTA_PROVENIENCIA do dominio (texto unico, anti-drift); ContextoDaFonte com link <a> nativo a PREVENT (nao e requisicao de rede, ADR 0002)",
-          "location": "interface/risco-cardiovascular/proveniencia.tsx",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Exceção fora do contrato -> painel honesto + evento anonimo (EC-07)",
-          "location": "interface/risco-cardiovascular/app.tsx:52",
-          "confidence": "confirmed"
-        }
-      ],
-      "dependencies": [
-        "models/risco-cardiovascular",
-        "interface/comum",
-        "interface/calculadora"
-      ],
-      "algorithms": [],
-      "complexity": "medium"
+      "dependencies": ["models/contribuicao", "react-qr-code", "interface/calculadora"],
+      "complexity": "low-medium",
+      "loc": 324
     },
     {
       "name": "interface/inicio",
       "path": "interface/inicio",
-      "purpose": "Home por seções: catálogo tipado (fonte única de seções/rotas), cartões com stretched link e ícones Octicons por seção.",
-      "primary_files": [
-        "interface/inicio/catalogo.ts",
-        "interface/inicio/tela.tsx",
-        "interface/inicio/icones.tsx"
-      ],
-      "functions": [
-        {
-          "name": "TelaInicio",
-          "file": "interface/inicio/tela.tsx",
-          "params": [],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "IconeDaSecao",
-          "file": "interface/inicio/icones.tsx",
-          "params": [
-            "{ id }"
-          ],
-          "returns": "JSX|null",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "SecaoDaPlataforma",
-          "fields": [
-            {
-              "name": "id",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "titulo",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "calculadoras",
-              "type": "FichaCalculadora[]",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        },
-        {
-          "name": "FichaCalculadora",
-          "fields": [
-            {
-              "name": "titulo",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "descricao",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "rota",
-              "type": "string",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
-      ],
+      "purpose": "Home por secoes a partir do catalogo tipado, com o bloco de apoio ao pe",
+      "changed_in": ["018", "019", "020"],
+      "primary_files": ["interface/inicio/catalogo.ts", "interface/inicio/tela.tsx", "interface/inicio/icones.tsx"],
       "business_rules": [
-        {
-          "description": "Catálogo é fonte única anti-drift (D-07): nova calculadora entra aqui primeiro. Três seções: dm2, pre-natal, cardiologia",
-          "location": "interface/inicio/catalogo.ts:18",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Ícone decorativo por seção; seção sem entrada -> fallback null (feature 008)",
-          "location": "interface/inicio/icones.ts:18",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Secao cardiologia passa a ter 2 calculadoras (dor toracica + risco cardiovascular, feature 014)",
-          "location": "interface/inicio/catalogo.ts:43",
-          "confidence": "confirmed"
-        }
+        { "description": "CATALOGO agora tem QUATRO secoes e SEIS fichas; diff aditivo, com as anteriores byte a byte", "location": "interface/inicio/catalogo.ts:18", "confidence": "confirmed" },
+        { "description": "O catalogo acumulou segundo papel: alem de fonte unica da home, e ORACULO da descricao da plataforma desde a feature 018", "location": "interface/inicio/catalogo.ts", "confidence": "confirmed" },
+        { "description": "O bloco de apoio fica FORA do map do CATALOGO: um item que nao calcula nada dentro dele corromperia os dois papeis", "location": "interface/inicio/tela.tsx:54", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "interface/comum"
-      ],
-      "algorithms": [],
-      "complexity": "low"
+      "dependencies": ["interface/comum", "interface/contribuicao"],
+      "complexity": "low",
+      "loc": 171
     },
     {
       "name": "interface/estilos",
       "path": "interface/estilos",
-      "purpose": "Camada de estilo sobre tokens Primer: globais, cabeçalho, home e cardiologia. Zero cor própria.",
-      "primary_files": [
-        "interface/estilos/globais.css",
-        "interface/estilos/cabecalho.css",
-        "interface/estilos/inicio.css",
-        "interface/estilos/cardiologia.css"
+      "purpose": "Folhas CSS sobre tokens Primer, sem cor propria",
+      "changed_in": ["015", "016", "017", "019", "020", "021"],
+      "primary_files": ["interface/estilos/globais.css", "interface/estilos/moldura.css", "interface/estilos/cabecalho.css"],
+      "folhas": [
+        { "arquivo": "globais.css", "linhas": 367 },
+        { "arquivo": "inicio.css", "linhas": 185, "nota": "reduzida na 016: hero aposentado" },
+        { "arquivo": "contribuicao.css", "linhas": 133, "novo_em": "019" },
+        { "arquivo": "cabecalho.css", "linhas": 121 },
+        { "arquivo": "consulta-puericultura.css", "linhas": 113, "novo_em": "020" },
+        { "arquivo": "moldura.css", "linhas": 79, "novo_em": "021", "nota": "sede unica da coluna do corpo" },
+        { "arquivo": "cardiologia.css", "linhas": 47 },
+        { "arquivo": "puericultura.css", "linhas": 33, "novo_em": "017" },
+        { "arquivo": "risco-cardiovascular.css", "linhas": 8 }
       ],
-      "functions": [],
-      "entities": [],
-      "business_rules": [
-        {
-          "description": "globais.css no teto de 400 linhas; cada folha nova nasce em vez de crescer globais (features 008-010)",
-          "location": "interface/estilos/globais.css",
-          "confidence": "confirmed"
-        }
-      ],
-      "dependencies": [],
-      "algorithms": [],
-      "complexity": "low"
+      "nota_de_contagem": "As features 019 e 020 chamaram, cada uma, a sua folha de 'setima', por terem corrido em paralelo. O total corrente MEDIDO e nove.",
+      "complexity": "low",
+      "loc": 1086
     },
     {
       "name": "pages",
       "path": "pages",
-      "purpose": "Shell Next.js (Pages Router): _app com fundação Primer, _document com PWA, home na raiz e três rotas de calculadora.",
-      "primary_files": [
-        "pages/_app.tsx",
-        "pages/_document.tsx",
-        "pages/index.tsx",
-        "pages/dm2/insulina.tsx",
-        "pages/pre-natal/idade-gestacional.tsx",
-        "pages/cardiologia/dor-toracica.tsx"
-      ],
-      "functions": [
-        {
-          "name": "App",
-          "file": "pages/_app.tsx",
-          "params": [
-            "{ Component, pageProps }"
-          ],
-          "returns": "JSX",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [],
+      "purpose": "Shell Next.js (Pages Router): 7 rotas de pagina, PWA e metadados",
+      "changed_in": ["017", "018", "019", "020"],
+      "primary_files": ["pages/_app.tsx", "pages/_document.tsx", "pages/index.tsx"],
+      "rotas": ["/", "/dm2/insulina", "/pre-natal/idade-gestacional", "/cardiologia/dor-toracica", "/cardiologia/risco-cardiovascular", "/puericultura/crescimento", "/puericultura/consulta"],
       "business_rules": [
-        {
-          "description": "Raiz serve a home diretamente, sem redirecionamento; insulina em /dm2/insulina (feature 007)",
-          "location": "pages/index.tsx",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "PWA instalável: favicon, apple-touch-icon, manifest, theme-color #0969da (feature 009)",
-          "location": "pages/_document.tsx",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "Tipografia é a pilha de fontes do sistema do Primer; nenhum arquivo de fonte baixado (D-04)",
-          "location": "pages/_app.tsx",
-          "confidence": "confirmed"
-        }
+        { "description": "DELTA DE CONTRATO EXTERNO (018): os doze metadados das rotas mudaram; a description da raiz foi corrigida de EXATIDAO (nomeava duas das quatro secoes) e passou a ser verificada contra o CATALOGO", "location": "pages/index.tsx", "confidence": "confirmed" },
+        { "description": "A description do manifest.webmanifest foi revista no MESMO ato que o subtitulo da home, por serem o mesmo literal byte a byte", "location": "public/manifest.webmanifest", "confidence": "confirmed" }
       ],
-      "dependencies": [
-        "interface/inicio",
-        "interface/calculadora",
-        "interface/gestacao",
-        "interface/cardiologia"
-      ],
-      "algorithms": [],
-      "complexity": "low"
+      "dependencies": ["interface/*"],
+      "complexity": "low",
+      "loc": 213
     },
     {
       "name": "pages/api/v1/status",
       "path": "pages/api/v1/status.ts",
-      "purpose": "GET /api/v1/status: healthcheck público, sem estado, sem dado clínico. Contrato fixo (feature 002, ADR 0008).",
-      "primary_files": [
-        "pages/api/v1/status.ts"
-      ],
+      "purpose": "Healthcheck publico do deploy: agora com I/O real contra o banco e seis chaves no corpo",
+      "changed_in": ["022"],
+      "nota_estrutural": "A INVERSAO desta passagem. A extracao afirmava desde a re-extracao 1 um vinculo que o codigo nao realizava: o unico importador de infra/database.ts era o proprio teste de contrato.",
+      "primary_files": ["pages/api/v1/status.ts"],
       "functions": [
-        {
-          "name": "status",
-          "file": "pages/api/v1/status.ts",
-          "params": [
-            "requisicao",
-            "resposta"
-          ],
-          "returns": "void",
-          "confidence": "confirmed"
-        }
-      ],
-      "entities": [
-        {
-          "name": "RespostaStatus",
-          "fields": [
-            {
-              "name": "atualizado_em",
-              "type": "ISO8601 string",
-              "required": true
-            },
-            {
-              "name": "versao",
-              "type": "string (package.json)",
-              "required": true
-            },
-            {
-              "name": "commit",
-              "type": "string (VERCEL_GIT_COMMIT_SHA ?? local)",
-              "required": true
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        { "name": "status", "file": "pages/api/v1/status.ts", "params": ["requisicao: NextApiRequest", "resposta: NextApiResponse"], "returns": "Promise<void>", "confidence": "confirmed" },
+        { "name": "ambiente", "file": "pages/api/v1/status.ts", "params": [], "returns": "'producao' | 'pre-visualizacao' | 'local'", "confidence": "confirmed" }
       ],
       "business_rules": [
-        {
-          "description": "405 + Allow: GET para não-GET (RN-04); Cache-Control: no-store (RN-05); mudança incompatível exige /api/v2",
-          "location": "pages/api/v1/status.ts:11",
-          "confidence": "confirmed"
-        }
+        { "description": "200 em TODO estado do banco, inclusive degradado (MD-0031): as calculadoras sao integralmente cliente e seguem servindo com o banco fora", "location": "pages/api/v1/status.ts:11", "confidence": "confirmed" },
+        { "description": "A discriminacao de metodo precede qualquer I/O: 405 com Allow: GET nao desperta a instancia do banco", "location": "pages/api/v1/status.ts:35", "confidence": "confirmed" },
+        { "description": "Uma tentativa so, sem repeticao: repetir mascararia a intermitencia que o healthcheck existe para revelar", "location": "pages/api/v1/status.ts:41", "confidence": "confirmed" },
+        { "description": "ambiente usa vocabulario do PRODUTO, nao do provedor: amarrar aos nomes de quem hospeda faria a troca de hospedagem virar mudanca incompativel", "location": "pages/api/v1/status.ts:16", "confidence": "confirmed" },
+        { "description": "publicado_em e carimbo do BUILD, substituido estaticamente por next.config.ts; nao e a data do commit nem o instante da requisicao", "location": "next.config.ts:22", "confidence": "confirmed" }
       ],
-      "dependencies": [],
-      "algorithms": [],
-      "complexity": "low"
+      "dependencies": ["infra"],
+      "complexity": "low",
+      "loc": 57
     },
     {
       "name": "infra",
       "path": "infra",
-      "purpose": "Único ponto de acesso ao banco (pool pg lazy), usado só pelo healthcheck. Nenhum dado clínico. Compose PostgreSQL local.",
-      "primary_files": [
-        "infra/database.ts",
-        "infra/compose.yaml"
-      ],
+      "purpose": "Pool pg, adaptador de saude e compose do PostgreSQL local",
+      "changed_in": ["022"],
+      "primary_files": ["infra/database.ts", "infra/saude.ts", "infra/compose.yaml"],
       "functions": [
-        {
-          "name": "query",
-          "file": "infra/database.ts",
-          "params": [
-            "texto: string",
-            "parametros: unknown[]"
-          ],
-          "returns": "Promise<Linha[]>",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "saude",
-          "file": "infra/database.ts",
-          "params": [],
-          "returns": "Promise<{ ok: true }>",
-          "confidence": "confirmed"
-        },
-        {
-          "name": "encerrar",
-          "file": "infra/database.ts",
-          "params": [],
-          "returns": "Promise<void>",
-          "confidence": "confirmed"
-        }
+        { "name": "verificarBanco", "file": "infra/saude.ts", "params": ["tetoMs?: number"], "returns": "Promise<EstadoDoBanco>", "confidence": "confirmed" },
+        { "name": "query", "file": "infra/database.ts", "params": ["texto", "valores", "opcoes?: {tetoMs?}"], "returns": "Promise<QueryResult>", "confidence": "confirmed" },
+        { "name": "saude", "file": "infra/database.ts", "params": ["opcoes?: {tetoMs?}"], "returns": "Promise<...>", "confidence": "confirmed" },
+        { "name": "ehEstouroDeTempo", "file": "infra/database.ts:103", "params": ["erro: unknown"], "returns": "boolean", "confidence": "confirmed" }
       ],
       "entities": [
-        {
-          "name": "ErroDeBanco",
-          "fields": [
-            {
-              "name": "causa",
-              "type": "\"conexao\"|\"consulta\"|\"configuracao\"",
-              "required": true
-            },
-            {
-              "name": "message",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "cause",
-              "type": "unknown",
-              "required": false
-            }
-          ],
-          "confidence": "confirmed"
-        }
+        { "name": "ErroDeBanco", "nota": "causa: conexao | consulta | configuracao | tempo_esgotado (a quarta e nova)", "confidence": "confirmed" },
+        { "name": "EstadoDoBanco", "nota": "integro | degradado + causa", "confidence": "confirmed" }
       ],
       "business_rules": [
-        {
-          "description": "Pool lazy singleton (max 5, timeouts 5s); consultas parametrizadas; log sem URL/credencial, host mascarado; sem retry automático (falha barulhenta)",
-          "location": "infra/database.ts",
-          "confidence": "confirmed"
-        },
-        {
-          "description": "postgres:17.10-alpine local (porta 5433); produção via Neon (Vercel Marketplace)",
-          "location": "infra/compose.yaml",
-          "confidence": "confirmed"
-        }
+        { "description": "infra/saude.ts e o UNICO importador de saude() em producao, o que mantem database.ts como ponto de acesso exclusivo ao banco", "location": "infra/saude.ts:6", "confidence": "confirmed" },
+        { "description": "O teto passou a ser imposto NO SERVIDOR por statement_timeout: o query_timeout do pg e temporizador de cliente que nao cancela nada e devolveria ao pool um cliente com resposta pendente", "location": "infra/database.ts:9", "confidence": "confirmed" },
+        { "description": "APS_TIMEOUT_SAUDE_MS malformada cai no padrao REGISTRANDO log: um NaN desligaria a protecao em silencio", "location": "infra/database.ts:115", "confidence": "confirmed" },
+        { "description": "tempo_esgotado RETIRA casos das duas causas existentes: 57014 deixa de cair em consulta, e o estouro na espera por conexao deixa de cair em conexao", "location": "infra/database.ts:186", "confidence": "confirmed" },
+        { "description": "Excecao que nao e ErroDeBanco nao escapa do adaptador: derrubar o healthcheck trocaria degradacao por indisponibilidade", "location": "infra/saude.ts:25", "confidence": "confirmed" }
+      ],
+      "risco": {
+        "descricao": "ehEstouroDeTempo reconhece o estouro de conexao por uma FRASE que o driver emite, e precisa reconhece-la ANTES de ehErroDeConexao, que casaria com o 'connection terminated' de uma queda. Atualizacao de pg e gatilho de revisao.",
+        "location": "infra/database.ts:110",
+        "watch": "W007 da feature 022",
+        "confidence": "confirmed"
+      },
+      "dependencies": ["pg"],
+      "complexity": "medium",
+      "loc": 326
+    },
+    {
+      "name": "scripts",
+      "path": "scripts",
+      "purpose": "Camada DEV-TIME: aquisicao, verificacao, emissao e congelamento. Nao entra no bundle e nao e importada por models/, interface/ nem pages/",
+      "novo_em": "017",
+      "changed_in": ["018", "020", "022"],
+      "primary_files": [
+        "scripts/baixar-tabelas-oms.mts",
+        "scripts/gerar-tabelas-oms.mts",
+        "scripts/congelar-casos-oraculo.mts",
+        "scripts/congelar-fichas-caderneta.mts",
+        "scripts/inventariar-textos.mts",
+        "scripts/conferir-producao.mts"
+      ],
+      "business_rules": [
+        { "description": "Nenhuma escrita parcial: tudo e lido, verificado e emitido em memoria; o primeiro byte so chega ao disco quando o ultimo passou", "location": "scripts/gerar-tabelas-oms.mts:13", "confidence": "confirmed" },
+        { "description": "Falha ruidosa e localizada: a mensagem diz qual arquivo e em que verificacao parou; avisar e seguir seria o pior modo de falha", "location": "scripts/gerar-tabelas-oms.mts:17", "confidence": "confirmed" },
+        { "description": "Idempotencia byte a byte: o git diff vazio e a PROVA de que a origem nao mudou", "location": "scripts/gerar-tabelas-oms.mts:19", "confidence": "confirmed" },
+        { "description": "So baixar-tabelas-oms.mts toca a rede; a conversao le do disco e confere sha256 contra o manifesto, para ser deterministica e auditavel offline", "location": "scripts/gerar-tabelas-oms.mts:6", "confidence": "confirmed" },
+        { "description": "O inventario usa ARVORE SINTATICA, e nao regex: regex confunde literal exibido com a mesma sequencia dentro de comentario, e o repositorio e denso em comentario longo", "location": "scripts/inventariar-textos.mts:10", "confidence": "confirmed" },
+        { "description": "O gerador NAO infere classe alguma: candidato sem entrada declarada faz o gerador PARAR, nomeando arquivo e linha", "location": "scripts/inventariar-textos.mts:17", "confidence": "confirmed" },
+        { "description": "Dois artefatos de proposito oposto no tempo: inventario-textual.json e regerado a cada revisao; citacao-linha-de-base.json JAMAIS e regerado", "location": "tests/apoio/", "confidence": "confirmed" },
+        { "description": "O congelador de fichas usa duas passagens do pdftotext e as duas tiragens da caderneta, exigindo ocorrencia em AO MENOS UMA", "location": "scripts/congelar-fichas-caderneta.mts:12", "confidence": "confirmed" }
+      ],
+      "dividas": [
+        { "descricao": "scripts/textos/classes/interface.mts em 684 linhas, acima do teto de 400; a excecao que o README concede a models/puericultura/oms/tabelas/ NAO o alcanca nominalmente", "severidade": "amarela" },
+        { "descricao": "Literal montado por interpolacao em tempo de execucao fica FORA do inventario por desenho do extrator, e o congelamento nao o cobre", "severidade": "declarada" }
       ],
       "dependencies": [],
-      "algorithms": [],
-      "complexity": "medium"
+      "algorithms": ["leitura de .xlsx escrita a mao (scripts/lib/planilha.mts)", "extracao por AST do TypeScript", "extracao de PDF por pdftotext em duas passagens"],
+      "complexity": "medium-high",
+      "loc": 5517
     }
   ]
 }
