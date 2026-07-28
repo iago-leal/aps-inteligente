@@ -1,7 +1,7 @@
 # Oráculo externo do BR Code
 
 > Identificador: `019-contribuicao-voluntaria-pix` · Data: 2026-07-28
-> Ações: `T027` (decodificador independente, concluída) e `T033` (aplicativo de banco, pendente)
+> Ações: `T027` (decodificador independente) e `T033` (aplicativo de banco), ambas concluídas
 > Motivo: `interfaces/br-code.md` §1 e §6; critério de pronto de `roadmap.md` §10
 
 ## 1. Por que este arquivo existe
@@ -57,11 +57,12 @@ especificação: quem conferiu foi outro código, escrito por outra pessoa, com 
 implementação do CRC e do parser. É bem mais do que a nossa suíte oferece, e ainda assim não
 substitui a verificação 2, que é a única em que o consumidor real do contrato se manifesta.
 
-## 3. Verificação 2: aplicativo de banco real (T033, pendente)
+## 3. Verificação 2: aplicativo de banco real (T033, feita)
 
-**Desbloqueada em 28/07/2026**, quando os três valores reais chegaram. Deixou de depender de
-dado e passa a depender apenas de alguém apontar uma câmera, que é a única parte desta feature
-que não se automatiza: é o consumidor real do contrato se manifestando.
+**Desbloqueada em 28/07/2026**, quando os três valores reais chegaram, e **concluída no mesmo
+dia**. Deixou de depender de dado e passou a depender apenas de alguém apontar uma câmera, que é
+a única parte desta feature que não se automatiza: é o consumidor real do contrato se
+manifestando.
 
 Procedimento:
 
@@ -75,9 +76,21 @@ O que a tela do aplicativo deve exibir: **Iago Leal**. Se exibir outra coisa, ou
 código, o defeito está no módulo puro, e o ponto de partida é `models/contribuicao/crc16.ts` e
 o comprimento declarado dos campos.
 
-| Data | Aplicativo | Nome exibido na confirmação | Resultado |
-|------|------------|------------------------------|-----------|
-| pendente | pendente | pendente | pendente |
+| Data | Via | Aplicativo | Resultado |
+|------|-----|------------|-----------|
+| 2026-07-28 | leitura do QR pela câmera | não registrado pelo mantenedor | aceito, sem concluir a transferência |
+| 2026-07-28 | código copia e cola, colado no aplicativo | não registrado pelo mantenedor | aceito, sem concluir a transferência |
+
+**O que este registro afirma, e o que não afirma.** Afirma o que o mantenedor relatou: as duas
+vias funcionaram. Não afirma o nome exibido na tela de confirmação nem o aplicativo usado, porque
+nenhum dos dois foi informado, e transcrever aqui um valor que ninguém ditou transformaria o
+oráculo externo em eco da nossa própria expectativa, que é exatamente o que a seção 1 recusa. O
+essencial, ainda assim, ficou provado: o aplicativo aceitou o payload, e um CRC errado ou um
+comprimento declarado a mais teria feito a leitura falhar antes de qualquer tela.
+
+**As duas vias verificam coisas diferentes**, e é por isso que valem as duas linhas: o QR prova o
+desenho da matriz sobre a cadeia, e o copia e cola prova a cadeia sozinha, sem o intermediário
+gráfico. Coincidirem afasta a hipótese de defeito no envoltório de `react-qr-code`.
 
 ## 4. Quando refazer
 

@@ -77,15 +77,18 @@ porque exercitam a cola entre tela, home e contrato externo.
 | T030 | Escrever a microdecisão da dependência `react-qr-code`, com versão pinada real, o que a árvore traz junto (`prop-types` e `qrcode-generator`), a leitura do filtro de longevidade e a alternativa descartada de desenhar o SVG por conta própria | T014 | `[//]` | `.harness/decisoes/` | 🟢 | `[X]` |
 | T031 | Documentar no `README.md` o ponto único de configuração do beneficiário e o que muda ao trocar a chave, no molde das seções que já documentam os geradores de tempo de desenvolvimento (RF-13) | T002 | `[//]` | `README.md` | 🟢 | `[X]` |
 | T032 | Medir e registrar o acréscimo de bundle por rota, no molde da feature 018, separando o custo do desenho do QR do custo da home (RNF de desempenho) | T019, T020 | - | `_reversa_forward/019-contribuicao-voluntaria-pix/medicao-bundle.md` | 🟢 | `[X]` |
-| T033 | Registrar a leitura do QR por aplicativo de banco real, confirmando que a tela de confirmação exibe o beneficiário correto, sem concluir a transferência (critério de pronto; confirmação do mantenedor, não automatizável) | T028 | - | `_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md` | 🔴 | `[ ]` |
+| T033 | Registrar a leitura do QR por aplicativo de banco real, confirmando que a tela de confirmação exibe o beneficiário correto, sem concluir a transferência (critério de pronto; confirmação do mantenedor, não automatizável) | T028 | - | `_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md` | 🟢 | `[X]` |
 | T034 | Conferir por `git status`, e não por presunção, que `tests/apoio/citacao-linha-de-base.json` e `e2e/axe-baseline.json` permanecem sem modificação, e rodar vitest, Playwright, `typecheck` e `eslint` até o verde | T023, T026 | - | `tests/apoio/citacao-linha-de-base.json` | 🟢 | `[X]` |
 
 ## Notas de execução
 
 - **T028 fechou na mesma sessão**, quando os três valores chegaram: chave aleatória, `Iago Leal`
   e `Goiânia`. A guarda de T029 saiu de `it.todo` e passou a valer, e a confidência da ação subiu
-  de 🔴 para 🟢, porque a lacuna `D-02` deixou de existir. **T033 segue `[ ]`**: é a leitura por
-  aplicativo de banco, a única verificação que depende de alguém apontar uma câmera.
+  de 🔴 para 🟢, porque a lacuna `D-02` deixou de existir.
+- **T033 fechou em 28/07/2026**, em sessão posterior à execução: o mantenedor leu o QR e usou
+  também o código copia e cola, e ambos funcionaram. O consumidor real do contrato, que é o
+  aplicativo de banco, aceitou o payload que a suíte só sabia aferir contra a nossa leitura da
+  especificação.
 - **T003 mudou de arquivo alvo**, de `tests/apoio/construtores.ts` para
   `tests/apoio/contribuicao.ts`: aquele é declaradamente de insulina, e arquivo próprio por
   domínio é o precedente de `tests/apoio/puericultura.ts`.

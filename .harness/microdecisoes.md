@@ -24,3 +24,4 @@
 - **MD-0022** — Matéria não clínica entra com isenção declarada, e a fronteira se marca em duas camadas
 - **MD-0023** — A fase de uma ação vem da consequência que a ordem tem, e verificação que espera por humano se parte em duas
 - **MD-0024** — `react-qr-code` entra atrás de envoltório, e o filtro de longevidade se lê pelo que o problema é, não pelo calendário do pacote
+- **MD-0025** — O oráculo humano registra o que foi relatado, e a lacuna do não relatado fica visível na própria tabela
