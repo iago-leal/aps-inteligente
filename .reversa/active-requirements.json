@@ -4,7 +4,7 @@
   "feature-id": "020",
   "short-name": "consulta-puericultura-soap",
   "started-at": "2026-07-28T18:10:00Z",
-  "current-stage": "requirements",
-  "stages-completed": [],
+  "current-stage": "to-do",
+  "stages-completed": ["requirements", "clarify", "plan"],
   "paused-features": []
 }

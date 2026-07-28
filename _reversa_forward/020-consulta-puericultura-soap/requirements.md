@@ -57,24 +57,29 @@ produto é um **texto de registro**, e não um número.
    - Tipo: nova
 2. **RN-02:** As fichas de consulta datada são **dez**, na nomenclatura da fonte: 1.ª Semana (p. 68), 1.º Mês (p. 69), 2.º Mês (p. 70), 4.º Mês (p. 71), 6.º e 9.º Mês (p. 72), 12.º e 18.º Mês (p. 73), 24.º e 36.º Mês (p. 74). Cada uma cobre o que a sua página imprime, sem campo herdado de vizinha. 🟢
    - Tipo: nova
-3. **RN-03:** Fora das dez, a fonte imprime três registros que **não são consultas datadas**: Pré-Natal e Nascimento (p. 67), Triagens Neonatais (p. 68) e Outras Medidas e Consultas Necessárias (p. 75, com a tabela de pressão arterial). Entram ou não conforme a resposta à lacuna 1 da seção 10; enquanto não entrarem, sua ausência é declarada ao usuário, não silenciada. 🔴
+3. **RN-03:** Fora das dez, a fonte imprime três registros que **não são consultas datadas**: Pré-Natal e Nascimento (p. 67), Triagens Neonatais (p. 68) e Outras Medidas e Consultas Necessárias (p. 75, com a tabela de pressão arterial). Os três ficam **fora desta entrega**, decidido em 28/07, e a ausência é declarada ao usuário no bloco de proveniência, nomeando as três páginas: quem abrir a tela com a caderneta ao lado precisa saber que ela cobre as consultas datadas e só elas. Silenciar a ausência faria a tela parecer cobrir as páginas verdes inteiras. 🟢
    - Tipo: nova
-4. **RN-04:** A ficha aplicável se seleciona pela idade da criança na data da consulta, e a seleção **é do usuário**, com sugestão do produto. O motor informa qual ficha a idade indica; quem escolhe é o prescritor, no espírito de ADR 0005. Uma idade entre duas consultas previstas sugere a ficha imediatamente anterior. 🟡
+4. **RN-04:** A ficha aplicável se seleciona pela idade da criança na data da consulta, e a seleção **é do usuário**, com sugestão do produto. O motor informa qual ficha a idade indica; quem escolhe é o prescritor, no espírito de ADR 0005. Uma idade entre duas consultas previstas sugere a ficha imediatamente anterior. No nascido pré-termo, a idade que alimenta a sugestão é a cronológica, por RN-05. 🟡
    - Origem no legado: `_reversa_sdd/adrs/0005-motor-nao-escolhe-condutas-equivalentes.md`
    - Tipo: nova
-5. **RN-05:** Havendo idade gestacional ao nascer abaixo de 37 semanas, as duas idades são calculadas e **exibidas lado a lado**, com o rótulo de cada uma, reusando `IdadesDerivadas` da feature 017 sem reimplementar aritmética de datas. Qual delas governa a sugestão da ficha é a lacuna 2 da seção 10. 🔴
+5. **RN-05:** Havendo idade gestacional ao nascer abaixo de 37 semanas, as duas idades são calculadas e **exibidas lado a lado**, com o rótulo de cada uma, reusando `IdadesDerivadas` da feature 017 sem reimplementar aritmética de datas. A sugestão da ficha se faz pela **idade cronológica**, decidido em 28/07, porque é ela que rege o calendário de acompanhamento e o vacinal, ao passo que a corrigida rege a leitura da curva. O SOAP declara que a cronológica governou, e a troca continua do prescritor por RN-04. Não há aqui contradição com `MD-0011`: aquela ficha repartiu papéis entre medir o corpo e ler a curva, e escolher a ficha não é nenhum dos dois. 🟢
    - Origem no legado: `.harness/decisoes/MD-0011.md`, addendum 017
    - Tipo: nova
 6. **RN-06:** Todo rótulo de campo, título de seção e opção de escolha reproduzido das pp. 66 a 75 é **citação**, permanece byte a byte e se declara como tal em `scripts/textos/classes/`. A exceção de concordância de `MD-0015` continua valendo com o mesmo rigor: alcança só concordância, sobre lista fechada, e é inseparável da declaração ao leitor. 🟢
    - Origem no legado: `.reversa/principles.md#IX`, `docs/redacao.md` §2.2
    - Tipo: nova
-7. **RN-07:** A caderneta do menino e a da menina imprimem as **mesmas fichas**, com três diferenças de flexão apuradas nesta sessão: "saúde do seu filho" / "da sua filha" e "interação mãe-filho" / "mãe-filha" (pp. 66, 69, 70 e 71). Não há diferença de campo clínico entre as duas tiragens. O sexo, já necessário à curva de crescimento, governa também qual flexão a tela exibe. 🟢
+7. **RN-07:** A caderneta do menino e a da menina imprimem as **mesmas fichas**, com três diferenças de flexão apuradas nesta sessão: "saúde do seu filho" / "da sua filha" e "interação mãe-filho" / "mãe-filha" (pp. 66, 69, 70 e 71). A fonte não traz diferença de campo clínico entre as duas tiragens; a única diferença de conteúdo entre as fichas exibidas nasce do produto, e está em RN-08. O sexo, já necessário à curva de crescimento, governa qual flexão a tela exibe. 🟢
    - Tipo: nova
-8. **RN-08:** A ficha do 2.º Mês imprime **"Criptorquidia"** nas duas tiragens, inclusive na caderneta da menina (p. 70 de ambas, conferido nesta sessão). É desvio de conteúdo da fonte, não de concordância, e portanto **fora** da exceção que `MD-0015` autoriza. Proposta a arbitrar no `/reversa-clarify`: transcrever o campo tal como impresso na ficha do sexo correspondente, com nota de proveniência informando que a fonte o imprime nas duas tiragens. Suprimi-lo seria reescrever a fonte em silêncio, que é exatamente o que a norma recusa. 🟡
-   - Origem no legado: `docs/redacao.md` §2.2, `.harness/decisoes/MD-0015.md`
+8. **RN-08:** A ficha do 2.º Mês imprime **"Criptorquidia"** nas duas tiragens, inclusive na caderneta da menina (p. 70 de ambas, conferido nesta sessão). É desvio de conteúdo da fonte, não de concordância, e portanto fora da exceção que `MD-0015` autoriza para a classe citação. Decidido em 28/07: o campo é **suprimido na ficha feminina** e permanece na masculina, e a supressão se declara ao leitor no bloco de proveniência, nomeando o campo e informando que a fonte o imprime nas duas tiragens. A decisão amplia `MD-0015` de concordância para conteúdo, sobre lista fechada de um item, e fica registrada em `MD-0026`; a declaração não é ornamento, e sim a condição que `MD-0015` impõe a toda diferença entre a página e a tela. 🟢
+   - Origem no legado: `docs/redacao.md` §2.2, `.harness/decisoes/MD-0015.md`, `.harness/decisoes/MD-0026.md`
    - Tipo: nova
-9. **RN-09:** O texto copiado se organiza nas quatro seções do SOAP, e o mapa campo-para-seção é **estruturação autoral**, não conteúdo da fonte: a caderneta não fala em SOAP. O mapa se declara por escrito e a nota de proveniência informa ao leitor que a organização é do produto e a matéria é da caderneta. Arranjo proposto na lacuna 3 da seção 10. 🟡
+9. **RN-09:** O texto copiado se organiza nas quatro seções do SOAP, e o mapa campo-para-seção é **estruturação autoral**, não conteúdo da fonte: a caderneta não fala em SOAP. O mapa se declara por escrito e a nota de proveniência informa ao leitor que a organização é do produto e a matéria é da caderneta. Arranjo decidido em 28/07: 🟢
+   - **S** — aleitamento e alimentação como relatados, sinais de alerta referidos, sono, funcionamento intestinal e o mais que os cuidadores relatam.
+   - **O** — medidas antropométricas, escores z, exame ocular, resultado de triagens, demais achados de exame, além de "Laços de afeto" e "Sinais de violências/negligências", que são observação do profissional.
+   - **A** — os quatro eixos que a consulta de puericultura avalia: **crescimento** (classificação nutricional vinda da fachada da 017), **desenvolvimento** (classificação nos três níveis de RN-15), **situação vacinal** e **alimentação**.
+   - **P** — suplementação, encaminhamentos, acompanhamento odontológico, a conduta vacinal decorrente, "Acidentes domésticos" e as orientações de "Atenção e cuidados especiais nesta fase".
    - Tipo: nova
+   - **RN-09b (regra de composição da avaliação):** A seção **A** recebe apenas campos que a própria ficha já imprime como juízo, jamais conclusão que o produto tenha formado: onde a caderneta pergunta se a vacinação está em dia ou se a alimentação é adequada à idade, a resposta marcada pelo prescritor é que ocupa a avaliação. Alimentação e vacinação comparecem, por isso, em duas seções com naturezas distintas — o relato e a conduta de um lado, o juízo do outro —, e ainda assim **nenhum campo aparece duas vezes**: são campos diferentes da ficha, não repetição do mesmo. A regra preserva a invariante de que o motor informa e não escolhe. A classificação campo a campo das dez fichas segundo este mapa é trabalho de `/reversa-plan`. Ancorada em `_reversa_sdd/adrs/0005-motor-nao-escolhe-condutas-equivalentes.md` e na invariante 6 de `_reversa_sdd/architecture.md#1`. 🟢
 10. **RN-10:** Campo não preenchido **não aparece** no texto copiado. O registro de prontuário afirma o que foi averiguado; linha vazia herdada de formulário afirmaria averiguação que não houve. Seção do SOAP que ficar sem nenhum campo preenchido é omitida inteira. 🟡
     - Tipo: nova
 11. **RN-11:** As medidas antropométricas da ficha (peso, comprimento ou estatura, perímetro cefálico) são as mesmas entradas da calculadora de crescimento da feature 017. O produto **não recalcula escore z por conta própria**: quem avalia é a fachada existente, e o resultado volta para o registro com a `ReferenciaClinica` que ela já emite. 🟢
@@ -95,7 +100,7 @@ produto é um **texto de registro**, e não um número.
     - Tipo: nova
 17. **RN-17:** As fichas da 1.ª Semana ao 6.º Mês remetem a "gráficos para Prematuros pág. 86 e para criança a termo pág. 87 à 90", ao passo que as do 9.º Mês em diante remetem a 88, 89 e 90, que é o que o sumário confirma. A fonte se contradiz em uma página. Como a nossa tela substitui o "anotar nos gráficos" pelo acesso à calculadora, a remissão de página **não é transcrita**, e a divergência fica registrada aqui em vez de propagada à tela. 🟢
     - Tipo: nova
-18. **RN-18:** A ficha de p. 75 imprime que a aferição da pressão arterial é obrigatória a partir dos 3 anos de idade. Se a p. 75 entrar no escopo (lacuna 1 da seção 10), essa regra entra com ela, como texto da fonte, sem que o produto avalie o valor aferido: classificar pressão arterial pediátrica exige tabela por percentil de estatura que a caderneta não imprime. 🟢
+18. **RN-18:** A ficha de p. 75 imprime que a aferição da pressão arterial é obrigatória a partir dos 3 anos de idade. Como a p. 75 ficou **fora desta entrega** por RN-03, a regra não chega à tela agora e permanece registrada aqui para a passagem que trouxer aquela página. Quando entrar, entra como texto da fonte, sem que o produto avalie o valor aferido: classificar pressão arterial pediátrica exige tabela por percentil de estatura que a caderneta não imprime. 🟢
     - Origem no legado: `_reversa_sdd/domain.md#8`, escopo igual ao da fonte
     - Tipo: nova
 
@@ -105,16 +110,16 @@ produto é um **texto de registro**, e não um número.
 |----|-----------|------------|--------------------|-------------|
 | RF-01 | Rota nova em `/puericultura/consulta`, sétima do catálogo, na seção de Puericultura já existente, sem alterar as fichas atuais do `CATALOGO` | Must | A home lista duas calculadoras em Puericultura; teste de integração da home afirma que as entradas anteriores continuam idênticas | 🟢 |
 | RF-02 | Informar sexo, data de nascimento, data da consulta e, quando houver, idade gestacional ao nascer | Must | Com data de nascimento e data da consulta, a tela exibe a idade em dias e meses; com idade gestacional abaixo de 37 semanas, exibe também a corrigida, cada uma rotulada | 🟢 |
-| RF-03 | Sugerir a ficha aplicável à idade e permitir que o usuário a troque por qualquer outra das dez | Must | Idade de 4 meses e 10 dias sugere a ficha do 4.º Mês; trocar para a do 6.º Mês substitui os campos exibidos sem recarregar a página | 🟡 |
+| RF-03 | Sugerir a ficha aplicável à idade cronológica e permitir que o usuário a troque por qualquer outra das dez | Must | Idade de 4 meses e 10 dias sugere a ficha do 4.º Mês; trocar para a do 6.º Mês substitui os campos exibidos sem recarregar a página; no pré-termo, a sugestão vem da cronológica e o texto o declara | 🟢 |
 | RF-04 | Apresentar os campos da ficha escolhida na redação e na ordem da fonte, com a natureza que a fonte lhes dá: marcação de sim ou não, escolha entre opções, número com unidade e texto livre | Must | Para cada uma das dez fichas, o conjunto de campos exibidos corresponde ao da página, conferido campo a campo contra o PDF | 🟢 |
-| RF-05 | Acomodar as diferenças de flexão entre as duas tiragens conforme o sexo informado | Should | Selecionado o sexo feminino, a tela exibe "interação mãe-filha"; masculino exibe "mãe-filho" | 🟢 |
+| RF-05 | Acomodar as diferenças de flexão entre as duas tiragens conforme o sexo informado e suprimir "Criptorquidia" na ficha feminina do 2.º Mês | Must | Selecionado o sexo feminino, a tela exibe "interação mãe-filha" e a ficha do 2.º Mês não traz o campo "Criptorquidia"; masculino exibe "mãe-filho" e traz o campo | 🟢 |
 | RF-06 | Comando único que copia para a área de transferência tudo o que foi preenchido, organizado em SOAP | Must | Acionado o comando, o conteúdo da área de transferência contém as quatro seções na ordem S, O, A, P, omitidas as que ficarem vazias, e nenhum campo não preenchido | 🟡 |
 | RF-07 | Confirmar visivelmente o resultado da cópia, com recado nomeado quando a área de transferência recusar | Must | Sucesso é anunciado a leitor de tela de modo não intrusivo; recusa é anunciada de modo assertivo, no molde da feature 019 | 🟢 |
-| RF-08 | Exibir o texto SOAP na tela antes de copiar, para conferência | Should | O texto visível e o texto copiado são idênticos byte a byte, verificado por teste | 🟡 |
+| RF-08 | Exibir o texto SOAP na tela antes de copiar, para conferência e como saída do caminho de recusa de RF-07 | Must | O texto visível e o texto copiado são idênticos byte a byte, verificado por teste; negado o acesso à área de transferência, o texto já está na tela e a cópia manual é possível sem passo extra | 🟢 |
 | RF-09 | Abrir a calculadora de crescimento em painel sobre a mesma tela, já com sexo, datas e medidas preenchidos a partir da ficha | Must | Preenchidos peso, comprimento e perímetro cefálico na ficha, o painel abre sem exigir nenhuma redigitação | 🟡 |
 | RF-10 | Trazer os escores z e a classificação nutricional da calculadora de volta para o registro, com a referência clínica que a fachada emite | Must | Fechado o painel, a seção objetiva do SOAP passa a conter os escores z e a classificação, com a localização bibliográfica | 🟡 |
 | RF-11 | O painel da calculadora carrega sob demanda, sem custo para quem não o abre | Should | A medição de bundle mostra que a rota nova não paga as tabelas antropométricas no primeiro carregamento, no molde de `medicao-bundle.md` da 019 | 🟢 |
-| RF-12 | Declarar a proveniência fora do painel de resultado e visível desde o primeiro carregamento: a fonte, as páginas, o que a organização em SOAP tem de autoral e o que a caderneta imprime | Must | A tela exibe o bloco de proveniência antes de qualquer preenchimento, no molde de `interface/puericultura/proveniencia.tsx` | 🟢 |
+| RF-12 | Declarar a proveniência fora do painel de resultado e visível desde o primeiro carregamento: a fonte, as páginas, o que a organização em SOAP tem de autoral, a ausência das três fichas de RN-03 e a supressão de RN-08 | Must | A tela exibe o bloco de proveniência antes de qualquer preenchimento, no molde de `interface/puericultura/proveniencia.tsx`, e nele constam as três páginas ausentes e o campo suprimido na ficha feminina | 🟢 |
 | RF-13 | Avisar que nada é salvo e que recarregar descarta o preenchimento | Must | O aviso é visível sem rolagem na primeira dobra em viewport de telefone | 🟢 |
 | RF-14 | Declarar a classe de todo literal novo em `scripts/textos/classes/`, com os rótulos da caderneta como citação | Must | `node scripts/inventariar-textos.mts --gerar` conclui sem candidato órfão, e a segunda execução deixa `git diff` vazio | 🟢 |
 | RF-15 | Preservar `tests/apoio/citacao-linha-de-base.json` sem modificação | Must | `git status` mostra o arquivo intocado ao fim da entrega | 🟢 |
@@ -147,11 +152,13 @@ Cenário: a ficha aplicável é sugerida pela idade
   E sugere a ficha da Consulta do 4º Mês
   E me permite trocar para qualquer uma das dez fichas
 
-Cenário: as duas idades aparecem no pré-termo
+Cenário: as duas idades aparecem no pré-termo, e a cronológica escolhe a ficha
   Dado que informo idade gestacional ao nascer de 32 semanas e 3 dias
   Quando a tela calcula as idades
   Então ela exibe a idade cronológica e a corrigida, cada uma rotulada
-  E declara qual delas governou a ficha sugerida
+  E sugere a ficha pela idade cronológica
+  E o texto copiado declara que foi a cronológica que governou a escolha
+  E me permite trocar a ficha por qualquer outra das dez
 
 Cenário: o texto copiado registra só o que foi preenchido
   Dado que na ficha do 4º Mês marco "Diarreia/Constipação: Sim" e deixo o exame ocular em branco
@@ -159,6 +166,15 @@ Cenário: o texto copiado registra só o que foi preenchido
   Então o texto copiado contém a diarreia na seção subjetiva
   E não contém nenhuma menção ao exame ocular
   E omite por inteiro qualquer seção do SOAP que tenha ficado vazia
+
+Cenário: a avaliação reúne os quatro eixos da consulta
+  Dado que na ficha do 12º Mês registro a situação vacinal, respondo sobre a adequação da alimentação
+  E classifico o desenvolvimento como "Adequado para idade"
+  E obtive a classificação nutricional pela calculadora de crescimento
+  Quando aciono o comando de cópia
+  Então a seção de avaliação reúne crescimento, desenvolvimento, situação vacinal e alimentação
+  E nenhuma dessas linhas foi concluída pelo produto, apenas transposta do que marquei
+  E a conduta decorrente da vacinação, se houver, consta do plano e não da avaliação
 
 Cenário: a calculadora de crescimento não pede redigitação
   Dado que preenchi peso, comprimento e perímetro cefálico na ficha
@@ -184,7 +200,14 @@ Cenário: a flexão acompanha o sexo informado
   Dado que informo sexo feminino
   Quando abro a ficha do 1º Mês
   Então o campo de observação da interação aparece na flexão feminina
-  E nenhum campo clínico difere do que a outra tiragem imprime
+  E nenhum outro campo difere do que a tiragem masculina imprime
+
+Cenário: a criptorquidia sai da ficha feminina, e a saída é declarada
+  Dado que informo sexo feminino
+  Quando abro a ficha do 2º Mês
+  Então o campo "Criptorquidia" não aparece
+  E o bloco de proveniência informa que a fonte o imprime nas duas tiragens
+  E na ficha do 2º Mês de sexo masculino o campo aparece normalmente
 
 Cenário: o que se confere é o que se copia
   Dado que preenchi campos em três seções da ficha
@@ -210,7 +233,10 @@ Cenário: a entrega não afrouxa nenhuma obrigação da plataforma
 | RF-03 | Must | Sem seleção por idade, o usuário procura a ficha em uma lista de dez, que é o trabalho que a feature promete poupar |
 | RF-07, RF-12, RF-13, RF-14, RF-15, RF-16, RF-17, RF-18 | Must | Obrigações que a plataforma já assumiu e que nenhuma feature nova pode revogar |
 | RF-09, RF-10 | Must | O pedido é explícito, e sem eles a tela obriga a redigitar as medidas em outra rota, que é o inverso de "tudo em uma única tela" |
-| RF-05, RF-08, RF-11 | Should | Melhoram fidelidade, conferência e custo, sem os quais a feature ainda entrega o essencial |
+| RF-05 | Must | Promovido em 28/07: carrega agora a supressão de RN-08, que é obrigação de norma e não refinamento de fidelidade |
+| RF-08 | Must | Promovido em 28/07: o caminho de recusa de RF-07 promete o texto na tela para cópia manual, o que faz da exibição pré-requisito de um Must |
+| RF-11 | Should | Melhora o custo de carregamento, sem o qual a feature ainda entrega o essencial |
+| Fichas de pp. 67, 68 e 75 | Won't | Lacuna 1 arbitrada em 28/07: as três acrescentam superfície de transcrição sem o mesmo acréscimo de uso na consulta de rotina; a ausência vai declarada na proveniência |
 | RNF de desempenho | Should | O custo só se conhece medindo, e a medição é da fase de polimento |
 | Marcos do desenvolvimento, pp. 78 a 84 | Won't | Declarado pelo usuário como etapa futura; RN-15 separa o desfecho, que entra, do instrumento, que não |
 | Persistência do preenchimento | Won't | ADR 0002; salvar rascunho de dado clínico é decisão de arquitetura, não conveniência de tela |
@@ -219,16 +245,33 @@ Cenário: a entrega não afrouxa nenhuma obrigação da plataforma
 
 ## 9. Esclarecimentos
 
-> Nenhuma sessão de dúvidas registrada ainda. Rode `/reversa-clarify` quando houver `[DÚVIDA]` pendente.
+### Sessão 2026-07-28
+
+- **Q:** Quais fichas entram na primeira entrega, dadas as três das páginas verdes que não são consultas datadas?
+  **R:** Somente as dez consultas datadas. Pré-Natal e Nascimento (p. 67), Triagens Neonatais (p. 68) e Outras Medidas e Consultas Necessárias (p. 75) ficam para uma segunda passagem, com a ausência declarada na proveniência. Integrado em RN-03, RN-18, RF-12 e na tabela MoSCoW.
+
+- **Q:** Qual idade governa a sugestão da ficha na criança nascida pré-termo?
+  **R:** A cronológica, porque rege o calendário de acompanhamento e o vacinal. As duas idades continuam exibidas, o texto declara qual governou e a troca permanece do prescritor. Integrado em RN-04, RN-05, RF-03 e no segundo cenário de aceite.
+
+- **Q:** Como se distribuem os campos pelas quatro seções do SOAP, e onde ficam "Laços de afeto", "Sinais de violências/negligências" e "Acidentes domésticos"?
+  **R:** O arranjo proposto vale, com uma emenda na avaliação: **A** passa a reunir os quatro eixos que a consulta de puericultura avalia — crescimento, desenvolvimento, situação vacinal e alimentação. Os três campos resistentes seguem a recomendação apresentada: "Laços de afeto" e "Sinais de violências/negligências" em **O**, por serem observação do profissional; "Acidentes domésticos" em **P**, por ser orientação preventiva. Integrado em RN-09, na regra de composição RN-09b e em cenário de aceite próprio.
+
+- **Q:** O que fazer com "Criptorquidia", que a fonte imprime na ficha do 2.º Mês das duas tiragens, inclusive na da menina?
+  **R:** Suprimir na ficha feminina e declarar a supressão ao leitor, com a exceção de conteúdo registrada em microdecisão própria. Integrado em RN-07, RN-08, RF-05, RF-12, em cenário de aceite próprio e em `.harness/decisoes/MD-0026.md`.
+
+- **Q:** O texto SOAP visível na tela é *Must* ou *Should*, dado que o caminho de recusa de RF-07 promete o texto para cópia manual?
+  **R:** *Must*. A exibição é pré-requisito de um requisito obrigatório, e mantê-la como desejável deixaria o cenário de recusa sem saída. Integrado em RF-08 e na tabela MoSCoW.
 
 ## 10. Lacunas
 
-- 🔴 [DÚVIDA] 1 — **Quais fichas entram na primeira entrega.** As dez consultas datadas são o núcleo e entram. Faltam decidir as três restantes das páginas verdes: Pré-Natal e Nascimento (p. 67), que é registro retrospectivo com sorologias, Apgar e dados de parto; Triagens Neonatais (p. 68), que se sobrepõe em parte ao quadro de triagem impresso na ficha do 1.º Mês; e Outras Medidas e Consultas Necessárias (p. 75), que é tabela livre mais a regra de pressão arterial de RN-18. Cada uma acrescenta superfície de transcrição sem acrescentar o mesmo tanto de uso na consulta de rotina. Recomendação: entregar as dez e deixar as três para uma segunda passagem, com a ausência declarada na proveniência. Afeta RN-03 e RN-18.
-- 🔴 [DÚVIDA] 2 — **Qual idade governa a ficha na criança nascida pré-termo.** A fonte é silente: as pp. 66 a 75 nomeiam as consultas por mês de vida e não dizem se, no prematuro, o mês é o cronológico ou o corrigido, ao passo que a p. 87 é explícita quanto às curvas. `MD-0011` fixou que a cronológica mede o corpo e a corrigida lê a curva, mas a escolha da ficha não é nenhuma das duas coisas: é calendário de acompanhamento. Recomendação: sugerir pela cronológica, porque é ela que rege o calendário vacinal e as consultas de rotina, exibir as duas e declarar no SOAP qual governou, deixando a troca ao prescritor por RN-04. Afeta RN-04, RN-05, RF-03 e o segundo cenário de aceite.
-- 🔴 [DÚVIDA] 3 — **O mapa de campo para seção do SOAP.** A caderneta não fala em SOAP, de modo que o mapa é autoral e precisa ser validado por quem usa. Arranjo proposto: **S** recebe aleitamento e alimentação, sinais de alerta relatados, sono, funcionamento intestinal e o que os cuidadores relatam; **O** recebe medidas, escores z, exame ocular, resultado de triagens e demais achados de exame; **A** recebe a classificação nutricional vinda da calculadora e a classificação do desenvolvimento em três níveis; **P** recebe vacinas, suplementação, encaminhamentos, acompanhamento odontológico e as orientações da seção "Atenção e cuidados especiais nesta fase". Três campos resistem ao arranjo e precisam de decisão explícita: "Laços de afeto", que é observação do profissional e cabe em O ou em A; "Sinais de violências/negligências", que pode ser achado ou plano conforme haja conduta; e "Acidentes domésticos", que é orientação preventiva com cara de plano mas nasce como pergunta. Afeta RN-09, RN-10, RF-06 e RF-08.
+Nenhuma dúvida bloqueante em aberto. Permanecem as duas premissas que só o uso arbitra, ambas registradas para verificação e nenhuma delas impeditiva do plano:
+
+- 🟡 **Sugestão da ficha entre duas consultas previstas.** RN-04 sugere a ficha imediatamente anterior, e a fonte não diz o que fazer com a criança de sete meses. É premissa do produto, e o sinal de que está errada é o prescritor trocar a ficha sugerida com frequência.
+- 🟡 **A colocação dos três campos resistentes de RN-09.** Seguem a recomendação da sessão de esclarecimento, e é colocação que só a leitura do registro pronto confirma. Corrigi-la depois custa uma linha do mapa, e não estrutura.
 
 ## 11. Histórico de alterações
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-07-28 | Versão inicial gerada por `/reversa-requirements`, com leitura direta das pp. 66 a 75 das duas tiragens da caderneta | reversa |
+| 2026-07-28 | `/reversa-clarify`: as três dúvidas resolvidas mais a arbitragem de RN-08 e a tensão RF-07 × RF-08. Escopo fechado nas dez fichas; ficha sugerida pela idade cronológica; mapa SOAP com a avaliação reunindo os quatro eixos (RN-09b nova); "Criptorquidia" suprimida na ficha feminina, com `MD-0026`; RF-05 e RF-08 promovidos a *Must* | reversa |
