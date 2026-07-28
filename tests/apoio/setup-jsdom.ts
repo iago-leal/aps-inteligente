@@ -20,3 +20,17 @@ for (const proto of [
     });
   }
 }
+
+// Feature 019: o Dialog do @primer/react observa o próprio corpo por
+// `useOverflow`, que instancia `ResizeObserver`. O jsdom não o implementa, e sem
+// ele todo render do painel de contribuição quebra no efeito de montagem. O dublê
+// abaixo é inerte de propósito: nada no jsdom muda de tamanho, de modo que jamais
+// haveria entrada a notificar — o que se testa aqui é conteúdo e semântica, e a
+// geometria fica com os roteiros de ponta a ponta, onde há navegador de verdade.
+if (typeof globalThis.ResizeObserver === "undefined") {
+  globalThis.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver;
+}

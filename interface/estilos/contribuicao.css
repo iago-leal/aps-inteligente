@@ -1,0 +1,123 @@
+/* Estilos do bloco e do painel de contribuição voluntária (feature 019,
+   RF-05/RF-16; roadmap D-10/D-11).
+
+   Folha própria pela convenção vigente desde a feature 013: acrescentar estas
+   regras a inicio.css misturaria o bloco de apoio com a tipografia da home e
+   empurraria uma folha para perto do teto de 400 linhas, dívida que a
+   consolidação do cabeçalho encerrou.
+
+   Mesma doutrina da feature 004 (RN-01): só cola de layout sobre var(--*) do
+   Primer, sem cor, fonte ou sombra própria fora dos tokens. A exceção é o fundo
+   branco do QR, que é requisito de leitura por câmera e não escolha estética
+   (ver o cabeçalho de codigo-qr.tsx).
+
+   RF-16 e a ordem do DOM: os dois comandos de cópia vêm antes do QR na
+   marcação, porque em telefone ler o código é impossível no aparelho que o
+   exibe. Em telas largas o grid recoloca o desenho ao lado, e nada aqui altera
+   a ordem de leitura nem a de foco. */
+
+/* ── Bloco ao pé da home ──────────────────────────────────────────────── */
+
+.contribuicao-bloco {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 32px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  border-top: 1px solid var(--borderColor-muted);
+  padding-top: 32px;
+}
+
+.contribuicao-bloco h2 {
+  margin: 0;
+  font-size: 16px;
+  line-height: var(--text-title-lineHeight-small, 1.5);
+}
+
+.contribuicao-bloco p {
+  margin: 0;
+  color: var(--fgColor-muted);
+}
+
+/* ── Painel ───────────────────────────────────────────────────────────── */
+
+.contribuicao-painel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contribuicao-painel p {
+  margin: 0;
+}
+
+.contribuicao-painel h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.contribuicao-copias,
+.contribuicao-desenho {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.contribuicao-acao-copiar {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  width: 100%;
+}
+
+/* A chave em texto quebra em qualquer largura: é identificador longo e sem
+   espaço, e transbordar esconderia o começo dela. */
+.contribuicao-chave {
+  margin: 0;
+  font-family: var(--fontStack-monospace, monospace);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  padding: 8px;
+  border: 1px solid var(--borderColor-default);
+  border-radius: var(--borderRadius-medium, 6px);
+  background-color: var(--bgColor-muted);
+  width: 100%;
+}
+
+/* Quiet zone própria: o padrão exige margem clara ao redor do desenho, e o
+   fundo do painel muda com o tema. */
+.contribuicao-qr {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: var(--borderRadius-medium, 6px);
+  line-height: 0;
+}
+
+/* ── Telas largas: desenho ao lado, ordem do DOM preservada ───────────── */
+
+@media (min-width: 768px) {
+  .contribuicao-painel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "texto texto"
+      "copias desenho";
+    align-items: start;
+    column-gap: 24px;
+  }
+
+  .contribuicao-painel > p {
+    grid-column: 1 / -1;
+  }
+
+  .contribuicao-copias {
+    grid-area: copias;
+  }
+
+  .contribuicao-desenho {
+    grid-area: desenho;
+  }
+}

@@ -97,11 +97,60 @@ describe("Apresentação da home (feature 008)", () => {
 describe("Seção Cardiologia na home (feature 010; RF-08)", () => {
   it("exibe a seção Cardiologia com a calculadora de probabilidade pré-teste", () => {
     render(<TelaInicio />);
-    expect(screen.getByRole("heading", { name: /^cardiologia$/i })).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { name: /^cardiologia$/i }),
+    ).toBeTruthy();
     const link = screen.getByRole("link", {
       name: /probabilidade pré-teste de cardiopatia isquêmica/i,
     });
     expect(link.getAttribute("href")).toBe("/cardiologia/dor-toracica");
+  });
+});
+
+// T025 (feature 019-contribuicao-voluntaria-pix) — a home ganha o bloco de apoio
+// ao pé das seções (RF-05/RF-11; D-12). As asserções anteriores permanecem byte a
+// byte, e o CATALOGO é conferido intocado: o bloco entra FORA dele, porque o
+// catálogo é fonte única de calculadoras e um item que não calcula nada ali
+// dentro corromperia o que ele significa.
+describe("Bloco de apoio na home (feature 019; RF-05/RF-11)", () => {
+  it("exibe o comando de apoio ao pé da página", () => {
+    render(<TelaInicio />);
+    expect(
+      screen.getByRole("button", { name: /contribuir por pix/i }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { name: /apoie a plataforma/i }),
+    ).toBeTruthy();
+  });
+
+  it("o painel não nasce montado: só o comando aparece antes do clique", () => {
+    render(<TelaInicio />);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("o bloco fica fora do CATALOGO, que segue com as mesmas seções e rotas", () => {
+    render(<TelaInicio />);
+    for (const secao of CATALOGO) {
+      const regiao = screen.getByRole("region", {
+        name: new RegExp(secao.titulo, "i"),
+      });
+      expect(
+        within(regiao).queryByRole("button", { name: /contribuir/i }),
+      ).toBeNull();
+      expect(within(regiao).getAllByRole("link")).toHaveLength(
+        secao.calculadoras.length,
+      );
+    }
+    const rotas = CATALOGO.flatMap((secao) =>
+      secao.calculadoras.map((calculadora) => calculadora.rota),
+    );
+    expect(rotas).toEqual([
+      "/dm2/insulina",
+      "/pre-natal/idade-gestacional",
+      "/cardiologia/dor-toracica",
+      "/cardiologia/risco-cardiovascular",
+      "/puericultura/crescimento",
+    ]);
   });
 });
 

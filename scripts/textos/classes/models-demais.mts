@@ -140,6 +140,25 @@ export const MAPA: MapaDeClasses = {
     ]),
   ],
 
+  // ─── Contribuição (feature 019; domínio NÃO clínico, MD-0022) ───────────────────
+  //
+  // Não há citação aqui, e a ausência é declarada: o módulo obedece à especificação
+  // do BR Code do Banco Central, que não é fonte clínica e não entra no catálogo
+  // congelado de referências. Toda a prosa é autoral, e o alvo dela é o mantenedor
+  // sozinho, meses depois, lendo por que a configuração foi recusada.
+
+  "models/contribuicao/validacao.ts": [
+    ...autorais([
+      "Chave PIX ausente: informe a chave de recebimento em interface/contribuicao/beneficiario.ts.",
+      "Nome do beneficiário ausente: informe o nome em interface/contribuicao/beneficiario.ts.",
+      "Nome do beneficiário acima do limite do padrão, que é de 25 caracteres: use uma forma mais curta. O código recusa em vez de truncar, porque nome cortado gera código válido com beneficiário errado.",
+      "Cidade do beneficiário ausente: informe a cidade em interface/contribuicao/beneficiario.ts.",
+      "Cidade do beneficiário acima do limite do padrão, que é de 15 caracteres: use uma forma mais curta. O código recusa em vez de truncar.",
+      "Identificação da contribuição acima do limite do padrão, que é de 25 caracteres: use uma forma mais curta ou omita o campo.",
+      "Valor sugerido inválido: informe um número positivo e finito, ou omita o campo para deixar o valor à escolha de quem contribui.",
+    ]),
+  ],
+
   "models/risco-cardiovascular/validacao.ts": [
     ...autorais([
       "Sexo inválido: informe masculino ou feminino. As equações são específicas por sexo.",

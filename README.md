@@ -6,7 +6,7 @@ as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citáv
 
 | Seção                    | Calculadora                                                                 | Rota                                | Fonte                                                                                                | Domínio                         |
 | ------------------------ | --------------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------- |
-| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação)                                | `/dm2/insulina`                     | Guia Rápido Diabetes Mellitus — SMS-Rio, 2023                                                                       | `models/insulina/`              |
+| Diabetes Mellitus tipo 2 | Insulina (início, titulação, intensificação)                                | `/dm2/insulina`                     | Guia Rápido Diabetes Mellitus — SMS-Rio, 2023                                                        | `models/insulina/`              |
 | Pré-natal                | Idade gestacional (DUM e/ou ultrassom)                                      | `/pre-natal/idade-gestacional`      | Guia Rápido Pré-Natal — SMS-Rio, 2025                                                                | `models/gestacao/`              |
 | Cardiologia              | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica             | `/cardiologia/dor-toracica`         | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)                                      | `models/cardiopatia-isquemica/` |
 | Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
@@ -133,6 +133,36 @@ Para **criar uma tela nova**:
    O ícone é decorativo (`aria-hidden`), e o catálogo permanece a fonte de navegação.
 5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor
    carregando `ReferenciaClinica` com página/seção.
+
+## Contribuição voluntária via PIX (feature 019)
+
+A home traz, ao pé das seções, um bloco de apoio que abre um painel com o QR do PIX, a chave em
+texto e o código copia e cola. Nada é processado no site: o arranjo é **PIX estático**, o
+payload é montado no navegador e a plataforma não fica sabendo se alguém contribuiu.
+
+**Onde se configura, e é ponto único.** `interface/contribuicao/beneficiario.ts` guarda chave,
+nome e cidade, congelados por `Object.freeze` no molde do `CATALOGO`. Trocar a chave ali troca o
+destinatário no QR e nas duas cópias, e nada mais precisa mudar. Nome e cidade aparecem na tela
+de confirmação do aplicativo de quem contribui, e é por eles que a pessoa reconhece a quem está
+transferindo. Os limites do padrão do Banco Central são de **25 caracteres para o nome** e **15
+para a cidade**, e o módulo **recusa** o que exceder, em vez de truncar: nome cortado geraria
+código válido apresentando beneficiário errado, que é o pior desfecho possível. A recusa aparece
+como erro no painel durante o desenvolvimento.
+
+**Como conferir depois de trocar a chave.** A suíte prova que o payload obedece à nossa leitura
+da especificação, e não que a leitura estava certa. Por isso o procedimento tem duas partes, e a
+segunda é obrigatória a cada alteração no módulo:
+
+1. Rode a suíte (`npm test`) e confira o payload contra um decodificador independente, como em
+   `_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md`.
+2. Abra o painel e leia o QR com o aplicativo de um banco real, conferindo o nome do
+   beneficiário na tela de confirmação. **Não conclua a transferência**: ver o nome certo já
+   prova o que precisa ser provado.
+
+O motor do BR Code vive em `models/contribuicao/`, é o primeiro domínio **não clínico** do
+projeto e declara essa isenção no cabeçalho da fachada (`MD-0022`): não tem fonte clínica única
+e não emite `ReferenciaClinica`. O painel carrega por import dinâmico, de modo que o desenho do
+QR não pesa no primeiro carregamento da home.
 
 ## Tabelas de referência da OMS (feature 017)
 

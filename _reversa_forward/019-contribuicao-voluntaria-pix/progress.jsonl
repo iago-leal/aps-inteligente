@@ -1,0 +1,35 @@
+{"ts":"2026-07-28T14:37:29Z","action":"T001","status":"done","files":["models/contribuicao/tipos.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T002","status":"done","files":["interface/contribuicao/beneficiario.ts"],"nota":"valores de exemplo declarados; EXEMPLO exportado como oraculo da guarda de T029"}
+{"ts":"2026-07-28T14:37:29Z","action":"T003","status":"done","files":["tests/apoio/contribuicao.ts"],"nota":"desvio: arquivo proprio por dominio (precedente tests/apoio/puericultura.ts) em vez de construtores.ts, que e de insulina"}
+{"ts":"2026-07-28T14:37:29Z","action":"T004","status":"done","files":["tests/unit/dominio-contribuicao/crc16.test.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T005","status":"done","files":["tests/unit/dominio-contribuicao/campo.test.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T006","status":"done","files":["tests/unit/dominio-contribuicao/validacao.test.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T007","status":"done","files":["tests/unit/dominio-contribuicao/br-code.test.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T008","status":"done","files":["tests/unit/dominio-contribuicao/invariantes.test.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T009","status":"done","files":["models/contribuicao/crc16.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T010","status":"done","files":["models/contribuicao/campo.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T011","status":"done","files":["models/contribuicao/validacao.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T012","status":"done","files":["models/contribuicao/br-code.ts"]}
+{"ts":"2026-07-28T14:37:29Z","action":"T013","status":"done","files":["tests/unit/dominio-contribuicao/"],"nota":"38 testes verdes; cobertura 100% stmts/branches/funcs/lines em models/contribuicao"}
+{"ts":"2026-07-28T14:51:26Z","action":"T014","status":"done","files":["package.json","package-lock.json"],"nota":"react-qr-code@2.2.0 pinada exata; traz prop-types (ja na arvore via eslint-plugin-react) e qrcode-generator@2.0.4; typecheck e build verdes"}
+{"ts":"2026-07-28T14:51:26Z","action":"T015","status":"done","files":["interface/contribuicao/codigo-qr.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T016","status":"done","files":["interface/contribuicao/acao-copiar.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T017","status":"done","files":["interface/contribuicao/painel.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T018","status":"done","files":["interface/contribuicao/bloco-de-apoio.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T019","status":"done","files":["interface/estilos/contribuicao.css","pages/_app.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T020","status":"done","files":["interface/inicio/tela.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T021","status":"done","files":["scripts/textos/classes/interface.mts"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T022","status":"done","files":["scripts/textos/classes/models-demais.mts"],"nota":"mensagens de validacao reescritas como literais completos: template interpolado seria invisivel ao extrator (MD-0021)"}
+{"ts":"2026-07-28T14:51:26Z","action":"T023","status":"done","files":["tests/apoio/inventario-textual.json"],"nota":"685 literais; 2a execucao com hash identico (idempotente)"}
+{"ts":"2026-07-28T14:51:26Z","action":"T024","status":"done","files":["tests/integration/interface/contribuicao.test.tsx","tests/apoio/setup-jsdom.ts"],"nota":"polyfill de ResizeObserver acrescentado ao setup jsdom (Dialog do Primer usa useOverflow)"}
+{"ts":"2026-07-28T14:51:26Z","action":"T025","status":"done","files":["tests/integration/interface/inicio.test.tsx"]}
+{"ts":"2026-07-28T14:51:26Z","action":"T026","status":"done","files":["e2e/contribuicao.spec.ts","interface/contribuicao/painel.tsx"],"nota":"11 cenarios verdes; axe apontou heading-order (h1 do Dialog seguido de h3) e os subtitulos viraram h2; guarda de rede afere requisicao EXTERNA e busca de dado, nao chunk da propria origem"}
+{"ts":"2026-07-28T14:51:26Z","action":"T027","status":"done","files":["_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md"],"nota":"pix-utils@2.8.2 fora do repo aceitou o payload e recusou CRC adulterado e nome alterado"}
+{"ts":"2026-07-28T15:00:30Z","action":"T029","status":"done","files":["tests/unit/interface/beneficiario-sem-exemplo.test.ts"],"nota":"tres asercoes de valor real em it.todo ate T028; tres de forma valendo desde ja"}
+{"ts":"2026-07-28T15:00:30Z","action":"T030","status":"done","files":[".harness/decisoes/MD-0024.md"]}
+{"ts":"2026-07-28T15:00:30Z","action":"T031","status":"done","files":["README.md"]}
+{"ts":"2026-07-28T15:00:30Z","action":"T032","status":"done","files":["_reversa_forward/019-contribuicao-voluntaria-pix/medicao-bundle.md","interface/contribuicao/bloco-de-apoio.tsx"],"nota":"medicao reprovou o import estatico (+14923 B gzip na home); next/dynamic baixou para +2534 B"}
+{"ts":"2026-07-28T15:00:30Z","action":"T028","status":"blocked","files":[],"nota":"lacuna D-02: os tres valores literais do beneficiario nao chegaram; arquivo segue com exemplo declarado"}
+{"ts":"2026-07-28T15:00:30Z","action":"T033","status":"blocked","files":[],"nota":"depende de T028: com chave de exemplo a recusa do aplicativo nao distinguiria erro nosso de chave inexistente"}
+{"ts":"2026-07-28T15:00:30Z","action":"T034","status":"done","files":["tests/apoio/citacao-linha-de-base.json","e2e/axe-baseline.json"],"nota":"baselines intocadas por git status; vitest 730+3 todo, playwright 47, typecheck e eslint limpos"}
+{"ts":"2026-07-28T15:08:10Z","action":"T028","status":"corrected","files":["interface/contribuicao/beneficiario.ts","tests/unit/interface/beneficiario-sem-exemplo.test.ts","scripts/textos/classes/interface.mts","tests/apoio/inventario-textual.json"],"nota":"lacuna D-02 encerrada: chave 3bd85538-..., Iago Leal, Goiania; guarda saiu de it.todo; payload real aceito pelo oraculo independente com CRC DBD8"}

@@ -10,18 +10,18 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 655,
+    "literais": 710,
     "porClasse": {
-      "autoral": 496,
+      "autoral": 548,
       "citacao": 108,
-      "identificador": 51
+      "identificador": 54
     },
     "porCamada": {
-      "models": 162,
-      "interface": 309,
+      "models": 169,
+      "interface": 333,
       "pages": 33,
       "manifesto": 3,
-      "readme": 148
+      "readme": 172
     }
   },
   "literais": [
@@ -181,6 +181,55 @@
       "linha": 49,
       "classe": "autoral",
       "texto": "Sexo inválido: informe masculino ou feminino. A probabilidade pré-teste é específica por sexo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "Chave PIX ausente: informe a chave de recebimento em interface/contribuicao/beneficiario.ts.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 100,
+      "classe": "autoral",
+      "texto": "Nome do beneficiário ausente: informe o nome em interface/contribuicao/beneficiario.ts.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 101,
+      "classe": "autoral",
+      "texto": "Nome do beneficiário acima do limite do padrão, que é de 25 caracteres: use uma forma mais curta. O código recusa em vez de truncar, porque nome cortado gera código válido com beneficiário errado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 111,
+      "classe": "autoral",
+      "texto": "Cidade do beneficiário ausente: informe a cidade em interface/contribuicao/beneficiario.ts.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 112,
+      "classe": "autoral",
+      "texto": "Cidade do beneficiário acima do limite do padrão, que é de 15 caracteres: use uma forma mais curta. O código recusa em vez de truncar.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 124,
+      "classe": "autoral",
+      "texto": "Identificação da contribuição acima do limite do padrão, que é de 25 caracteres: use uma forma mais curta ou omita o campo.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/contribuicao/validacao.ts",
+      "linha": 137,
+      "classe": "autoral",
+      "texto": "Valor sugerido inválido: informe um número positivo e finito, ou omita o campo para deixar o valor à escolha de quem contribui.",
       "especie": "StringLiteral"
     },
     {
@@ -2407,6 +2456,174 @@
       "especie": "StringLiteral"
     },
     {
+      "arquivo": "interface/contribuicao/acao-copiar.tsx",
+      "linha": 51,
+      "classe": "autoral",
+      "texto": "Não foi possível copiar. Selecione o texto nesta tela e copie manualmente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/beneficiario.ts",
+      "linha": 33,
+      "classe": "identificador",
+      "texto": "BENEFICIARIO DE EXEMPLO",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/beneficiario.ts",
+      "linha": 34,
+      "classe": "identificador",
+      "texto": "CIDADE EXEMPLO",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/beneficiario.ts",
+      "linha": 49,
+      "classe": "identificador",
+      "texto": "Iago Leal",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/bloco-de-apoio.tsx",
+      "linha": 35,
+      "classe": "autoral",
+      "texto": "Apoie a plataforma",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/bloco-de-apoio.tsx",
+      "linha": 38,
+      "classe": "autoral",
+      "texto": "A APS Inteligente é mantida por uma pessoa só e não tem anúncio, cadastro nem plano pago. Se ela poupa seu tempo na consulta, você pode contribuir com o valor que quiser, por PIX.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/bloco-de-apoio.tsx",
+      "linha": 43,
+      "classe": "autoral",
+      "texto": "Contribuir por PIX",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 44,
+      "classe": "autoral",
+      "texto": "Contribuição voluntária",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 51,
+      "classe": "autoral",
+      "texto": "A contribuição é voluntária e não compra funcionalidade, prioridade, suporte nem acesso.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 55,
+      "classe": "autoral",
+      "texto": "A plataforma é gratuita e continua gratuita para quem não contribuir.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 58,
+      "classe": "autoral",
+      "texto": "Nada é processado nem confirmado aqui: a transferência acontece no aplicativo do seu banco, e esta página não fica sabendo se ela ocorreu.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 67,
+      "classe": "autoral",
+      "texto": "Código PIX copia e cola",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 70,
+      "classe": "autoral",
+      "texto": "No próprio celular não dá para ler o código com a câmera do mesmo aparelho. Copie o código abaixo e cole no aplicativo do seu banco, que já chega com o beneficiário identificado.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 75,
+      "classe": "autoral",
+      "texto": "Copiar código copia e cola",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 77,
+      "classe": "autoral",
+      "texto": "Código copiado: cole no aplicativo do banco.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 82,
+      "classe": "autoral",
+      "texto": "Chave PIX",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 86,
+      "classe": "autoral",
+      "texto": "Copiar chave",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 88,
+      "classe": "autoral",
+      "texto": "Chave copiada.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 95,
+      "classe": "autoral",
+      "texto": "Código para leitura por câmera",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 99,
+      "classe": "autoral",
+      "texto": "Código PIX para leitura pela câmera de outro aparelho",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": "Beneficiário:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": ", em",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 102,
+      "classe": "autoral",
+      "texto": ".",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/contribuicao/painel.tsx",
+      "linha": 109,
+      "classe": "autoral",
+      "texto": "A configuração do beneficiário está incorreta e o código não pôde ser gerado.",
+      "especie": "JsxText"
+    },
+    {
       "arquivo": "interface/gestacao/formulario.tsx",
       "linha": 98,
       "classe": "autoral",
@@ -2709,14 +2926,14 @@
     },
     {
       "arquivo": "interface/inicio/tela.tsx",
-      "linha": 18,
+      "linha": 19,
       "classe": "autoral",
       "texto": "APS Inteligente",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/inicio/tela.tsx",
-      "linha": 19,
+      "linha": 20,
       "classe": "autoral",
       "texto": "Calculadoras clínicas para a Atenção Primária à Saúde · Cálculo 100% no navegador",
       "especie": "StringLiteral"
@@ -4367,355 +4584,523 @@
       "arquivo": "README.md",
       "linha": 137,
       "classe": "autoral",
-      "texto": "## Tabelas de referência da OMS (feature 017)",
+      "texto": "## Contribuição voluntária via PIX (feature 019)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 139,
       "classe": "autoral",
-      "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
+      "texto": "A home traz, ao pé das seções, um bloco de apoio que abre um painel com o QR do PIX, a chave em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 140,
       "classe": "autoral",
-      "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
+      "texto": "texto e o código copia e cola. Nada é processado no site: o arranjo é **PIX estático**, o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 141,
       "classe": "autoral",
-      "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 142,
-      "classe": "autoral",
-      "texto": "mão**, e ficam versionados junto do gerador que os produziu, de modo que quem clona o",
+      "texto": "payload é montado no navegador e a plataforma não fica sabendo se alguém contribuiu.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 143,
       "classe": "autoral",
-      "texto": "repositório não precisa baixar nada para rodar os testes.",
+      "texto": "**Onde se configura, e é ponto único.** `interface/contribuicao/beneficiario.ts` guarda chave,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 144,
+      "classe": "autoral",
+      "texto": "nome e cidade, congelados por `Object.freeze` no molde do `CATALOGO`. Trocar a chave ali troca o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 145,
       "classe": "autoral",
-      "texto": "A cadeia tem duas ferramentas, e só a primeira toca a rede:",
+      "texto": "destinatário no QR e nas duas cópias, e nada mais precisa mudar. Nome e cidade aparecem na tela",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 146,
+      "classe": "autoral",
+      "texto": "de confirmação do aplicativo de quem contribui, e é por eles que a pessoa reconhece a quem está",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 147,
+      "classe": "autoral",
+      "texto": "transferindo. Os limites do padrão do Banco Central são de **25 caracteres para o nome** e **15",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 148,
+      "classe": "autoral",
+      "texto": "para a cidade**, e o módulo **recusa** o que exceder, em vez de truncar: nome cortado geraria",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 149,
+      "classe": "autoral",
+      "texto": "código válido apresentando beneficiário errado, que é o pior desfecho possível. A recusa aparece",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 150,
+      "classe": "autoral",
+      "texto": "como erro no painel durante o desenvolvimento.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 152,
+      "classe": "autoral",
+      "texto": "**Como conferir depois de trocar a chave.** A suíte prova que o payload obedece à nossa leitura",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 153,
       "classe": "autoral",
-      "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
+      "texto": "da especificação, e não que a leitura estava certa. Por isso o procedimento tem duas partes, e a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 154,
       "classe": "autoral",
-      "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado:",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 155,
-      "classe": "autoral",
-      "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
+      "texto": "segunda é obrigatória a cada alteração no módulo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 156,
       "classe": "autoral",
-      "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
+      "texto": "1. Rode a suíte (`npm test`) e confira o payload contra um decodificador independente, como em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 157,
       "classe": "autoral",
-      "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
+      "texto": "`_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 158,
       "classe": "autoral",
-      "texto": "`node scripts/congelar-casos-oraculo.mts`.",
+      "texto": "2. Abra o painel e leia o QR com o aplicativo de um banco real, conferindo o nome do",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 159,
+      "classe": "autoral",
+      "texto": "beneficiário na tela de confirmação. **Não conclua a transferência**: ver o nome certo já",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 160,
       "classe": "autoral",
-      "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 161,
-      "classe": "autoral",
-      "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
+      "texto": "prova o que precisa ser provado.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 162,
       "classe": "autoral",
-      "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
+      "texto": "O motor do BR Code vive em `models/contribuicao/`, é o primeiro domínio **não clínico** do",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 163,
+      "classe": "autoral",
+      "texto": "projeto e declara essa isenção no cabeçalho da fachada (`MD-0022`): não tem fonte clínica única",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 164,
       "classe": "autoral",
-      "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
+      "texto": "e não emite `ReferenciaClinica`. O painel carrega por import dinâmico, de modo que o desenho do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 165,
       "classe": "autoral",
-      "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 166,
-      "classe": "autoral",
-      "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter, e o",
+      "texto": "QR não pesa no primeiro carregamento da home.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 167,
       "classe": "autoral",
-      "texto": "limite existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 168,
-      "classe": "autoral",
-      "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
+      "texto": "## Tabelas de referência da OMS (feature 017)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 169,
       "classe": "autoral",
-      "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
+      "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 170,
       "classe": "autoral",
-      "texto": "outras calculadoras: o teto de função mira lógica, e essa fica nos `models/`.",
+      "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 171,
+      "classe": "autoral",
+      "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 172,
       "classe": "autoral",
-      "texto": "## Banco de dados (fundação, feature 003)",
+      "texto": "mão**, e ficam versionados junto do gerador que os produziu, de modo que quem clona o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 174,
+      "linha": 173,
       "classe": "autoral",
-      "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
+      "texto": "repositório não precisa baixar nada para rodar os testes.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 175,
       "classe": "autoral",
-      "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
+      "texto": "A cadeia tem duas ferramentas, e só a primeira toca a rede:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 176,
+      "linha": 183,
       "classe": "autoral",
-      "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
+      "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 177,
+      "linha": 184,
       "classe": "autoral",
-      "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
+      "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 178,
+      "linha": 185,
       "classe": "autoral",
-      "texto": "Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).",
+      "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 186,
+      "classe": "autoral",
+      "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 187,
+      "classe": "autoral",
+      "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 188,
       "classe": "autoral",
-      "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 189,
-      "classe": "autoral",
-      "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
+      "texto": "`node scripts/congelar-casos-oraculo.mts`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 190,
       "classe": "autoral",
-      "texto": "conexão pode sofrer cold start (autosuspend do plano Free); limites e roteiro completo em",
+      "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 191,
       "classe": "autoral",
-      "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
+      "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 193,
+      "linha": 192,
       "classe": "autoral",
-      "texto": "## Como verificar saúde",
+      "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 194,
+      "classe": "autoral",
+      "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 195,
       "classe": "autoral",
-      "texto": "Local, contra o build de produção (CSP ativa):",
+      "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 196,
+      "classe": "autoral",
+      "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter, e o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 197,
+      "classe": "autoral",
+      "texto": "limite existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 198,
+      "classe": "autoral",
+      "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 199,
+      "classe": "autoral",
+      "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 200,
+      "classe": "autoral",
+      "texto": "outras calculadoras: o teto de função mira lógica, e essa fica nos `models/`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 202,
+      "classe": "autoral",
+      "texto": "## Banco de dados (fundação, feature 003)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 204,
       "classe": "autoral",
-      "texto": "Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):",
+      "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 210,
+      "linha": 205,
       "classe": "autoral",
-      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em",
+      "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 211,
+      "linha": 206,
       "classe": "autoral",
-      "texto": "produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar",
+      "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 212,
+      "linha": 207,
       "classe": "autoral",
-      "texto": "a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:",
+      "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 213,
+      "linha": 208,
       "classe": "autoral",
-      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 214,
-      "classe": "autoral",
-      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 216,
-      "classe": "autoral",
-      "texto": "## Como publicar",
+      "texto": "Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 218,
       "classe": "autoral",
-      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 219,
       "classe": "autoral",
-      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 220,
       "classe": "autoral",
-      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "texto": "conexão pode sofrer cold start (autosuspend do plano Free); limites e roteiro completo em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 221,
       "classe": "autoral",
-      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 223,
       "classe": "autoral",
-      "texto": "## Documentação",
+      "texto": "## Como verificar saúde",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 225,
       "classe": "autoral",
+      "texto": "Local, contra o build de produção (CSP ativa):",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 234,
+      "classe": "autoral",
+      "texto": "Produção (domínio próprio; o apex redireciona para `www`, por isso `-L`):",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 240,
+      "classe": "autoral",
+      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}`, `Cache-Control: no-store` e, em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 241,
+      "classe": "autoral",
+      "texto": "produção, `commit` igual ao SHA do último commit de `main`. A raiz (`/`) deve renderizar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 242,
+      "classe": "autoral",
+      "texto": "a home com as quatro seções, e cada calculadora deve abrir na sua rota. Roteiro completo:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 243,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 244,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 246,
+      "classe": "autoral",
+      "texto": "## Como publicar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 248,
+      "classe": "autoral",
+      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 249,
+      "classe": "autoral",
+      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 250,
+      "classe": "autoral",
+      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 251,
+      "classe": "autoral",
+      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 253,
+      "classe": "autoral",
+      "texto": "## Documentação",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 255,
+      "classe": "autoral",
       "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 226,
+      "linha": 256,
       "classe": "autoral",
       "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 227,
+      "linha": 257,
       "classe": "autoral",
       "texto": "actions → legacy-impact → regression-watch).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 228,
+      "linha": 258,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

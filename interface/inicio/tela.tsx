@@ -9,6 +9,7 @@ import { ArrowRightIcon } from "@primer/octicons-react";
 import { Heading, Text } from "@primer/react";
 import Link from "next/link";
 import { Moldura } from "interface/comum/moldura";
+import { BlocoDeApoio } from "interface/contribuicao/bloco-de-apoio";
 import { CATALOGO } from "./catalogo";
 import { IconeDaSecao } from "./icones";
 
@@ -50,6 +51,11 @@ export function TelaInicio() {
           </section>
         ))}
       </div>
+      {/* Feature 019 (RF-05/RF-11; D-12): o bloco de apoio entra FORA do map do
+          CATALOGO, que é fonte única de calculadoras e desde a 018 é também
+          oráculo da descrição da plataforma. Um item que não calcula nada dentro
+          dele corromperia o que ele significa. */}
+      <BlocoDeApoio />
     </Moldura>
   );
 }
