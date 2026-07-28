@@ -10,9 +10,9 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 1168,
+    "literais": 1187,
     "porClasse": {
-      "autoral": 634,
+      "autoral": 653,
       "citacao": 472,
       "identificador": 62
     },
@@ -21,7 +21,7 @@
       "interface": 379,
       "pages": 38,
       "manifesto": 3,
-      "readme": 204
+      "readme": 223
     }
   },
   "literais": [
@@ -6976,7 +6976,7 @@
     },
     {
       "arquivo": "pages/api/v1/status.ts",
-      "linha": 13,
+      "linha": 37,
       "classe": "autoral",
       "texto": "Método não permitido; use GET.",
       "especie": "StringLiteral"
@@ -8523,154 +8523,287 @@
     },
     {
       "arquivo": "README.md",
-      "linha": 278,
+      "linha": 279,
       "classe": "autoral",
-      "texto": "Esperado: `200` com `{atualizado_em, versao, commit}` e `Cache-Control: no-store`.",
+      "texto": "Esperado: `200`, com `Cache-Control: no-store` e seis campos na raiz:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 280,
       "classe": "autoral",
-      "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
+      "texto": "`{atualizado_em, versao, commit, publicado_em, ambiente, banco}`. Os três primeiros são os",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 281,
       "classe": "autoral",
-      "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 282,
-      "classe": "autoral",
-      "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
+      "texto": "da feature 002 e não mudaram de nome nem de significado; os três últimos vieram com a 022.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 283,
       "classe": "autoral",
-      "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
+      "texto": "- `atualizado_em` é quando **esta resposta** foi gerada; `publicado_em`, quando o build",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 284,
       "classe": "autoral",
-      "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
+      "texto": "deste deploy foi carimbado. Confundi-los era o defeito que a 022 corrigiu: o primeiro",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 285,
       "classe": "autoral",
-      "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
+      "texto": "muda a cada consulta, o segundo é idêntico enquanto o deploy for o mesmo.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 286,
       "classe": "autoral",
-      "texto": "não existia.",
+      "texto": "- `ambiente` vale `producao`, `pre-visualizacao` ou `local`, em vocabulário próprio: o nome",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 287,
+      "classe": "autoral",
+      "texto": "do provedor jamais é repassado cru.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 288,
       "classe": "autoral",
-      "texto": "A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na",
+      "texto": "- `banco` traz `{\"estado\":\"integro\"}` ou `{\"estado\":\"degradado\",\"causa\":…}`, com a causa em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 289,
       "classe": "autoral",
-      "texto": "sua rota. Roteiro completo:",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 290,
-      "classe": "autoral",
-      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "texto": "vocabulário fechado (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 291,
       "classe": "autoral",
-      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "texto": "**Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 292,
+      "classe": "autoral",
+      "texto": "calculadoras é integralmente no navegador, de modo que elas seguem servindo com a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 293,
       "classe": "autoral",
-      "texto": "## Como publicar",
+      "texto": "dependência caída, e é por isso que o código permanece `200` em todo estado do banco: um",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 294,
+      "classe": "autoral",
+      "texto": "`503` afirmaria queda de uma plataforma que está no ar. Quem quiser a degradação refletida",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 295,
       "classe": "autoral",
-      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "texto": "no código de saída usa `--exigir-saudavel`; sem ele, os códigos seguem respondendo à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 296,
       "classe": "autoral",
-      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 297,
-      "classe": "autoral",
-      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "texto": "defasagem, que é a pergunta do comando.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 298,
       "classe": "autoral",
-      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "texto": "O teto da verificação é de 3 000 ms e sai de `APS_TIMEOUT_SAUDE_MS` (gabarito em",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 299,
+      "classe": "autoral",
+      "texto": "`.env.example`). Ele acomoda o despertar da instância suspensa do plano gratuito, que um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 300,
       "classe": "autoral",
-      "texto": "## Documentação",
+      "texto": "teto curto reprovaria como se fosse defeito; estourado, a causa é `tempo_esgotado`, distinta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 302,
+      "linha": 301,
       "classe": "autoral",
-      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "texto": "de `conexao` justamente para que ociosidade não se leia como banco fora.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 303,
       "classe": "autoral",
-      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 304,
       "classe": "autoral",
-      "texto": "actions → legacy-impact → regression-watch).",
+      "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 305,
+      "classe": "autoral",
+      "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 306,
+      "classe": "autoral",
+      "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 307,
+      "classe": "autoral",
+      "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 308,
+      "classe": "autoral",
+      "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 309,
+      "classe": "autoral",
+      "texto": "não existia.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 311,
+      "classe": "autoral",
+      "texto": "A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 312,
+      "classe": "autoral",
+      "texto": "sua rota. Roteiro completo:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 313,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 314,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 316,
+      "classe": "autoral",
+      "texto": "## Como publicar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 318,
+      "classe": "autoral",
+      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 319,
+      "classe": "autoral",
+      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 320,
+      "classe": "autoral",
+      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 321,
+      "classe": "autoral",
+      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 323,
+      "classe": "autoral",
+      "texto": "## Documentação",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 325,
+      "classe": "autoral",
+      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 326,
+      "classe": "autoral",
+      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 327,
+      "classe": "autoral",
+      "texto": "actions → legacy-impact → regression-watch).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 328,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

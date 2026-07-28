@@ -29,3 +29,6 @@
 - **MD-0027** — Citação nova se isenta da linha de base por subárvore nomeada, e só quando tiver oráculo mais forte
 - **MD-0028** — O sinal de alerta se reparte por quem o constata, e o critério vale para as dez fichas
 - **MD-0029** — A coluna do corpo mora na moldura, e a guarda que a vigia lê o catálogo
+- **MD-0030** — A âncora cita a marca, o requisito cita a função, e a reprovação de Q-018 se declara em vez de se contornar
+- **MD-0031** — O código HTTP responde pela rota, o corpo responde pela dependência, e o que não serve o produto não derruba o sinal
+- **MD-0032** — A rota separada é a resposta certa para um problema que ainda não existe, e o gatilho que a autoriza fica escrito

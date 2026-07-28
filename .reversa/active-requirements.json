@@ -1,18 +1,16 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/021-coluna-da-ficha-de-consulta",
-  "feature-id": "021",
-  "short-name": "coluna-da-ficha-de-consulta",
-  "started-at": "2026-07-28T21:40:00Z",
-  "current-stage": "sync",
+  "feature-dir": "_reversa_forward/022-status-healthcheck-e-deploy",
+  "feature-id": "022",
+  "short-name": "status-healthcheck-e-deploy",
+  "started-at": "2026-07-28T19:29:03.226353Z",
+  "current-stage": "coding",
   "stages-completed": [
     "requirements",
     "clarify",
     "plan",
-    "audit",
     "to-do",
-    "coding",
-    "sync"
+    "coding"
   ],
   "paused-features": []
 }

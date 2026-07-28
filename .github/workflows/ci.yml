@@ -68,7 +68,26 @@ jobs:
           done
           echo "::error::servidor não respondeu em 60s"
           exit 1
+      # Feature 022 (D-08): o estado degradado se afere sobre o corpo REALMENTE
+      # serializado, e não por duplo de teste — RF-06 exige a denylist "inclusive no
+      # degradado". Custa um `npm start` a mais sobre o build que já existe, apontado
+      # a um endereço que recusa conexão de imediato.
+      - name: Subir segundo servidor com o banco inalcançável
+        run: PORT=3001 DATABASE_URL='postgres://ninguem:nada@127.0.0.1:9/fora' npm start &
+      - name: Aguardar o servidor degradado responder (timeout 60s)
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fs http://localhost:3001/api/v1/status > /dev/null; then
+              echo "servidor degradado de pé após ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::servidor degradado não respondeu em 60s"
+          exit 1
       - run: npm run test:api
+        env:
+          API_BASE_URL_DEGRADADO: http://localhost:3001
 
   deploy:
     name: Deploy de produção (Vercel)

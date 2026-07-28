@@ -64,4 +64,44 @@ describe("saúde do banco (infra/database)", () => {
       message: expect.stringContaining(".env.example"),
     });
   });
+
+  // Teto de tempo por chamada (feature 022; RF-07; D-03;
+  // _reversa_forward/022-status-healthcheck-e-deploy/interfaces/conexao-banco.md §2).
+  // O que se afere aqui é o MECANISMO, e por isso a consulta é deliberadamente lenta:
+  // a consulta de saúde é rápida demais para estourar teto algum de forma confiável.
+
+  test("teto excedido: causa tempo_esgotado, e o cliente descartado não prende o pool", async () => {
+    const inicio = Date.now();
+    const desfecho = await query("SELECT pg_sleep(5)", [], {
+      tetoMs: 200,
+    }).then(
+      () => ({ resolveu: true as const }),
+      (erro: unknown) => ({ resolveu: false as const, erro }),
+    );
+    const duracao = Date.now() - inicio;
+
+    expect(desfecho.resolveu).toBe(false);
+    if (!desfecho.resolveu) {
+      expect(desfecho.erro).toBeInstanceOf(ErroDeBanco);
+      expect(desfecho.erro).toMatchObject({
+        name: "ErroDeBanco",
+        causa: "tempo_esgotado",
+      });
+    }
+    // Cancelamento no servidor, e não temporizador de cliente: a resposta chega
+    // muito antes dos 5 s que a consulta pediu.
+    expect(duracao).toBeLessThan(1_000);
+
+    // O risco alto do roadmap: cliente devolvido sujo esgotaria as cinco conexões e
+    // transformaria degradação em indisponibilidade. Dez chamadas seguidas provam
+    // que o pool continua entregando conexão.
+    for (let i = 0; i < 10; i += 1) {
+      await expect(saude()).resolves.toEqual({ ok: true });
+    }
+  }, 20_000);
+
+  test("teto explícito não contamina a chamada seguinte, que volta ao padrão", async () => {
+    await expect(saude({ tetoMs: 200 })).resolves.toEqual({ ok: true });
+    await expect(query("SELECT pg_sleep(0.5)")).resolves.toHaveLength(1);
+  }, 20_000);
 });

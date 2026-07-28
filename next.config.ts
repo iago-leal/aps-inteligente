@@ -16,10 +16,18 @@ const cspProducao = [
   "frame-ancestors 'none'",
 ].join("; ");
 
+// Carimbo do instante do build (feature 022, RF-03; D-04). A chave `env` faz
+// substituição estática no bundle, de modo que o valor congela no artefato e não é
+// lido em runtime. O que ele NÃO é: não é a data do commit, que mede quando alguém
+// escreveu o código, nem o instante da requisição, que é `atualizado_em`. É quando
+// este deploy foi gerado — idêntico entre duas consultas, distinto entre deploys.
+const publicadoEm = new Date().toISOString();
+
 const config: NextConfig = {
   // Sem isto o Turbopack sobe a árvore procurando lockfile, encontra o de ~/ e
   // infere a raiz errada do workspace. Fixar aqui mantém o build determinístico.
   turbopack: { root: import.meta.dirname },
+  env: { APS_PUBLICADO_EM: publicadoEm },
   // O @primer/react importa .css internamente; sem transpilar, o SSR tenta
   // carregá-lo como ESM externo e o Node rejeita a extensão (feature 004, RF-01).
   transpilePackages: ["@primer/react"],

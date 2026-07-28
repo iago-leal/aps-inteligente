@@ -26,7 +26,14 @@
 //  3. **Utilizável por máquina.** Saída 0 em dia, 1 defasado, 2 erro de
 //     apuração. `--json` devolve o veredito estruturado.
 //
-// Uso:  node scripts/conferir-producao.mts [--url <origem>] [--json]
+// A FEATURE 022 acrescentou três campos ao corpo — `publicado_em`, `ambiente` e
+// `banco` —, e eles entram aqui como OPCIONAIS (D-09). A razão é a natureza do
+// comando: a produção que ele consulta é, por definição, capaz de ser anterior à
+// feature que criou os campos. Exigi-los faria a conferência morrer com "erro de
+// apuração" justamente quando precisa dizer "defasada". Ausência é desconhecido,
+// nunca erro de contrato.
+//
+// Uso:  node scripts/conferir-producao.mts [--url <origem>] [--json] [--exigir-saudavel]
 //       npm run status:conferir
 //       (a origem também sai de APS_URL_PRODUCAO; o padrão é a produção.)
 import { execFileSync } from "node:child_process";
@@ -51,6 +58,7 @@ const GOVERNANCA = [
 interface Argumentos {
   readonly origem: string;
   readonly json: boolean;
+  readonly exigirSaudavel: boolean;
 }
 
 function leArgumentos(argv: readonly string[]): Argumentos {
@@ -59,7 +67,11 @@ function leArgumentos(argv: readonly string[]): Argumentos {
     i >= 0 && argv[i + 1]
       ? argv[i + 1]!
       : (process.env.APS_URL_PRODUCAO ?? URL_PADRAO);
-  return { origem: origem.replace(/\/$/, ""), json: argv.includes("--json") };
+  return {
+    origem: origem.replace(/\/$/, ""),
+    json: argv.includes("--json"),
+    exigirSaudavel: argv.includes("--exigir-saudavel"),
+  };
 }
 
 function git(...args: readonly string[]): string {
@@ -88,11 +100,64 @@ function exclusoes(): readonly string[] {
   return GOVERNANCA.map((dir) => `:(exclude)${dir}`);
 }
 
+interface EstadoDoBanco {
+  readonly estado: string;
+  readonly causa?: string;
+}
+
 interface Status {
   readonly commit: string;
   readonly versao: string;
   readonly atualizadoEm: string;
   readonly ms: number;
+  /** Campos da feature 022. `null` significa desconhecido, e não erro (D-09). */
+  readonly publicadoEm: string | null;
+  readonly ambiente: string | null;
+  readonly banco: EstadoDoBanco | null;
+}
+
+/** Lê campo opcional sem transformar ausência em falha de contrato. */
+function textoOpcional(valor: unknown): string | null {
+  return typeof valor === "string" && valor.length > 0 ? valor : null;
+}
+
+function bancoOpcional(valor: unknown): EstadoDoBanco | null {
+  if (typeof valor !== "object" || valor === null) return null;
+  const estado = (valor as Record<string, unknown>).estado;
+  if (typeof estado !== "string") return null;
+  const causa = (valor as Record<string, unknown>).causa;
+  return typeof causa === "string" ? { estado, causa } : { estado };
+}
+
+/** Há quanto tempo o deploy subiu, em unidade legível. Desconhecido é resposta. */
+function idadeDoDeploy(publicadoEm: string | null): string {
+  if (publicadoEm === null) return "desconhecida";
+  const ms = Date.now() - new Date(publicadoEm).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "desconhecida";
+
+  const minutos = Math.floor(ms / 60_000);
+  if (minutos < 60) return `${minutos} min`;
+  const horas = Math.floor(minutos / 60);
+  if (horas < 48) return `${horas} h ${minutos % 60} min`;
+  return `${Math.floor(horas / 24)} dias`;
+}
+
+/** A frase da linha de texto. Separada porque "publicado há desconhecida" não é
+ *  português, e desconhecido é resposta legítima aqui (D-09). */
+function fraseDeIdade(publicadoEm: string | null): string {
+  const idade = idadeDoDeploy(publicadoEm);
+  return idade === "desconhecida"
+    ? "publicado em data desconhecida"
+    : `publicado há ${idade}`;
+}
+
+/** O estado vira prosa; a causa permanece o termo do contrato, entre parênteses,
+ *  porque é valor de vocabulário fechado e não frase. */
+function descreveBanco(banco: EstadoDoBanco | null): string {
+  if (banco === null) return "desconhecido";
+  if (banco.estado === "integro") return "íntegro";
+  if (banco.estado !== "degradado") return banco.estado;
+  return banco.causa ? `degradado (${banco.causa})` : "degradado";
 }
 
 async function consulta(origem: string): Promise<Status> {
@@ -128,6 +193,9 @@ async function consulta(origem: string): Promise<Status> {
     versao: corpo.versao as string,
     atualizadoEm: corpo.atualizado_em as string,
     ms,
+    publicadoEm: textoOpcional(corpo.publicado_em),
+    ambiente: textoOpcional(corpo.ambiente),
+    banco: bancoOpcional(corpo.banco),
   };
 }
 
@@ -136,7 +204,7 @@ function curto(sha: string): string {
 }
 
 async function principal(): Promise<number> {
-  const { origem, json } = leArgumentos(process.argv.slice(2));
+  const { origem, json, exigirSaudavel } = leArgumentos(process.argv.slice(2));
   const producao = await consulta(origem);
 
   const head = git("rev-parse", "HEAD");
@@ -177,6 +245,13 @@ async function principal(): Promise<number> {
     ? Number(git("rev-list", "--count", "@{u}..HEAD") || "0")
     : 0;
 
+  // Defasagem e degradação são eixos ORTOGONAIS (Q4): o código de saída responde à
+  // defasagem, que é a pergunta do comando, e só passa a ouvir a saúde quando quem
+  // chama pede por --exigir-saudavel. Banco desconhecido jamais reprova.
+  const degradado =
+    producao.banco !== null && producao.banco.estado !== "integro";
+  const aprovado = emDia && !(exigirSaudavel && degradado);
+
   if (json) {
     console.log(
       JSON.stringify(
@@ -187,8 +262,13 @@ async function principal(): Promise<number> {
             commit: producao.commit,
             versao: producao.versao,
             atualizado_em: producao.atualizadoEm,
+            publicado_em: producao.publicadoEm,
+            ambiente: producao.ambiente,
+            banco: producao.banco,
             ms: producao.ms,
           },
+          idade_do_deploy: idadeDoDeploy(producao.publicadoEm),
+          exigiu_saudavel: exigirSaudavel,
           local: { head, ultimo_de_aplicacao: ultimoDeAplicacao },
           commits_de_aplicacao_atras: atras,
           sha_publicado_conhecido: conhecido,
@@ -198,12 +278,15 @@ async function principal(): Promise<number> {
         2,
       ),
     );
-    return emDia ? 0 : 1;
+    return aprovado ? 0 : 1;
   }
 
   console.log("");
   console.log(
     `  produção  ${curto(producao.commit)} · v${producao.versao} · ${producao.ms} ms`,
+  );
+  console.log(
+    `            ${fraseDeIdade(producao.publicadoEm)} · ambiente ${producao.ambiente ?? "desconhecido"} · banco ${descreveBanco(producao.banco)}`,
   );
   console.log(
     `  local     ${curto(ultimoDeAplicacao)} (último commit de aplicação)`,
@@ -243,6 +326,22 @@ async function principal(): Promise<number> {
     console.log("        governança e não muda o que é servido.");
   }
 
+  // O banco fora não derruba a plataforma: as calculadoras são integralmente
+  // cliente e seguem servindo (MD-0031). Por isso a linha avisa sem alarmar, e só
+  // vira veredito quando alguém pediu que virasse.
+  if (degradado) {
+    console.log("");
+    console.log(
+      `  atenção: o banco está ${descreveBanco(producao.banco)}; as calculadoras seguem`,
+    );
+    console.log("           servindo, porque o cálculo é todo no navegador.");
+    if (exigirSaudavel) {
+      console.log(
+        "           --exigir-saudavel: saída não-zero por este motivo.",
+      );
+    }
+  }
+
   if (naoPushados > 0) {
     console.log("");
     console.log(
@@ -251,7 +350,7 @@ async function principal(): Promise<number> {
   }
 
   console.log("");
-  return emDia ? 0 : 1;
+  return aprovado ? 0 : 1;
 }
 
 principal()

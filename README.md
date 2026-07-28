@@ -272,10 +272,33 @@ Produção, pelo comando que já faz a comparação (é o caminho curto):
 ```bash
 npm run status:conferir             # veredito em uma linha; 0 em dia, 1 defasada, 2 erro
 npm run status:conferir -- --json   # o mesmo, para consumo por máquina
+npm run status:conferir -- --exigir-saudavel   # banco degradado também sai não-zero
 curl -iL https://apsinteligente.app/api/v1/status   # domínio próprio: o apex redireciona
 ```
 
-Esperado: `200` com `{atualizado_em, versao, commit}` e `Cache-Control: no-store`.
+Esperado: `200`, com `Cache-Control: no-store` e seis campos na raiz:
+`{atualizado_em, versao, commit, publicado_em, ambiente, banco}`. Os três primeiros são os
+da feature 002 e não mudaram de nome nem de significado; os três últimos vieram com a 022.
+
+- `atualizado_em` é quando **esta resposta** foi gerada; `publicado_em`, quando o build
+  deste deploy foi carimbado. Confundi-los era o defeito que a 022 corrigiu: o primeiro
+  muda a cada consulta, o segundo é idêntico enquanto o deploy for o mesmo.
+- `ambiente` vale `producao`, `pre-visualizacao` ou `local`, em vocabulário próprio: o nome
+  do provedor jamais é repassado cru.
+- `banco` traz `{"estado":"integro"}` ou `{"estado":"degradado","causa":…}`, com a causa em
+  vocabulário fechado (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`).
+
+**Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis
+calculadoras é integralmente no navegador, de modo que elas seguem servindo com a
+dependência caída, e é por isso que o código permanece `200` em todo estado do banco: um
+`503` afirmaria queda de uma plataforma que está no ar. Quem quiser a degradação refletida
+no código de saída usa `--exigir-saudavel`; sem ele, os códigos seguem respondendo à
+defasagem, que é a pergunta do comando.
+
+O teto da verificação é de 3 000 ms e sai de `APS_TIMEOUT_SAUDE_MS` (gabarito em
+`.env.example`). Ele acomoda o despertar da instância suspensa do plano gratuito, que um
+teto curto reprovaria como se fosse defeito; estourado, a causa é `tempo_esgotado`, distinta
+de `conexao` justamente para que ociosidade não se leia como banco fora.
 
 **Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao
 SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do
