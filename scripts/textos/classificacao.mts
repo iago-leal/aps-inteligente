@@ -25,6 +25,7 @@
 //
 // Princípio IX de `.reversa/principles.md`; guia em `docs/redacao.md`.
 
+import { MAPA as MODELS_PUERICULTURA_CONSULTA } from "./classes/models-puericultura-consulta.mts";
 import { MAPA as MODELS_PUERICULTURA } from "./classes/models-puericultura.mts";
 import { MAPA as MODELS_INSULINA } from "./classes/models-insulina.mts";
 import { MAPA as MODELS_DEMAIS } from "./classes/models-demais.mts";
@@ -77,6 +78,15 @@ const MODULOS: ReadonlyArray<{
   readonly mapa: MapaDeClasses;
   readonly cobre: (arquivo: string) => boolean;
 }> = [
+  // O submódulo da consulta vem ANTES do da puericultura, e a ordem é o que faz a mensagem
+  // de erro apontar o módulo certo: `models/puericultura/consulta/**` casa com os dois
+  // predicados, e quem responde é o primeiro. Invertidos, o gerador mandaria declarar o
+  // rótulo de uma ficha no módulo do motor de crescimento (feature 020, T029).
+  {
+    nome: "scripts/textos/classes/models-puericultura-consulta.mts",
+    mapa: MODELS_PUERICULTURA_CONSULTA,
+    cobre: (a) => a.startsWith("models/puericultura/consulta/"),
+  },
   {
     nome: "scripts/textos/classes/models-puericultura.mts",
     mapa: MODELS_PUERICULTURA,

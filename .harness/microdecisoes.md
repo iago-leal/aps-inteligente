@@ -26,3 +26,5 @@
 - **MD-0024** — `react-qr-code` entra atrás de envoltório, e o filtro de longevidade se lê pelo que o problema é, não pelo calendário do pacote
 - **MD-0025** — O oráculo humano registra o que foi relatado, e a lacuna do não relatado fica visível na própria tabela
 - **MD-0026** — A citação admite supressão declarada quando a fonte imprime campo inaplicável, e o limite continua sendo a lista fechada
+- **MD-0027** — Citação nova se isenta da linha de base por subárvore nomeada, e só quando tiver oráculo mais forte
+- **MD-0028** — O sinal de alerta se reparte por quem o constata, e o critério vale para as dez fichas

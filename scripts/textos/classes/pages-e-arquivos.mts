@@ -65,6 +65,14 @@ export const MAPA: MapaDeClasses = {
     ...identificadores(ATRIBUTOS_DE_HTML),
   ],
 
+  "pages/puericultura/consulta.tsx": [
+    ...autorais([
+      "Ficha de consulta de puericultura · APS Inteligente",
+      "As dez consultas datadas da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020) em ficha preenchível, com o registro pronto em SOAP para colar no prontuário. Preenchimento 100% no navegador: nada é salvo nem enviado.",
+    ]),
+    ...identificadores(ATRIBUTOS_DE_HTML),
+  ],
+
   "pages/_document.tsx": [...identificadores(["theme-color", "#0969da"])],
 
   // Corpo de erro de `GET /api/v1/status`. É autoral — alguém a escreveu —, mas pertence ao

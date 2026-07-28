@@ -34,3 +34,21 @@ if (typeof globalThis.ResizeObserver === "undefined") {
     disconnect() {}
   } as unknown as typeof ResizeObserver;
 }
+
+// Feature 020: o ActionMenu do @primer/react — o seletor entre as dez fichas — consulta
+// `window.matchMedia` para decidir se abre como menu ou como folha em tela estreita. O jsdom
+// não o implementa, e sem ele todo render da ficha quebra na montagem. O dublê responde
+// sempre "não corresponde", que é o caminho de tela larga: a disposição responsiva é assunto
+// dos roteiros de ponta a ponta, onde há navegador com viewport de verdade.
+if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
+  window.matchMedia = ((consulta: string) => ({
+    matches: false,
+    media: consulta,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+}

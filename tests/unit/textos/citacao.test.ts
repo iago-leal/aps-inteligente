@@ -39,6 +39,37 @@ const AFASTAMENTOS_AUTORIZADOS: ReadonlyArray<{
   },
 ];
 
+/**
+ * Subárvores acrescentadas DEPOIS da linha de base, cada uma com o oráculo que a guarda no
+ * lugar dela. A isenção é nominal de propósito: não vale "arquivo novo é isento", que
+ * transformaria o verificador em opcional na primeira feature seguinte. Quem acrescentar
+ * citação nova para de novo aqui, e tem de dizer contra o que ela se confere.
+ *
+ * O que a linha de base é, e o que ela não é. Ela é o oráculo dos rótulos que EXISTIAM em
+ * 27/07, e prova que nenhum deles foi reescrito além dos dois afastamentos de `MD-0015`. Ela
+ * não é, e nunca foi, o oráculo da fidelidade de citação futura: para isso a comparação teria
+ * de ser contra a página impressa, e é exatamente isso que o oráculo de transcrição da
+ * feature 020 faz — contra o PDF, não contra um congelado nosso (D-12, `MD-0010`).
+ */
+const SUBARVORES_COM_ORACULO_PROPRIO: ReadonlyArray<{
+  readonly prefixo: string;
+  readonly oraculo: string;
+}> = [
+  {
+    prefixo: "models/puericultura/consulta/",
+    oraculo:
+      "tests/unit/dominio-puericultura/consulta-transcricao.test.ts, que confere cada rótulo " +
+      "contra o texto congelado das pp. 66–75 da caderneta (feature 020, D-12)",
+  },
+];
+
+function temOraculoProprio(chave: string): boolean {
+  const arquivo = chave.split("\n")[0] ?? "";
+  return SUBARVORES_COM_ORACULO_PROPRIO.some((s) =>
+    arquivo.startsWith(s.prefixo),
+  );
+}
+
 /** Normaliza para comparar concordância: só as diferenças de desinência devem restar. */
 function esqueleto(texto: string): string {
   return texto
@@ -79,9 +110,9 @@ describe("preservação da classe citação (RF-07, contra a linha de base)", ()
     const inesperadosSumidos = sumidos.filter(
       (k) => !esperadosSumidos.some((t) => k.endsWith(`\n${t}`)),
     );
-    const inesperadosSurgidos = surgidos.filter(
-      (k) => !esperadosSurgidos.some((t) => k.endsWith(`\n${t}`)),
-    );
+    const inesperadosSurgidos = surgidos
+      .filter((k) => !esperadosSurgidos.some((t) => k.endsWith(`\n${t}`)))
+      .filter((k) => !temOraculoProprio(k));
 
     expect(
       [...inesperadosSumidos, ...inesperadosSurgidos].map((k) =>
@@ -121,6 +152,20 @@ describe("preservação da classe citação (RF-07, contra a linha de base)", ()
           `que o autoriza. Correção sem declaração é violação de RN-09, não cumprimento ` +
           `parcial dela.`,
       ).toContain(a.ficha);
+    }
+  });
+
+  it("toda subárvore isenta declara o oráculo que a guarda no lugar da linha de base", () => {
+    for (const subarvore of SUBARVORES_COM_ORACULO_PROPRIO) {
+      const citacoesDaSubarvore = corrente.filter((e) =>
+        e.arquivo.startsWith(subarvore.prefixo),
+      );
+      expect(
+        citacoesDaSubarvore.length,
+        `${subarvore.prefixo} está isenta e não tem citação alguma. Isenção sem matéria a ` +
+          `isentar é dívida: apague a entrada em vez de deixá-la valendo para o que vier.`,
+      ).toBeGreaterThan(0);
+      expect(subarvore.oraculo.length).toBeGreaterThan(0);
     }
   });
 

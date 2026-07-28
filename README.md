@@ -11,6 +11,7 @@ as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citáv
 | Cardiologia              | Dor torácica e probabilidade pré-teste de cardiopatia isquêmica             | `/cardiologia/dor-toracica`         | TeleCondutas — Cardiopatia Isquêmica (TelessaúdeRS-UFRGS, 2017)                                      | `models/cardiopatia-isquemica/` |
 | Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
 | Puericultura             | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento`         | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/`          |
+| Puericultura             | Ficha de consulta (dez consultas datadas, registro em SOAP)                 | `/puericultura/consulta`            | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 66–75 (Acompanhamento da Criança)      | `models/puericultura/consulta/` |
 
 Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
 em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).
@@ -163,6 +164,41 @@ O motor do BR Code vive em `models/contribuicao/`, é o primeiro domínio **não
 projeto e declara essa isenção no cabeçalho da fachada (`MD-0022`): não tem fonte clínica única
 e não emite `ReferenciaClinica`. O painel carrega por import dinâmico, de modo que o desenho do
 QR não pesa no primeiro carregamento da home.
+
+## As dez fichas de consulta (feature 020)
+
+O conteúdo das dez consultas datadas é **dado declarado**, não marcação escrita dez vezes: um
+módulo por ficha em `models/puericultura/consulta/fichas/`, um `Campo` por item impresso, e
+cada rótulo carregando a página de onde foi transcrito. Edição nova da caderneta se absorve
+editando dado.
+
+São cerca de trezentos e cinquenta rótulos copiados à mão de uma página impressa, e erro de
+digitação em rótulo clínico é o defeito mais provável desse acervo. Por isso a transcrição tem
+**oráculo**, e o oráculo veio antes dela:
+
+```bash
+node scripts/congelar-fichas-caderneta.mts   # pp. 66–75 das duas tiragens → tests/apoio/fichas-caderneta-congeladas.json
+npx vitest run tests/unit/dominio-puericultura/consulta-transcricao.test.ts
+```
+
+O teste afirma que cada texto citado ocorre na página que o próprio campo declara, no texto que
+o `pdftotext` extraiu do PDF. Conferir por releitura seria a segunda implementação que
+`MD-0010` recusa: quem transcreveu lê o que quis escrever. Como as páginas são diagramadas em
+duas colunas, o congelamento guarda **duas** extrações de **duas** tiragens, e basta ocorrer em
+uma delas; onde o layout parte o rótulo nas quatro, a exceção vai declarada com o motivo, sobre
+lista fechada de dez. Passando disso, a decisão se reabre em vez de a exceção crescer.
+
+A classe textual desses rótulos é **derivada do próprio catálogo**, em
+`scripts/textos/classes/models-puericultura-consulta.mts`, e não escrita literal a literal.
+Não é inferência por diretório, que é o que `MD-0014` proíbe: a origem vem da página impressa
+que o campo declara, escrita por quem o transcreveu. Declarar trezentas e cinquenta entradas à
+mão satisfaria a letra da regra e a derrotaria, porque um mapa desse tamanho passa a ser
+mantido no automático.
+
+O produto desta tela é um **texto**, e não um número: o registro em SOAP que se cola no
+prontuário. A forma dele tem contrato escrito em
+`_reversa_forward/020-consulta-puericultura-soap/interfaces/registro-soap.md`, e o texto
+exibido e o copiado são a mesma cadeia, de uma função só.
 
 ## Tabelas de referência da OMS (feature 017)
 

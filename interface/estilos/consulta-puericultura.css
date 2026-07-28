@@ -1,0 +1,108 @@
+/* Feature 020 (RF-04, RF-08, RF-17; D-11): estrutura de regiões da ficha de consulta de
+   puericultura, sobre tokens Primer e sem cor própria. Folha NOVA, e não emenda em
+   puericultura.css: aquela folha tem 33 linhas e a ficha longa a empurraria para perto do
+   teto de 400, recriando a dívida amarela que a re-extração 3 acabou de encerrar.
+
+   As classes genéricas (formulario, grupo-campos, campo, campo-radios, painel-resultado,
+   referencias-complementares) continuam vindo de globais.css como ganchos semânticos. Aqui
+   ficam só as peças que esta tela introduz: a grade da ficha, a seção numerada, a linha do
+   campo por natureza e o bloco do registro. */
+
+.consulta-regioes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap-spacious, 1.5rem);
+}
+
+/* A identificação da consulta abre a tela: sem sexo e sem as duas datas, não há idade, e
+   sem idade não há ficha a sugerir (RF-02, RF-03). */
+.consulta-identificacao {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--stack-gap-condensed, 0.5rem);
+  align-items: start;
+}
+
+/* As duas idades do pré-termo, lado a lado e cada uma rotulada (RN-05). */
+.consulta-idades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-gap-normal, 1rem);
+  margin-block-start: var(--stack-gap-condensed, 0.5rem);
+}
+
+.consulta-idade-rotulo {
+  color: var(--fgColor-muted, #59636e);
+}
+
+/* A ficha tem dez a treze seções numeradas; a grade evita a coluna única interminável em
+   tela larga sem quebrar a ordem de leitura, que segue a da página impressa. */
+.consulta-ficha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--stack-gap-normal, 1rem);
+  align-items: start;
+}
+
+.consulta-secao {
+  border: var(--borderWidth-thin, 1px) solid var(--borderColor-muted, #d0d7de);
+  border-radius: var(--borderRadius-medium, 0.375rem);
+  padding: var(--stack-padding-normal, 1rem);
+}
+
+.consulta-secao > legend {
+  font-weight: var(--base-text-weight-semibold, 600);
+  padding-inline: var(--stack-padding-condensed, 0.5rem);
+}
+
+.consulta-campo {
+  margin-block: var(--stack-gap-condensed, 0.5rem);
+}
+
+/* O seletor entre as dez fichas fica acima da ficha e abaixo da identificação: a ordem de
+   leitura acompanha a da consulta, em que a idade precede a escolha da ficha (RF-03). */
+.consulta-seletor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--stack-gap-condensed, 0.5rem);
+}
+
+.consulta-seletor > h2 {
+  margin: 0;
+  font-size: var(--text-title-size-small, 1rem);
+}
+
+/* O painel do crescimento herda o espaçamento da tela da feature 017 sem tocá-la: as classes
+   de dentro (.indice, .procedencia-indice) continuam vindo de puericultura.css. */
+.consulta-painel-crescimento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap-normal, 1rem);
+}
+
+/* Marcação e escolha são listas de opções; em linha quando cabem, empilhadas quando não. */
+.consulta-campo-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-gap-condensed, 0.5rem);
+  align-items: center;
+}
+
+/* O texto do registro é lido para conferência antes de ser copiado (RF-08). Fonte
+   monoespaçada e quebras preservadas: o que se vê é, byte a byte, o que se cola. */
+.consulta-registro-texto {
+  font-family: var(--fontStack-monospace, ui-monospace, monospace);
+  font-size: var(--text-body-size-small, 0.75rem);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+  padding: var(--stack-padding-normal, 1rem);
+  border: var(--borderWidth-thin, 1px) solid var(--borderColor-muted, #d0d7de);
+  border-radius: var(--borderRadius-medium, 0.375rem);
+  background-color: var(--bgColor-muted, #f6f8fa);
+}
+
+.consulta-registro-vazio {
+  color: var(--fgColor-muted, #59636e);
+}

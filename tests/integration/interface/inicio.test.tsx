@@ -150,6 +150,10 @@ describe("Bloco de apoio na home (feature 019; RF-05/RF-11)", () => {
       "/cardiologia/dor-toracica",
       "/cardiologia/risco-cardiovascular",
       "/puericultura/crescimento",
+      // Feature 020: a seção Puericultura ganha a segunda ficha. As cinco entradas
+      // anteriores permanecem byte a byte, e é isso que RF-01 daquela feature promete —
+      // o diff no catálogo é aditivo, e este oráculo é o que o prova.
+      "/puericultura/consulta",
     ]);
   });
 });
