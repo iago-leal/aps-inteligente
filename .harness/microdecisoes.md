@@ -34,3 +34,4 @@
 - **MD-0032** — A rota separada é a resposta certa para um problema que ainda não existe, e o gatilho que a autoriza fica escrito
 - **MD-0033** — Número que a máquina pode medir, a extração mede; número que só a fonte declara, a extração cita
 - **MD-0034** — Vira ADR o que muda uma leitura estrutural da extração; o resto é regra de domínio
+- **MD-0035** — A proveniência se declara a quem lê a tela, e não viaja no texto que sai da plataforma
