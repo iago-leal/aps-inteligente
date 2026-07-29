@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grafo de Bugs · consulta-puericultura</title>
+<style>
+  /* GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-28T21:50:00Z
+     a partir de 2 bugs. Tokens portados de interface/estilos/globais.css (design aprovado);
+     não alterar valores. */
+  :root {
+    --fundo: #efeee9; --cartao: #ffffff; --campo: #fdfdfb; --tinta: #22302e;
+    --tinta2: #3b4744; --sec: #5a6663; --mudo: #8a918e; --borda: #dfdcd2;
+    --borda2: #eceae2; --suave: #faf9f5; --bordacampo: #c9c5b9;
+    --acento-texto: #0e5f53; --verde-texto: #1c6b4c; --verde-suave: #e7f2ec;
+    --verde-borda: #c4e0d2; --painel-verde: #f2f7f4; --pronto-borda: #7fb89a;
+    --ambar-bg: #fcf6e8; --ambar-borda: #e8d9ae; --ambar-texto: #7a5b12;
+    --alerta-texto: #6e2e1f; --alerta-borda: #e3b8aa; --alerta-bg: #fbf1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #161c1a; --cartao: #1f2624; --campo: #171e1c; --tinta: #e6ebe8;
+      --tinta2: #c2ccc7; --sec: #93a09a; --mudo: #6f7b76; --borda: #37413d;
+      --borda2: #2c3532; --suave: #242c29; --bordacampo: #46524d;
+      --acento-texto: #58bba6; --verde-texto: #7ecda9; --verde-suave: #1e332a;
+      --verde-borda: #35594a; --painel-verde: #20302c; --pronto-borda: #3e7a5e;
+      --ambar-bg: #332b18; --ambar-borda: #665728; --ambar-texto: #e0c577;
+      --alerta-texto: #ebb39f; --alerta-borda: #6e4237; --alerta-bg: #362320;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--fundo); color: var(--tinta);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif; line-height: 1.55;
+  }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .cabecalho {
+    background: var(--cartao); border-bottom: 1px solid var(--borda);
+    padding: 18px 32px; display: flex; align-items: baseline;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .cabecalho h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .cabecalho p { margin: 0; font-size: 13px; color: var(--sec); }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 18px; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; }
+  .card {
+    flex: 1; min-width: 150px; background: var(--painel-verde);
+    border: 1px solid var(--verde-borda); border-radius: 10px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  .card .valor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 24px;
+    font-weight: 600; color: var(--acento-texto); text-transform: none; letter-spacing: normal;
+  }
+  .card.neutro { background: var(--suave); border-color: var(--borda2); }
+  .card.alerta { background: var(--alerta-bg); border-color: var(--alerta-borda); }
+  .card.alerta .valor { color: var(--alerta-texto); }
+  .cartao {
+    background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px;
+    padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .cartao h2 {
+    margin: 0; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sec);
+  }
+  .cartao p { margin: 0; font-size: 14px; color: var(--tinta2); }
+  a { color: var(--acento-texto); }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; color: var(--tinta2); }
+  th {
+    background: var(--suave); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  svg text { font-family: "IBM Plex Sans", -apple-system, sans-serif; }
+  svg .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .rodape { font-size: 12px; color: var(--mudo); border-top: 1px solid var(--borda2); padding-top: 12px; }
+  @media (max-width: 900px) { main { padding: 20px 16px 40px; } .cabecalho { padding: 16px 20px; } }
+</style>
+</head>
+<body>
+  <header class="cabecalho">
+    <h1>Grafo de Bugs · <code>consulta-puericultura</code></h1>
+    <p>Gerado por <code>/reversa-debugger-graph</code> em 2026-07-28T21:50:00Z · 2 bugs ·
+    0 inconsistências · arestas tracejadas = relação <em>proposed</em> (hipótese)</p>
+  </header>
+
+  <main>
+    <div class="cards">
+      <span class="card neutro">Total de bugs<span class="valor">2</span></span>
+      <span class="card alerta">Abertos · P0<span class="valor">1</span></span>
+      <span class="card neutro">Abertos · P2<span class="valor">1</span></span>
+      <span class="card neutro">Resolvidos<span class="valor">0</span></span>
+      <span class="card neutro">Inconsistências<span class="valor">0</span></span>
+    </div>
+
+    <section class="cartao">
+      <h2>Grafo</h2>
+      <div class="wrap">
+      <svg viewBox="0 0 1080 190" width="1080" height="190" role="img"
+           aria-label="Grafo com dois nós abertos, BUG-20260728-ZAHV e BUG-20260728-C6LN, ligados por relação proposta do tipo related-to">
+        <a href="../bugs/BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md">
+          <rect x="20" y="30" width="450" height="130" rx="10"
+                fill="var(--alerta-bg)" stroke="var(--alerta-borda)" stroke-width="2"/>
+          <text x="40" y="58" font-size="12" class="mono" fill="var(--sec)">#3 · ZAHV · open/triaging</text>
+          <text x="40" y="82" font-size="14" font-weight="700" fill="var(--tinta)">Proveniência no texto copiado</text>
+          <text x="40" y="104" font-size="12" fill="var(--sec)">critical · P0 · interface</text>
+          <text x="40" y="126" font-size="12" fill="var(--sec)">formatar-registro.ts · registro.ts</text>
+          <text x="40" y="148" font-size="12" font-weight="700" fill="var(--alerta-texto)">exige veredito de spec (regra 7)</text>
+        </a>
+
+        <line x1="470" y1="95" x2="610" y2="95" stroke="var(--mudo)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="540" y="86" font-size="11" text-anchor="middle" class="mono" fill="var(--mudo)">related-to</text>
+        <text x="540" y="112" font-size="11" text-anchor="middle" class="mono" fill="var(--mudo)">proposed</text>
+
+        <a href="../bugs/BUG-20260728-C6LN-avaliar-crescimento-fora-do-quadro-medidas/bug.md">
+          <rect x="610" y="30" width="450" height="130" rx="10"
+                fill="var(--ambar-bg)" stroke="var(--ambar-borda)" stroke-width="2"/>
+          <text x="630" y="58" font-size="12" class="mono" fill="var(--sec)">#2 · C6LN · open/triaging</text>
+          <text x="630" y="82" font-size="14" font-weight="700" fill="var(--tinta)">Comando fora do quadro Medidas</text>
+          <text x="630" y="104" font-size="12" fill="var(--sec)">medium · P2 · interface</text>
+          <text x="630" y="126" font-size="12" fill="var(--sec)">app.tsx · ficha.tsx</text>
+          <text x="630" y="148" font-size="12" font-weight="700" fill="var(--ambar-texto)">spec-gap: posição nunca contratada</text>
+        </a>
+      </svg>
+      </div>
+      <p>Os dois nós nasceram do mesmo relato e da mesma tela, e a aresta entre eles é tracejada
+      porque é hipótese de conveniência, não achado: nenhum causa o outro, nenhum bloqueia o outro,
+      e os arquivos que cada um alcança são disjuntos. O que os separa é a natureza da correção —
+      um pede que a spec mude, o outro pede que a spec passe a existir.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Bugs abertos / ativos</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>#</th><th>ID</th><th>Título</th><th>Sev · Pri</th><th>Labels</th><th>Veredito de spec previsto</th></tr>
+        <tr>
+          <td>3</td>
+          <td><a href="../bugs/BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md"><code>BUG-20260728-ZAHV</code></a></td>
+          <td>Notas de proveniência e linha da fonte atravessam para o texto copiado do registro</td>
+          <td>critical · P0</td>
+          <td><code>spec-update-required</code></td>
+          <td><code>spec-desatualizada</code> — a regra 7 de <code>contracts.md</code> descreve o que hoje se observa</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="../bugs/BUG-20260728-C6LN-avaliar-crescimento-fora-do-quadro-medidas/bug.md"><code>BUG-20260728-C6LN</code></a></td>
+          <td>Comando "Avaliar crescimento" fica fora do quadro "1. Medidas", que é o que ele consome</td>
+          <td>medium · P2</td>
+          <td><code>spec-gap</code> · <code>apresentacao</code></td>
+          <td><code>spec-gap</code> — nenhuma seção fixa a posição do gatilho do painel</td>
+        </tr>
+      </table>
+      </div>
+      <p>Nenhum <code>is_blocked</code>: as duas listas <code>blocking</code> estão vazias.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Concluídos (travados)</h2>
+      <p>Nenhum. O contexto nasceu hoje, com o relato de 28/07.</p>
+    </section>
+
+    <p class="rodape">Source of truth: <code>bugs/*/bug.md</code>. Bugs <code>restricted</code>
+    ficam fora desta view (nenhum no momento). Identidade visual: tokens do design aprovado
+    (<code>interface/estilos/globais.css</code>).</p>
+  </main>
+</body>
+</html>
