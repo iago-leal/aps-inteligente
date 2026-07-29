@@ -1,39 +1,41 @@
 ---
-commit: a422b60b2cbbe494fc5723d42865255f327943b7
+commit: 48d44e123cef0cc91a67362866c6a98217ae32de
 feature: default_feature
-start_time: '2026-07-28T21:47:30.394951+00:00'
+start_time: '2026-07-28T23:30:10.381409+00:00'
 status: inactive
 ---
 
 ## O que foi feito
-- **A dívida de sincronização acabou.** Esta sessão gerou **três** adendos numa passagem de `/reversa-sync`: o da feature ativa **022** e os das **019** e **020**, que deviam desde 28/07. `_reversa_sdd/addenda/` não salta mais de `018` para `021`, e a re-extração nº 4 passa a ter oito adendos vigentes, 015 a 022. Nenhuma das duas features em dívida tinha ação aberta, de modo que o menu de sincronização parcial não se aplicou.
-- **O adendo 022 registra uma INVERSÃO, e é o que ele tem de mais útil.** Até esta feature, o código estava atrasado em relação à extração: `architecture.md` §1, §2 e §4 afirmavam desde a primeira passagem que `infra/database.ts` era usada só pelo healthcheck, e o único importador do módulo era um **teste**. A partir dela, é a extração que está atrasada — `code-analysis.md` e `architecture.md` ainda descrevem a rota como sem I/O (`O-22-07`). Catorze impactos: 6 `regra-alterada`, 5 `delta-de-contrato-externo`, 2 `componente-novo`, 1 `delta-de-dados`.
-- **Levei ao adendo a correção de referência que o `legacy-impact.md` da 022 pediu.** O contrato e o roadmap dizem revogar o watch **W006** da feature 003; o item que afirma "o endpoint não consulta o banco" é o **W005**. O W006 trata da suíte de contrato com caso negativo, e esse permanece vigente e verde, preservado e ampliado pela 022.
-- **O adendo 020 aponta a unit de puericultura para o ADENDO 017, e não para `code-analysis.md`.** A extração nº 3 é de 23/07 e é anterior à feature 017: ela não conhece a unit. Escrever o apontador para o artefato-base repetiria a confusão que o adendo existe para desfazer. Corrigi também a contagem de folhas de estilo — 019 e 020 se declararam **ambas** "sétima", por terem corrido em paralelo, e o total corrente é **nove**.
-- **A feature 022 estava INTEIRA no working tree, e foi commitada aqui.** O código do healthcheck, os três contratos, as fichas `MD-0030` a `MD-0032` e a pasta da feature não estavam no histórico. Antes de commitar, rodei os portões de novo em vez de confiar na nota de execução: `typecheck` e `lint` verdes, **816** testes em 67 arquivos. Dois commits, em sequência lógica: `b58117a` (a feature) e `a422b60` (os três adendos).
-- **Produção foi conferida, e é a primeira vez em que a conferência diz algo sobre o BANCO.** Cinco commits de aplicação vinham sem conferir `/api/v1/status`. CI verde nos três jobs, deploy no ar, e `npm run status:conferir` respondeu `a422b60 · publicado há 0 min · ambiente producao · **banco íntegro**`. O healthcheck consultou a Neon de verdade e ela respondeu; o vínculo que a extração afirmava há três passagens existe agora em runtime.
-- **A nota do vault foi atualizada e pushada** (`20827e9` em `notas-obsidian`): a entrega da 022, o fim da dívida de sincronização e o `PRÓXIMO PASSO` reescrito, que apontava para o `/reversa-coding` da 020 e estava obsoleto havia duas sessões.
+- **A re-extração nº 4 fechou numa sessão, e a extração alcançou o código.** As seis fases correram — as três primeiras vinham da sessão anterior, e aqui rodaram Geração, Revisão e Regressão. A extração passou de **14 para 21 units**. O `/reversa` foi retomado em modo normal e, a partir da unit 3, seguiu em `/reversa-autonomous` até o fim do plano.
+- **Sete units novas, e três delas nomeiam coisas que a plataforma não tinha:** o quinto domínio clínico `models/puericultura`; o submódulo `consulta`, que é a **segunda fachada sob uma unit**; e `models/contribuicao`, o primeiro unit **não clínico**. Somam-se as três telas correspondentes e `scripts/`, a **camada dev-time** com 5.517 LOC em 23 arquivos que a passagem anterior não conhecia de todo.
+- **Dois `contracts.md` documentam a espécie de artefato que nenhuma passagem anterior cobria: o contrato que a plataforma EMITE.** Tudo o que ela consumia até aqui era contrato de entrada — tabelas, equações, rótulos. O BR Code e o registro SOAP saem do produto para software de terceiros, **sem canal de erro**: se a forma quebrar, quem descobre é quem usa. A assimetria mudou o modo de verificar, e está escrita.
+- **A geração foi de 42 arquivos**, com aval explícito do usuário para reescrever os 15 já existentes e cadência de pausa por unit — decisão dele entre três opções apresentadas.
+- **O Revisor aferiu por conta própria em vez de copiar do Arqueólogo.** Dez cifras foram medidas na sessão: 816 testes em 67 arquivos (duas execuções), 201 e 54 testes de puericultura e consulta, 12.964 posições L/M/S, 356 casos de oráculo, 1.596 células do INTERGROWTH-21st (228 semanas × 7 desvios), 1.187 literais, nove folhas com a maior em 367 linhas, o vetor `29B1` do CRC e a varredura de invariantes. **As quatro âncoras de valor das tabelas da OMS foram conferidas valor a valor** e bateram exatamente.
+- **A revisão achou uma omissão própria e a corrigiu:** as três telas novas citavam só o teste de integração e omitiam o e2e correspondente. Nenhuma afirmação 🟢 precisou ser rebaixada.
+- **Regressão sobre 179 watch items em 21 features: 169 🟢, 9 🟡, 1 🔴.** É a maior verificação já feita no projeto — a nº 3 cobriu 60 itens.
+- **Duas dívidas herdadas foram encerradas:** **L-07** (`logoComoTitulo`, prop que a `Moldura` não tem desde a 016) e **L-11** (a cifra de testes, defasada desde a 018).
+- **Três commits e dois pushes:** `d280c8e` (a `MD-0034`, da fase de interpretação, que estava fora do histórico), `48d44e1` (a re-extração inteira) e `8ff26df` no `notas-obsidian`. **Nenhum código de aplicação foi tocado.**
 - Encerramento não versionado: o estado de sessão ficou como mudança pendente no working tree.
 
 ## Próximos passos
-- **A re-extração `/reversa` nº 4**, que agora é o único gesto grande em aberto. Absorve **oito** adendos vigentes (015 a 022) e `MD-0022` a **`MD-0032`**. É a primeira que verá uma unit com duas fachadas, um unit de domínio não clínico, a coluna como invariante enunciada e uma rota de API com I/O.
-- **Fechar as três dívidas que só ela fecha:** **L-07** (`domain.md` §7.2 ainda cita `logoComoTitulo`, prop que a `Moldura` não tem mais), **L-11** (a cifra de testes de `architecture.md` §5, hoje muito defasada) e a descrição da rota de status como sem I/O.
-- **Aval estético da 021** e a premissa 🟡 do piso de `22rem`, com as capturas já feitas.
-- **Observar `ambiente` em pré-visualização** (`O-22-03`), a única premissa 🟡 que a 022 deixou: verificável no primeiro deploy de preview, pelo passo 9 do `onboarding.md` da feature.
+- **Triar `018/W021`**, o único vermelho, e é o primeiro gesto porque é barato. O item proíbe localização bibliográfica em mensagem de validação; `models/insulina/validacao.ts:179` traz `(p. 59)`. Ou a mensagem perde a página, ou o item declara a exceção da insulina.
+- **Escolher a próxima feature.** Por ordem de maturidade: fechar a cegueira do extrator a `TemplateExpression` (259 fragmentos fora do inventário, três violações vivas de `MD-0020`, uma no plano copiável); partir `scripts/textos/classes/interface.mts`, em 684 linhas; ou a primeira feature com esquema de negócio, que nasce com migração junto.
+- **Chancelar as onze premissas 🟡 novas.** As duas que mais mudam resultado em tela são **Q-P1** (limite estendido da correção de idade) e **Q-P3** (a idade cronológica governando a posição de medida); **Q-P4** é a que mais incomoda em uso.
+- **Aval estético da 021** e a premissa 🟡 do piso de `22rem`, herdados sem movimento.
 
 ## Pendências / bloqueios
-- **Nada do ciclo forward está em aberto**, e nada do trabalho desta sessão ficou fora do histórico. O repositório está limpo, CI verde, produção no SHA `a422b60` e conferida.
-- **`MD-0027` continua a arbitrar.** A isenção nominal no verificador de citação foi tomada na execução da 020, não pelo usuário, e a própria ficha a declara aberta a revisão enquanto a lista tiver uma entrada só. O adendo 020 lhe deu seção própria, o que torna a leitura mais fácil, e não dispensa a decisão.
-- **`README.md` reprova `prettier --check`, e já reprovava no HEAD** (`O-22-02`), na mesma família de `O-21-06` (`e2e/plataforma.spec.ts`) e `O-20-10`. Dívida de formatação alheia, que uma feature não deve quitar de passagem.
-- Herdados e sem movimento: as duas premissas 🟡 da 020, a dívida amarela de `interface.mts` em 684 linhas, `O-19-03`, as três violações vivas de `MD-0020`, as premissas 🟡 da 017 e da re-extração nº 3, e **L-10** sem dono há oito features.
-- **Rastreamento preventivo por perfil** segue PAUSADO, sem resposta da AHRQ em cinco dias. Passando de duas semanas, redigir follow-up.
+- **O 🔴 da regressão não é regressão, e essa distinção é o achado da sessão.** O `git log -S` mostra que a mensagem com `(p. 59)` vem do commit de refundação `04e0493`, **anterior à feature 018** que declarou o watch. O item nasceu afirmando um estado que o repositório nunca teve. Chamar isso de regressão seria errar o diagnóstico e procurar culpa numa mudança que não houve.
+- **Cinco dos nove amarelos são verificações que eu não pude executar**, não divergências: a idempotência dos geradores exige as fontes de `referencias/`, que ficam fora do git. Registrei como evidência parcial em vez de dar verde por conveniência.
+- **Duas lacunas 🔴 em `gaps.md`:** literal interpolado fora do inventário textual, e as duas provas de ponta do BR Code fora do CI.
+- **Sem revisão cruzada** — o Codex segue indisponível, como na nº 3. A verificação independente das premissas clínicas continua dependendo de chancela humana.
+- Herdados e sem movimento: `MD-0027` a arbitrar, `README.md` reprovando `prettier --check`, `interface.mts` em 684 linhas, **L-10** sem dono há nove features, e o rastreamento preventivo pausado sem resposta da AHRQ em cinco dias.
 
 ## Ponteiros
-- **A regra desta sessão, e ela é sobre o que um adendo É:** o adendo anota, não corrige. Quando o `legacy-impact.md` de uma feature traz erro de referência — aqui, W006 onde é W005 —, o lugar de acertar é o adendo, e nunca o artefato da extração. Vale também para apontador: adendo de feature que a extração-base não conhece aponta para o **adendo anterior**, e não para `code-analysis.md`.
-- **Por que o healthcheck responde 200 com o banco caído**, que é a leitura contraintuitiva e a que mais gera dúvida na retomada: as seis calculadoras são integralmente cliente e seguem servindo com o banco fora, de modo que 503 afirmaria uma queda que não houve. Está em `MD-0031`, e o watch **W003** da 022 o vigia.
-- **O acoplamento mais frágil que a 022 deixou:** `ehEstouroDeTempo` reconhece o estouro de conexão por uma **frase** que o driver emite ("Connection terminated due to connection timeout"). Atualização de `pg` é gatilho de revisão. É o watch **W007**, o único de tipo redação, e o achado A004 conta como ele apareceu.
-- **Como reproduzir o estado degradado sem quebrar nada:** `npm run db:down` produz `causa: "conexao"`; `APS_TIMEOUT_SAUDE_MS=1` com o banco de pé produz `tempo_esgotado`. Procedimento nos §5 e §6 do `onboarding.md` da 022.
-- **Como conferir produção agora:** `npm run status:conferir` lê idade do deploy e estado do banco, e `--exigir-saudavel` promove degradado a saída não-zero sem tocar na semântica dos códigos de defasagem.
-- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0032`**. Índice em `.harness/microdecisoes.md`.
-- **Adendos vigentes:** 015, 016, 017, 018, **019**, **020**, 021 e **022**; as emendas `MD-0020`/`MD-0021` vivem só como ficha.
-- Produção: https://apsinteligente.app · saúde em `/api/v1/status`.
+- **A regra desta sessão, e vale para toda re-extração futura:** um watch item que não bate pode ter nascido impreciso, e não ter sido ferido. Antes de chamar de regressão, `git log -S` na condição declarada — se a divergência é anterior ao próprio watch, o defeito está no item, não no código. Foi o que separou o único vermelho de um falso alarme.
+- **Por que 🟡 e não 🟢 quando não dá para reexecutar:** `git status` limpo num artefato gerado mostra ausência de divergência, e não idempotência. São coisas diferentes, e a segunda exige rodar o gerador.
+- **Onde ler o resultado:** `_reversa_sdd/confidence-report.md` (por unit, com a tabela do que foi aferido nesta sessão), `_reversa_sdd/questions.md` (24 premissas, 11 novas) e `_reversa_sdd/gaps.md` (2 lacunas 🔴, 8 dívidas, 4 encerradas).
+- **A distinção que mais confunde na retomada:** `logoComoTitulo` **não existe mais**. Quem ler a base da re-extração 3 vai encontrá-la; a identidade foi unificada na 016, e o que distingue a home das calculadoras hoje é a ausência de `comInicio`, não o tratamento da logo.
+- **`MD-0034` fixa quando uma feature vira ADR:** vira ADR o que invalidou uma afirmação estrutural da extração; o resto é regra de domínio. O corolário é que o tamanho da entrega não prediz o ADR — a 017, a maior da história do projeto, não ganhou nenhum.
+- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0034`**.
+- **Adendos 015 a 022 marcados como superados.** Não há adendo vigente.
+- Produção: https://apsinteligente.app · saúde em `/api/v1/status` · SHA `a422b60`, conferido em 28/07.
