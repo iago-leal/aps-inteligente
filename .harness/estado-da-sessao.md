@@ -1,41 +1,37 @@
 ---
-commit: 48d44e123cef0cc91a67362866c6a98217ae32de
+commit: aac422f81f83df359acf6c365db4c6f940a2c9fb
 feature: default_feature
-start_time: '2026-07-28T23:30:10.381409+00:00'
+start_time: '2026-07-29T00:37:38.375313+00:00'
 status: inactive
 ---
 
 ## O que foi feito
-- **A re-extração nº 4 fechou numa sessão, e a extração alcançou o código.** As seis fases correram — as três primeiras vinham da sessão anterior, e aqui rodaram Geração, Revisão e Regressão. A extração passou de **14 para 21 units**. O `/reversa` foi retomado em modo normal e, a partir da unit 3, seguiu em `/reversa-autonomous` até o fim do plano.
-- **Sete units novas, e três delas nomeiam coisas que a plataforma não tinha:** o quinto domínio clínico `models/puericultura`; o submódulo `consulta`, que é a **segunda fachada sob uma unit**; e `models/contribuicao`, o primeiro unit **não clínico**. Somam-se as três telas correspondentes e `scripts/`, a **camada dev-time** com 5.517 LOC em 23 arquivos que a passagem anterior não conhecia de todo.
-- **Dois `contracts.md` documentam a espécie de artefato que nenhuma passagem anterior cobria: o contrato que a plataforma EMITE.** Tudo o que ela consumia até aqui era contrato de entrada — tabelas, equações, rótulos. O BR Code e o registro SOAP saem do produto para software de terceiros, **sem canal de erro**: se a forma quebrar, quem descobre é quem usa. A assimetria mudou o modo de verificar, e está escrita.
-- **A geração foi de 42 arquivos**, com aval explícito do usuário para reescrever os 15 já existentes e cadência de pausa por unit — decisão dele entre três opções apresentadas.
-- **O Revisor aferiu por conta própria em vez de copiar do Arqueólogo.** Dez cifras foram medidas na sessão: 816 testes em 67 arquivos (duas execuções), 201 e 54 testes de puericultura e consulta, 12.964 posições L/M/S, 356 casos de oráculo, 1.596 células do INTERGROWTH-21st (228 semanas × 7 desvios), 1.187 literais, nove folhas com a maior em 367 linhas, o vetor `29B1` do CRC e a varredura de invariantes. **As quatro âncoras de valor das tabelas da OMS foram conferidas valor a valor** e bateram exatamente.
-- **A revisão achou uma omissão própria e a corrigiu:** as três telas novas citavam só o teste de integração e omitiam o e2e correspondente. Nenhuma afirmação 🟢 precisou ser rebaixada.
-- **Regressão sobre 179 watch items em 21 features: 169 🟢, 9 🟡, 1 🔴.** É a maior verificação já feita no projeto — a nº 3 cobriu 60 itens.
-- **Duas dívidas herdadas foram encerradas:** **L-07** (`logoComoTitulo`, prop que a `Moldura` não tem desde a 016) e **L-11** (a cifra de testes, defasada desde a 018).
-- **Três commits e dois pushes:** `d280c8e` (a `MD-0034`, da fase de interpretação, que estava fora do histórico), `48d44e1` (a re-extração inteira) e `8ff26df` no `notas-obsidian`. **Nenhum código de aplicação foi tocado.**
-- Encerramento não versionado: o estado de sessão ficou como mudança pendente no working tree.
+- **Sessão inteira de registro de defeito, sem uma linha de código de aplicação tocada.** O usuário abriu com dois prints da ficha de consulta de puericultura em produção e dois relatos; o `/reversa-debugger` fez o que o skill manda e só isso: resolveu o contexto, anotou, apurou, registrou e gerou as views. A correção é do `/reversa-debugger-fix`, e ficou para a próxima.
+- **Nasceu o segundo contexto do registro de bugs**, `_reversa_bugs/consulta-puericultura/`, o primeiro além do `motor-insulina`, que existia sozinho desde 19/07. A pasta foi criada antes de qualquer análise, porque é ela que recebe as evidências: as duas imagens entraram em `intake/` no primeiro gesto, ao lado do relato bruto `relato-20260728-2145.md`.
+- **`BUG-20260728-ZAHV` (critical · P0): a proveniência atravessa para o prontuário.** O texto que a tela entrega à área de transferência fecha com as três notas editoriais e a linha `Fonte:`. No print, com um único campo preenchido, a proveniência ocupava mais de quatro quintos do registro.
+- **O achado da apuração é que o comportamento é o especificado.** A regra 7 de `models-puericultura-consulta/contracts.md` manda as notas fecharem o texto e a linha da fonte fechar as notas; o código obedece à letra. O bug acusa a spec, não o código, e o registro diz isso na cara: veredito previsto `spec-desatualizada`, com adendo versionado como pré-requisito de fechamento.
+- **`BUG-20260728-C6LN` (medium · P2): o comando "Avaliar crescimento" fica fora do quadro "1. Medidas".** Nasce irmão da ficha, cai depois de todos os quadros, longe das três medidas que consome. É `spec-gap`, e a prova veio dos testes: os três que alcançam o comando o localizam por papel e nome, nunca por posição — a posição nunca foi contratada.
+- **`MD-0035` registra a decisão do prescritor**, tomada em 28/07 sobre duas perguntas que mudavam o registro: saem as notas **e** a linha da fonte; ficam o cabeçalho e o SOAP; a declaração permanece na tela. A ficha generaliza a regra para além desta tela e já alcança o BR Code.
+- **Views do contexto geradas e espelho global regenerado:** `index.md`, `catalog.jsonl`, `matrix.md`, `graph.md`, `spec-matrix.md` e o `graph.html` autocontido, mais `_reversa_sdd/traceability/bugs.md` com os três bugs dos dois contextos.
+- **Três commits e três pushes:** `cf93c56` (a `MD-0035`), `aac422f` (o registro de bugs e o espelho) e `be3fec7` no `notas-obsidian`. Produção segue no SHA `a422b60`.
 
 ## Próximos passos
-- **Triar `018/W021`**, o único vermelho, e é o primeiro gesto porque é barato. O item proíbe localização bibliográfica em mensagem de validação; `models/insulina/validacao.ts:179` traz `(p. 59)`. Ou a mensagem perde a página, ou o item declara a exceção da insulina.
-- **Escolher a próxima feature.** Por ordem de maturidade: fechar a cegueira do extrator a `TemplateExpression` (259 fragmentos fora do inventário, três violações vivas de `MD-0020`, uma no plano copiável); partir `scripts/textos/classes/interface.mts`, em 684 linhas; ou a primeira feature com esquema de negócio, que nasce com migração junto.
-- **Chancelar as onze premissas 🟡 novas.** As duas que mais mudam resultado em tela são **Q-P1** (limite estendido da correção de idade) e **Q-P3** (a idade cronológica governando a posição de medida); **Q-P4** é a que mais incomoda em uso.
-- **Aval estético da 021** e a premissa 🟡 do piso de `22rem`, herdados sem movimento.
+- **`/reversa-debugger-fix BUG-20260728-ZAHV`**, e é o primeiro gesto porque é o P0 e porque a decisão que ele executa já está escrita — o fix não precisa decidir nada de produto, só materializar `MD-0035` e o adendo.
+- **Depois, `BUG-20260728-C6LN`.** A pergunta que o fix precisa responder não é onde pôr o botão, e sim como: `ficha.tsx` não aceita conteúdo de fora, e a escolha é entre dar-lhe ponto de extensão ou acoplar a projeção da fonte clínica a um comando de aplicação.
+- **Triar `018/W021`**, herdado da re-extração nº 4 e ainda barato: ou a mensagem de `models/insulina/validacao.ts:179` perde o `(p. 59)`, ou o item declara a exceção da insulina.
+- **Chancelar as onze premissas 🟡 novas** e dar o **aval estético da 021**, ambos herdados sem movimento.
 
 ## Pendências / bloqueios
-- **O 🔴 da regressão não é regressão, e essa distinção é o achado da sessão.** O `git log -S` mostra que a mensagem com `(p. 59)` vem do commit de refundação `04e0493`, **anterior à feature 018** que declarou o watch. O item nasceu afirmando um estado que o repositório nunca teve. Chamar isso de regressão seria errar o diagnóstico e procurar culpa numa mudança que não houve.
-- **Cinco dos nove amarelos são verificações que eu não pude executar**, não divergências: a idempotência dos geradores exige as fontes de `referencias/`, que ficam fora do git. Registrei como evidência parcial em vez de dar verde por conveniência.
-- **Duas lacunas 🔴 em `gaps.md`:** literal interpolado fora do inventário textual, e as duas provas de ponta do BR Code fora do CI.
-- **Sem revisão cruzada** — o Codex segue indisponível, como na nº 3. A verificação independente das premissas clínicas continua dependendo de chancela humana.
-- Herdados e sem movimento: `MD-0027` a arbitrar, `README.md` reprovando `prettier --check`, `interface.mts` em 684 linhas, **L-10** sem dono há nove features, e o rastreamento preventivo pausado sem resposta da AHRQ em cinco dias.
+- **Dois bugs abertos, nenhum bloqueado.** As duas listas `blocking` estão vazias, e os arquivos que cada correção alcança são disjuntos: podem correr em paralelo sem conflito de edição.
+- **Um teste vigente reprova a correção do P0**, e é de propósito: `tests/unit/interface/formatar-registro.test.ts:82` afirma a regra 7. Ele muda de sentido junto com a spec, no mesmo change set — apagá-lo por conveniência seria contornar o gate em vez de passar por ele.
+- **`taxonomy.yaml` não tem termo para esta área.** Os dois bugs ficaram em `module` e `feature: unclassified`, com as propostas (`interface-puericultura-consulta`, `models-puericultura-consulta`, `consulta-puericultura-soap`) registradas em Agent Notes. O arquivo é somente leitura no comando de registro, e a inclusão é decisão a tomar.
+- Herdados e sem movimento: `MD-0027` a arbitrar, `README.md` reprovando `prettier --check`, `interface.mts` em 684 linhas, **L-10** sem dono, as duas lacunas 🔴 de `gaps.md`, o Codex indisponível e o rastreamento preventivo pausado sem resposta da AHRQ em cinco dias.
 
 ## Ponteiros
-- **A regra desta sessão, e vale para toda re-extração futura:** um watch item que não bate pode ter nascido impreciso, e não ter sido ferido. Antes de chamar de regressão, `git log -S` na condição declarada — se a divergência é anterior ao próprio watch, o defeito está no item, não no código. Foi o que separou o único vermelho de um falso alarme.
-- **Por que 🟡 e não 🟢 quando não dá para reexecutar:** `git status` limpo num artefato gerado mostra ausência de divergência, e não idempotência. São coisas diferentes, e a segunda exige rodar o gerador.
-- **Onde ler o resultado:** `_reversa_sdd/confidence-report.md` (por unit, com a tabela do que foi aferido nesta sessão), `_reversa_sdd/questions.md` (24 premissas, 11 novas) e `_reversa_sdd/gaps.md` (2 lacunas 🔴, 8 dívidas, 4 encerradas).
-- **A distinção que mais confunde na retomada:** `logoComoTitulo` **não existe mais**. Quem ler a base da re-extração 3 vai encontrá-la; a identidade foi unificada na 016, e o que distingue a home das calculadoras hoje é a ausência de `comInicio`, não o tratamento da logo.
-- **`MD-0034` fixa quando uma feature vira ADR:** vira ADR o que invalidou uma afirmação estrutural da extração; o resto é regra de domínio. O corolário é que o tamanho da entrega não prediz o ADR — a 017, a maior da história do projeto, não ganhou nenhum.
-- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0034`**.
-- **Adendos 015 a 022 marcados como superados.** Não há adendo vigente.
+- **A distinção que organiza esta sessão, e vale para todo bug futuro:** relato de defeito nem sempre acusa o código. Antes de chamar de bug, ler a spec efetiva — se ela descreve o que o usuário reclamou, o alvo é a spec, e o registro precisa dizê-lo, ou o fix vai emendar o código deixando o contrato a afirmar o contrário do que o produto faz. Foi o que separou o P0 do P2: um pede que a spec mude, o outro pede que ela passe a existir.
+- **Como se prova um `spec-gap` sem ler a spec inteira:** olhar como os testes localizam o alvo. Se nenhum o alcança pela propriedade reclamada, a propriedade nunca foi contratada. Os três testes do comando o pegam por papel e nome; nenhum por posição.
+- **Por que o corte da proveniência não relaxa a norma:** `proveniencia.tsx` importa as constantes direto de `fonte-clinica.ts`, e não do registro. A declaração que RN-03, RN-08 e RN-09 exigem nunca dependeu do texto copiado — ele apenas a duplicava.
+- **Onde ler o resultado:** `_reversa_bugs/consulta-puericultura/generated/graph.html` (grafo e tabela dos abertos), os dois `bug.md` e o relato bruto em `intake/`.
+- Microdecisões em `.harness/decisoes/`: `MD-0001` a **`MD-0035`**.
+- **Adendos 015 a 022 marcados como superados.** Não há adendo vigente; o próximo nasce do fix do P0.
 - Produção: https://apsinteligente.app · saúde em `/api/v1/status` · SHA `a422b60`, conferido em 28/07.
