@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-28.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 `GET /api/v1/status` respondia 200 quando o servidor da aplicação respondia, e nada além disso. O

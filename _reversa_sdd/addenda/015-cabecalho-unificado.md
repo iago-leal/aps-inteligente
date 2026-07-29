@@ -6,6 +6,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 Harmonização só de apresentação do cabeçalho compartilhado. O alinhamento vertical da barra de ações, antes bifurcado entre as duas peles CSS da `Moldura` — `align-items: center` na variante `padrao` (`cabecalho.css`) e `align-items: flex-end` na `destaque` da home (`inicio.css`) —, passou a ser regra-única em `cabecalho.css`, ancorada ao topo (`flex-start`), válida para ambas as variantes. Como a logo tem altura fixa e igual (34px) nas duas telas (invariante da feature 013), ancorar ao topo faz os controles coincidirem entre home e calculadora, preservado o hero da home. `inicio.css` perdeu o override de alinhamento e ficou reduzido ao peso tipográfico do hero. Semântica, DOM e acessibilidade do cabeçalho intocados; `moldura.tsx` byte a byte inalterada. 4 de 4 ações concluídas.

@@ -63,6 +63,19 @@ feature. Fica registrado para que a próxima extração não o descubra como sur
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 8 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `moldura.css` governa a coluna por `.pagina[data-apresentacao="…"] > main`: 1180px em `padrao`, 720px em `destaque` |
+| W004 | 🟢 verde | **zero** ocorrências de `padding-block`, `margin-block`, `gap` ou altura na folha — o eixo vertical não migrou para ela |
+| W005 | 🟢 verde | **zero** redeclarações de 1180px ou 720px em `globais.css`, `inicio.css` e `contribuicao.css` |
+| W006 | 🟢 verde | os dois pontos de quebra permanecem distintos: 900px em `padrao`, 544px em `destaque` |
+| W007 | 🟢 verde | `<main>{children}</main>` sem classe e sem atributo próprio |
+| W002, W003, W008 | 🟢 verde | as guardas geométricas seguem derivando as rotas do `CATALOGO` e medindo o `<main>`, com a home como caso à parte |
+
 <!-- Preenchido pelo agente reverso ao rodar /reversa novamente. -->
 
 | Re-extração | Data | Veredito por item | Observações |

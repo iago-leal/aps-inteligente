@@ -1,7 +1,23 @@
 # interface/calculadora — UI da calculadora de insulina
 
-> `requirements.md` · Re-extração 2 (2026-07-23), regenerado. Absorve features 004 (Primer), 005 (redação metformina×TFG), 006 (ritual funcionalizado) e 007 (Moldura extraída, rota `/dm2/insulina`).
+> `requirements.md` · **Re-extração 4 (2026-07-28)**. Absorve as features 004 (Primer), 005
+> (redação metformina×TFG), 006 (ritual funcionalizado), 007 (Moldura extraída, rota
+> `/dm2/insulina`) e, nesta passagem, **016** (a prop do comando de início) e **018** (cinco
+> literais revistos sob a norma de redação).
 > Escala: 🟢 CONFIRMADO · 🟡 INFERIDO · 🔴 LACUNA
+
+## Delta desta passagem
+
+O motor e o comportamento da tela ficaram intocados. Duas mudanças, ambas de superfície:
+
+- **(016)** A composição da Moldura passa a declarar `comInicio`; `logoComoTitulo` não existe
+  mais no componente. 🟢
+- **(018)** Cinco literais desta tela foram revistos sob a norma de redação do produto
+  (ADR 0019): a revisão alcança apenas a **classe autoral**, e nenhum texto de citação da fonte
+  clínica foi tocado. Cada literal tem classe declarada em `scripts/textos/classes/`, e literal
+  novo sem entrada faz o inventário parar. 🟢
+- **(021)** A coluna do corpo deixou de ser declarada por `.calc-regioes` e passou a vir da
+  Moldura. A classe permanece, agora responsável só pelo arranjo interno. 🟢
 
 ## Visão Geral
 
@@ -42,6 +58,8 @@ Camada de apresentação da primeira calculadora: formulário controlado com val
 | RF-07 | Alternador de tema persistente (via Moldura) | Could | Tema sobrevive a reload; sem localStorage, funciona sem persistir |
 | RF-08 | Selo de privacidade visível (via Moldura) | Should | Presente em todas as telas |
 | RF-09 (006) | Copiar plano habilitado pela revisão | Should | "Copiar plano" só com revisão válida; copia as quatro partes |
+| RF-10 (016) | Comando de retorno à home | Must | `comInicio` declarada na Moldura; link presente no cabeçalho |
+| RF-11 (018) | Literais sob a norma de redação, com classe declarada | Must | `node scripts/inventariar-textos.mts` conclui sem parar; nenhum travessão fora da exceção de nome de fonte |
 
 ## Requisitos Não Funcionais
 

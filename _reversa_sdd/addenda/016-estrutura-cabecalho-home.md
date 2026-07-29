@@ -6,6 +6,8 @@
 
 Vigente desde 2026-07-23.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 Fechamento da divergência de **altura** do cabeçalho que a feature 015 deixou explícita (home 200,5px × calculadoras 209,0px). A causa era estrutural — a home fundia `logo = h1` (dois blocos) enquanto a calculadora empilha `marca + h1 + subtítulo` (três blocos). A home passou a adotar a **mesma composição de três blocos**, tornando a altura igual **por construção** (medida em 209px em todas as rotas, viewport 1280px), sem `min-height` nem px chumbado. No caminho, desfez-se um acoplamento na `Moldura`: a prop `logoComoTitulo`, que governava duas preocupações ortogonais (a logo é o `h1`? o comando de início aparece?), foi **removida**; a presença do ⌂ passou à prop dedicada `comInicio` (default ausente). A variante `destaque` encolheu à coluna de 720px e à borda `muted` — a tipografia de hero (feature 008) foi aposentada. Só apresentação e contrato de componente de UI: `models/` (quatro domínios), catálogo e `/api/v1/status` intocados, sem delta de dados nem de contrato externo. 11 de 11 ações concluídas.

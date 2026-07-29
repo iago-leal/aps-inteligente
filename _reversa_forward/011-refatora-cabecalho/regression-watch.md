@@ -23,6 +23,14 @@ Itens que precisam continuar verdadeiros nas próximas extrações `/reversa`. S
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 5 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001, W003, W004, W005 | 🟢 verde | alternador icônico com nome acessível, início como único link, selo presente, `data-tema` alternando |
+| W002 | 🟡 amarelo | **mecanismo superado, comportamento preservado.** O item descreve a regra em termos de `logoComoTitulo`, prop removida pela feature 016. O comportamento vigiado — início nas calculadoras, ausente na home — continua verdadeiro sob `comInicio`, e passou a ser vigiado pelos W002 e W003 da 016 |
 
 ### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
 

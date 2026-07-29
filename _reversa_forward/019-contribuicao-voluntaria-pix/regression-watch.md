@@ -40,3 +40,18 @@ _(a preencher pela próxima execução de `/reversa`)_
 ## 4. Arquivadas
 
 _(vazio)_
+
+## Histórico de re-extrações
+
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 10 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | a isenção de `models/contribuicao` está por escrito e agora também em ADR 0016 e em `models-contribuicao/`; a re-extração **não** a reporta como violação da família `models/*` |
+| W002 | 🟢 verde | `react-qr-code` pinada exata em `2.2.0`; nenhum texto da extração afirma mais “sem dependência de runtime nova desde a 010” |
+| W003, W009 | 🟢 verde | o `CATALOGO` segue sendo fonte única de calculadoras e o bloco de apoio segue fora do `map`. As cifras do item evoluíram por decisão posterior: **seis** fichas e **seis** rotas de calculadora, por acréscimo da feature 020 |
+| W004..W006, W008, W010 | 🟢 verde | sem requisição na abertura do painel; hierarquia de títulos preservada; nenhum `slice`/`substring` no caminho de emissão; painel por import dinâmico em `bloco-de-apoio.tsx` |
+| W007 | 🟡 amarelo | o cálculo sobre a cadeia com `6304` está verificado no código e por propriedade ✅; a aceitação por **decodificador independente** não foi reexecutada nesta sessão — é a lacuna **L-02** de `gaps.md` |
+

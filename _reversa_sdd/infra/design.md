@@ -1,54 +1,98 @@
-# infra — Design Técnico
+# `infra` — Design Técnico
 
-> `design.md` · Re-extração 2. Acesso a banco via `pg` + serviço Docker Compose.
+> `design.md` · **Re-extração 4 (2026-07-28)**. Acesso a banco via `pg` mais o serviço local.
+> Dois arquivos desde a feature 022: `database.ts` e `saude.ts`.
 
 ## Interface
 
 | Símbolo | Assinatura | Retorno | Observação |
 |---------|-----------|---------|------------|
-| `query<Linha>` | `(texto: string, parametros?: unknown[])` | `Promise<Linha[]>` | Sempre parametrizada; erros como `ErroDeBanco` |
-| `saude` | `()` | `Promise<{ ok: true }>` | `SELECT 1`; lança se resultado inesperado |
-| `encerrar` | `()` | `Promise<void>` | Drena e encerra o pool |
-| `ErroDeBanco` | `class extends Error` | — | `causa: "conexao" \| "consulta" \| "configuracao"`, `cause` preservada |
+| `query<Linha>` | `(texto: string, parametros?: unknown[])` | `Promise<Linha[]>` | Sempre parametrizada; erro vira `ErroDeBanco`. |
+| `saude` | `({ tetoMs }?)` | `Promise<{ ok: true }>` | Consulta de verificação; aceita teto explícito. |
+| `encerrar` | `()` | `Promise<void>` | Drena e encerra o pool. |
+| `ErroDeBanco` | `class extends Error` | — | `causa` entre quatro valores; causa original preservada. |
+| `verificarBanco` | `(tetoMs?)` | `Promise<EstadoDoBanco>` | **Nunca lança.** |
+| `EstadoDoBanco` | união | — | `integro`, ou `degradado` com causa. |
 
 ## Fluxo Principal
 
-1. `query` mede o tempo, obtém o pool (`obterPool`, preguiçoso) e executa. `database.ts:116-126` 🟢
-2. Em erro: se já é `ErroDeBanco`, registra e repropaga; se é erro de conexão (código/mensagem), embrulha em `causa: "conexao"`; senão `causa: "consulta"`. `database.ts:127-147` 🟢
-3. `obterPool` cria o `Pool` com `connectionString` validada, `max=5`, timeouts de 5 s, e handler de erro do cliente ocioso. `database.ts:102-114` 🟢
-4. `urlDeConexao` valida `DATABASE_URL` (presença e forma), lançando `configuracao` quando inválida. `database.ts:41-59` 🟢
+1. `query` mede o tempo, obtém o pool preguiçoso e executa.
+2. Em erro, classifica: já sendo `ErroDeBanco`, registra e repropaga; senão, decide entre
+   `tempo_esgotado`, `conexao` e `consulta`.
+3. `obterPool` cria o pool com a URL validada, limite de conexões e os tetos derivados do
+   ambiente, mais o tratador de erro do cliente ocioso.
+4. `verificarBanco` embrulha `saude()` e traduz qualquer desfecho em estado.
+
+## A ordem das verificações, que é regra e não detalhe
+
+`ehEstouroDeTempo` **precisa vir antes** de `ehErroDeConexao`. O estouro de conexão emite uma
+mensagem que casa com os dois padrões, e invertê-los classificaria todo estouro como falha de
+conexão — a rota continuaria respondendo `200`, com a causa errada, e ninguém notaria. 🟢
+
+O reconhecimento se apoia em **frase do driver** ("Connection terminated due to connection
+timeout"), o que torna a atualização de `pg` um gatilho de revisão. É o acoplamento mais
+frágil que a feature 022 deixou, e está sob o watch **W007**. 🟡
+
+## As quatro causas
+
+| Causa | Origem típica |
+|-------|---------------|
+| `configuracao` | `DATABASE_URL` ausente ou malformada — detectada antes de qualquer conexão. |
+| `conexao` | Códigos de rede e de recusa do servidor, ou mensagem de terminação. |
+| `tempo_esgotado` | Cancelamento por `statement_timeout`, `ETIMEDOUT`, ou estouro do teto de conexão. |
+| `consulta` | O resto, incluindo rejeição fora do contrato. |
+
+## O teto de tempo
+
+`APS_TIMEOUT_SAUDE_MS` governa as duas pontas: `connectionTimeoutMillis` no pool e
+`statement_timeout` na sessão, este aplicado por consulta parametrizada de configuração. O
+padrão é 3.000 ms. Valor inválido é registrado e substituído pelo padrão, em vez de derrubar o
+processo — coerente com a disciplina de falhar alto sem falhar fatal na borda. 🟢
 
 ## Fluxos Alternativos
 
-- **`DATABASE_URL` ausente/malformada:** `ErroDeBanco("configuracao", …)`. `database.ts:42-58` 🟢
-- **Código de rede/recusa do servidor:** classificado como conexão (conjunto `CODIGOS_DE_CONEXAO`). `database.ts:29-39,76-83` 🟢
-- **Cliente ocioso falha:** handler `pool.on("error")` registra sem derrubar o processo. `database.ts:110-111` 🟢
+- **Configuração ausente ou malformada:** erro de configuração, com mensagem que aponta o
+  gabarito de ambiente.
+- **Cliente ocioso falha:** o tratador registra sem derrubar o processo.
+- **Banco fora:** `npm run db:down` reproduz a causa `conexao`.
+- **Teto de 1 ms com banco de pé:** reproduz `tempo_esgotado`.
 
 ## Dependências
 
-- `pg` (`Pool`, `QueryResultRow`) — driver PostgreSQL. 🟢
-- `process.env.DATABASE_URL` — string de conexão (fora do código). 🟢
-- Docker Compose (`infra/compose.yaml`) — Postgres 17 local. 🟢
+- `pg` — driver PostgreSQL. Única dependência de runtime desta unit.
+- `DATABASE_URL` e `APS_TIMEOUT_SAUDE_MS`, ambas fora do código.
+- Docker Compose, para o Postgres local.
 
 ## Decisões de Design Identificadas
 
 | Decisão | Evidência no código | Confiança |
 |---------|---------------------|-----------|
-| Pool preguiçoso singleton por módulo | `database.ts:23,102-114` | 🟢 |
-| Erros nomeados com causa preservada (RN-04) | `database.ts:13-21` | 🟢 |
-| Host mascarado em todo log (RN-05) | `database.ts:61-68` | 🟢 |
-| Sem retry automático (falha barulhenta) | `database.ts:4-5` (comentário) | 🟢 |
-| Paridade de major 17 local ↔ produção (D-05) | `compose.yaml:2-3,7` | 🟢 |
+| Pool preguiçoso, singleton por módulo. | `database.ts` | 🟢 |
+| Erros nomeados com causa preservada. | `database.ts:ErroDeBanco` | 🟢 |
+| Host mascarado em todo log. | `database.ts:hostMascarado` | 🟢 |
+| Sem retry automático. | cabeçalho de `database.ts` | 🟢 |
+| Paridade de major entre local e produção. | `compose.yaml` | 🟢 |
+| **(022)** A tradução de erro em estado mora em arquivo próprio, e não no handler HTTP. | `infra/saude.ts` | 🟢 |
+| **(022)** `verificarBanco` nunca lança, e registra o que não conhece. | `infra/saude.ts` | 🟢 |
+| **(022)** O teto governa as duas pontas, e não só a consulta. | `database.ts` | 🟢 |
+| O `compose.yaml` chumba credenciais locais de propósito, por serem de desenvolvimento e precisarem ser reproduzíveis sem `.env`. | `infra/compose.yaml` | 🟢 |
 
 ## Estado Interno
 
-`pool: Pool | undefined` no escopo do módulo — criado sob demanda, zerado por `encerrar`. 🟢
+O pool no escopo do módulo, criado sob demanda e zerado por `encerrar`, mais o teto aplicado na
+última criação. Sobrevive entre requisições na mesma instância de função. 🟢
 
 ## Observabilidade
 
-Log estruturado JSON em `console.error` (`nivel`, `origem`, `causa`, `erro`, `host` mascarado, `duracao_ms`). 🟢
+Log estruturado em JSON com nível, origem, causa, nome do erro, host mascarado e duração. É a
+única emissão de log da plataforma inteira. 🟢
 
 ## Riscos e Lacunas
 
-- 🟢 Sem dado clínico no banco na Fase 1 (ADR 0008); a fundação é para observabilidade e uso futuro.
-- 🟡 `query` usa `Date.now()` para medir duração (aceitável em infra, ao contrário do domínio puro).
+- 🟡 **`ehEstouroDeTempo` depende de frase do driver** (W007). Atualização de `pg` exige
+  reconferir os padrões.
+- 🟡 **`query` usa o relógio para medir duração**, aceitável em infraestrutura e proibido no
+  domínio puro.
+- 🟢 Nenhum dado clínico trafega pelo banco; o esquema segue sem tabela de aplicação.
+- 🟢 A afirmação da extração anterior — "usada só pelo healthcheck, e o único importador é um
+  teste" — está encerrada: a rota de status é consumidor de produção desde a feature 022.

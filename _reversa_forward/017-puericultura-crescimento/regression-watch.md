@@ -216,6 +216,21 @@ Acrescentado na terceira rodada de 2026-07-27 (T008):
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 41 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001, W002 | 🟢 verde | catálogo com quatro seções; `puericultura` agora com **duas** fichas (crescimento e consulta), crescimento aditivo pela feature 020; fallback de ícone preservado |
+| W003, W004 | 🟢 verde | zero imports de `scripts/` em `models/`, `interface/` ou `pages/`; zero `fetch`/`XMLHttpRequest`/`localStorage` em `models/puericultura` e `interface/puericultura` |
+| W005 | 🟢 verde | `manifesto.json` com **14 origens e 14 `sha256` distintos** |
+| W007 | 🟢 verde | **as quatro âncoras conferidas nesta sessão**, valor a valor: PC masculino `Day 0` = 34.4618; peso masculino `Month 61` = 18.5057; peso feminino `Month 61` = 18.2579; peso masculino `Day 1856` = 18.4968 |
+| W009 | 🟢 verde | nenhuma coluna `SDn` embarcada nos 14 módulos |
+| W011..W017, W020..W041 (exceto os citados abaixo) | 🟢 verde | fronteiras 1826/1856/3682/730 preservadas em `leitura.ts` e `classificacao.ts`; `INDICES_COM_CORRECAO_DE_CAUDA` com exatamente `peso-idade` e `imc-idade`, como dado; união de três variantes de índice íntegra; `invariantes.test.ts` varrendo React/Next/Primer/relógio; `coverage.include` ainda `["models/**"]` sem exclusão; oráculo com **356 casos e 1596 células** (228 semanas × 7 desvios), conferidos nesta sessão |
+| W006, W019 | 🟡 amarelo | **não reexecutados nesta sessão.** A idempotência exige rodar os geradores sobre as fontes de `referencias/`, que ficam fora do git. Evidência parcial: `git status` limpo nos 14 módulos e nos oráculos, o que mostra ausência de divergência, mas não substitui a reexecução |
+| W040 | 🟡 amarelo | a medição de *first load* por rota não foi refeita nesta passagem; a extração documenta o carregamento sob demanda (`next/dynamic`), verificado no código |
+
 <!-- Preenchido pelo agente reverso a cada `/reversa`. -->
 
 ## Arquivadas

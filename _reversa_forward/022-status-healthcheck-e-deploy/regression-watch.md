@@ -44,6 +44,18 @@ feature encontrou e não podia quitar.
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 14 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `pages/api/v1/status.ts` importa `infra/saude` e consulta o banco a cada requisição. **A extração deixou de afirmar o contrário**: `code-analysis.md`, `architecture.md`, `pages-api-v1-status/` e `infra/` foram reescritas nesta passagem |
+| W002..W004 | 🟢 verde | seis chaves na raiz, com as três antigas de nome, tipo e semântica intactos; 200 em todo estado do banco; `CausaDeErroDeBanco` com quatro valores |
+| W005, W006 | 🟢 verde | **zero** ocorrências de `Promise.race`, `query_timeout` ou `AbortSignal` em `infra/database.ts`; o `finally` que restaura o teto padrão permanece |
+| W007 | 🟢 verde | a frase do driver continua reconhecida como `tempo_esgotado`. Segue sendo o acoplamento mais frágil da feature, e está registrado como dívida **D-03** em `gaps.md` |
+| W008, W009..W014 | 🟢 verde | teto padrão de 3.000 ms com log em valor malformado; vocabulário próprio de `ambiente`; `publicado_em` como carimbo de build; **um único importador** de `infra/database` (`infra/saude.ts`); CI com três jobs |
+
 <!-- Preenchido pelo agente reverso ao rodar /reversa novamente. -->
 
 | Item | Veredito | Nota |

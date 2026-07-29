@@ -1,44 +1,67 @@
 # Gaps — aps-inteligente
 
-> Regenerado pelo Reversa Reviewer na **re-extração 3 (2026-07-23)**. Lacunas e dívidas após a sessão de validação (o usuário optou por manter as premissas clínicas como 🟡 e seguir para a regressão). Acrescenta as premissas do risco cardiovascular (feature 014).
+> Regenerado pelo Reversa Reviewer na **re-extração 4 (2026-07-28)**. Lacunas e dívidas após a
+> geração das specs das features 015–022.
+> Política vigente: as premissas clínicas permanecem 🟡 por decisão do usuário; nenhuma bloqueia
+> a reimplementação.
+
+## Lacunas 🔴 — as duas únicas desta extração
+
+| # | Lacuna | Unit | Consequência prática |
+|---|--------|------|----------------------|
+| L-01 | **Literal montado por interpolação em tempo de execução fica fora do inventário textual**, por desenho do extrator. Alcança as recusas de `elegibilidade.ts` e o aviso de `medidas.ts`. | `scripts/` | Quem revisar esses textos não tem guarda automática, e o congelamento não os cobre. Decidir entre estender o extrator ou assumir cobertura manual. |
+| L-02 | **As duas verificações que provam o BR Code na ponta não rodam em CI**: decodificação independente e leitura por aplicativo bancário real. | `models-contribuicao` | Mudança na norma do BR Code não dispara alarme: o payload continuaria a ser gerado e a suíte, verde. |
 
 ## Premissas clínicas abertas (🟡, aguardam chancela do prescritor)
 
+### Novas nesta passagem
+
 | # | Premissa | Unit | O que destrava |
 |---|----------|------|----------------|
-| Q-G1 | Cortes de trimestre 13+6 / 27+6 | `models-gestacao` | Definição operacional de trimestre |
-| Q-G2 | Limite retroativo da DUM (44 semanas) | `models-gestacao` | Teto de plausibilidade da validação |
-| Q-G3 | Faixa do laudo de USG (0–42 semanas) | `models-gestacao` | Faixa de plausibilidade da validação |
-| Q-G4 | 3.º trimestre: só informar, sem arbitrar | `models-gestacao` | Conduta da comparação DUM×USG sem margem na fonte |
-| Q-C1 | Transcrição das 24 células do Quadro 2 | `models-cardiopatia-isquemica` | Conferência independente contra o PDF |
-| Q-C2 | Estrato "baixa" descritivo | `models-cardiopatia-isquemica` | Semântica clínica do estrato |
-| Q-C3 | Cap do ajuste em 99% e sinal ">90%" | `models-cardiopatia-isquemica` | Apresentação da incerteza |
-| Q-C4 | Ausência de ritual de revisão | `models-cardiopatia-isquemica` / `interface-cardiologia` | Confirmação da conduta de UX clínica |
-| Q-C5 | Fidelidade dos blocos complementares | `interface-cardiologia` | Nível de detalhe do material consultável |
-| Q-R1 | Faixas de clamp 130–320 / 20–100 / 90–200 | `models-risco-cardiovascular` | Limites fisiológicos do ASCVD Estimator |
-| Q-R2 | Cortes de categoria 5 / 7,5 / 20% | `models-risco-cardiovascular` | Semântica clínica das categorias (2019 ACC/AHA) |
-| Q-R3 | `raca="outra"` → coeficientes de branco | `models-risco-cardiovascular` | Convenção herdada do ASCVD Risk Estimator Plus |
-| Q-R4 | Transportabilidade das PCE ao Brasil | `models-risco-cardiovascular` | Limitação declarada (não corrigida) na proveniência |
+| Q-P1 | Limite estendido da correção (730 / 1.095 dias) | `models-puericultura` | Em prematuro extremo entre 2 e 3 anos, decide qual idade indexa a curva |
+| Q-P2 | O ano conta 365 dias corridos | `models-puericultura` | Um dia de diferença em nascidos em ano bissexto |
+| Q-P3 | A idade cronológica governa a posição de medida | `models-puericultura` | Define sobre quais crianças incide a conversão de 0,7 cm |
+| Q-P4 | Faixas de plausibilidade da digitação | `models-puericultura` | Barra digitação legítima em prematuro extremo de muito baixo peso |
+| Q-P5 | Correção de cauda só em peso e IMC | `models-puericultura` | Guarda contra tabela futura sem `L = 1` nos outros índices |
+| Q-P6 | Exibição com uma casa decimal | `interface-puericultura` | Precisão que a conferência contra o gráfico exige |
+| Q-P7 | Faixa de 30 dias entre as fronteiras dos 5 anos | `models-puericultura` | Confirma que ler tabela de 0–5 com rótulo de 5–10 é o mal menor |
+| Q-S1 | Ficha imediatamente anterior entre consultas | `models-puericultura-consulta` | Conduta com a criança de sete meses |
+| Q-S2 | Atribuição editorial dos campos ao SOAP | `models-puericultura-consulta` | Onde cada item entra no registro |
+| Q-S3 | Supressão de campo por sexo, com lista de um item | `models-puericultura-consulta` | `MD-0027` segue aberta a revisão |
+| Q-X1 | Conferência do BR Code fora do CI | `models-contribuicao` | Ver L-02 |
+
+### Herdadas
+
+| # | Premissa | Unit |
+|---|----------|------|
+| Q-G1 a Q-G4 | Trimestres, limites de DUM e USG, 3.º trimestre sem margem | `models-gestacao` |
+| Q-C1 a Q-C5 | Transcrição do Quadro 2, estrato "baixa", ajuste por fatores, ausência de ritual, blocos complementares | `models-cardiopatia-isquemica`, `interface-cardiologia` |
+| Q-R1 a Q-R4 | Clamp, cortes de categoria, `raca="outra"`, transportabilidade das PCE | `models-risco-cardiovascular` |
 
 ## Pendência de insumo
 
 | # | Lacuna | Origem | O que destrava |
 |---|--------|--------|----------------|
-| G-01 | Caminho do PDF do *Guia Rápido DM* (usuário fornecerá) | `questions.md` Q-I1 | Conferência página a página das 20 referências e limiares de `models/insulina/fonte-clinica.ts` |
+| G-01 | Caminho do PDF do *Guia Rápido DM* | `questions.md` Q-I1 | Conferência página a página das 20 referências de `models/insulina/fonte-clinica.ts`. Pendente há quatro passagens. |
 
 ## Dívidas técnicas registradas (sem bloqueio)
 
-- 🟡 **Acoplamento residual de tema:** `interface/calculadora/preferencia-de-tema.ts` é consumido pela `Moldura` (`interface/comum`) — realocar para `interface/comum/` numa próxima feature (declarado no próprio código e no `design.md` da unit `interface-comum`).
-- ✅ **`globais.css` no teto de 400 linhas — RESOLVIDO (features 011/013):** o layout do cabeçalho (família `.cabecalho*`) migrou para `cabecalho.css`; `globais.css` caiu para 364 linhas (todas as folhas < 400). Confirmado na re-extração 3.
-- 🟡 **`formulario.tsx` (313 LOC):** concentra linhas, validação e montagem — extração de subcomponentes recomendável (unit `interface-calculadora`, T-08); `let proximoId` módulo-global é frágil sob StrictMode/HMR.
-- 🔴 **Sem telemetria/logs de produção** (por design, ADR 0007) — comportamento em uso real é invisível; dívida estrutural conhecida, não defeito.
-- 🟡 **Backlog de infra da refundação** (CI, lint de fronteira de camadas D-01, página 404 própria): documentado em `architecture.md` §6; reavaliar na próxima feature de infraestrutura.
+| # | Dívida | Onde | Estado |
+|---|--------|------|--------|
+| D-01 | `scripts/textos/classes/interface.mts` em **684 linhas**, acima do teto de 400, e fora da exceção nominal que o README concede às tabelas geradas | `scripts/` | 🟡 aberta; a saída natural é parti-lo por camada de tela |
+| D-02 | **Duas cópias da aritmética de datas** — `models/gestacao/datas.ts` e `models/puericultura/datas.ts`, gêmeos declarados | domínio | 🟡 aberta; a duplicação é consciente, mas cresce o custo de manter as duas em sincronia |
+| D-03 | `ehEstouroDeTempo` reconhece o estouro por **frase do driver** | `infra/` | 🟡 aberta; atualização de `pg` é gatilho de revisão (watch W007) |
+| D-04 | `react-qr-code@2.2.0` encerrou a afirmação de zero dependência de runtime nova desde a feature 010 | `interface-contribuicao` | 🟡 aceita; mitigada pelo envoltório |
+| D-05 | `README.md` reprova `prettier --check`, e já reprovava antes desta passagem | raiz | 🟡 aberta; dívida de formatação alheia às features |
+| D-06 | `preferencia-de-tema.ts` mora em `interface/calculadora/` e é consumido pela Moldura | interface | 🟡 aberta desde a feature 007; candidata a realocação |
+| D-07 | A **ordem de importação das folhas de estilo** virou requisito e não tem guarda automática | `pages-next`, `interface-estilos` | 🟡 nova; reordenar passa em typecheck, lint e suíte, e só aparece em captura de tela |
+| D-08 | As fontes clínicas ficam fora do git (`referencias/`) | `scripts/` | 🟡 aceita; mitigada por `sha256` no manifesto e pelos oráculos congelados |
 
-## Corrigido nesta re-extração (nº 3)
+## Dívidas encerradas nesta passagem
 
-- ✅ **Afirmação frágil no `models-risco-cardiovascular/requirements.md`:** o valor de exemplo do caso-base foi ajustado de "~5,3%" para **5,4%**, conferido contra o oráculo `tests/unit/dominio-risco-cardiovascular/equacao.test.ts` (homem-branco, base comum). Reclassificação 🟢-frágil → 🟢-confirmado.
-- ✅ **Dívida amarela `globais.css` (teto de 400) — encerrada:** confirmada no código da 3ª passagem (`globais.css` = 364 linhas); o item amarelo 004/W003 da re-extração 2 deixa de valer.
-
-## Corrigido em re-extração anterior (nº 2)
-
-- ✅ **`legacy-mapping.md` obsoletos** (`pages-next/`, `interface-calculadora/`): estavam congelados na extração 1 e contradiziam os specs regenerados (IBM Plex, `/api/v1/index.js` vazio, Moldura em `tela.tsx`, LOC 532/699). Regenerados pelo Reviewer contra o código real (313/400 LOC, Moldura em `interface/comum`, `status.ts` realizado).
+| # | Dívida | Como se encerrou |
+|---|--------|------------------|
+| L-07 | `domain.md` §7.2 citava `logoComoTitulo`, prop removida na feature 016 | Reescrita em `domain.md` §10.2 e em `interface-comum/` |
+| L-11 | Cifra de testes defasada ("37 arquivos") desde a feature 018 | **816 testes em 67 arquivos**, aferidos duas vezes em 2026-07-28 |
+| — | A rota `/api/v1/status` descrita como sem I/O | `pages-api-v1-status/` e `infra/` reescritas; ADR 0020 e invariante 8 |
+| — | `globais.css` no teto de 400 | Encerrada na re-extração 3; permanece abaixo (367) |

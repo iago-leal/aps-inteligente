@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-27.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 A prosa da plataforma nasceu feature a feature, sem norma declarada. Esta entrega fecha as duas

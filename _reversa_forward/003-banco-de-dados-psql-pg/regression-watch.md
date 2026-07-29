@@ -27,6 +27,14 @@
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 9 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001..W004, W006..W009 | 🟢 verde | reconfirmados: `pg` só em `infra/` (0 imports fora), `infra/` sem `.js`, três jobs de CI, suíte de contrato com caso negativo — esta ampliada pela 022 |
+| W005 | 🟡 amarelo | **REVOGADO por decisão posterior.** A feature 022 fez o endpoint consultar o banco a cada requisição; o W001 da 022 vigia a regra invertida. Não é regressão: é a inversão registrada em `MD-0031`, ADR 0020 e no adendo 022. Atenção: o `legacy-impact.md` da 022 dizia revogar o W006 — o item que afirma a ausência de consulta é o **W005**, e o W006 (suíte de contrato) permanece vigente e verde |
 
 ### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
 

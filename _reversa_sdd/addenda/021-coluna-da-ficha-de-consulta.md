@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-28.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 A tela `/puericultura/consulta`, entregue pela feature 020, apresentava o corpo colado nas duas

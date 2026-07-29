@@ -24,6 +24,13 @@
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 6 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| todos | 🟢 verde | reconfirmado contra o código atual: a feature não tem interseção com o delta 015–022, e nenhuma regra sua foi tocada |
 
 ### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
 

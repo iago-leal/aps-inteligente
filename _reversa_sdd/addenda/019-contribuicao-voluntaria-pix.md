@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-28.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 A plataforma é gratuita, sem anúncio, sem cadastro e sem coleta, e não tinha via alguma por onde

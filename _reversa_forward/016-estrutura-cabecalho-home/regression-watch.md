@@ -20,6 +20,18 @@
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 5 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | logo sempre decorativa; `.cabecalho-logo` só aparece em **comentário** que registra a aposentadoria da regra |
+| W002 | 🟢 verde | `comInicio` no contrato; `logoComoTitulo` inexistente no código e agora também em `interface-comum/` e `domain.md` §10.2 (dívida **L-07** encerrada) |
+| W003 | 🟢 verde | comportamento preservado e **ampliado**: início ausente na home e presente nas **seis** calculadoras (eram quatro quando o item foi escrito) |
+| W004 | 🟢 verde | nenhuma `height` ou `min-height` no seletor `.cabecalho`; o `height: 34px` da folha pertence a `.cabecalho-marca` |
+| W005 | 🟢 verde | a variante `destaque` não traz tipografia de hero |
+
 <!-- Preenchido pelo agente reverso ao rodar /reversa novamente. -->
 
 ## Arquivadas

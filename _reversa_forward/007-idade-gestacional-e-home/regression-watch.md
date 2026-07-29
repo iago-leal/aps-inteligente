@@ -23,6 +23,14 @@
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 6 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001, W002 | 🟢 verde | crescimento **aditivo**: a home passou de duas para quatro seções e a Moldura, de três para sete telas. A regra essencial — raiz serve a home, insulina em `/dm2/insulina`, moldura única — permanece |
+| W003..W006 | 🟢 verde | reconfirmados: nenhum storage além do tema, referência clínica por unit preservada |
 
 ### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
 

@@ -8,6 +8,8 @@
 
 Vigente desde 2026-07-28.
 
+Superado pela re-extração de 2026-07-28.
+
 ## Resumo da entrega
 
 As páginas verdes da *Caderneta da Criança* (pp. 66 a 75) dizem, consulta a consulta, o que se

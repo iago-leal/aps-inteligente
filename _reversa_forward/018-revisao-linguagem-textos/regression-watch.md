@@ -69,6 +69,16 @@
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 24 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001..W006, W008..W020, W022, W024 | 🟢 verde | princípio IX e `docs/redacao.md` íntegros; classe declarada e nunca inferida; a linha de base tem **108 citações e um único commit**; os dois rótulos de concordância corrigida e a `NOTA_CORRECAO_DE_CONCORDANCIA` presentes e renderizados; `axe-baseline.json` sem alteração desde a feature 014 |
+| W021 | 🔴 **vermelho** | **a condição declarada não se verifica, e não por regressão.** `models/insulina/validacao.ts:179` traz localização bibliográfica dentro de mensagem de validação: “… o catálogo coberto é NPH e Regular (p. 59).”. `git log -S` mostra que a linha vem do commit de refundação `04e0493`, **anterior** à feature 018 — o watch nasceu afirmando um estado que o repositório não tinha. Triagem necessária: ou a mensagem perde a localização, ou o item passa a declarar a exceção da insulina |
+| W023 | 🟡 amarelo | idempotência do inventário não reexecutada nesta sessão; `git status` limpo em `tests/apoio/inventario-textual.json` |
+
 <!-- Preenchido pelo agente reverso quando `/reversa` rodar de novo. -->
 
 ## Arquivadas

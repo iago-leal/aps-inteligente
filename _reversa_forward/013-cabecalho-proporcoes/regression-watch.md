@@ -14,6 +14,15 @@ Itens que a próxima re-extração (`/reversa`) deve reconfirmar. Nenhuma regra 
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 5 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001, W003, W004 | 🟢 verde | `padding: 44px max(32px, calc(50% - 558px)) 36px` presente; semântica do cabeçalho intocada; só tokens do Primer |
+| W002 | 🟡 amarelo | a marca continua em 34px ✅, mas a comparação é com `.cabecalho-logo`, wordmark aposentado pela feature 016. Metade verificável verde; a referência precisa de reescrita |
+| W005 | 🟡 amarelo | **duas das três condições migraram por decisão registrada.** O padding da home permanece (`calc(50% - 328px)`) ✅; `align-items: flex-end` saiu de `inicio.css` pela feature 015 (W001/W002 daquela feature declaram a migração para `cabecalho.css`), e a coluna deixou de ser 656px em `inicio.css` porque a 021 a levou para `moldura.css`, em 720px. Nenhuma regressão não pretendida |
 
 ### Re-extração 2026-07-23 21:40 (nº 3 — absorve features 011–014)
 

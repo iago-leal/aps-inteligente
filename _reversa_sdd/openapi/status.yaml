@@ -1,12 +1,18 @@
 openapi: 3.1.0
-# Re-extração 2 (2026-07-23). Contrato de GET /api/v1/status (feature 002).
-# Fonte: pages/api/v1/status.ts; espelha pages-api-v1-status/contracts.md.
+# Re-extração 4 (2026-07-28). Contrato de GET /api/v1/status (features 002 e 022).
+# Fonte: pages/api/v1/status.ts e infra/saude.ts; espelha pages-api-v1-status/contracts.md.
+# Delta desta passagem: o corpo passou de três para SEIS chaves, por acréscimo — nenhum campo
+# existente mudou de nome ou de semântica, e por isso o caminho continua em /api/v1.
 info:
   title: APS Inteligente — API de status
   version: v1
   description: >-
-    Health-check público da plataforma. Sem autenticação, sem estado, sem dado
-    clínico (ADR 0008). Mudança incompatível do corpo exige /api/v2.
+    Health-check público da plataforma. Sem autenticação, sem estado próprio, sem
+    dado clínico (ADR 0008). Desde a feature 022 a rota consulta o banco a cada
+    requisição e responde 200 em todo estado dele, inclusive degradado: as seis
+    calculadoras são integralmente cliente e seguem servindo com o banco fora, de
+    modo que 503 afirmaria uma queda que não houve (MD-0031, ADR 0020). Mudança
+    incompatível do corpo exige /api/v2.
 servers:
   - url: https://apsinteligente.app
     description: Produção (domínio próprio; apex redireciona 308 → www.apsinteligente.app)
@@ -16,13 +22,16 @@ paths:
   /api/v1/status:
     get:
       operationId: obterStatus
-      summary: Status do deploy (versão, commit, carimbo de tempo)
+      summary: Status do deploy e saúde do banco
       description: >-
-        Observabilidade mínima do deploy. A resposta jamais sai de cache
-        (Cache-Control: no-store, RN-05).
+        Observabilidade do deploy: versão, commit, publicação, ambiente e estado
+        do banco. A resposta jamais sai de cache (Cache-Control: no-store).
       responses:
         "200":
-          description: Status atual do deploy
+          description: >-
+            Status atual. Devolvido também quando o banco está degradado — o
+            código HTTP descreve a disponibilidade do produto, não a da
+            dependência acessória.
           headers:
             Cache-Control:
               schema:
@@ -32,10 +41,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-              example:
-                atualizado_em: "2026-07-23T12:34:56.789Z"
-                versao: "1.0.0"
-                commit: "036c0b0"
+              examples:
+                integro:
+                  summary: Banco íntegro
+                  value:
+                    atualizado_em: "2026-07-28T23:41:07.412Z"
+                    versao: "1.0.0"
+                    commit: "a422b60"
+                    publicado_em: "2026-07-28T23:38:00.000Z"
+                    ambiente: producao
+                    banco:
+                      estado: integro
+                degradado:
+                  summary: Banco fora do ar
+                  value:
+                    atualizado_em: "2026-07-28T23:41:07.412Z"
+                    versao: "1.0.0"
+                    commit: "a422b60"
+                    publicado_em: "2026-07-28T23:38:00.000Z"
+                    ambiente: producao
+                    banco:
+                      estado: degradado
+                      causa: conexao
+                local:
+                  summary: Execução local, sem variáveis de deploy
+                  value:
+                    atualizado_em: "2026-07-28T20:12:44.008Z"
+                    versao: "1.0.0"
+                    commit: local
+                    publicado_em: null
+                    ambiente: local
+                    banco:
+                      estado: integro
         "405":
           description: Método não permitido (apenas GET)
           headers:
@@ -53,7 +90,7 @@ components:
   schemas:
     Status:
       type: object
-      required: [atualizado_em, versao, commit]
+      required: [atualizado_em, versao, commit, publicado_em, ambiente, banco]
       properties:
         atualizado_em:
           type: string
@@ -65,6 +102,46 @@ components:
         commit:
           type: string
           description: SHA do commit (VERCEL_GIT_COMMIT_SHA) ou "local" fora da Vercel
+        publicado_em:
+          type: [string, "null"]
+          format: date-time
+          description: APS_PUBLICADO_EM; nulo quando a variável não está definida
+        ambiente:
+          type: string
+          enum: [producao, pre-visualizacao, local]
+          description: Derivado de VERCEL_ENV
+        banco:
+          $ref: "#/components/schemas/EstadoDoBanco"
+      additionalProperties: false
+    EstadoDoBanco:
+      oneOf:
+        - $ref: "#/components/schemas/BancoIntegro"
+        - $ref: "#/components/schemas/BancoDegradado"
+      discriminator:
+        propertyName: estado
+    BancoIntegro:
+      type: object
+      required: [estado]
+      properties:
+        estado:
+          type: string
+          const: integro
+      additionalProperties: false
+    BancoDegradado:
+      type: object
+      required: [estado, causa]
+      properties:
+        estado:
+          type: string
+          const: degradado
+        causa:
+          type: string
+          enum: [conexao, consulta, configuracao, tempo_esgotado]
+          description: >-
+            conexao — recusa, reinício, host inexistente, credencial ou banco
+            inválidos; consulta — falha de execução ou rejeição fora do contrato;
+            configuracao — DATABASE_URL ausente ou malformada; tempo_esgotado —
+            estouro do teto de APS_TIMEOUT_SAUDE_MS, na conexão ou na consulta.
       additionalProperties: false
     Erro:
       type: object

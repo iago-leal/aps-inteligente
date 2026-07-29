@@ -21,6 +21,15 @@ Itens de confiança 🟡 no plano ou verificáveis apenas por inspeção humana 
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 2 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `align-items: flex-start` presente na regra-única de `.cabecalho` (`cabecalho.css:38`) |
+| W002 | 🟢 verde | a regra `.pagina[data-apresentacao="destaque"] .cabecalho` de `inicio.css` traz só `padding` e `border-bottom`; os `align-items: center` da folha pertencem a `.inicio-secao-cabecalho` e `.inicio-secao-icone`, outros seletores |
+
 _(vazio — a ser preenchido pelo agente reverso quando rodar `/reversa` de novo)_
 
 ## Arquivadas

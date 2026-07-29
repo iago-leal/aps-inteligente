@@ -8,13 +8,13 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "interpretacao",
+  "phase": "concluido",
   "re_extraction": {
     "number": 4,
     "started_at": "2026-07-28",
     "reason": "absorver features 015-022 do ciclo forward: quinto domínio clínico models/puericultura (017) com segunda fachada SOAP (020), primeiro unit não clínico models/contribuicao (019), camada dev-time scripts/** com quatro geradores idempotentes, norma de redação (018), Moldura sem logoComoTitulo e dona da coluna do corpo (016/021) e a rota /api/v1/status com I/O real (022)",
     "previous_completed_at": "2026-07-23T21:42:00Z",
-    "completed_at": null,
+    "completed_at": "2026-07-28T23:55:00Z",
     "dividas_alvo": [
       "L-07: domain.md §7.2 item 11 ainda cita logoComoTitulo, prop removida na feature 016",
       "L-11: cifra de testes de architecture.md §5 defasada desde a 018 (real: 816 testes em 67 arquivos)",
@@ -29,22 +29,64 @@
     }
   },
   "regression_check": {
-    "re_extraction": 3,
-    "ran_at": "2026-07-23T21:40:00Z",
-    "features_verificadas": 10,
-    "watch_items_com_conteudo": 60,
-    "vereditos": { "verde": 60, "amarelo": 0, "vermelho": 0 },
-    "amarelo": [],
-    "destaque": "divida amarela 004/W003 (globais.css no teto de 400) ENCERRADA: agora 364 linhas apos consolidacao em cabecalho.css (features 011/013). features 011/013/014 verificadas frescas (todas verdes); testes do dominio de risco 31/31",
-    "adendos_superados": 4,
-    "adendos_superados_ids": ["011", "012", "013", "014"],
+    "re_extraction": 4,
+    "ran_at": "2026-07-28T23:50:00Z",
+    "features_verificadas": 21,
+    "features_com_watch_items": 18,
+    "watch_items_com_conteudo": 179,
+    "vereditos": {
+      "verde": 169,
+      "amarelo": 9,
+      "vermelho": 1
+    },
+    "vermelho": [
+      {
+        "id": "W021",
+        "feature": "018-revisao-linguagem-textos",
+        "regra": "nenhuma mensagem de validacao carrega localizacao bibliografica",
+        "motivo": "models/insulina/validacao.ts:179 traz '(p. 59)' dentro de mensagem de validacao; git log -S mostra que a linha vem do commit de refundacao 04e0493, ANTERIOR a feature 018 — o watch nasceu impreciso, nao houve regressao",
+        "triagem": "ou a mensagem perde a localizacao, ou o item declara a excecao da insulina"
+      }
+    ],
+    "amarelo": [
+      "003/W005 (revogado pela 022)",
+      "011/W002 (mecanismo logoComoTitulo superado por comInicio)",
+      "013/W002 (referencia ao wordmark aposentado)",
+      "013/W005 (align-items e coluna migraram por decisao das 015 e 021)",
+      "017/W006 e W019 (idempotencia nao reexecutada: fontes fora do git)",
+      "017/W040 (medicao de bundle nao refeita)",
+      "018/W023 (idempotencia do inventario nao reexecutada)",
+      "019/W007 (decodificador independente nao reexecutado)"
+    ],
+    "destaque": "a extracao deixou de afirmar que /api/v1/status nao consulta o banco (003/W005 revogado, 022/W001 verde); L-07 e L-11 encerradas; as quatro ancoras de valor das tabelas da OMS conferidas valor a valor; oraculo 356 casos + 1596 celulas confirmado",
+    "adendos_superados": 8,
+    "adendos_superados_ids": [
+      "015",
+      "016",
+      "017",
+      "018",
+      "019",
+      "020",
+      "021",
+      "022"
+    ],
     "historico": {
-      "re_extraction_2": { "verde": 43, "amarelo": 1, "vermelho": 0, "adendos_superados": 10 }
+      "re_extraction_3": {
+        "verde": 60,
+        "amarelo": 0,
+        "vermelho": 0
+      },
+      "re_extraction_2": {
+        "verde": 43,
+        "amarelo": 1,
+        "vermelho": 0,
+        "adendos_superados": 10
+      }
     }
   },
   "redator_progress": {
     "plan_total": 13,
-    "re_extraction": 3,
+    "re_extraction": 4,
     "started_at": "2026-07-23",
     "finished_at_re3": "2026-07-23",
     "done_re3": [
@@ -119,32 +161,139 @@
       "pages-next/tasks.md",
       "user-stories/prescritor-calcula-dose.md",
       "traceability/code-spec-matrix.md"
-    ]
+    ],
+    "started_at_re4": "2026-07-28",
+    "plan_total_re4": 42,
+    "done_re4": [
+      "models-puericultura/requirements.md (nova)",
+      "models-puericultura/design.md (nova)",
+      "models-puericultura/tasks.md (nova)",
+      "models-puericultura/questions.md (nova)",
+      "models-puericultura-consulta/requirements.md (nova)",
+      "models-puericultura-consulta/design.md (nova)",
+      "models-puericultura-consulta/tasks.md (nova)",
+      "models-puericultura-consulta/contracts.md (nova — contrato EMITIDO)",
+      "models-contribuicao/{requirements,design,tasks,contracts}.md (nova — contrato EMITIDO)",
+      "interface-puericultura/{requirements,design,tasks}.md (nova)",
+      "interface-puericultura-consulta/{requirements,design,tasks}.md (nova)",
+      "interface-contribuicao/{requirements,design,tasks}.md (nova)",
+      "scripts/{requirements,design,tasks}.md (nova — camada dev-time)",
+      "interface-comum/{requirements,design}.md (atualizado: 016 comInicio + 021 coluna do corpo)",
+      "interface-inicio/{requirements,design}.md (atualizado: 4 secoes, bloco de apoio fora do map)",
+      "interface-estilos/requirements.md (atualizado: nove folhas, moldura.css)",
+      "interface-calculadora/requirements.md (atualizado: comInicio + literais 018)",
+      "pages-api-v1-status/{requirements,design,contracts}.md (atualizado: I/O real, seis chaves)",
+      "infra/{requirements,design}.md (atualizado: saude.ts, quarta causa, tetos)",
+      "pages-next/{requirements,design}.md (atualizado: sete rotas, ordem das folhas)",
+      "openapi/status.yaml (atualizado: seis chaves, tres exemplos, EstadoDoBanco)",
+      "user-stories/avaliacao-crescimento-infantil.md (nova)",
+      "user-stories/registro-de-consulta-puericultura.md (nova)",
+      "user-stories/apoio-voluntario-pix.md (nova)",
+      "traceability/code-spec-matrix.md (atualizado: 5+1 dominios, camada dev-time, 816 testes)"
+    ],
+    "finished_at_re4": "2026-07-28"
   },
-  "completed": ["reconhecimento", "escavacao"],
-  "pending": ["interpretacao", "geracao", "revisao", "regressao"],
-  "completed_re3": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao", "regressao"],
+  "completed": [
+    "reconhecimento",
+    "escavacao",
+    "interpretacao",
+    "geracao",
+    "revisao",
+    "regressao"
+  ],
+  "pending": [],
+  "completed_re3": [
+    "reconhecimento",
+    "escavacao",
+    "interpretacao",
+    "geracao",
+    "revisao",
+    "regressao"
+  ],
   "checkpoints": {
     "reviewer": {
-      "completed_at": "2026-07-23T21:30:00Z",
-      "re_extraction": 3,
-      "specs_reviewed": 14,
+      "completed_at": "2026-07-29T01:35:00Z",
+      "re_extraction": 4,
+      "specs_reviewed": 21,
       "cross_review": false,
-      "reclassifications": { "afirmacoes_corrigidas": 1, "dividas_encerradas": 1, "premissas_promovidas": 0 },
-      "correcoes": "valor de exemplo do caso-base do risco CV corrigido de ~5,3% para 5,4% (conferido contra oraculo equacao.test.ts) em models-risco-cardiovascular/requirements.md e user-story; divida amarela globais.css (teto 400) confirmada RESOLVIDA (364 linhas); premissas clinicas mantidas 🟡 por decisao do usuario",
-      "questions": { "asked": 13, "decision": "usuario optou por manter as 13 premissas clinicas como amarelo e seguir para a regressao (Q-R1..R4 novas)", "pending_amarelo": ["Q-G1..G4 gestacao", "Q-C1..C5 cardiologia", "Q-R1..R4 risco CV", "G-01 caminho do PDF"] },
-      "confidence": "~94% verde",
+      "cross_review_nota": "Codex indisponivel nesta sessao (idem re-extracao 3)",
+      "reclassificacoes": {
+        "afirmacoes_corrigidas": 1,
+        "dividas_encerradas": 3,
+        "premissas_promovidas": 0
+      },
+      "correcoes": "as tres telas novas citavam so o teste de integracao e omitiam o e2e correspondente (puericultura, consulta-puericultura, contribuicao); acrescentados",
+      "verificacoes_proprias": [
+        "816 testes/67 arquivos (vitest run)",
+        "201+54 testes de puericultura",
+        "12964 posicoes L/M/S",
+        "356 casos OMS",
+        "1596 celulas INTERGROWTH (228x7)",
+        "1187 literais",
+        "5517 LOC/23 arquivos .mts",
+        "9 folhas, maior 367 linhas",
+        "vetor 29B1",
+        "varredura de invariantes"
+      ],
+      "questions": {
+        "asked": 24,
+        "novas": 11,
+        "decision": "politica vigente mantida: premissas clinicas seguem 🟡; nenhuma bloqueia reimplementacao"
+      },
+      "confidence": "~93% verde",
+      "lacunas_vermelhas": [
+        "L-01 literal interpolado fora do inventario",
+        "L-02 provas de ponta do BR Code fora do CI"
+      ],
       "files": [
         "_reversa_sdd/questions.md",
         "_reversa_sdd/gaps.md",
-        "_reversa_sdd/confidence-report.md",
-        "_reversa_sdd/models-risco-cardiovascular/questions.md"
-      ]
+        "_reversa_sdd/confidence-report.md"
+      ],
+      "historico_re3": {
+        "completed_at": "2026-07-23T21:30:00Z",
+        "re_extraction": 3,
+        "specs_reviewed": 14,
+        "cross_review": false,
+        "reclassifications": {
+          "afirmacoes_corrigidas": 1,
+          "dividas_encerradas": 1,
+          "premissas_promovidas": 0
+        },
+        "correcoes": "valor de exemplo do caso-base do risco CV corrigido de ~5,3% para 5,4% (conferido contra oraculo equacao.test.ts) em models-risco-cardiovascular/requirements.md e user-story; divida amarela globais.css (teto 400) confirmada RESOLVIDA (364 linhas); premissas clinicas mantidas 🟡 por decisao do usuario",
+        "questions": {
+          "asked": 13,
+          "decision": "usuario optou por manter as 13 premissas clinicas como amarelo e seguir para a regressao (Q-R1..R4 novas)",
+          "pending_amarelo": [
+            "Q-G1..G4 gestacao",
+            "Q-C1..C5 cardiologia",
+            "Q-R1..R4 risco CV",
+            "G-01 caminho do PDF"
+          ]
+        },
+        "confidence": "~94% verde",
+        "files": [
+          "_reversa_sdd/questions.md",
+          "_reversa_sdd/gaps.md",
+          "_reversa_sdd/confidence-report.md",
+          "_reversa_sdd/models-risco-cardiovascular/questions.md"
+        ]
+      }
     },
     "writer": {
-      "completed_at": "2026-07-20T00:20:00Z",
-      "units": ["models-insulina", "interface-calculadora", "pages-next"],
-      "files": [
+      "completed_at": "2026-07-29T01:10:00Z",
+      "re_extraction": 4,
+      "units_novas": 7,
+      "units_atualizadas": 7,
+      "arquivos": 42,
+      "globais": [
+        "openapi/status.yaml",
+        "user-stories x3",
+        "traceability/code-spec-matrix.md"
+      ],
+      "destaque": "7 units novas (models-puericultura, models-puericultura-consulta, models-contribuicao, interface-puericultura, interface-puericultura-consulta, interface-contribuicao, scripts); DOIS contracts.md de contrato EMITIDO, especie que nenhum artefato anterior cobria; L-07 e L-11 encerradas nos artefatos de unit",
+      "completed_at_re3": "2026-07-20T00:20:00Z",
+      "files_re3": [
         "_reversa_sdd/models-insulina/requirements.md",
         "_reversa_sdd/models-insulina/design.md",
         "_reversa_sdd/models-insulina/tasks.md",
@@ -160,8 +309,32 @@
       ]
     },
     "architect": {
-      "completed_at": "2026-07-23T21:20:00Z",
-      "re_extraction": 3,
+      "completed_at": "2026-07-29T00:20:00Z",
+      "re_extraction": 4,
+      "regeneracao_re4": "cinco camadas (dev-time acima das quatro de aplicacao); tabela de invariantes passa a declarar ALCANCE por linha; 3 containers reais com a Function deixando de ser sem I/O e o banco ganhando consumidor de producao; C4 componentes em TRES recortes (web, observabilidade, dev-time) com a unica seta models->models da plataforma (mdl-pue -> mdl-cns, intra-unit); ERD ganha dominios 5, 5b e 6, a quarta causa de erro de banco e o corpo de seis chaves; matriz 19x20 com coluna scripts nova; 8 integracoes, incluindo os DOIS contratos EMITIDOS (BR Code e registro SOAP) que nenhum artefato cobria",
+      "dividas_re4": {
+        "encerradas": [
+          "L-11 (cifra de testes: 67 arquivos/816 testes aferidos)",
+          "rota de status descrita como sem I/O"
+        ],
+        "novas": [
+          "scripts/textos/classes/interface.mts em 684 linhas",
+          "ehEstouroDeTempo dependente de frase do driver (W007)",
+          "duas copias da aritmetica de datas",
+          "react-qr-code: fim da afirmacao de zero dependencia nova",
+          "README reprova prettier --check"
+        ]
+      },
+      "files_re4": [
+        "_reversa_sdd/architecture.md",
+        "_reversa_sdd/c4-context.md",
+        "_reversa_sdd/c4-containers.md",
+        "_reversa_sdd/c4-components.md",
+        "_reversa_sdd/erd-complete.md",
+        "_reversa_sdd/traceability/spec-impact-matrix.md"
+      ],
+      "completed_at_re3": "2026-07-23T21:20:00Z",
+      "re_extraction_anterior": 3,
       "regeneracao": "seis artefatos estendidos ao 4o dominio (risco CV/PCE) e ao dominio proprio apsinteligente.app (feature 012): quatro fachadas no C4-components, quarta fonte clinica no C4-context, ERD Dominio 4, matriz 12x13 com mdl-risco/if-risco isolados; dividas: globais.css (teto) RESOLVIDA, PREVENT como navegacao (nao fetch); sem novo container (motor cresceu no cliente)",
       "files": [
         "_reversa_sdd/architecture.md",
@@ -173,8 +346,43 @@
       ]
     },
     "detective": {
-      "completed_at": "2026-07-23T21:12:00Z",
-      "re_extraction": 3,
+      "completed_at": "2026-07-28T23:40:00Z",
+      "re_extraction": 4,
+      "sources_re4": [
+        "models/{insulina,gestacao,cardiopatia-isquemica,risco-cardiovascular,puericultura,puericultura/consulta,contribuicao}",
+        "interface/{comum,calculadora,gestacao,cardiologia,risco-cardiovascular,puericultura,puericultura/consulta,contribuicao,inicio,estilos}",
+        "pages, pages/api/v1/status, infra/{database,saude}.ts, scripts/**",
+        "git log (features 015-022)",
+        "_reversa_sdd/addenda/015-022",
+        ".harness/decisoes/MD-0001..MD-0033",
+        ".reversa/principles.md (principio IX) e docs/redacao.md"
+      ],
+      "regeneracao_re4": "domain.md reescrito para 6 units clinicos + 1 nao clinico e 76 regras (43-60 puericultura, 61-70 consulta SOAP, 71-76 contribuicao); invariantes passam a declarar ALCANCE por linha (a familia deixou de ser homogenea); §10.2 reescrita (L-07 ENCERRADA: logoComoTitulo -> comInicio; + coluna do corpo da 021); §10.3 nova (norma de redacao, principio IX); state-machines ganha EstadoCrescimento, a tela SEM maquina (consulta derivada), o painel PIX e o estado do banco visto pelo healthcheck; permissions confirma ausencia de RBAC contra as tres features que mais se aproximaram de muda-lo (019 pagamento, 020 dados de terceiro, 022 I/O real)",
+      "adrs_novos_re4": [
+        "0016-unit-nao-clinico-com-isencao-declarada",
+        "0017-duas-fachadas-sob-uma-unit",
+        "0018-camada-dev-time-e-oraculo-congelado",
+        "0019-norma-de-redacao-verificavel",
+        "0020-dependencia-nao-essencial-nao-governa-o-codigo-http",
+        "0021-moldura-dona-do-enquadramento"
+      ],
+      "dividas_encerradas_re4": [
+        "L-07: domain.md §7.2 item 11 citava logoComoTitulo (agora §10.2 regra 14, comInicio)",
+        "rota /api/v1/status descrita como sem I/O (agora invariante 8 + ADR 0020)"
+      ],
+      "files_re4": [
+        "_reversa_sdd/domain.md",
+        "_reversa_sdd/state-machines.md",
+        "_reversa_sdd/permissions.md",
+        "_reversa_sdd/adrs/0016-unit-nao-clinico-com-isencao-declarada.md",
+        "_reversa_sdd/adrs/0017-duas-fachadas-sob-uma-unit.md",
+        "_reversa_sdd/adrs/0018-camada-dev-time-e-oraculo-congelado.md",
+        "_reversa_sdd/adrs/0019-norma-de-redacao-verificavel.md",
+        "_reversa_sdd/adrs/0020-dependencia-nao-essencial-nao-governa-o-codigo-http.md",
+        "_reversa_sdd/adrs/0021-moldura-dona-do-enquadramento.md"
+      ],
+      "completed_at_re3": "2026-07-23T21:12:00Z",
+      "re_extraction_anterior": 3,
       "sources": [
         "models/{insulina,gestacao,cardiopatia-isquemica,risco-cardiovascular}",
         "interface/{calculadora,gestacao,cardiologia,risco-cardiovascular,inicio,comum,estilos}",
@@ -183,7 +391,10 @@
         "~/dev/aps-inteligente-backup.bundle (MD-0001..0011, AMB-01..10)"
       ],
       "regeneracao": "domain/state-machines/permissions estendidos ao 4o dominio (risco CV/PCE): glossario 2.5, secao 6, invariantes 'quatro dominios', EstadoRiscoCardiovascular, fronteira 40-79/DCV previa, regras de navegacao do cabecalho 011/013; +2 ADRs (0014 PCE em vez de PREVENT, 0015 dominio proprio apsinteligente.app); intencao 'dominio de marca' reconciliada",
-      "adrs_novos": ["0014-pooled-cohort-equations-em-vez-da-aha-prevent", "0015-dominio-proprio-apsinteligente-app"],
+      "adrs_novos": [
+        "0014-pooled-cohort-equations-em-vez-da-aha-prevent",
+        "0015-dominio-proprio-apsinteligente-app"
+      ],
       "files": [
         "_reversa_sdd/domain.md",
         "_reversa_sdd/state-machines.md",
@@ -196,12 +407,27 @@
       "completed_at": "2026-07-28T22:45:00Z",
       "re_extraction": 4,
       "modules_analyzed_re4": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
-        "models/puericultura", "models/puericultura/consulta", "models/contribuicao",
-        "interface/comum", "interface/calculadora", "interface/gestacao", "interface/cardiologia",
-        "interface/risco-cardiovascular", "interface/puericultura", "interface/puericultura/consulta",
-        "interface/contribuicao", "interface/inicio", "interface/estilos",
-        "pages", "pages/api/v1/status", "infra", "scripts"
+        "models/insulina",
+        "models/gestacao",
+        "models/cardiopatia-isquemica",
+        "models/risco-cardiovascular",
+        "models/puericultura",
+        "models/puericultura/consulta",
+        "models/contribuicao",
+        "interface/comum",
+        "interface/calculadora",
+        "interface/gestacao",
+        "interface/cardiologia",
+        "interface/risco-cardiovascular",
+        "interface/puericultura",
+        "interface/puericultura/consulta",
+        "interface/contribuicao",
+        "interface/inicio",
+        "interface/estilos",
+        "pages",
+        "pages/api/v1/status",
+        "infra",
+        "scripts"
       ],
       "modules_pending_re4": [],
       "delta_re4": "5o dominio clinico models/puericultura (LMS, correcao de cauda, duas especies de recusa, duas fronteiras dos 5 anos que de proposito nao coincidem) + submodulo consulta com SEGUNDA fachada (registro SOAP, primeira saida que nao e numero) + models/contribuicao nao clinico com isencao declarada (MD-0022) + camada dev-time scripts/** com 5.517 LOC em 23 arquivos + Moldura sem logoComoTitulo e dona da coluna do corpo + /api/v1/status com I/O real e seis chaves + infra/saude.ts com a quarta causa tempo_esgotado",
@@ -218,10 +444,20 @@
       "completed_at_re3": "2026-07-23T21:05:00Z",
       "re_extraction_anterior": 3,
       "modules_analyzed": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
-        "interface/comum", "interface/calculadora", "interface/gestacao",
-        "interface/cardiologia", "interface/risco-cardiovascular", "interface/inicio", "interface/estilos",
-        "pages", "pages/api/v1/status", "infra"
+        "models/insulina",
+        "models/gestacao",
+        "models/cardiopatia-isquemica",
+        "models/risco-cardiovascular",
+        "interface/comum",
+        "interface/calculadora",
+        "interface/gestacao",
+        "interface/cardiologia",
+        "interface/risco-cardiovascular",
+        "interface/inicio",
+        "interface/estilos",
+        "pages",
+        "pages/api/v1/status",
+        "infra"
       ],
       "modules_pending": [],
       "delta": "novo dominio models/risco-cardiovascular (PCE, 7 arq, 600 LOC) + tela interface/risco-cardiovascular (5 arq, proveniencia); cabecalho refatorado em interface/comum (011/013); estilos: globais.css 400->364 (divida amarela da re-extracao 2 RESOLVIDA), 5 folhas; 14 modulos, 4 dominios; 37 testes",
@@ -241,15 +477,36 @@
       "completed_at": "2026-07-28T22:10:00Z",
       "re_extraction": 4,
       "modules_identified_re4": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
-        "models/puericultura", "models/puericultura/consulta", "models/contribuicao",
-        "interface/comum", "interface/calculadora", "interface/gestacao", "interface/cardiologia",
-        "interface/risco-cardiovascular", "interface/puericultura", "interface/puericultura/consulta",
-        "interface/contribuicao", "interface/inicio", "interface/estilos",
-        "pages", "pages/api/v1/status", "infra", "scripts"
+        "models/insulina",
+        "models/gestacao",
+        "models/cardiopatia-isquemica",
+        "models/risco-cardiovascular",
+        "models/puericultura",
+        "models/puericultura/consulta",
+        "models/contribuicao",
+        "interface/comum",
+        "interface/calculadora",
+        "interface/gestacao",
+        "interface/cardiologia",
+        "interface/risco-cardiovascular",
+        "interface/puericultura",
+        "interface/puericultura/consulta",
+        "interface/contribuicao",
+        "interface/inicio",
+        "interface/estilos",
+        "pages",
+        "pages/api/v1/status",
+        "infra",
+        "scripts"
       ],
       "delta_re4": "21 modulos (era 14): 5o dominio clinico models/puericultura com acervo tabular de 14 modulos gerados + submodulo consulta com SEGUNDA fachada; 1o unit nao clinico models/contribuicao; camada dev-time scripts/** com 23 arquivos .mts; 9 folhas de estilo (era 5); 7 rotas de pagina (era 5); /api/v1/status com I/O real e seis chaves; react-qr-code@2.2.0 primeira dependencia de runtime desde a 010",
-      "suite_aferida": { "arquivos": 67, "testes": 816, "duracao_s": 8.6, "exit": 0, "nota": "medida em 28/07 por npx vitest run; encerra a divida L-11 com numero aferido, nao copiado dos adendos" },
+      "suite_aferida": {
+        "arquivos": 67,
+        "testes": 816,
+        "duracao_s": 8.6,
+        "exit": 0,
+        "nota": "medida em 28/07 por npx vitest run; encerra a divida L-11 com numero aferido, nao copiado dos adendos"
+      },
       "files_re4": [
         "_reversa_sdd/inventory.md",
         "_reversa_sdd/dependencies.md",
@@ -258,10 +515,20 @@
       "completed_at_re3": "2026-07-23T21:02:00Z",
       "re_extraction_anterior": 3,
       "modules_identified": [
-        "models/insulina", "models/gestacao", "models/cardiopatia-isquemica", "models/risco-cardiovascular",
-        "interface/calculadora", "interface/cardiologia", "interface/gestacao", "interface/risco-cardiovascular",
-        "interface/inicio", "interface/comum", "interface/estilos",
-        "pages", "pages/api/v1/status", "infra"
+        "models/insulina",
+        "models/gestacao",
+        "models/cardiopatia-isquemica",
+        "models/risco-cardiovascular",
+        "interface/calculadora",
+        "interface/cardiologia",
+        "interface/gestacao",
+        "interface/risco-cardiovascular",
+        "interface/inicio",
+        "interface/comum",
+        "interface/estilos",
+        "pages",
+        "pages/api/v1/status",
+        "infra"
       ],
       "delta": "novo dominio models/risco-cardiovascular (PCE, feat 014) + tela interface/risco-cardiovascular; cabecalho refatorado em interface/comum + interface/estilos (feat 011/013); 110 arq TS, 37 testes, 14 modulos",
       "files": [

@@ -1,68 +1,109 @@
-# interface/estilos — Camada de estilo (cola de layout sobre Primer)
+# `interface/estilos` — Camada de estilo (cola de layout sobre o Primer)
 
-> `requirements.md` · Re-extração 3 (2026-07-23). Nasce na feature 004 (globais) e cresce em 008 (inicio), 009 (cabecalho), 010 (cardiologia), **011/013 (cabeçalho consolidado)** e **014 (risco-cardiovascular)**.
+> `requirements.md` · **Re-extração 4 (2026-07-28)**. Nasce na feature 004 e cresce em 008,
+> 009, 010, 011/013, 014 e, nesta passagem, **015 a 021**.
 
 ## Visão Geral
 
-**Cinco** folhas CSS que fornecem apenas a "cola de layout" que os componentes Primer não cobrem — grade da página, cartões, cabeçalho, home e peças das telas. A identidade visual é do Primer: toda regra usa `var(--*)` funcional, sem cor, fonte ou sombra própria. Arquivos separados para respeitar o teto de 400 linhas por arquivo. **Dívida resolvida:** na re-extração 2, `globais.css` estava em exatamente 400 linhas (no teto); a consolidação da família `.cabecalho*` em `cabecalho.css` (features 011/013) baixou `globais.css` para **364** — abaixo do teto, sem folha acima de 400. 🟢
+**Nove** folhas CSS, contra cinco na passagem anterior, que fornecem apenas a cola de layout
+que os componentes do Primer não cobrem. A identidade visual continua sendo do Primer: toda
+regra usa `var(--*)` funcional, sem cor, fonte ou sombra própria. 🟢
+
+A mudança estrutural desta passagem é a chegada de `moldura.css`: o enquadramento horizontal
+deixou de valer por repetição de classe e passou a ter **sede única**, aplicada ao `<main>` da
+Moldura por seletor de atributo (ADR 0021). 🟢
 
 ## Responsabilidades
 
-- `globais.css` (364) — reset, grade da página, cartões, espaçamentos. 🟢
-- `cabecalho.css` (116) — família `.cabecalho*` inteira: layout base + logo APSi + a refatoração das features 011/013 (barra de ações icônica, `.cabecalho-selo` na identidade, proporções da variante `padrao` alinhadas à coluna do corpo e à logo da home, 44/36 de respiro). 🟢
-- `inicio.css` (188) — hero em variante destaque, seções, cartões e stretched link da home. 🟢
-- `cardiologia.css` (47) — peças da tela de cardiologia (radios, blocos). 🟢
-- `risco-cardiovascular.css` (8) — peças mínimas da tela de risco (proveniência/contexto). 🟢
+| Folha | Linhas | Papel |
+|-------|--------|-------|
+| `globais.css` | 367 | Reset, grade da página, cartões, espaçamentos. |
+| `inicio.css` | 185 | Hero, seções e cartões da home. Reduzida ao mínimo pela feature 021. |
+| `contribuicao.css` | 133 | Painel de apoio, comandos de cópia e QR. |
+| `cabecalho.css` | 121 | Família `.cabecalho*` inteira, com as proporções das features 011/013. |
+| `consulta-puericultura.css` | 113 | Arranjo da ficha e do registro. |
+| `moldura.css` | 79 | **Coluna do corpo** — a sede única do eixo horizontal. |
+| `cardiologia.css` | 47 | Peças da tela de cardiologia. |
+| `puericultura.css` | 33 | Peças da tela de crescimento. |
+| `risco-cardiovascular.css` | 8 | Peças mínimas da tela de risco. |
 
 ## Regras de Negócio
 
-- **RN-01/RN-05 (004)** Só tokens `var(--*)` do Primer; nenhuma cor/fonte/sombra própria. 🟢
-- **Teto de 400 linhas** cada preocupação em folha própria; o layout do cabeçalho saiu de `globais.css` (que encostara em 400) para `cabecalho.css`, trazendo `globais.css` a 364 linhas (re-extração 2). 🟢
-- **Ordem de import** As folhas entram em `_app.tsx` após os primitivos e `globais.css`, nesta ordem: globais → cabecalho → inicio → cardiologia. 🟢
-- **Variante por atributo** O hero reage a `.pagina[data-apresentacao="destaque"]`; o tema, a `data-tema`. 🟢
+| ID | Regra | Confiança |
+|----|-------|-----------|
+| RN-01 | Só tokens `var(--*)` do Primer; nenhuma cor, fonte ou sombra própria. | 🟢 |
+| RN-02 | Teto de 400 linhas por arquivo, com uma preocupação por folha. Nenhuma folha o excede hoje. | 🟢 |
+| RN-03 | **A ordem de importação em `_app.tsx` importa**: primitivos do Primer, `globais.css`, `moldura.css`, e depois as folhas de tela, que declaram o eixo vertical sobre a coluna que a moldura estabelece. | 🟢 |
+| RN-04 | **(021)** O eixo **horizontal** — largura máxima, centralização, recuo — mora só em `moldura.css`. O **vertical** fica na folha de cada tela, porque varia com legitimidade: 28/56 px nas calculadoras, 40/64 na home, 32/64 no bloco de apoio. | 🟢 |
+| RN-05 | As variantes reagem a atributo: `data-apresentacao` para a coluna e o hero, `data-tema` para o tema. | 🟢 |
+| RN-06 | Folha nova em vez de acréscimo a `globais.css` é a convenção desde a feature 013. | 🟢 |
+| RN-07 | Nenhuma fonte ou folha de terceiro; a CSP não admite origem externa. | 🟢 |
 
 ## Requisitos Funcionais
 
 | ID | Requisito | Prioridade | Critério de Aceite |
-|----|-----------|-----------|-------------------|
-| RF-04 (004) | Cola de layout sobre tokens Primer | Must | Nenhum valor de cor literal; só `var(--*)` |
-| RF-01 (009) | Camada de logo preservando proporção | Should | Altura fixa, largura automática (314×138) |
-| RF-01..04 (008) | Layout do hero, seções e cartões | Should | Coluna clínica de 720px; stretched link funcional |
-| RF-08/RF-10 (010) | Estilo das peças da cardiologia | Should | Radios e blocos alinhados, sobre tokens |
+|----|-----------|-----------|--------------------|
+| RF-01 | Fornecer a cola de layout sobre tokens do Primer. | Must | Nenhum valor de cor literal. |
+| RF-02 | Estabelecer a coluna do corpo por apresentação. | Must | `padrao` em 1.180 px, `destaque` em 720 px, ambas com recuo de 32 px. |
+| RF-03 | Calibrar o cabeçalho contra a mesma coluna. | Must | Guardas geométricas em `e2e/cabecalho.spec.ts`: cabeçalho e corpo na mesma faixa. |
+| RF-04 | Preservar a proporção da logo. | Should | Altura fixa e largura automática. |
+| RF-05 | Estilizar as peças de cada tela em folha própria. | Should | Uma folha por tela nova. |
+| RF-06 | Manter toda folha abaixo do teto de 400 linhas. | Must | `globais.css` em 367, a maior. |
 
 ## Requisitos Não Funcionais
 
 | Tipo | Requisito inferido | Evidência no código | Confiança |
 |------|--------------------|---------------------|-----------|
-| Manutenibilidade | Um arquivo por preocupação; teto de 400 linhas respeitado (todas < 400) | `globais.css` (364), `cabecalho.css` (72), `inicio.css` (188), `cardiologia.css` (47) | 🟢 |
-| Consistência de tema | Regras sobre `data-tema` / `data-apresentacao` | `inicio.css` (hero), `globais.css` | 🟢 |
-| Sem terceiros | Nenhuma fonte/CDN externa (CSP) | `pages/_app.tsx:7-25` | 🟢 |
+| Manutenibilidade | Uma preocupação por folha; teto respeitado nas nove. | `wc -l interface/estilos/*` | 🟢 |
+| Consistência | Regras sobre `data-tema` e `data-apresentacao`, sem duplicação de largura. | `moldura.css` | 🟢 |
+| Sem terceiros | Nenhuma fonte ou CDN externa. | `pages/_app.tsx` | 🟢 |
+| Previsibilidade | A tela nova nasce enquadrada, sem declarar largura. | ADR 0021 | 🟢 |
 
 ## Critérios de Aceitação
 
 ```gherkin
-Dado qualquer regra de estilo da plataforma
-Quando inspecionada
-Então usa var(--*) do Primer, sem cor/fonte/sombra literal própria
+Cenário: tokens
+  Dado qualquer regra de estilo da plataforma
+  Quando inspecionada
+  Então usa var(--*) do Primer, sem cor, fonte ou sombra literal própria
 
-Dado a home com data-apresentacao="destaque"
-Quando renderizada
-Então o hero e as seções compartilham a coluna clínica de 720px
+Cenário: coluna por apresentação
+  Dado uma calculadora
+  Então o main tem no máximo 1180px, centralizado, com 32px de recuo
+  Dado a home
+  Então o main tem no máximo 720px, com o mesmo recuo
+
+Cenário: tela nova
+  Dado uma sétima tela que declare apenas o seu eixo vertical
+  Então ela aparece enquadrada como as demais, sem declarar largura
+
+Cenário: teto de linhas
+  Quando se medem as nove folhas
+  Então nenhuma passa de 400 linhas
 ```
 
 ## Prioridade (MoSCoW)
 
 | Requisito | MoSCoW | Justificativa |
 |-----------|--------|---------------|
-| Cola de layout sobre tokens (RF-04) | Must | Base visual de toda tela |
-| Layout da home (008) | Should | Apresentação da porta de entrada |
-| Camada de logo (009) e cardiologia (010) | Should | Incrementos por feature |
+| Coluna do corpo em sede única | Must | Sem ela a invariante volta a depender de coincidência de nome de classe. |
+| Tokens do Primer, sem valor próprio | Must | Identidade e temas dependem disso. |
+| Uma folha por preocupação | Must | Teto de 400 linhas e legibilidade. |
+| Ordem de importação | Must | Trocá-la quebra o enquadramento sem erro em teste unitário. |
+| Peças por tela | Should | Cresce com o produto. |
 
 ## Rastreabilidade de Código
 
 | Arquivo | Escopo | Cobertura |
 |---------|--------|-----------|
-| `interface/estilos/globais.css` | reset, grade, cartões, espaçamentos | 🟢 |
-| `interface/estilos/cabecalho.css` | família `.cabecalho*` (layout base + logo APSi) | 🟢 |
-| `interface/estilos/inicio.css` | hero, seções, cartões, stretched link | 🟢 |
-| `interface/estilos/cardiologia.css` | radios e blocos da cardiologia | 🟢 |
+| `interface/estilos/moldura.css` | Coluna do corpo, por `data-apresentacao` | 🟢 |
+| `interface/estilos/cabecalho.css` | Família `.cabecalho*` e as proporções 011/013 | 🟢 |
+| `interface/estilos/globais.css` | Reset, grade, cartões, espaçamentos | 🟢 |
+| `interface/estilos/inicio.css` | Hero, seções, cartões, stretched link | 🟢 |
+| `interface/estilos/contribuicao.css` | Painel de apoio, cópias e QR | 🟢 |
+| `interface/estilos/consulta-puericultura.css` | Ficha e registro | 🟢 |
+| `interface/estilos/puericultura.css` | Tela de crescimento | 🟢 |
+| `interface/estilos/cardiologia.css` · `risco-cardiovascular.css` | Telas de cardiologia | 🟢 |
+
+> **Nota de contagem:** os adendos 019 e 020 declararam-se **ambos** "a sétima folha", por
+> terem corrido em paralelo. O total corrente é **nove**, aferido em 2026-07-28.

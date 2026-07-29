@@ -47,6 +47,19 @@ Nascem de premissas 🟡 ou de dívida declarada, e por isso ficam fora do watch
 
 ## Histórico de re-extrações
 
+### Re-extração 2026-07-28 23:50
+
+> Re-extração nº 4 · 15 watch items verificados contra o SDD regenerado e contra o código.
+
+| ID | Veredito | Observação |
+|----|----------|------------|
+| W001 | 🟢 verde | `SUBARVORES_COM_ORACULO_PROPRIO` com **uma entrada**, e ela declara o oráculo que a guarda |
+| W002 | 🟢 verde | `citacao-linha-de-base.json` com **um único commit**, o da feature 018 |
+| W003 | 🟢 verde | `EXCECOES_DE_LAYOUT` com **4 entradas**, teto de 10 asserido (`toBeLessThanOrEqual(TETO_DE_EXCECOES)`) e motivo exigido por teste próprio |
+| W004..W009, W011, W013..W015 | 🟢 verde | supressão e nota inseparáveis; zero rótulos por crase interpolada; omissão de campo e de seção vazia; um `useMemo` único para exibir e copiar; sugestão pela idade cronológica; sem ritual de revisão |
+| W010 | 🟢 verde | **nenhum import de `oms/` ou `intergrowth/` no submódulo**: as três ocorrências de `escoreZ` são a função local de formatação e a leitura do campo do resultado já pronto |
+| W012 | 🟢 verde | `next/dynamic` presente no painel de crescimento |
+
 Vazio. Será preenchido pelo agente reverso quando `/reversa` rodar de novo.
 
 ## Arquivadas

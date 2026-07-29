@@ -115,30 +115,30 @@ cardiologia) são **reconfirmados** contra o código, não reescritos sem motivo
 
 ## Fase 3: Interpretação 🧠
 
-- [ ] **Detetive** — Arqueologia Git e ADRs retroativos (features 015–022, `MD-0022`–`MD-0032`)
-- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado (puericultura, consulta, contribuição)
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL)
-- [ ] **Arquiteto** — Diagramas C4 (5º e 6º units de `models/`, camada dev-time)
-- [ ] **Arquiteto** — ERD completo e integrações externas (OMS, INTERGROWTH-21st, BR Code, Neon em runtime)
-- [ ] **Arquiteto** — Spec Impact Matrix (duas fachadas sob uma unit — arranjo inédito)
+- [x] **Detetive** — Arqueologia Git e ADRs retroativos (features 015–022, `MD-0022`–`MD-0033`) ✅ 6 ADRs novos (0016–0021)
+- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado (puericultura, consulta, contribuição) ✅ 76 regras; 13 máquinas/cascatas
+- [x] **Detetive** — Matriz de permissões (RBAC/ACL) ✅ veredito preservado, conferido contra 019/020/022
+- [x] **Arquiteto** — Diagramas C4 (5º e 6º units de `models/`, camada dev-time) ✅ 3 recortes de componentes
+- [x] **Arquiteto** — ERD completo e integrações externas (OMS, INTERGROWTH-21st, BR Code, Neon em runtime) ✅ 8 integrações, 2 contratos emitidos
+- [x] **Arquiteto** — Spec Impact Matrix (duas fachadas sob uma unit — arranjo inédito) ✅ 19×20, coluna `scripts` nova
 
 ## Fase 4: Geração 📝
 
-- [ ] **Redator** — Specs SDD por componente (units novas + atualizadas)
-- [ ] **Redator** — OpenAPI (`openapi/status.yaml`: seis chaves, exemplo defasado)
-- [ ] **Redator** — User Stories (crescimento infantil, consulta SOAP, contribuição)
-- [ ] **Redator** — Code/Spec Matrix (duas fachadas sob `models/puericultura`)
+- [x] **Redator** — Specs SDD por componente (units novas + atualizadas) ✅ 7 novas + 7 atualizadas, 37 arquivos
+- [x] **Redator** — OpenAPI (`openapi/status.yaml`: seis chaves, exemplo defasado) ✅ 3 exemplos + `EstadoDoBanco`
+- [x] **Redator** — User Stories (crescimento infantil, consulta SOAP, contribuição) ✅ 3 novas
+- [x] **Redator** — Code/Spec Matrix (duas fachadas sob `models/puericultura`) ✅ + camada dev-time, 816 testes
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs ✅ 21 units (Codex indisponível; revisão própria com 10 aferições)
+- [x] **Revisor** — Resolução de lacunas com o usuário ✅ 24 premissas em `questions.md`, 2 lacunas 🔴 em `gaps.md`
+- [x] **Revisor** — Relatório de confiança final ✅ ~93% 🟢
 
 ## Fase 6: Verificação de regressão 🔁
 
-- [ ] Verificar os `regression-watch.md` de `_reversa_forward/` (21 features) contra o SDD regenerado
-- [ ] Reconciliar os adendos 015–022 de `_reversa_sdd/addenda/` (marcar "Superado pela re-extração")
+- [x] Verificar os `regression-watch.md` de `_reversa_forward/` (21 features) contra o SDD regenerado ✅ 179 itens: 169 🟢 · 9 🟡 · 1 🔴
+- [x] Reconciliar os adendos 015–022 de `_reversa_sdd/addenda/` (marcar "Superado pela re-extração") ✅ 8 adendos marcados
 
 ---
 
