@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de correção · BUG-20260728-ZAHV</title>
+<style>
+  /* Plano de correção gerado por /reversa-debugger-fix em 2026-07-28, ANTES de qualquer
+     escrita em código. Tokens portados de interface/estilos/globais.css, iguais aos do
+     graph.html do contexto; não alterar valores. */
+  :root {
+    --fundo: #efeee9; --cartao: #ffffff; --campo: #fdfdfb; --tinta: #22302e;
+    --tinta2: #3b4744; --sec: #5a6663; --mudo: #8a918e; --borda: #dfdcd2;
+    --borda2: #eceae2; --suave: #faf9f5; --bordacampo: #c9c5b9;
+    --acento-texto: #0e5f53; --verde-texto: #1c6b4c; --verde-suave: #e7f2ec;
+    --verde-borda: #c4e0d2; --painel-verde: #f2f7f4; --pronto-borda: #7fb89a;
+    --ambar-bg: #fcf6e8; --ambar-borda: #e8d9ae; --ambar-texto: #7a5b12;
+    --alerta-texto: #6e2e1f; --alerta-borda: #e3b8aa; --alerta-bg: #fbf1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #161c1a; --cartao: #1f2624; --campo: #171e1c; --tinta: #e6ebe8;
+      --tinta2: #c2ccc7; --sec: #93a09a; --mudo: #6f7b76; --borda: #37413d;
+      --borda2: #2c3532; --suave: #242c29; --bordacampo: #46524d;
+      --acento-texto: #58bba6; --verde-texto: #7ecda9; --verde-suave: #1e332a;
+      --verde-borda: #35594a; --painel-verde: #20302c; --pronto-borda: #3e7a5e;
+      --ambar-bg: #332b18; --ambar-borda: #665728; --ambar-texto: #e0c577;
+      --alerta-texto: #ebb39f; --alerta-borda: #6e4237; --alerta-bg: #362320;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--fundo); color: var(--tinta);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif; line-height: 1.55;
+  }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.92em; }
+  .cabecalho {
+    background: var(--cartao); border-bottom: 1px solid var(--borda);
+    padding: 18px 32px; display: flex; align-items: baseline;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .cabecalho h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .cabecalho p { margin: 0; font-size: 13px; color: var(--sec); }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 18px; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; }
+  .card {
+    flex: 1; min-width: 150px; background: var(--painel-verde);
+    border: 1px solid var(--verde-borda); border-radius: 10px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  .card .valor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 24px;
+    font-weight: 600; color: var(--acento-texto); text-transform: none; letter-spacing: normal;
+  }
+  .card.neutro { background: var(--suave); border-color: var(--borda2); }
+  .card.alerta { background: var(--alerta-bg); border-color: var(--alerta-borda); }
+  .card.alerta .valor { color: var(--alerta-texto); }
+  .card.ambar { background: var(--ambar-bg); border-color: var(--ambar-borda); }
+  .card.ambar .valor { color: var(--ambar-texto); }
+  .cartao {
+    background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px;
+    padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .cartao h2 {
+    margin: 0; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sec);
+  }
+  .cartao h3 { margin: 6px 0 0; font-size: 14px; font-weight: 700; color: var(--tinta); }
+  .cartao p { margin: 0; font-size: 14px; color: var(--tinta2); }
+  .cartao ul, .cartao ol { margin: 0; padding-left: 20px; font-size: 14px; color: var(--tinta2); }
+  .cartao li { margin-bottom: 5px; }
+  a { color: var(--acento-texto); }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; color: var(--tinta2); }
+  th {
+    background: var(--suave); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  pre {
+    background: var(--campo); border: 1px solid var(--bordacampo); border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px; line-height: 1.5; color: var(--tinta2); margin: 0;
+  }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .duas { grid-template-columns: 1fr; } main { padding: 20px 16px 40px; } .cabecalho { padding: 16px 20px; } }
+  .selo {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .selo.corta { background: var(--alerta-bg); color: var(--alerta-texto); border: 1px solid var(--alerta-borda); }
+  .selo.mantem { background: var(--verde-suave); color: var(--verde-texto); border: 1px solid var(--verde-borda); }
+  .selo.decide { background: var(--ambar-bg); color: var(--ambar-texto); border: 1px solid var(--ambar-borda); }
+  .aberto { background: var(--ambar-bg); border-color: var(--ambar-borda); }
+  svg text { font-family: "IBM Plex Sans", -apple-system, sans-serif; }
+  svg .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .rodape { font-size: 12px; color: var(--mudo); border-top: 1px solid var(--borda2); padding-top: 12px; }
+</style>
+</head>
+<body>
+  <header class="cabecalho">
+    <h1>Plano de correção · <code>BUG-20260728-ZAHV</code></h1>
+    <p>Bug #3 · contexto <code>consulta-puericultura</code> · 2026-07-28 ·
+    <strong>critical · P0</strong> · fase <code>diagnosing</code> → aguardando aprovação do plano</p>
+  </header>
+
+  <main>
+
+    <div class="cards">
+      <span class="card alerta">Proveniência na cadeia<span class="valor">93%</span></span>
+      <span class="card neutro">Causa raiz<span class="valor">confirmed</span></span>
+      <span class="card neutro">Risco da mudança<span class="valor">baixa</span></span>
+      <span class="card neutro">Arquivos de código tocados<span class="valor">1</span></span>
+      <span class="card ambar">Decisão aberta<span class="valor">1</span></span>
+    </div>
+
+    <section class="cartao">
+      <h2>O defeito</h2>
+      <p>O texto que a tela exibe no bloco &ldquo;Registro em SOAP&rdquo; — e que o comando de cópia
+      entrega à área de transferência byte a byte — fecha com duas notas editoriais incondicionais,
+      uma terceira condicional e uma linha de fonte bibliográfica. Nada disso é registro clínico: é a
+      declaração de como o produto foi feito. Como o texto existe para ser colado num prontuário
+      eletrônico de terceiros, a proveniência viaja junto e polui o registro do paciente.</p>
+
+      <h3>Reprodução (cápsula em <code>evidence/reproduction.md</code>)</h3>
+      <p>Ficha da 1.ª Semana, um único campo preenchido, sem navegador e sem React. Determinística,
+      2/2 execuções. A estimativa do registro — &ldquo;mais de quatro quintos&rdquo; — foi medida e
+      corrigida para pior:</p>
+      <div class="wrap">
+      <table>
+        <tr><th>Parte da cadeia</th><th>Caracteres</th><th>Fração</th></tr>
+        <tr><td>Registro clínico (cabeçalho + seção S)</td><td><code>80</code></td><td>7%</td></tr>
+        <tr><td>Proveniência (duas notas + linha da fonte)</td><td><code>1 015</code></td><td><strong>93%</strong></td></tr>
+        <tr><td>Total</td><td><code>1 095</code></td><td>100%</td></tr>
+      </table>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Causa raiz · estado <code>confirmed</code></h2>
+      <p><strong>Não é defeito de implementação: o código é fiel à spec.</strong>
+      <code>formatarRegistro</code> soma <code>notas</code> e <code>parteDaFonte(registro)</code> ao
+      <code>join</code> final porque a <strong>regra 7</strong> de
+      <code>_reversa_sdd/models-puericultura-consulta/contracts.md</code> manda — &ldquo;as notas
+      fecham o texto, e a linha da fonte fecha as notas&rdquo; —, e a regra remonta a RN-03, RN-08 e
+      RN-09 da feature 020. A causa nasce na <strong>spec</strong>, e é lá que a correção precisa
+      começar.</p>
+
+      <h3>Evidências que fecham o caminho causal</h3>
+      <ol>
+        <li>A cápsula reproduz 2/2 partindo do domínio real, sem interface no caminho.</li>
+        <li><code>formatar-registro.ts:40</code> e <code>:46</code> são as <em>únicas</em> origens das
+        quatro partes observadas; nenhuma outra função contribui para a cadeia.</li>
+        <li><code>tests/unit/interface/formatar-registro.test.ts:82</code> afirma o mesmo
+        comportamento <em>como contrato</em>, o que prova intenção e não acidente.</li>
+      </ol>
+
+      <h3>Não é regressão</h3>
+      <p>O comportamento existe desde a entrega da feature 020 e sempre foi o especificado. Não há
+      commit bom conhecido, e por isso <code>git bisect</code> é inaplicável — a busca binária
+      apontaria o commit que <em>introduziu a funcionalidade</em>, não o que a quebrou.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Estratégia · correção direta</h2>
+      <p>Sem debate multiagente. O debate serve a hipóteses concorrentes de diagnóstico ou a
+      estratégias concorrentes sob risco alto, e aqui não há nem uma nem outra: a causa é
+      <code>confirmed</code>, o risco é baixo, e a <strong>decisão de produto já está tomada e
+      fundamentada</strong> em <code>.harness/decisoes/MD-0035.md</code>, com cinco alternativas
+      nominalmente descartadas. Convocar debate reabriria uma deliberação encerrada.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Três correções ao que o registro previa</h2>
+      <p>A investigação mudou o plano em três pontos, todos a favor de um change set menor:</p>
+      <ol>
+        <li><strong>A spec afetada é maior que a regra 7.</strong> O bug citava só ela; o corte
+        também revoga a <strong>regra 8</strong> (que descreve a composição da linha da fonte),
+        emenda a <strong>regra 5</strong> (que fala em linha em branco dupla &ldquo;inclusive entre
+        as notas&rdquo;) e reescreve o bloco de <strong>§ Forma do texto emitido</strong>, que
+        desenha os quatro blocos finais. O adendo alcança as quatro coisas, ou a spec fica
+        internamente incoerente.</li>
+        <li><strong>Só um teste vigente muda de sentido, não dois.</strong> O registro listava também
+        <code>consulta-registro.test.ts:174</code>, mas esse afirma a <em>estrutura do domínio</em>
+        (<code>registro.notas</code> carrega <code>ORGANIZACAO_EM_SOAP</code>), que permanece
+        intacta. Segue verde sem tocar em nada.</li>
+        <li><strong>A superfície textual não se move.</strong> O <code>Fonte:</code> do formatador
+        não consta de <code>tests/apoio/inventario-textual.json</code> — fica abaixo do corte de duas
+        palavras e fora de posição de exibição. Conferido: <code>inventariar-textos.mts --gerar</code>
+        rodou antes da mudança e deixou a árvore limpa nos 1 187 literais.</li>
+      </ol>
+    </section>
+
+    <section class="cartao">
+      <h2>Fronteira domínio × interface · decidida</h2>
+      <p>O registro deixou em aberto se <code>RegistroDaConsulta</code> continua carregando
+      <code>notas</code> e <code>referencias</code>. <strong>Recomendação: continua.</strong> O corte
+      é só na projeção textual.</p>
+      <ul>
+        <li><code>contracts.md</code> é contrato de <em>saída emitida</em> — é dele que a regra 7 sai,
+        e é ele que o adendo reescreve. A estrutura documenta o que o registro <em>declara</em>, e
+        essa afirmação continua verdadeira.</li>
+        <li>Remover exigiria mexer em <code>tipos.ts</code>, <code>montarRegistro</code>,
+        <code>notasDe</code> e <code>referenciasDe</code>, e derrubaria três asserções de invariante
+        de domínio (<code>consulta-invariantes.test.ts:100</code>,
+        <code>consulta-registro.test.ts:171</code> e <code>:174</code>) — levaria um bug de projeção
+        para dentro do domínio, o oposto da menor correção coerente.</li>
+        <li><code>MD-0035</code> fixa que &ldquo;o corte é subtrativo na projeção textual e nulo na
+        declaração&rdquo;.</li>
+      </ul>
+      <p>Consequência aceita e declarada: <code>notas</code> e <code>referencias</code> ficam sem
+      consumidor de produção — o único era o formatador. Não são código morto (o domínio os monta e
+      os testa), mas são estrutura à espera de destino, e o adendo dirá isso em vez de deixar a
+      dúvida para o leitor de daqui a doze meses.</p>
+    </section>
+
+    <section class="cartao aberto">
+      <h2>Decisão aberta · a página da ficha desaparece de toda superfície</h2>
+      <p>Achado da investigação, não relatado e não previsto pelo registro. A linha
+      <code>Fonte:</code> do texto copiado traz hoje a localização <strong>exata</strong> da ficha
+      aberta — <code>p. 68, Consulta da 1ª Semana</code> —, vinda de <code>referenciaDaFicha</code>.
+      O bloco de proveniência da tela exibe apenas a cobertura geral <code>pp. 66–75</code> e a
+      edição: <code>grep pagina interface/puericultura/consulta/</code> não retorna nada. Cortada a
+      linha, a página da ficha some de todos os lugares.</p>
+      <div class="wrap">
+      <table>
+        <tr><th>Saída</th><th>Recomendação</th><th>Consequência</th></tr>
+        <tr>
+          <td><strong>A</strong> — aceitar a perda</td>
+          <td><span class="selo mantem">recomendada</span></td>
+          <td>A cobertura <code>pp. 66–75</code> contém a p. 68, e o nome publicado da fonte
+          permanece na tela: <code>MD-0021</code> e <code>MD-0022</code> seguem satisfeitas. Respeita
+          o critério de aceite 4 do bug (&ldquo;o bloco continua exibindo as notas e a fonte, sem
+          alteração de conteúdo&rdquo;) e o &ldquo;corte é subtrativo&rdquo; de
+          <code>MD-0035</code>. Perde-se precisão bibliográfica que nenhuma norma exige.</td>
+        </tr>
+        <tr>
+          <td><strong>B</strong> — levar a página para o bloco da tela</td>
+          <td><span class="selo decide">amplia o escopo</span></td>
+          <td>Acrescenta um CHG em <code>proveniencia.tsx</code>, que passaria a receber a ficha
+          aberta como prop e a projetar a localização — nasce dependência de estado num componente
+          hoje estático, e o critério de aceite 4 do bug precisa ser emendado.</td>
+        </tr>
+      </table>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Correction Change Set proposto</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>CHG</th><th>Tipo</th><th>Artefato</th><th>Propósito</th></tr>
+        <tr>
+          <td><code>CHG-001</code></td>
+          <td><code>code</code></td>
+          <td><code>interface/puericultura/consulta/formatar-registro.ts</code></td>
+          <td>Remover <code>parteDaFonte</code> inteira e a montagem de <code>notas</code>; a cadeia
+          passa a ser cabeçalho + seções. <span class="selo corta">subtrativo</span></td>
+        </tr>
+        <tr>
+          <td><code>CHG-002</code></td>
+          <td><code>specification</code></td>
+          <td><code>_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md</code></td>
+          <td>Adendo versionado e imutável: reescreve o § Forma do texto emitido, revoga as regras 7
+          e 8 para o texto emitido, emenda a regra 5 e declara onde a proveniência passa a viver.
+          A spec original não é editada.</td>
+        </tr>
+      </table>
+      </div>
+      <p><strong>Nenhum reparo de dados.</strong> O produto não persiste registro algum (ADR 0002,
+      100% client-side; o texto some ao recarregar). Não há estado histórico corrompido: o que já foi
+      colado em prontuário está fora do alcance de qualquer correção nossa, e essa é a assimetria que
+      o próprio contrato declara como risco.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Testes planejados · Gate 1</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Papel</th><th>Onde</th><th>O que prova</th></tr>
+        <tr>
+          <td><strong>Reprodução</strong></td>
+          <td><code>tests/unit/interface/formatar-registro.test.ts</code> — o teste da regra 7,
+          reescrito no lugar</td>
+          <td>Que a cadeia entregue <em>não</em> contém linha começada por <code>Fonte:</code> nem
+          nenhuma das três notas, e que termina no último item da última seção. Falha antes do
+          CHG-001; é o defeito relatado.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 1</strong></td>
+          <td>Mesmo arquivo</td>
+          <td>Que o cabeçalho com título e idade e as seções S, O, A, P nas regras 1 a 6 sobrevivem
+          ao corte — o que não pode quebrar junto.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 2</strong></td>
+          <td><code>tests/integration/interface/consulta-puericultura.test.tsx</code></td>
+          <td>Que o bloco de proveniência da tela segue exibindo as três notas <em>e</em> a linha da
+          fonte. Passa a ser a guarda mais importante do conjunto: depois do corte, a tela é o
+          <strong>único</strong> lugar onde RN-03, RN-08 e RN-09 se cumprem.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 3</strong></td>
+          <td>Já existe: mesmo arquivo, <code>describe</code> de RF-08</td>
+          <td>Que o exibido e o copiado continuam idênticos byte a byte. Roda sem alteração — a
+          identidade é estrutural (uma função, uma variável, dois consumidores) e o corte não a
+          toca.</td>
+        </tr>
+      </table>
+      </div>
+      <p>O teste da regra 7 <strong>muda de sentido, e não se apaga</strong>. Apagá-lo por
+      conveniência seria contornar o gate: o que o contrato afirma passa a ser outro, e é o teste
+      quem carrega essa afirmação.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Risco da mudança · <strong>baixa</strong></h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Eixo</th><th>Avaliação</th></tr>
+        <tr><td>Blast radius</td><td>Uma função pura na camada de interface, com dois consumidores que recebem a mesma variável. Domínio, catálogo das dez fichas e motor de crescimento intocados.</td></tr>
+        <tr><td>Contrato externo</td><td>Nenhuma API, nenhum consumidor programático. O único contrato é a forma do texto — e é exatamente ela que a decisão manda mudar.</td></tr>
+        <tr><td>Dados</td><td>Nenhum. Sem persistência por design (ADR 0002).</td></tr>
+        <tr><td>Concorrência</td><td>Não se aplica: função pura, sem estado compartilhado.</td></tr>
+        <tr><td>Reversibilidade</td><td>Total. O corte é subtrativo; reverter é restaurar duas linhas e uma função.</td></tr>
+        <tr><td>Linha de base</td><td>816 testes em 67 arquivos, todos verdes, 8,1 s. Qualquer vermelho depois do change set é meu.</td></tr>
+      </table>
+      </div>
+
+      <h3>Fora do escopo desta correção</h3>
+      <ul>
+        <li><strong>O texto do bloco de proveniência da tela</strong>, que permanece intocado. Nenhum
+        literal novo nasce daqui; a norma de redação não é exercitada.</li>
+        <li><strong><code>BUG-20260728-C6LN</code></strong>, que é apresentação e toca arquivos
+        disjuntos. Correção separada.</li>
+        <li><strong>Generalizar a regra ao BR Code da contribuição</strong>, que
+        <code>MD-0035</code> antecipa mas não manda fazer agora. Se houver o mesmo desvio lá, é bug
+        próprio, com registro próprio.</li>
+        <li><strong>Remover <code>notas</code> e <code>referencias</code> da estrutura</strong>, pela
+        fronteira decidida acima.</li>
+      </ul>
+    </section>
+
+    <section class="cartao">
+      <h2>A cadeia, antes e depois</h2>
+      <div class="duas">
+        <div>
+          <h3>Hoje · 1 095 caracteres</h3>
+          <pre>Consulta da 1ª Semana — idade cronológica: 6 dias
+
+S
+- Parou de amamentar?: Não
+
+A matéria desta ficha vem da Caderneta da
+Criança; a organização do texto em subjetivo,
+objetivo, avaliação e plano é do produto. [...]
+
+Esta tela cobre as dez consultas datadas, da
+1.ª Semana ao 36.º Mês. Três registros das
+mesmas páginas ficaram fora desta entrega [...]
+
+Fonte: Caderneta da Criança (Ministério da
+Saúde, 2.ª ed., Brasília, 2020): pp. 66–75,
+[...] p. 68, Consulta da 1ª Semana.</pre>
+        </div>
+        <div>
+          <h3>Depois · 80 caracteres</h3>
+          <pre>Consulta da 1ª Semana — idade cronológica: 6 dias
+
+S
+- Parou de amamentar?: Não</pre>
+          <p style="margin-top:10px">O cabeçalho fica: o registro precisa dizer de que consulta se
+          trata, e a idade governa a leitura de tudo o que vem abaixo. Foi a quinta alternativa
+          descartada em <code>MD-0035</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Mini-grafo do bug</h2>
+      <div class="wrap">
+      <svg viewBox="0 0 1080 300" width="1080" height="300" role="img"
+           aria-label="Grafo com o bug ZAHV no centro, ligado por relação proposta ao bug C6LN, à microdecisão MD-0035 e à seção de spec contracts.md">
+        <a href="../../BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md">
+          <rect x="315" y="95" width="450" height="120" rx="10"
+                fill="var(--alerta-bg)" stroke="var(--alerta-borda)" stroke-width="3"/>
+          <text x="335" y="123" font-size="12" class="mono" fill="var(--sec)">#3 · ZAHV · open → diagnosing</text>
+          <text x="335" y="147" font-size="14" font-weight="700" fill="var(--tinta)">Proveniência no texto copiado</text>
+          <text x="335" y="169" font-size="12" fill="var(--sec)">critical · P0 · interface · causa: a spec</text>
+          <text x="335" y="193" font-size="12" font-weight="700" fill="var(--alerta-texto)">veredito previsto: spec-desatualizada</text>
+        </a>
+
+        <rect x="20" y="20" width="250" height="76" rx="10"
+              fill="var(--suave)" stroke="var(--borda)" stroke-width="2"/>
+        <text x="38" y="46" font-size="12" class="mono" fill="var(--sec)">MD-0035 · decisão do prescritor</text>
+        <text x="38" y="68" font-size="13" font-weight="700" fill="var(--tinta)">executa</text>
+        <text x="38" y="86" font-size="11" fill="var(--sec)">28/07 · cinco alternativas descartadas</text>
+        <line x1="270" y1="70" x2="330" y2="110" stroke="var(--sec)" stroke-width="2"/>
+
+        <rect x="20" y="215" width="250" height="76" rx="10"
+              fill="var(--suave)" stroke="var(--borda)" stroke-width="2"/>
+        <text x="38" y="241" font-size="12" class="mono" fill="var(--sec)">contracts.md · regras 5, 7, 8</text>
+        <text x="38" y="263" font-size="13" font-weight="700" fill="var(--tinta)">spec a reescrever</text>
+        <text x="38" y="281" font-size="11" fill="var(--sec)">por adendo, nunca no original</text>
+        <line x1="270" y1="245" x2="330" y2="200" stroke="var(--sec)" stroke-width="2"/>
+
+        <a href="../../BUG-20260728-C6LN-avaliar-crescimento-fora-do-quadro-medidas/bug.md">
+          <rect x="810" y="95" width="250" height="120" rx="10"
+                fill="var(--ambar-bg)" stroke="var(--ambar-borda)" stroke-width="2"/>
+          <text x="828" y="123" font-size="12" class="mono" fill="var(--sec)">#2 · C6LN · open</text>
+          <text x="828" y="147" font-size="13" font-weight="700" fill="var(--tinta)">Comando fora do</text>
+          <text x="828" y="165" font-size="13" font-weight="700" fill="var(--tinta)">quadro Medidas</text>
+          <text x="828" y="189" font-size="12" fill="var(--sec)">medium · P2 · spec-gap</text>
+        </a>
+        <line x1="765" y1="155" x2="810" y2="155" stroke="var(--mudo)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="787" y="146" font-size="10" text-anchor="middle" class="mono" fill="var(--mudo)">related-to</text>
+        <text x="787" y="172" font-size="10" text-anchor="middle" class="mono" fill="var(--mudo)">proposed</text>
+      </svg>
+      </div>
+      <p>A aresta para o <code>C6LN</code> continua tracejada: nenhum causa o outro, nenhum bloqueia
+      o outro, e os arquivos que cada um alcança são disjuntos. Esta correção não a promove nem a
+      rejeita — não produz evidência sobre ela.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Matriz de relações</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Origem</th><th>Tipo</th><th>Destino</th><th>Estado</th><th>Efeito desta correção</th></tr>
+        <tr>
+          <td><a href="../../BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md"><code>BUG-20260728-ZAHV</code></a></td>
+          <td><code>related-to</code></td>
+          <td><a href="../../BUG-20260728-C6LN-avaliar-crescimento-fora-do-quadro-medidas/bug.md"><code>BUG-20260728-C6LN</code></a></td>
+          <td><code>proposed</code></td>
+          <td>Permanece <code>proposed</code>. Sem evidência a favor ou contra.</td>
+        </tr>
+        <tr>
+          <td colspan="5"><em>Nenhuma outra aresta. Fora deste contexto,
+          <a href="../../../../motor-insulina/bugs/BUG-20260719-RHZ5-hba1c-ausente-silencioso/bug.md"><code>BUG-20260719-RHZ5</code></a>
+          está travado por <code>DONE.md</code> e é somente leitura; não há relação entre os dois.</em></td>
+        </tr>
+      </table>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Ordem de execução</h2>
+      <ol>
+        <li><strong>Gate 1</strong> — diff dos testes, aprovação, aplicação e prova de que
+        <em>falham</em>.</li>
+        <li><strong>Gate 2</strong> — diff do <code>CHG-001</code>, aprovação, aplicação e prova de
+        que os testes <em>passam</em>; suíte inteira e <code>inventariar-textos --gerar</code>
+        reconferidos contra a linha de base.</li>
+        <li><strong>Veredito de spec</strong> — recomendação <code>spec-desatualizada</code>,
+        decisão sua, e então o <code>CHG-002</code>: o adendo versionado.</li>
+        <li><strong>Fechamento</strong> — Resolution, <code>DONE.md</code>, views do contexto e
+        espelho <code>_reversa_sdd/traceability/bugs.md</code>.</li>
+      </ol>
+      <p>A sessão corrige <strong>um</strong> bug. Se o <code>C6LN</code> entrar depois, a ordem
+      entre os dois é indiferente — não há dependência causal, e é por isso que não há ordem
+      derivada do grafo a sugerir aqui.</p>
+    </section>
+
+    <p class="rodape">Plano gerado antes de qualquer escrita em código, conforme a etapa 4.1 do
+    <code>/reversa-debugger-fix</code>. Source of truth: <code>../bug.md</code>. Identidade visual:
+    tokens do design aprovado (<code>interface/estilos/globais.css</code>), iguais aos do
+    <code>graph.html</code> do contexto.</p>
+  </main>
+</body>
+</html>

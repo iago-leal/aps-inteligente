@@ -79,6 +79,52 @@ describe("A cadeia exibida e a copiada são a mesma (RF-08)", () => {
   });
 });
 
+// Reprodução de `BUG-20260728-ZAHV` no nível em que o defeito foi relatado: não o retorno de
+// uma função, mas o que o comando entrega à área de transferência. O teste de unidade prova a
+// projeção; este prova o que sai da plataforma, que é o que polui o prontuário alheio.
+describe("O que sai para a área de transferência (BUG-20260728-ZAHV, `MD-0035`)", () => {
+  it("não leva nota de proveniência nem linha da fonte para o prontuário", () => {
+    const copiar = copiaQueFunciona();
+    render(<AppConsulta copiar={copiar} dataDeHoje={CONSULTA} />);
+
+    identificar();
+    const grupo = screen.getByRole("group", { name: "Diarreia/Constipação" });
+    fireEvent.click(within(grupo).getByRole("radio", { name: "Sim" }));
+    fireEvent.click(screen.getByRole("button", { name: /copiar registro/i }));
+
+    const copiado = copiar.mock.calls[0][0] as string;
+    expect(copiado).toContain("Diarreia/Constipação: Sim");
+    expect(copiado).not.toMatch(/^Fonte: /m);
+    expect(copiado).not.toContain("a organização do texto em subjetivo");
+    expect(copiado).not.toContain("ficaram fora desta entrega");
+  });
+
+  // A terceira nota é a CONDICIONAL, e é a única que a ficha masculina nunca produz: no
+  // cenário acima, afirmar que ela não vaza passaria de graça. Aqui ela existe — 2.º Mês,
+  // ficha feminina, campo suprimido por `MD-0026` — e a asserção tem o que reprovar.
+  it("não leva a nota de supressão de campo, que só a ficha feminina produz", () => {
+    const copiar = copiaQueFunciona();
+    render(<AppConsulta copiar={copiar} dataDeHoje={CONSULTA} />);
+
+    fireEvent.click(screen.getByRole("radio", { name: "Feminino" }));
+    fireEvent.change(screen.getByLabelText("Data de nascimento"), {
+      target: { value: "2026-05-20" },
+    });
+    fireEvent.change(screen.getByLabelText("Data da consulta"), {
+      target: { value: CONSULTA },
+    });
+
+    const grupo = screen.getByRole("group", { name: "Parou de amamentar?" });
+    fireEvent.click(within(grupo).getByRole("radio", { name: "Não" }));
+    fireEvent.click(screen.getByRole("button", { name: /copiar registro/i }));
+
+    const copiado = copiar.mock.calls[0][0] as string;
+    expect(copiado).toContain("Parou de amamentar?: Não");
+    expect(copiado).not.toContain("Criptorquidia");
+    expect(copiado).not.toMatch(/^Fonte: /m);
+  });
+});
+
 // T040 (feature 020) — o fluxo inteiro visto de fora, e o que a tela NÃO tem.
 //
 // O teste negativo do ritual de revisão vale tanto quanto os positivos: ADR 0012 restringe a
@@ -161,6 +207,27 @@ describe("Proveniência e aviso, antes de qualquer preenchimento (RF-12, RF-13)"
       within(bloco).getByText(/Triagens Neonatais \(p\. 68\)/),
     ).toBeDefined();
     expect(within(bloco).getByText(/Criptorquidia/)).toBeDefined();
+  });
+
+  // Regressão de `BUG-20260728-ZAHV`, e a mais importante do conjunto. Antes do corte a
+  // declaração existia em dois lugares, e apagar este bloco deixaria a do texto copiado de pé;
+  // depois do corte, ele é o ÚNICO lugar onde RN-03, RN-08 e RN-09 se cumprem. `MD-0035` só
+  // se sustenta enquanto esta asserção passar: foi por ela que o corte deixou de ser perda de
+  // rigor e virou mudança de endereço.
+  it("é o único lugar que declara a proveniência, e declara as quatro coisas", () => {
+    render(<AppConsulta copiar={copiaQueFunciona()} dataDeHoje={CONSULTA} />);
+    const bloco = screen.getByRole("region", {
+      name: /proveniência e limites/i,
+    });
+
+    expect(
+      within(bloco).getByText(/a organização do texto em subjetivo/),
+    ).toBeDefined();
+    expect(within(bloco).getByText(/ficaram fora desta entrega/)).toBeDefined();
+    expect(within(bloco).getByText(/Criptorquidia/)).toBeDefined();
+    expect(bloco.textContent).toContain(
+      "Caderneta da Criança (Ministério da Saúde",
+    );
   });
 });
 

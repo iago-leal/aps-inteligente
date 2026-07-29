@@ -3,8 +3,8 @@ schema_version: 1
 id: BUG-20260728-ZAHV
 display_number: 3
 title: Notas de proveniência e linha da fonte atravessam para o texto copiado do registro
-status: open
-phase: triaging
+status: resolved
+phase: resolved
 severity: critical
 priority: P0
 created: 2026-07-28
@@ -24,7 +24,7 @@ security_suspected: false
 
 reproduction:
   classification: deterministic
-  rate: "1/1 observado em produção (apsinteligente.app/puericultura/consulta, print de 28/07)"
+  rate: "1/1 observado em produção (print de 28/07); 2/2 na cápsula isolada (evidence/reproduction.md, commit base 3642ba6)"
   suspected_triggers: []
 
 blocking: []
@@ -45,18 +45,60 @@ traceability:
     - "interface/puericultura/consulta/formatar-registro.ts:25-47 — parteDaFonte e a montagem da cadeia final"
     - "models/puericultura/consulta/registro.ts:205-229 — notasDe, origem das três notas no registro"
     - "models/puericultura/consulta/registro.ts:231-249 — referenciasDe, origem da linha da fonte"
-  root_cause: null
-  reproduction_tests: []
-  regression_tests: []
+  root_cause:
+    state: confirmed
+    where: "_reversa_sdd/models-puericultura-consulta/contracts.md § Regras da forma, regra 7 — a SPEC, não o código. Materializada em interface/puericultura/consulta/formatar-registro.ts:40,46."
+    born: "feature 020 (contrato de origem `_reversa_forward/020-.../interfaces/registro-soap.md` § 2, regra 7). Não é regressão: o comportamento nunca foi outro. Bisect inaplicável — não existe commit bom conhecido."
+    summary: >-
+      Não há defeito de implementação. `formatarRegistro` soma as notas e a linha da fonte à
+      cadeia porque a regra 7 do contrato manda, e a regra remonta a RN-03, RN-08 e RN-09 da
+      feature 020, que exigem declarar ao leitor a autoria do arranjo em SOAP, as três fichas
+      fora da entrega e a supressão de campo na ficha feminina. O erro está na premissa da
+      regra, não no seu cumprimento: ela supôs que a declaração obrigatória devia acompanhar o
+      artefato emitido, quando o destinatário dela é quem opera a plataforma. Depois de colada
+      num prontuário, a mesma informação não instrui ninguém e vira ruído num documento cuja
+      função é outra.
+    evidence:
+      - "evidence/reproduction.md — cápsula determinística 2/2 sobre o domínio real, sem navegador; proveniência mede 1 015 de 1 095 caracteres (93%) num registro de um campo"
+      - "leitura do fluxo: formatar-registro.ts:40 e :46 são as ÚNICAS origens das quatro partes observadas; nenhuma outra função contribui para a cadeia"
+      - "tests/unit/interface/formatar-registro.test.ts:82 (as-is) afirmava o comportamento COMO CONTRATO, o que prova intenção e não acidente"
+      - "prova de que a declaração nunca dependeu do texto copiado: a regressão do bloco de proveniência da tela já passava ANTES do corte"
+  reproduction_tests:
+    - "tests/unit/interface/formatar-registro.test.ts — 'não carrega nota de proveniência nem linha da fonte (regra 7, adendo ZAHV)' e 'fecha no último item da última seção preenchida' (vermelhos em 3642ba6; Gate 1 aprovado 2026-07-28)"
+    - "tests/integration/interface/consulta-puericultura.test.tsx — describe 'O que sai para a área de transferência', dois casos: ficha masculina e ficha feminina do 2.º Mês, esta com a nota condicional de supressão (vermelhos em 3642ba6)"
+  regression_tests:
+    - "tests/unit/interface/formatar-registro.test.ts — describe 'Forma exata da cadeia (regressão de BUG-20260728-ZAHV)': fixa a cadeia INTEIRA, de modo que qualquer bloco novo depois da última seção reprove, que é o modo de falha por onde a proveniência entrou"
+    - "tests/integration/interface/consulta-puericultura.test.tsx — 'é o único lugar que declara a proveniência, e declara as quatro coisas': guarda a declaração que RN-03, RN-08 e RN-09 exigem, agora que a tela é o único lugar onde ela se cumpre"
+    - "Vizinhança intacta: os oito casos remanescentes do contrato §2, o describe de RF-08 (identidade byte a byte) e os 9 testes e2e da rota, incluindo axe e a guarda geométrica do registro longo"
 
-spec_verdict: null
+spec_verdict:
+  verdict: spec-desatualizada
+  addendum: "_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md"
+  decided_by: iago
+  decided_at: 2026-07-28
 
-change_set: []
+change_set:
+  - id: CHG-001
+    kind: code
+    artifact: "interface/puericultura/consulta/formatar-registro.ts"
+    diff: "fix/CHG-001.diff"
+  - id: CHG-002
+    kind: specification
+    artifact: "_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md"
+    diff: null
+  - id: CHG-003
+    kind: test
+    artifact: "tests/unit/interface/formatar-registro.test.ts"
+    diff: "fix/CHG-003.diff"
+  - id: CHG-004
+    kind: test
+    artifact: "tests/integration/interface/consulta-puericultura.test.tsx"
+    diff: "fix/CHG-004.diff"
 
 closure:
   policy: local-software
-  satisfied: false
-resolution_kind: null
+  satisfied: true
+resolution_kind: fixed
 ---
 
 # Notas de proveniência e linha da fonte atravessam para o texto copiado do registro
@@ -172,9 +214,10 @@ de spec, não deste registro.
 |---|---|
 | Spec efetiva | `contracts.md#regras-da-forma` regra 7 e `#forma-do-texto-emitido`; contrato de origem em `_reversa_forward/020-.../interfaces/registro-soap.md#2-forma` |
 | Código afetado | `formatar-registro.ts:25-47`; `models/puericultura/consulta/registro.ts:205-249` |
-| Testes que travam o comportamento atual | `tests/unit/interface/formatar-registro.test.ts:82` — "fecha com as notas de proveniência e a linha da fonte (regra 7)"; `tests/unit/dominio-puericultura/consulta-registro.test.ts:174` — a nota da organização em SOAP no registro estruturado |
-| Testes de reprodução | a criar no `/reversa-debugger-fix` |
-| Testes de regressão | a criar no `/reversa-debugger-fix` |
+| Testes que travavam o comportamento | `tests/unit/interface/formatar-registro.test.ts:82` — reescrito no lugar pelo `CHG-003`. `consulta-registro.test.ts:174` **não** travava: afirma a estrutura do domínio, que permaneceu; seguiu verde sem ser tocado |
+| Testes de reprodução | `formatar-registro.test.ts` (2 casos) e `consulta-puericultura.test.tsx` (2 casos, um deles com a nota condicional da ficha feminina) |
+| Testes de regressão | `formatar-registro.test.ts` describe "Forma exata da cadeia"; `consulta-puericultura.test.tsx` "é o único lugar que declara a proveniência" |
+| Spec efetiva **após** o fix | `_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md` (vigente desde 28/07) sobre `contracts.md` |
 
 ## Agent Notes
 
@@ -198,3 +241,92 @@ de spec, não deste registro.
   `module: models-puericultura-consulta` e `module: interface-puericultura-consulta`, e
   `feature: consulta-puericultura-soap`. Enquanto não houver decisão, ambos os bugs deste contexto
   ficam com `module: unclassified` e `feature: unclassified`.
+
+---
+
+## Resolution
+
+> Fechado em 2026-07-28 pelo `/reversa-debugger-fix`, com os dois gates aprovados e veredito de
+> spec decidido pelo usuário. `resolution_kind: fixed`.
+
+### Causa raiz · estado `confirmed`
+
+**Não era defeito de implementação: o código era fiel à spec.** A cadeia carregava a proveniência
+porque a regra 7 de `contracts.md` mandava, e a regra remontava a RN-03, RN-08 e RN-09 da feature
+020. O erro estava na premissa da regra — que a declaração obrigatória devia acompanhar o artefato
+emitido —, não no seu cumprimento. Por isso a correção começou pela spec, e o adendo é
+pré-requisito do fechamento, não consequência dele.
+
+Três achados da investigação corrigiram o que o registro previa, todos a favor de um change set
+menor:
+
+1. **A spec afetada era maior que a regra 7.** O corte revoga também a regra 8 de `contracts.md`
+   (composição da linha da fonte), emenda a regra 5 e reescreve o § Forma do texto emitido.
+2. **Só um teste vigente mudou de sentido, não dois.** `consulta-registro.test.ts:174` afirma a
+   estrutura do domínio, que permaneceu intacta; seguiu verde sem ser tocado.
+3. **A superfície textual não se moveu.** O `Fonte:` do formatador não constava do inventário —
+   fica abaixo do corte de duas palavras e fora de posição de exibição. Conferido antes e depois:
+   1 187 literais nas duas vezes, `inventario-textual.json` sem diff.
+
+### Veredito de spec
+
+`spec-desatualizada`, decidido por iago em 2026-07-28. Adendo versionado e imutável em
+`_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md`, alcançando o § Forma do texto emitido e as
+regras 5, 7 e 8 de `contracts.md`. A spec original não foi editada.
+
+O adendo abre com uma **advertência de numeração**, porque as duas specs numeram diferente: em
+`registro-soap.md` a regra 8 é "nenhum identificador da criança" (RN-12), que **permanece vigente**
+e tem teste próprio. Sem a advertência, o leitor futuro concluiria que suprimimos uma proteção de
+privacidade.
+
+### Correction Change Set
+
+| CHG | Tipo | Artefato | O que fez |
+|---|---|---|---|
+| `CHG-001` | `code` | `interface/puericultura/consulta/formatar-registro.ts` | Removeu `parteDaFonte` e a montagem de `notas`; a cadeia passou a ser cabeçalho + seções. −13 linhas de código, +14 de comentário. Diff em `fix/CHG-001.diff` |
+| `CHG-002` | `specification` | `_reversa_sdd/addenda/bug-BUG-20260728-ZAHV-v001.md` | O adendo acima |
+| `CHG-003` | `test` | `tests/unit/interface/formatar-registro.test.ts` | Reescreveu no lugar o teste da regra 7 e acrescentou a guarda de forma exata. Diff em `fix/CHG-003.diff` |
+| `CHG-004` | `test` | `tests/integration/interface/consulta-puericultura.test.tsx` | Reprodução no nível do clipboard (dois cenários) e a regressão da declaração na tela. Diff em `fix/CHG-004.diff` |
+
+`CHG-003` e `CHG-004` receberam ID depois do plano, que os tratava só como "testes do Gate 1": todo
+arquivo tocado entra no change set, ou o registro descreve menos do que o commit contém.
+
+**Nenhum reparo de dados.** O produto não persiste registro algum (ADR 0002, 100% client-side). O
+que já foi colado em prontuário está fora do alcance de qualquer correção nossa, e é a assimetria
+que o próprio contrato declara como risco.
+
+### Prova vermelho → verde
+
+| Momento | Suíte | e2e |
+|---|---|---|
+| Linha de base (`3642ba6`) | 816/816 em 67 arquivos | — |
+| Após o Gate 1 | **5 falham** / 816 passam (821) | — |
+| Após o `CHG-001` | **821/821** em 67 arquivos, 8,1 s | **9/9**, axe zero violação |
+
+As cinco que falharam foram as três de reprodução mais a guarda de forma exata; a sexta asserção
+nova — a regressão do bloco de proveniência da tela — **já passava antes do corte**, e é a prova
+empírica do argumento de `MD-0035`: a declaração nunca dependeu do texto copiado, apenas estava
+duplicada nele.
+
+Guardrails reconferidos contra a linha de base: `tsc --noEmit` limpo, `eslint` limpo,
+`inventariar-textos.mts --gerar` sem diff.
+
+### Perda declarada e aceita
+
+A linha da fonte trazia a localização exata da ficha aberta (`p. 68, Consulta da 1ª Semana`), e o
+bloco da tela exibe apenas a cobertura `pp. 66–75`. A página específica deixou de ser exibida em
+qualquer superfície. Apresentada no plano e **aceita pelo usuário em 28/07**: a cobertura contém a
+página, o nome publicado da fonte permanece na tela por `MD-0021`, e nenhuma norma exige precisão
+maior que o intervalo.
+
+### Fronteira decidida
+
+`RegistroDaConsulta` continua carregando `notas` e `referencias`. O contrato reescrito é de saída
+emitida; a estrutura documenta o que o registro declara, e a projeção decide o que emite. Os dois
+campos ficam sem consumidor de produção — o único era o formatador —, o que está dito em voz alta
+no adendo para que ninguém conclua, daqui a doze meses, que sobraram por descuido.
+
+### Closure policy
+
+`local-software` satisfeita: testes de regressão passando **e** veredito de spec com adendo
+versionado. Sem `delivery` e sem `post_fix_observation`, que a política não exige.

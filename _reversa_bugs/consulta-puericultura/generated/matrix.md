@@ -1,4 +1,4 @@
-<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-graph em 2026-07-28T21:50:00Z a partir de 2 bugs -->
+<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-fix em 2026-07-28T22:30:00Z a partir de 2 bugs -->
 
 # Matriz de relações BUG↔BUG — contexto `consulta-puericultura`
 
@@ -7,6 +7,11 @@ Lista esparsa de arestas (`origem | tipo | destino | state | evidência`).
 | Origem | Tipo | Destino | State | Evidência |
 |---|---|---|---|---|
 | BUG-20260728-ZAHV | related-to | BUG-20260728-C6LN | proposed | — |
+
+A aresta **permanece `proposed`** depois do fechamento do ZAHV em 28/07: a correção não produziu
+evidência a favor nem contra ela, e promover uma relação por ter corrigido uma das pontas seria
+confundir vizinhança com causa. O ZAHV está travado por `DONE.md`, mas a aresta segue legível pelas
+duas leituras — o registro do C6LN continua a incluí-la.
 
 ## Inversas derivadas
 

@@ -1,0 +1,57 @@
+diff --git a/interface/puericultura/consulta/formatar-registro.ts b/interface/puericultura/consulta/formatar-registro.ts
+index ddc6055..ff7ce98 100644
+--- a/interface/puericultura/consulta/formatar-registro.ts
++++ b/interface/puericultura/consulta/formatar-registro.ts
+@@ -4,8 +4,21 @@
+ //
+ // É A SAÍDA PRINCIPAL DA FEATURE. O produto desta tela é um registro, não um número, e ele
+ // atravessa para fora da plataforma por colagem num prontuário. A forma tem contrato escrito
+-// em `_reversa_forward/020-consulta-puericultura-soap/interfaces/registro-soap.md`, e as oito
+-// regras do §2 de lá são o que este arquivo realiza.
++// em `_reversa_forward/020-consulta-puericultura-soap/interfaces/registro-soap.md`, e as
++// regras do §2 de lá são o que este arquivo realiza — todas menos a 7, revogada pelo adendo
++// `bug-BUG-20260728-ZAHV-v001`.
++//
++// O QUE ESTE TEXTO NÃO CARREGA, E POR QUÊ. Até 28/07 a cadeia fechava com as notas de
++// proveniência e a linha da fonte, e num registro de um campo só elas ocupavam 93% do texto
++// colado no prontuário do paciente. A decisão `MD-0035` mudou o endereço da declaração, não a
++// sua obrigação: quem precisa saber que a organização em SOAP é do produto é o médico que lê
++// a tela ANTES de preencher, e é lá que `proveniencia.tsx` a exibe, importando as mesmas
++// constantes de `fonte-clinica.ts` que o domínio carrega. Depois de colada num prontuário, a
++// mesma informação não instrui ninguém e vira ruído num documento cuja função é outra.
++//
++// `RegistroDaConsulta` segue carregando `notas` e `referencias`: a estrutura documenta o que
++// o registro declara, e é a projeção que decide o que emite. São os dois lados da mesma
++// fronteira, e o corte fica deste.
+ //
+ // UMA FUNÇÃO, UMA VARIÁVEL, DOIS CONSUMIDORES. A tela exibe o retorno desta função e o
+ // comando de cópia entrega o mesmo valor. A identidade que RF-08 exige é assim propriedade da
+@@ -22,27 +35,12 @@ function parteDaSecao(secao: SecaoDoRegistro): string {
+   return [secao.secao, ...linhas].join("\n");
+ }
+ 
+-/** Regra 7: as notas fecham o texto, e a linha da fonte fecha as notas. */
+-function parteDaFonte(registro: RegistroDaConsulta): string {
+-  const localizacoes = registro.referencias
+-    .map((referencia) => referencia.localizacao)
+-    .join("; ");
+-  const edicao = registro.referencias[0]?.versaoEdicao ?? "";
+-  return `Fonte: ${edicao}: ${localizacoes}.`;
+-}
+-
+ export function formatarRegistro(registro: RegistroDaConsulta): string {
+   // Contrato §4: sem campo preenchido não há registro a produzir, e entregar cabeçalhos
+   // vazios seria pior que entregar nada — afirmaria averiguação que não houve.
+   if (registro.secoes.length === 0) return "";
+ 
+   const cabecalho = `${registro.ficha.titulo} — ${registro.idadeDeclarada.texto}`;
+-  const notas = registro.notas.map((nota) => nota.mensagem).join("\n\n");
+ 
+-  return [
+-    cabecalho,
+-    ...registro.secoes.map(parteDaSecao),
+-    notas,
+-    parteDaFonte(registro),
+-  ].join("\n\n");
++  return [cabecalho, ...registro.secoes.map(parteDaSecao)].join("\n\n");
+ }
