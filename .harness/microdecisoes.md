@@ -33,3 +33,4 @@
 - **MD-0031** — O código HTTP responde pela rota, o corpo responde pela dependência, e o que não serve o produto não derruba o sinal
 - **MD-0032** — A rota separada é a resposta certa para um problema que ainda não existe, e o gatilho que a autoriza fica escrito
 - **MD-0033** — Número que a máquina pode medir, a extração mede; número que só a fonte declara, a extração cita
+- **MD-0034** — Vira ADR o que muda uma leitura estrutural da extração; o resto é regra de domínio
