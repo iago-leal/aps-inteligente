@@ -40,3 +40,4 @@
 - **MD-0038** — A fonte que só existe como página se congela datada, e o que nela é marcação visual se transcreve com a procedência declarada
 - **MD-0039** — A fonte volátil se confere à mão, e a dívida se declara no requisito em vez de virar surpresa
 - **MD-0040** — Um guarda confere o produto contra a cópia, o outro conferiria a cópia contra a fonte, e só o primeiro entra
+- **MD-0041** — Coincidir com a fonte não faz de um literal uma citação; o que faz é ele carregar conteúdo da fonte
