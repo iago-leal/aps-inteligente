@@ -76,4 +76,19 @@ export const CATALOGO: readonly SecaoDaPlataforma[] = Object.freeze([
       }),
     ]),
   }),
+  // Feature 023 (RF-12; RN-13): quinta seção. Diff estritamente aditivo — as seis fichas
+  // anteriores permanecem byte a byte, e `tests/integration/interface/inicio.test.tsx` o
+  // prova por lista ordenada exaustiva.
+  Object.freeze({
+    id: "saude-do-idoso",
+    titulo: "Saúde da pessoa idosa",
+    calculadoras: Object.freeze([
+      Object.freeze({
+        titulo: "Rastreamento de depressão na pessoa idosa",
+        descricao:
+          "Escala de Depressão Geriátrica em quinze itens, com o escore e a faixa na redação das Linhas de Cuidado (Ministério da Saúde).",
+        rota: "/saude-do-idoso/depressao-gds",
+      }),
+    ]),
+  }),
 ]);

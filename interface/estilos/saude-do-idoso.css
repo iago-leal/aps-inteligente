@@ -1,0 +1,67 @@
+/* Feature 023 (RF-13; roadmap D-12): estilo das peças novas da tela de rastreamento de
+   depressão na pessoa idosa, sobre tokens Primer (zero cor própria). globais.css
+   permanece intocado — folha própria, importada em _app.tsx depois dos globais.
+   Classes genéricas (formulario, grupo-campos, painel-resultado, bloco-fonte,
+   lista-ofensores, dado-clinico) vêm de globais/cardiologia e seguem sem regra própria,
+   como ganchos semânticos.
+
+   NENHUMA PROPRIEDADE HORIZONTAL DE COLUNA, e a razão é `MD-0029`: a Moldura é dona do
+   enquadramento, e tela que declare largura, recuo lateral ou centragem do corpo aninha
+   coluna dentro de coluna e desalinha o cabeçalho — que foi o defeito que a feature 013
+   pagou caro para descobrir e a 021 fechou. O que esta folha cuida é do eixo VERTICAL do
+   questionário e do arranjo interno de cada item, que é outra coisa: o par de opções de
+   um item fica lado a lado porque são duas respostas de uma pergunta, e não porque a
+   tela esteja distribuindo largura. */
+
+/* A prosa que diz a quem o instrumento se dirige. Ela precede a escala porque é o que
+   decide se aplicá-la faz sentido, e não é nota de rodapé: sem campo de idade nem regra
+   de recusa (RN-07), esta frase é a única coisa entre o produto e um uso fora do público
+   previsto. Daí o destaque discreto, e não a cor apagada das notas de campo. */
+.gds-publico {
+  margin-block-end: var(--stack-gap-normal, 1rem);
+  padding-inline-start: var(--stack-padding-condensed, 0.5rem);
+  border-inline-start: var(--borderWidth-thick, 2px) solid
+    var(--borderColor-muted, #d0d7de);
+}
+
+/* Cada item da escala: a pergunta acima, as duas respostas abaixo. O ritmo vertical
+   constante é o que permite percorrer quinze itens sem perder o lugar. */
+.gds-item {
+  border: 0;
+  padding: 0;
+  margin-block: var(--stack-gap-condensed, 0.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stack-gap-condensed, 0.5rem);
+  align-items: baseline;
+}
+
+.gds-item + .gds-item {
+  padding-block-start: var(--stack-gap-condensed, 0.5rem);
+  border-block-start: 1px solid var(--borderColor-muted, #d0d7de);
+}
+
+/* A `legend` de um `fieldset` em `display: flex` não participa do fluxo do contêiner,
+   e é por isso que ela ocupa a linha inteira por declaração explícita: sem isso, a
+   pergunta e as respostas disputariam a mesma linha em telas estreitas. */
+.gds-item > legend {
+  float: left;
+  width: 100%;
+  margin-block-end: var(--stack-gap-condensed, 0.5rem);
+}
+
+/* Linha de auditoria do resultado: os limites que a fonte dá à faixa exibida. Texto de
+   conferência, não de leitura principal. */
+.gds-corte {
+  color: var(--fgColor-muted, #59636e);
+}
+
+.gds-providencia {
+  margin-block: var(--stack-gap-normal, 1rem);
+}
+
+/* A referência que a PRÓPRIA FONTE cita sob a tabela: procedência da procedência, e por
+   isso discreta ao lado das localizações da unit. */
+.gds-referencia-da-fonte {
+  color: var(--fgColor-muted, #59636e);
+}

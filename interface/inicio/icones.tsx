@@ -3,6 +3,7 @@
 // Seção futura sem entrada aqui simplesmente não exibe ícone (fallback null);
 // os ícones são decorativos (aria-hidden): o nome acessível segue sendo o texto.
 import {
+  AccessibilityIcon,
   BeakerIcon,
   CalendarIcon,
   HeartIcon,
@@ -16,6 +17,11 @@ const ICONES_POR_SECAO: Readonly<Record<string, Icon>> = {
   cardiologia: HeartIcon,
   // Feature 017 (D-12): `PersonIcon` é genérico demais e `HeartIcon` já designa cardiologia.
   puericultura: SmileyIcon,
+  // Feature 023: `AccessibilityIcon` designa a pessoa, e não o instrumento — a seção há de
+  // receber outros da avaliação multidimensional. `PersonIcon` continua genérico demais, e
+  // `SmileyIcon` já designa a puericultura, de modo que qualquer variante de rosto
+  // confundiria as duas seções de ciclo de vida.
+  "saude-do-idoso": AccessibilityIcon,
 };
 
 export function IconeDaSecao({ id }: { readonly id: string }) {

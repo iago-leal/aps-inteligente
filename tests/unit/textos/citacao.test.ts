@@ -61,6 +61,20 @@ const SUBARVORES_COM_ORACULO_PROPRIO: ReadonlyArray<{
       "tests/unit/dominio-puericultura/consulta-transcricao.test.ts, que confere cada rótulo " +
       "contra o texto congelado das pp. 66–75 da caderneta (feature 020, D-12)",
   },
+  // Feature 023 (D-10). Segunda entrada da lista, e a primeira aberta por quem não abriu a
+  // porta: a escala vem de página web, e o oráculo confere o domínio contra a cópia datada
+  // dela, congelada por `scripts/congelar-fonte-gds.mts`. O que se isenta é o SURGIMENTO de
+  // citação nova; sumiço e alteração continuam reprovando aqui, inclusive dentro desta
+  // subárvore, porque alterar um item transcrito é precisamente o evento contra o qual este
+  // verificador existe. Quem alterar terá de mexer no congelado, e o `git diff` do congelado
+  // é leitura humana obrigatória.
+  {
+    prefixo: "models/depressao-geriatrica/",
+    oraculo:
+      "tests/unit/dominio-depressao-geriatrica/transcricao.test.ts, que confere os quinze " +
+      "enunciados, a resposta que pontua de cada item, os três rótulos de faixa com os seus " +
+      "cortes e a providência contra `tests/apoio/gds-fonte-congelada.json` (feature 023, D-09)",
+  },
 ];
 
 function temOraculoProprio(chave: string): boolean {

@@ -423,6 +423,11 @@ export const MAPA: MapaDeClasses = {
       // Segunda ficha da seção Puericultura (feature 020).
       "Ficha de consulta de puericultura",
       "As dez consultas datadas da Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020) em ficha preenchível, com o registro pronto em SOAP para colar no prontuário.",
+      // Quinta seção (feature 023). O catálogo é fonte única das seções, e por isso as três
+      // linhas entram aqui e não no módulo próprio da tela nova: o arquivo é o do catálogo.
+      "Saúde da pessoa idosa",
+      "Rastreamento de depressão na pessoa idosa",
+      "Escala de Depressão Geriátrica em quinze itens, com o escore e a faixa na redação das Linhas de Cuidado (Ministério da Saúde).",
     ]),
   ],
 

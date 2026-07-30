@@ -28,7 +28,9 @@
 import { MAPA as MODELS_PUERICULTURA_CONSULTA } from "./classes/models-puericultura-consulta.mts";
 import { MAPA as MODELS_PUERICULTURA } from "./classes/models-puericultura.mts";
 import { MAPA as MODELS_INSULINA } from "./classes/models-insulina.mts";
+import { MAPA as MODELS_DEPRESSAO_GERIATRICA } from "./classes/models-depressao-geriatrica.mts";
 import { MAPA as MODELS_DEMAIS } from "./classes/models-demais.mts";
+import { MAPA as INTERFACE_SAUDE_DO_IDOSO } from "./classes/interface-saude-do-idoso.mts";
 import { MAPA as INTERFACE } from "./classes/interface.mts";
 import {
   MAPA as PAGES_E_ARQUIVOS,
@@ -98,9 +100,24 @@ const MODULOS: ReadonlyArray<{
     cobre: (a) => a.startsWith("models/insulina/"),
   },
   {
+    nome: "scripts/textos/classes/models-depressao-geriatrica.mts",
+    mapa: MODELS_DEPRESSAO_GERIATRICA,
+    cobre: (a) => a.startsWith("models/depressao-geriatrica/"),
+  },
+  {
     nome: "scripts/textos/classes/models-demais.mts",
     mapa: MODELS_DEMAIS,
     cobre: (a) => a.startsWith("models/"),
+  },
+  // Feature 023 (D-11): começa a partição que a dívida 3 pede. O predicado alcança a tela e a
+  // casca da sua rota, e por isso vem ANTES tanto de `interface.mts` quanto de
+  // `pages-e-arquivos.mts` — a ordem é o que faz a mensagem de erro apontar o módulo certo.
+  {
+    nome: "scripts/textos/classes/interface-saude-do-idoso.mts",
+    mapa: INTERFACE_SAUDE_DO_IDOSO,
+    cobre: (a) =>
+      a.startsWith("interface/saude-do-idoso/") ||
+      a.startsWith("pages/saude-do-idoso/"),
   },
   {
     nome: "scripts/textos/classes/interface.mts",
@@ -121,7 +138,7 @@ function chave(arquivo: string, texto: string): string {
 }
 
 /**
- * Agrega os cinco módulos numa tabela só, reprovando declaração repetida entre módulos.
+ * Agrega os módulos numa tabela só, reprovando declaração repetida entre módulos.
  * Repetição não é erro benigno: significa que o mesmo literal tem duas classes declaradas,
  * e a que prevaleceria dependeria da ordem de importação — decisão por acidente.
  */

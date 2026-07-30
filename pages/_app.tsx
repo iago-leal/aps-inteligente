@@ -29,6 +29,7 @@ import "interface/estilos/cardiologia.css";
 import "interface/estilos/risco-cardiovascular.css";
 import "interface/estilos/puericultura.css";
 import "interface/estilos/consulta-puericultura.css";
+import "interface/estilos/saude-do-idoso.css";
 import "interface/estilos/contribuicao.css";
 
 import { ProvedorTemaPrimer } from "interface/calculadora/provedor-tema";

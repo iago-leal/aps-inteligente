@@ -12,6 +12,7 @@ as calculadoras vivem em rotas próprias, cada uma com sua fonte clínica citáv
 | Cardiologia              | Risco cardiovascular em 10 anos (ASCVD)                                     | `/cardiologia/risco-cardiovascular` | 2013 ACC/AHA Guideline — Pooled Cohort Equations (Goff et al., 2014)                                 | `models/risco-cardiovascular/`  |
 | Puericultura             | Crescimento infantil (peso, comprimento/estatura, IMC e perímetro cefálico) | `/puericultura/crescimento`         | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 85–97 (curvas OMS e INTERGROWTH-21st) | `models/puericultura/`          |
 | Puericultura             | Ficha de consulta (dez consultas datadas, registro em SOAP)                 | `/puericultura/consulta`            | Caderneta da Criança (Ministério da Saúde, 2.ª ed., 2020), pp. 66–75 (Acompanhamento da Criança)      | `models/puericultura/consulta/` |
+| Saúde da pessoa idosa    | Rastreamento de depressão (GDS, quinze itens)                               | `/saude-do-idoso/depressao-gds`     | Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (acesso em 30/07/2026)   | `models/depressao-geriatrica/`  |
 
 Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell
 em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).
@@ -308,7 +309,7 @@ publicado à frente por commits de governança como estar em dia. Comparar com o
 que sustentou, por quatro sessões de julho de 2026, uma pendência de "produção defasada" que
 não existia.
 
-A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na
+A raiz (`/`) deve renderizar a home com as cinco seções, e cada calculadora deve abrir na
 sua rota. Roteiro completo:
 `_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e
 `_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.

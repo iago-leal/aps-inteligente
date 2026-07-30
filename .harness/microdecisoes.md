@@ -36,3 +36,7 @@
 - **MD-0034** — Vira ADR o que muda uma leitura estrutural da extração; o resto é regra de domínio
 - **MD-0035** — A proveniência se declara a quem lê a tela, e não viaja no texto que sai da plataforma
 - **MD-0036** — O corte fica na projeção, e a estrutura que sobra se declara em vez de sumir
+- **MD-0037** — O requisito nasce sem a fonte, e o que só a fonte pode dizer fica em branco declarado
+- **MD-0038** — A fonte que só existe como página se congela datada, e o que nela é marcação visual se transcreve com a procedência declarada
+- **MD-0039** — A fonte volátil se confere à mão, e a dívida se declara no requisito em vez de virar surpresa
+- **MD-0040** — Um guarda confere o produto contra a cópia, o outro conferiria a cópia contra a fonte, e só o primeiro entra

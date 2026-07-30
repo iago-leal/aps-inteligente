@@ -433,8 +433,9 @@ test("o corpo de toda tela encaixa na coluna do cabeçalho em viewport largo (RF
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
 
-  // T004 (feature 021): a home entra como SÉTIMO caso, à parte da lista
-  // derivada. O catálogo não a declara, porque ela não calcula nada; mas é a
+  // T004 (feature 021): a home entra como ÚLTIMO caso, à parte da lista
+  // derivada — que a feature 023 levou a sete rotas, e que há de crescer de novo.
+  // O catálogo não a declara, porque ela não calcula nada; mas é a
   // única tela da variante `destaque` e a que cede max-width em duas folhas de
   // uma vez. Deixá-la fora seria confiar a invariância de uma variante inteira à
   // inspeção visual. A aferição é a mesma das demais e nada fica chumbado: o

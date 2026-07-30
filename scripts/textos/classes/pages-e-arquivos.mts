@@ -20,7 +20,10 @@ export const MAPA: MapaDeClasses = {
   "pages/index.tsx": [
     ...autorais([
       "APS Inteligente · Calculadoras clínicas para a APS",
-      "Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura. Cálculo 100% no navegador: nada é salvo nem enviado.",
+      // Feature 023: a quinta seção entra na enumeração. A forma positiva de
+      // `tests/unit/textos/descricao-plataforma.test.ts` é o que obriga esta linha a
+      // acompanhar o catálogo, e foi ela que reprovou a entrega até a atualização.
+      "Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia, Puericultura e Saúde da pessoa idosa. Cálculo 100% no navegador: nada é salvo nem enviado.",
     ]),
     ...identificadores(ATRIBUTOS_DE_HTML),
   ],

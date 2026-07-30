@@ -1,16 +1,10 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/022-status-healthcheck-e-deploy",
-  "feature-id": "022",
-  "short-name": "status-healthcheck-e-deploy",
-  "started-at": "2026-07-28T19:29:03.226353Z",
+  "feature-dir": "_reversa_forward/023-saude-do-idoso-gds",
+  "feature-id": "023",
+  "short-name": "saude-do-idoso-gds",
+  "started-at": "2026-07-30T12:34:31Z",
   "current-stage": "coding",
-  "stages-completed": [
-    "requirements",
-    "clarify",
-    "plan",
-    "to-do",
-    "coding"
-  ],
+  "stages-completed": ["requirements", "clarify", "plan", "to-do", "coding"],
   "paused-features": []
 }

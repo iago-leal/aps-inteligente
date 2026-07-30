@@ -154,7 +154,32 @@ describe("Bloco de apoio na home (feature 019; RF-05/RF-11)", () => {
       // anteriores permanecem byte a byte, e é isso que RF-01 daquela feature promete —
       // o diff no catálogo é aditivo, e este oráculo é o que o prova.
       "/puericultura/consulta",
+      // Feature 023 (RF-12): a quinta seção entra com a sua única ficha. As seis entradas
+      // acima permanecem byte a byte, e a lista continua sendo ordenada e exaustiva: é o
+      // que a torna capaz de reprovar tanto o acréscimo silencioso quanto o reordenamento.
+      "/saude-do-idoso/depressao-gds",
     ]);
+  });
+});
+
+// T025 (feature 023-saude-do-idoso-gds) — a home ganha a quinta seção (RF-12). As
+// asserções anteriores permanecem byte a byte.
+describe("Seção Saúde da pessoa idosa na home (feature 023; RF-12)", () => {
+  it("a home passa a exibir cinco seções e sete fichas", () => {
+    render(<TelaInicio />);
+    expect(CATALOGO).toHaveLength(5);
+    expect(CATALOGO.flatMap((secao) => secao.calculadoras)).toHaveLength(7);
+  });
+
+  it("exibe a seção com a calculadora de rastreamento e a rota correspondente", () => {
+    render(<TelaInicio />);
+    expect(
+      screen.getByRole("heading", { name: /^saúde da pessoa idosa$/i }),
+    ).toBeTruthy();
+    const link = screen.getByRole("link", {
+      name: /rastreamento de depressão na pessoa idosa/i,
+    });
+    expect(link.getAttribute("href")).toBe("/saude-do-idoso/depressao-gds");
   });
 });
 

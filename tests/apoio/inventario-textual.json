@@ -10,18 +10,18 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 1187,
+    "literais": 1245,
     "porClasse": {
-      "autoral": 653,
-      "citacao": 472,
-      "identificador": 62
+      "autoral": 680,
+      "citacao": 498,
+      "identificador": 67
     },
     "porCamada": {
-      "models": 544,
-      "interface": 379,
-      "pages": 38,
+      "models": 574,
+      "interface": 401,
+      "pages": 43,
       "manifesto": 3,
-      "readme": 223
+      "readme": 224
     }
   },
   "literais": [
@@ -231,6 +231,242 @@
       "classe": "autoral",
       "texto": "Valor sugerido inválido: informe um número positivo e finito, ou omita o campo para deixar o valor à escolha de quem contribui.",
       "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/calculadora.ts",
+      "linha": 64,
+      "classe": "identificador",
+      "texto": "Resultado sem referência clínica",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/classificacao.ts",
+      "linha": 21,
+      "classe": "citacao",
+      "texto": "se considera normal",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), \"Avaliações dos resultados\""
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/classificacao.ts",
+      "linha": 22,
+      "classe": "citacao",
+      "texto": "indica depressão leve",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), \"Avaliações dos resultados\""
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/classificacao.ts",
+      "linha": 23,
+      "classe": "citacao",
+      "texto": "depressão severa",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), \"Avaliações dos resultados\""
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 17,
+      "classe": "citacao",
+      "texto": "Ministério da Saúde, acesso em 30/07/2026",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`)"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 20,
+      "classe": "identificador",
+      "texto": "Escala de Depressão Geriátrica (GDS)",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 32,
+      "classe": "citacao",
+      "texto": "Tabela da escala, quinze itens (a resposta que pontua vem marcada na célula)",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`)"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 35,
+      "classe": "citacao",
+      "texto": "Nota de pontuação sob a tabela (um ponto por item marcado)",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`)"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 37,
+      "classe": "citacao",
+      "texto": "Avaliações dos resultados (três faixas de escore)",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`)"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 38,
+      "classe": "citacao",
+      "texto": "Providências com os achados/resultados",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`)"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 53,
+      "classe": "citacao",
+      "texto": "escores elevados sugerem encaminhamento para avaliação neuropsicológica específica.",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), \"Providências com os achados/resultados\""
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 57,
+      "classe": "citacao",
+      "texto": "Considerar 1 ponto quando os itens em cinza (sim ou não) estiverem marcados.",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), nota de pontuação sob a tabela"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 65,
+      "classe": "citacao",
+      "texto": "Fonte: J Psychiatr Res. 1982-1983; 17(1): 37-49 e Arq Neuropsiquiatr. 1999; 57(2-B): 421-426",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), legenda sob a tabela"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "A escala rastreia sintomas depressivos e não estabelece diagnóstico. A avaliação e a conduta são do profissional que a aplica.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/fonte-clinica.ts",
+      "linha": 94,
+      "classe": "autoral",
+      "texto": "O instrumento se dirige à pessoa idosa. A fonte não publica faixa etária de aplicação, de modo que a indicação de aplicá-lo permanece do profissional.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 27,
+      "classe": "citacao",
+      "texto": "Está satisfeito(a) com sua vida?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 33,
+      "classe": "citacao",
+      "texto": "Interrompeu muitas de suas atividades?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 39,
+      "classe": "citacao",
+      "texto": "Acha sua vida vazia?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 45,
+      "classe": "citacao",
+      "texto": "Aborrece-se com frequência?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 51,
+      "classe": "citacao",
+      "texto": "Sente-se bem com a vida na maior parte do tempo?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 57,
+      "classe": "citacao",
+      "texto": "Teme que algo ruim lhe aconteça?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 63,
+      "classe": "citacao",
+      "texto": "Sente-se alegre a maior parte do tempo?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 69,
+      "classe": "citacao",
+      "texto": "Sente-se desamparado com frequência?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 75,
+      "classe": "citacao",
+      "texto": "Prefere ficar em casa a sair e fazer coisas novas?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 81,
+      "classe": "citacao",
+      "texto": "Acha que tem mais problemas de memória que outras pessoas?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 87,
+      "classe": "citacao",
+      "texto": "Acha que é maravilhoso estar vivo(a)?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 93,
+      "classe": "citacao",
+      "texto": "Sente-se inútil?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 99,
+      "classe": "citacao",
+      "texto": "Sente-se cheio(a) de energia?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 105,
+      "classe": "citacao",
+      "texto": "Sente-se sem esperança?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
+    },
+    {
+      "arquivo": "models/depressao-geriatrica/itens.ts",
+      "linha": 111,
+      "classe": "citacao",
+      "texto": "Acha que os outros têm mais sorte que você?",
+      "especie": "StringLiteral",
+      "origem": "Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (página lida em 30/07/2026; cópia datada em `referencias/saude-do-idoso/`), tabela dos quinze itens"
     },
     {
       "arquivo": "models/gestacao/calculadora.ts",
@@ -5928,6 +6164,27 @@
       "especie": "StringLiteral"
     },
     {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 84,
+      "classe": "autoral",
+      "texto": "Saúde da pessoa idosa",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 87,
+      "classe": "autoral",
+      "texto": "Rastreamento de depressão na pessoa idosa",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/inicio/catalogo.ts",
+      "linha": 89,
+      "classe": "autoral",
+      "texto": "Escala de Depressão Geriátrica em quinze itens, com o escore e a faixa na redação das Linhas de Cuidado (Ministério da Saúde).",
+      "especie": "StringLiteral"
+    },
+    {
       "arquivo": "interface/inicio/tela.tsx",
       "linha": 19,
       "classe": "autoral",
@@ -6961,6 +7218,139 @@
       "especie": "StringLiteral"
     },
     {
+      "arquivo": "interface/saude-do-idoso/formulario.tsx",
+      "linha": 57,
+      "classe": "autoral",
+      "texto": "Itens da escala",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/formulario.tsx",
+      "linha": 72,
+      "classe": "autoral",
+      "texto": "Sim",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/formulario.tsx",
+      "linha": 81,
+      "classe": "autoral",
+      "texto": "Não",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/formulario.tsx",
+      "linha": 88,
+      "classe": "autoral",
+      "texto": "Calcular escore",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 55,
+      "classe": "autoral",
+      "texto": "Resultado",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 57,
+      "classe": "autoral",
+      "texto": "Responda aos quinze itens da escala e calcule o escore.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 67,
+      "classe": "autoral",
+      "texto": "Falha inesperada na calculadora. Não use os valores desta tela; recarregue a página e refaça a avaliação.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 71,
+      "classe": "autoral",
+      "texto": "Nova avaliação",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 80,
+      "classe": "autoral",
+      "texto": "Escala incompleta",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 82,
+      "classe": "autoral",
+      "texto": "Nenhum escore é exibido enquanto houver item sem resposta: a escala somada pela metade produz número que parece resultado e não é.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 104,
+      "classe": "autoral",
+      "texto": "Resultado desatualizado: as respostas foram editadas após o cálculo. Calcule novamente.",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 115,
+      "classe": "autoral",
+      "texto": "de 15 pontos",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 121,
+      "classe": "autoral",
+      "texto": "Faixa da fonte:",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 125,
+      "classe": "autoral",
+      "texto": "Providência recomendada pela fonte",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 130,
+      "classe": "autoral",
+      "texto": "Fonte clínica",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/resultado.tsx",
+      "linha": 134,
+      "classe": "autoral",
+      "texto": "·",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/tela.tsx",
+      "linha": 13,
+      "classe": "autoral",
+      "texto": "APS Inteligente · Fonte única:",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/tela.tsx",
+      "linha": 15,
+      "classe": "autoral",
+      "texto": ", Linhas de Cuidado, Ministério da Saúde",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "interface/saude-do-idoso/tela.tsx",
+      "linha": 20,
+      "classe": "autoral",
+      "texto": "Rastreamento de depressão na pessoa idosa",
+      "especie": "StringLiteral"
+    },
+    {
       "arquivo": "pages/_document.tsx",
       "linha": 14,
       "classe": "identificador",
@@ -7104,7 +7494,7 @@
       "arquivo": "pages/index.tsx",
       "linha": 13,
       "classe": "autoral",
-      "texto": "Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia e Puericultura. Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "texto": "Calculadoras clínicas para a Atenção Primária à Saúde, por seção: Diabetes Mellitus tipo 2, Pré-natal, Cardiologia, Puericultura e Saúde da pessoa idosa. Cálculo 100% no navegador: nada é salvo nem enviado.",
       "especie": "StringLiteral"
     },
     {
@@ -7227,6 +7617,41 @@
       "especie": "StringLiteral"
     },
     {
+      "arquivo": "pages/saude-do-idoso/depressao-gds.tsx",
+      "linha": 12,
+      "classe": "autoral",
+      "texto": "Rastreamento de depressão na pessoa idosa · APS Inteligente",
+      "especie": "JsxText"
+    },
+    {
+      "arquivo": "pages/saude-do-idoso/depressao-gds.tsx",
+      "linha": 15,
+      "classe": "identificador",
+      "texto": "description",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/saude-do-idoso/depressao-gds.tsx",
+      "linha": 16,
+      "classe": "autoral",
+      "texto": "Escala de Depressão Geriátrica em quinze itens, com o escore e a faixa na redação das Linhas de Cuidado (Ministério da Saúde). Cálculo 100% no navegador: nada é salvo nem enviado.",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/saude-do-idoso/depressao-gds.tsx",
+      "linha": 18,
+      "classe": "identificador",
+      "texto": "viewport",
+      "especie": "StringLiteral"
+    },
+    {
+      "arquivo": "pages/saude-do-idoso/depressao-gds.tsx",
+      "linha": 18,
+      "classe": "identificador",
+      "texto": "width=device-width, initial-scale=1",
+      "especie": "StringLiteral"
+    },
+    {
       "arquivo": "public/manifest.webmanifest",
       "linha": 2,
       "classe": "autoral",
@@ -7333,1477 +7758,1484 @@
     },
     {
       "arquivo": "README.md",
-      "linha": 16,
+      "linha": 15,
       "classe": "autoral",
-      "texto": "Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell",
+      "texto": "| Saúde da pessoa idosa | Rastreamento de depressão (GDS, quinze itens) | `/saude-do-idoso/depressao-gds` | Escala de Depressão Geriátrica (GDS), Linhas de Cuidado, Ministério da Saúde (acesso em 30/07/2026) | `models/depressao-geriatrica/` |",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 17,
       "classe": "autoral",
+      "texto": "Next.js (Pages Router) com domínio puro em `models/`, interface em `interface/` e shell",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 18,
+      "classe": "autoral",
       "texto": "em `pages/`. Os PDFs das fontes ficam em `referencias/` (fora do versionamento, MD-0008).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 19,
+      "linha": 20,
       "classe": "autoral",
       "texto": "## Como rodar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 26,
+      "linha": 27,
       "classe": "autoral",
       "texto": "Gate de qualidade local: `npm run lint && npm run typecheck && npm test`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 28,
+      "linha": 29,
       "classe": "autoral",
       "texto": "## Norma de redação (feature 018)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 30,
+      "linha": 31,
       "classe": "autoral",
       "texto": "Todo texto que a plataforma exibe responde a uma norma escrita, em **[`docs/redacao.md`](docs/redacao.md)**.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 31,
+      "linha": 32,
       "classe": "autoral",
       "texto": "Leia-a antes de escrever ou reescrever qualquer literal que chegue à tela, ao `<title>`, à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 32,
+      "linha": 33,
       "classe": "autoral",
       "texto": "`<meta name=\"description\">` ou ao manifesto. Em resumo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 34,
+      "linha": 35,
       "classe": "autoral",
       "texto": "- **Três classes de texto**: autoral, citação e identificador. A classe vem da origem do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 35,
+      "linha": 36,
       "classe": "autoral",
       "texto": "texto, jamais do diretório onde ele mora, e se **declara** em `scripts/textos/classes/`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 36,
+      "linha": 37,
       "classe": "autoral",
       "texto": "- **A revisão de estilo alcança só a autoral.** A citação da fonte clínica permanece byte a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 37,
+      "linha": 38,
       "classe": "autoral",
       "texto": "byte, com uma exceção estrita: desvio de concordância se corrige **e se declara ao",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 38,
+      "linha": 39,
       "classe": "autoral",
       "texto": "leitor**, sobre lista fechada.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 39,
+      "linha": 40,
       "classe": "autoral",
       "texto": "- **O eixo expressivo fica fora.** Nenhum travessão, nenhuma reticência e nenhuma",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 40,
+      "linha": 41,
       "classe": "autoral",
       "texto": "exclamação na prosa autoral: onde um deles separava ou introduzia, escreve-se o sinal",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 41,
+      "linha": 42,
       "classe": "autoral",
       "texto": "sintático que faz esse trabalho. A exceção única é o nome pelo qual a fonte clínica se",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 42,
+      "linha": 43,
       "classe": "autoral",
       "texto": "publica, conferido contra `NOME_PUBLICADO` no domínio. O ponto médio `·` é recurso",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 43,
+      "linha": 44,
       "classe": "autoral",
       "texto": "tipográfico, não pontuação, e permanece onde está.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 45,
+      "linha": 46,
       "classe": "autoral",
       "texto": "A razão de ser da norma é o **princípio IX** de `.reversa/principles.md`. Parte das regras é",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 46,
+      "linha": 47,
       "classe": "autoral",
       "texto": "verificada por teste em `tests/unit/textos/`; a seção 7 do guia diz qual parte, para que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 47,
+      "linha": 48,
       "classe": "autoral",
       "texto": "ninguém confunda \"a suíte passou\" com \"o texto está bom\".",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 49,
+      "linha": 50,
       "classe": "autoral",
       "texto": "### Inventário da superfície textual",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 51,
+      "linha": 52,
       "classe": "autoral",
       "texto": "Terceiro gerador idempotente do projeto, no molde de `gerar-tabelas-oms.mts` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 52,
+      "linha": 53,
       "classe": "autoral",
       "texto": "`congelar-casos-oraculo.mts`, e, como eles, com o `git diff` vazio por resultado esperado:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 60,
+      "linha": 61,
       "classe": "autoral",
       "texto": "O inventário é a lista fechada do que são \"todos os textos\", cada um com arquivo, linha e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 61,
+      "linha": 62,
       "classe": "autoral",
       "texto": "classe; a contagem vive no próprio arquivo, e não nesta linha. Ele serve a três papéis ao",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 62,
+      "linha": 63,
       "classe": "autoral",
       "texto": "mesmo tempo (lista fechada, oráculo do congelamento e entrada do verificador de norma), e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 63,
+      "linha": 64,
       "classe": "autoral",
       "texto": "por isso é **regerado** ao fim de toda revisão de texto.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 65,
+      "linha": 66,
       "classe": "autoral",
       "texto": "**Onde se declara a classe de um literal novo.** Em `scripts/textos/classes/`, um módulo",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 66,
+      "linha": 67,
       "classe": "autoral",
       "texto": "por camada. Literal candidato sem entrada faz o gerador **parar**, nomeando arquivo, linha",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 67,
+      "linha": 68,
       "classe": "autoral",
       "texto": "e o módulo em que declarar. A falha é ruidosa por desenho: literal sem classe é decisão",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 68,
+      "linha": 69,
       "classe": "autoral",
       "texto": "adiada, não acidente. A classe vem da origem do texto, jamais do diretório.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 70,
+      "linha": 71,
       "classe": "autoral",
       "texto": "**A linha de base da citação é outro arquivo, e é outro de propósito:**",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 76,
+      "linha": 77,
       "classe": "autoral",
       "texto": "Ela guarda a classe citação como era **antes** da revisão de linguagem, e é contra ela que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 77,
+      "linha": 78,
       "classe": "autoral",
       "texto": "a suíte prova que a exceção de concordância continuou restrita aos dois rótulos declarados.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 78,
+      "linha": 79,
       "classe": "autoral",
       "texto": "O modo é **de uso único**: existindo o arquivo, o gerador se recusa a sobrescrevê-lo e diz",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 79,
+      "linha": 80,
       "classe": "autoral",
       "texto": "por quê. Regerada, a comparação passaria a ser do estado corrente consigo mesmo: verde",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 80,
+      "linha": 81,
       "classe": "autoral",
       "texto": "para sempre, incapaz de reprovar, e sem produzir sinal nenhum de que deixou de servir.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 82,
+      "linha": 83,
       "classe": "autoral",
       "texto": "## Estilo das telas (Primer, feature 004)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 84,
+      "linha": 85,
       "classe": "autoral",
       "texto": "A base de estilo é o **Primer** (design system do GitHub) pela via React: `@primer/react`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 85,
+      "linha": 86,
       "classe": "autoral",
       "texto": "(componentes, CSS Modules) + `@primer/primitives` (tokens e temas claro/escuro), ambos",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 86,
+      "linha": 87,
       "classe": "autoral",
       "texto": "pinados e servidos pelo bundle próprio, de modo que nenhum recurso de estilo sai de origem externa",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 87,
+      "linha": 88,
       "classe": "autoral",
       "texto": "(CSP intocada). O CSS próprio é cola de layout: cores sempre por `var(--*)` do Primer,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 88,
+      "linha": 89,
       "classe": "autoral",
       "texto": "nunca hexadecimal local. `interface/estilos/globais.css` cobre a moldura e as telas das",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 89,
+      "linha": 90,
       "classe": "autoral",
       "texto": "calculadoras; `interface/estilos/inicio.css` isola os estilos da home (feature 008) e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 90,
+      "linha": 91,
       "classe": "autoral",
       "texto": "`interface/estilos/cabecalho.css` a camada de logo do cabeçalho (feature 009), ambos",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 91,
+      "linha": 92,
       "classe": "autoral",
       "texto": "mantendo o `globais.css` dentro do limite de 400 linhas. `@primer/css` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 92,
+      "linha": 93,
       "classe": "autoral",
       "texto": "`@primer/view-components` são vetados (sem manutenção plena). Ícones, quando necessários,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 93,
+      "linha": 94,
       "classe": "autoral",
       "texto": "vêm de `@primer/octicons-react` (mesma família, pinado).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 95,
+      "linha": 96,
       "classe": "autoral",
       "texto": "### Identidade da marca (logo APSi, feature 009)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 97,
+      "linha": 98,
       "classe": "autoral",
       "texto": "A logo vive em `public/` como ativo estático same-origin (sob a CSP, fora do bundle JS):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 98,
+      "linha": 99,
       "classe": "autoral",
       "texto": "`apsi-light.png`/`apsi-dark.png` para o cabeçalho claro/escuro, `apsi-tile.png` (512) e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 99,
+      "linha": 100,
       "classe": "autoral",
       "texto": "`apsi-tile-192.png` para favicon, `apple-touch-icon` e o `manifest.webmanifest` (PWA",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 100,
+      "linha": 101,
       "classe": "autoral",
       "texto": "instalável, declarado em `pages/_document.tsx`). `apsi-white.png`/`apsi-navy.png` ficam",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 101,
+      "linha": 102,
       "classe": "autoral",
       "texto": "versionadas para sobre-foto/impressão, sem uso na web. A `Moldura` troca a variante da",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 102,
+      "linha": 103,
       "classe": "autoral",
       "texto": "logo pelo tema já lido no componente.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 104,
+      "linha": 105,
       "classe": "autoral",
       "texto": "Para **criar uma tela nova**:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 106,
+      "linha": 107,
       "classe": "autoral",
       "texto": "1. O provider já está no shell (`pages/_app.tsx` → `interface/calculadora/provedor-tema.tsx`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 107,
+      "linha": 108,
       "classe": "autoral",
       "texto": "que liga a preferência persistida em `localStorage[\"aps-inteligente:tema\"]` ao color",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 108,
+      "linha": 109,
       "classe": "autoral",
       "texto": "mode do Primer). Nenhum setup adicional por página.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 109,
+      "linha": 110,
       "classe": "autoral",
       "texto": "2. Componha a tela com componentes de `@primer/react` (`Button`, `FormControl`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 110,
+      "linha": 111,
       "classe": "autoral",
       "texto": "`TextInput`, `Flash`, `Heading`, entre outros); recorra ao `globais.css` apenas para cola de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 111,
+      "linha": 112,
       "classe": "autoral",
       "texto": "layout, usando variáveis funcionais do Primer.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 112,
+      "linha": 113,
       "classe": "autoral",
       "texto": "3. Mensagens de erro de formulário usam `interface/calculadora/erro-de-campo.tsx`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 113,
+      "linha": 114,
       "classe": "autoral",
       "texto": "(contrato `role=\"alert\"` asserido pelos testes).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 114,
+      "linha": 115,
       "classe": "autoral",
       "texto": "4. Cubra a tela no e2e (`e2e/*.spec.ts`) incluindo a varredura axe; a linha de base de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 115,
+      "linha": 116,
       "classe": "autoral",
       "texto": "acessibilidade vive em `e2e/axe-baseline.json` e só muda por decisão registrada.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 117,
+      "linha": 118,
       "classe": "autoral",
       "texto": "## Como adicionar uma calculadora nova (feature 007)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 119,
+      "linha": 120,
       "classe": "autoral",
       "texto": "1. **Catálogo primeiro** (fonte única anti-drift): registre título, descrição e rota em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 120,
+      "linha": 121,
       "classe": "autoral",
       "texto": "`interface/inicio/catalogo.ts`: a home renderiza a partir dele, e seção nova só nasce",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 121,
+      "linha": 122,
       "classe": "autoral",
       "texto": "com pelo menos uma calculadora.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 122,
+      "linha": 123,
       "classe": "autoral",
       "texto": "2. **Domínio puro** em `models/<tema>/`, no molde de `models/gestacao/`: `tipos.ts`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 123,
+      "linha": 124,
       "classe": "autoral",
       "texto": "`fonte-clinica.ts` (REFERENCIAS/CONSTANTES congeladas com página da fonte),",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 124,
+      "linha": 125,
       "classe": "autoral",
       "texto": "`validacao.ts` (coleta total de ofensores) e fachada; erros como valores, sem ler o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 125,
+      "linha": 126,
       "classe": "autoral",
       "texto": "relógio nem framework. Cobertura ≥ 90% (`vitest.config.ts` já cobre `models/**`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 126,
+      "linha": 127,
       "classe": "autoral",
       "texto": "3. **Tela** em `interface/<tema>/` sobre a `Moldura` comum (`interface/comum/moldura.tsx`)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 127,
+      "linha": 128,
       "classe": "autoral",
       "texto": "e **rota** em `pages/<secao>/<calculadora>.tsx` com metadados próprios, o mesmo caminho",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 128,
+      "linha": 129,
       "classe": "autoral",
       "texto": "declarado no catálogo. A `Moldura` exibe a logo APSi como marca decorativa do cabeçalho",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 129,
+      "linha": 130,
       "classe": "autoral",
       "texto": "acima de um `<h1>` **textual** em toda tela, inclusive a home (feature 016): a identidade",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 130,
+      "linha": 131,
       "classe": "autoral",
       "texto": "é unificada, o que iguala a altura do cabeçalho por construção. Passe a prop `comInicio`",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 131,
+      "linha": 132,
       "classe": "autoral",
       "texto": "nas calculadoras para o comando de retorno à home (⌂); a home não a usa (seria redundante).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 132,
+      "linha": 133,
       "classe": "autoral",
       "texto": "4. **Ícone da seção** (opcional, feature 008): registre `id da seção → Octicon` em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 133,
+      "linha": 134,
       "classe": "autoral",
       "texto": "`interface/inicio/icones.tsx`; seção sem entrada simplesmente não exibe ícone (fallback).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 134,
+      "linha": 135,
       "classe": "autoral",
       "texto": "O ícone é decorativo (`aria-hidden`), e o catálogo permanece a fonte de navegação.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 135,
+      "linha": 136,
       "classe": "autoral",
       "texto": "5. **Fonte clínica**: PDF em `referencias/` (ignorado pelo git) e toda saída do motor",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 136,
+      "linha": 137,
       "classe": "autoral",
       "texto": "carregando `ReferenciaClinica` com página/seção.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 138,
+      "linha": 139,
       "classe": "autoral",
       "texto": "## Contribuição voluntária via PIX (feature 019)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 140,
+      "linha": 141,
       "classe": "autoral",
       "texto": "A home traz, ao pé das seções, um bloco de apoio que abre um painel com o QR do PIX, a chave em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 141,
+      "linha": 142,
       "classe": "autoral",
       "texto": "texto e o código copia e cola. Nada é processado no site: o arranjo é **PIX estático**, o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 142,
+      "linha": 143,
       "classe": "autoral",
       "texto": "payload é montado no navegador e a plataforma não fica sabendo se alguém contribuiu.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 144,
+      "linha": 145,
       "classe": "autoral",
       "texto": "**Onde se configura, e é ponto único.** `interface/contribuicao/beneficiario.ts` guarda chave,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 145,
+      "linha": 146,
       "classe": "autoral",
       "texto": "nome e cidade, congelados por `Object.freeze` no molde do `CATALOGO`. Trocar a chave ali troca o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 146,
+      "linha": 147,
       "classe": "autoral",
       "texto": "destinatário no QR e nas duas cópias, e nada mais precisa mudar. Nome e cidade aparecem na tela",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 147,
+      "linha": 148,
       "classe": "autoral",
       "texto": "de confirmação do aplicativo de quem contribui, e é por eles que a pessoa reconhece a quem está",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 148,
+      "linha": 149,
       "classe": "autoral",
       "texto": "transferindo. Os limites do padrão do Banco Central são de **25 caracteres para o nome** e **15",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 149,
+      "linha": 150,
       "classe": "autoral",
       "texto": "para a cidade**, e o módulo **recusa** o que exceder, em vez de truncar: nome cortado geraria",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 150,
+      "linha": 151,
       "classe": "autoral",
       "texto": "código válido apresentando beneficiário errado, que é o pior desfecho possível. A recusa aparece",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 151,
+      "linha": 152,
       "classe": "autoral",
       "texto": "como erro no painel durante o desenvolvimento.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 153,
+      "linha": 154,
       "classe": "autoral",
       "texto": "**Como conferir depois de trocar a chave.** A suíte prova que o payload obedece à nossa leitura",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 154,
+      "linha": 155,
       "classe": "autoral",
       "texto": "da especificação, e não que a leitura estava certa. Por isso o procedimento tem duas partes, e a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 155,
+      "linha": 156,
       "classe": "autoral",
       "texto": "segunda é obrigatória a cada alteração no módulo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 157,
+      "linha": 158,
       "classe": "autoral",
       "texto": "1. Rode a suíte (`npm test`) e confira o payload contra um decodificador independente, como em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 158,
+      "linha": 159,
       "classe": "autoral",
       "texto": "`_reversa_forward/019-contribuicao-voluntaria-pix/oraculo-externo.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 159,
+      "linha": 160,
       "classe": "autoral",
       "texto": "2. Abra o painel e leia o QR com o aplicativo de um banco real, conferindo o nome do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 160,
+      "linha": 161,
       "classe": "autoral",
       "texto": "beneficiário na tela de confirmação. **Não conclua a transferência**: ver o nome certo já",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 161,
+      "linha": 162,
       "classe": "autoral",
       "texto": "prova o que precisa ser provado.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 163,
+      "linha": 164,
       "classe": "autoral",
       "texto": "O motor do BR Code vive em `models/contribuicao/`, é o primeiro domínio **não clínico** do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 164,
+      "linha": 165,
       "classe": "autoral",
       "texto": "projeto e declara essa isenção no cabeçalho da fachada (`MD-0022`): não tem fonte clínica única",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 165,
+      "linha": 166,
       "classe": "autoral",
       "texto": "e não emite `ReferenciaClinica`. O painel carrega por import dinâmico, de modo que o desenho do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 166,
+      "linha": 167,
       "classe": "autoral",
       "texto": "QR não pesa no primeiro carregamento da home.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 168,
+      "linha": 169,
       "classe": "autoral",
       "texto": "## As dez fichas de consulta (feature 020)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 170,
+      "linha": 171,
       "classe": "autoral",
       "texto": "O conteúdo das dez consultas datadas é **dado declarado**, não marcação escrita dez vezes: um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 171,
+      "linha": 172,
       "classe": "autoral",
       "texto": "módulo por ficha em `models/puericultura/consulta/fichas/`, um `Campo` por item impresso, e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 172,
+      "linha": 173,
       "classe": "autoral",
       "texto": "cada rótulo carregando a página de onde foi transcrito. Edição nova da caderneta se absorve",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 173,
+      "linha": 174,
       "classe": "autoral",
       "texto": "editando dado.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 175,
+      "linha": 176,
       "classe": "autoral",
       "texto": "São cerca de trezentos e cinquenta rótulos copiados à mão de uma página impressa, e erro de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 176,
+      "linha": 177,
       "classe": "autoral",
       "texto": "digitação em rótulo clínico é o defeito mais provável desse acervo. Por isso a transcrição tem",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 177,
+      "linha": 178,
       "classe": "autoral",
       "texto": "**oráculo**, e o oráculo veio antes dela:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 184,
+      "linha": 185,
       "classe": "autoral",
       "texto": "O teste afirma que cada texto citado ocorre na página que o próprio campo declara, no texto que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 185,
+      "linha": 186,
       "classe": "autoral",
       "texto": "o `pdftotext` extraiu do PDF. Conferir por releitura seria a segunda implementação que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 186,
+      "linha": 187,
       "classe": "autoral",
       "texto": "`MD-0010` recusa: quem transcreveu lê o que quis escrever. Como as páginas são diagramadas em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 187,
+      "linha": 188,
       "classe": "autoral",
       "texto": "duas colunas, o congelamento guarda **duas** extrações de **duas** tiragens, e basta ocorrer em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 188,
+      "linha": 189,
       "classe": "autoral",
       "texto": "uma delas; onde o layout parte o rótulo nas quatro, a exceção vai declarada com o motivo, sobre",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 189,
+      "linha": 190,
       "classe": "autoral",
       "texto": "lista fechada de dez. Passando disso, a decisão se reabre em vez de a exceção crescer.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 191,
+      "linha": 192,
       "classe": "autoral",
       "texto": "A classe textual desses rótulos é **derivada do próprio catálogo**, em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 192,
+      "linha": 193,
       "classe": "autoral",
       "texto": "`scripts/textos/classes/models-puericultura-consulta.mts`, e não escrita literal a literal.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 193,
+      "linha": 194,
       "classe": "autoral",
       "texto": "Não é inferência por diretório, que é o que `MD-0014` proíbe: a origem vem da página impressa",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 194,
+      "linha": 195,
       "classe": "autoral",
       "texto": "que o campo declara, escrita por quem o transcreveu. Declarar trezentas e cinquenta entradas à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 195,
+      "linha": 196,
       "classe": "autoral",
       "texto": "mão satisfaria a letra da regra e a derrotaria, porque um mapa desse tamanho passa a ser",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 196,
+      "linha": 197,
       "classe": "autoral",
       "texto": "mantido no automático.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 198,
+      "linha": 199,
       "classe": "autoral",
       "texto": "O produto desta tela é um **texto**, e não um número: o registro em SOAP que se cola no",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 199,
+      "linha": 200,
       "classe": "autoral",
       "texto": "prontuário. A forma dele tem contrato escrito em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 200,
+      "linha": 201,
       "classe": "autoral",
       "texto": "`_reversa_forward/020-consulta-puericultura-soap/interfaces/registro-soap.md`, e o texto",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 201,
+      "linha": 202,
       "classe": "autoral",
       "texto": "exibido e o copiado são a mesma cadeia, de uma função só.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 203,
+      "linha": 204,
       "classe": "autoral",
       "texto": "## Tabelas de referência da OMS (feature 017)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 205,
+      "linha": 206,
       "classe": "autoral",
       "texto": "A avaliação do crescimento é o primeiro domínio que depende de **dado tabular externo**: as",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 206,
+      "linha": 207,
       "classe": "autoral",
       "texto": "12 964 linhas `L/M/S` dos padrões da OMS (2006, de 0 a 5 anos) e da referência (2007, de 5 a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 207,
+      "linha": 208,
       "classe": "autoral",
       "texto": "10 anos), em `models/puericultura/oms/tabelas/`. Esses módulos são **gerados, não escritos à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 208,
+      "linha": 209,
       "classe": "autoral",
       "texto": "mão**, e ficam versionados junto do gerador que os produziu, de modo que quem clona o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 209,
+      "linha": 210,
       "classe": "autoral",
       "texto": "repositório não precisa baixar nada para rodar os testes.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 211,
+      "linha": 212,
       "classe": "autoral",
       "texto": "A cadeia tem duas ferramentas, e só a primeira toca a rede:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 219,
+      "linha": 220,
       "classe": "autoral",
       "texto": "**O `git diff` vazio é o resultado esperado**, e é a forma de reconferir o dado sem entender o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 220,
+      "linha": 221,
       "classe": "autoral",
       "texto": "gerador: significa que a OMS não mudou nada desde a última geração. Diff não vazio é achado:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 221,
+      "linha": 222,
       "classe": "autoral",
       "texto": "ou a fonte mudou, ou o gerador mudou, e nos dois casos a diferença precisa ser lida linha a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 222,
+      "linha": 223,
       "classe": "autoral",
       "texto": "linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 223,
+      "linha": 224,
       "classe": "autoral",
       "texto": "`tests/apoio/casos-oraculo-puericultura.json`, regenerável por",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 224,
+      "linha": 225,
       "classe": "autoral",
       "texto": "`node scripts/congelar-casos-oraculo.mts`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 226,
+      "linha": 227,
       "classe": "autoral",
       "texto": "Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 227,
+      "linha": 228,
       "classe": "autoral",
       "texto": "vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 228,
+      "linha": 229,
       "classe": "autoral",
       "texto": "coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 230,
+      "linha": 231,
       "classe": "autoral",
       "texto": "**Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 231,
+      "linha": 232,
       "classe": "autoral",
       "texto": "tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 232,
+      "linha": 233,
       "classe": "autoral",
       "texto": "porque ali cada linha é um registro `L/M/S` publicado pela OMS, não código a manter, e o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 233,
+      "linha": 234,
       "classe": "autoral",
       "texto": "limite existe para conter arquivo que cresce por acúmulo de lógica. Todo o resto do domínio continua",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 234,
+      "linha": 235,
       "classe": "autoral",
       "texto": "sob o teto: o maior arquivo escrito à mão tem 331 linhas e a maior função, 40. Nos componentes",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 235,
+      "linha": 236,
       "classe": "autoral",
       "texto": "de tela, o corpo é JSX declarativo e ultrapassa as 50 linhas por função, como já ocorre nas",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 236,
+      "linha": 237,
       "classe": "autoral",
       "texto": "outras calculadoras: o teto de função mira lógica, e essa fica nos `models/`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 238,
+      "linha": 239,
       "classe": "autoral",
       "texto": "## Banco de dados (fundação, feature 003)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 240,
+      "linha": 241,
       "classe": "autoral",
       "texto": "PostgreSQL local em container (`infra/compose.yaml`, imagem pinada `postgres:17.10-alpine`)",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 241,
+      "linha": 242,
       "classe": "autoral",
       "texto": "e, em produção, instância gerenciada Neon (plano Free) via Vercel Marketplace, que injeta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 242,
+      "linha": 243,
       "classe": "autoral",
       "texto": "`DATABASE_URL` nos ambientes do projeto. Acesso programático **somente** por",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 243,
+      "linha": 244,
       "classe": "autoral",
       "texto": "`infra/database.ts` (pool preguiçoso, consultas parametrizadas, `ErroDeBanco` nomeado).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 244,
+      "linha": 245,
       "classe": "autoral",
       "texto": "Sem esquema de negócio nesta fase; nenhum dado clínico ou pessoal é persistido (RN-01).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 254,
+      "linha": 255,
       "classe": "autoral",
       "texto": "A suíte de teste lê `.env.test` (o modo de teste do loader ignora `.env.local`); se mudar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 255,
+      "linha": 256,
       "classe": "autoral",
       "texto": "a porta local, replique a `DATABASE_URL` em `.env.test.local`. Contra a Neon, a primeira",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 256,
+      "linha": 257,
       "classe": "autoral",
       "texto": "conexão pode sofrer cold start (autosuspend do plano Free); limites e roteiro completo em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 257,
+      "linha": 258,
       "classe": "autoral",
       "texto": "`_reversa_forward/003-banco-de-dados-psql-pg/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 259,
+      "linha": 260,
       "classe": "autoral",
       "texto": "## Como verificar saúde",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 261,
+      "linha": 262,
       "classe": "autoral",
       "texto": "Local, contra o build de produção (CSP ativa):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 270,
+      "linha": 271,
       "classe": "autoral",
       "texto": "Produção, pelo comando que já faz a comparação (é o caminho curto):",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 279,
+      "linha": 280,
       "classe": "autoral",
       "texto": "Esperado: `200`, com `Cache-Control: no-store` e seis campos na raiz:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 280,
+      "linha": 281,
       "classe": "autoral",
       "texto": "`{atualizado_em, versao, commit, publicado_em, ambiente, banco}`. Os três primeiros são os",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 281,
+      "linha": 282,
       "classe": "autoral",
       "texto": "da feature 002 e não mudaram de nome nem de significado; os três últimos vieram com a 022.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 283,
+      "linha": 284,
       "classe": "autoral",
       "texto": "- `atualizado_em` é quando **esta resposta** foi gerada; `publicado_em`, quando o build",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 284,
+      "linha": 285,
       "classe": "autoral",
       "texto": "deste deploy foi carimbado. Confundi-los era o defeito que a 022 corrigiu: o primeiro",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 285,
+      "linha": 286,
       "classe": "autoral",
       "texto": "muda a cada consulta, o segundo é idêntico enquanto o deploy for o mesmo.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 286,
+      "linha": 287,
       "classe": "autoral",
       "texto": "- `ambiente` vale `producao`, `pre-visualizacao` ou `local`, em vocabulário próprio: o nome",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 287,
+      "linha": 288,
       "classe": "autoral",
       "texto": "do provedor jamais é repassado cru.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 288,
+      "linha": 289,
       "classe": "autoral",
       "texto": "- `banco` traz `{\"estado\":\"integro\"}` ou `{\"estado\":\"degradado\",\"causa\":…}`, com a causa em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 289,
+      "linha": 290,
       "classe": "autoral",
       "texto": "vocabulário fechado (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 291,
+      "linha": 292,
       "classe": "autoral",
       "texto": "**Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 292,
+      "linha": 293,
       "classe": "autoral",
       "texto": "calculadoras é integralmente no navegador, de modo que elas seguem servindo com a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 293,
+      "linha": 294,
       "classe": "autoral",
       "texto": "dependência caída, e é por isso que o código permanece `200` em todo estado do banco: um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 294,
+      "linha": 295,
       "classe": "autoral",
       "texto": "`503` afirmaria queda de uma plataforma que está no ar. Quem quiser a degradação refletida",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 295,
+      "linha": 296,
       "classe": "autoral",
       "texto": "no código de saída usa `--exigir-saudavel`; sem ele, os códigos seguem respondendo à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 296,
+      "linha": 297,
       "classe": "autoral",
       "texto": "defasagem, que é a pergunta do comando.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 298,
+      "linha": 299,
       "classe": "autoral",
       "texto": "O teto da verificação é de 3 000 ms e sai de `APS_TIMEOUT_SAUDE_MS` (gabarito em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 299,
+      "linha": 300,
       "classe": "autoral",
       "texto": "`.env.example`). Ele acomoda o despertar da instância suspensa do plano gratuito, que um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 300,
+      "linha": 301,
       "classe": "autoral",
       "texto": "teto curto reprovaria como se fosse defeito; estourado, a causa é `tempo_esgotado`, distinta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 301,
+      "linha": 302,
       "classe": "autoral",
       "texto": "de `conexao` justamente para que ociosidade não se leia como banco fora.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 303,
+      "linha": 304,
       "classe": "autoral",
       "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 304,
+      "linha": 305,
       "classe": "autoral",
       "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 305,
+      "linha": 306,
       "classe": "autoral",
       "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 306,
+      "linha": 307,
       "classe": "autoral",
       "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 307,
+      "linha": 308,
       "classe": "autoral",
       "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 308,
+      "linha": 309,
       "classe": "autoral",
       "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 309,
+      "linha": 310,
       "classe": "autoral",
       "texto": "não existia.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 311,
-      "classe": "autoral",
-      "texto": "A raiz (`/`) deve renderizar a home com as quatro seções, e cada calculadora deve abrir na",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
       "linha": 312,
       "classe": "autoral",
-      "texto": "sua rota. Roteiro completo:",
+      "texto": "A raiz (`/`) deve renderizar a home com as cinco seções, e cada calculadora deve abrir na",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 313,
       "classe": "autoral",
-      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "texto": "sua rota. Roteiro completo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 314,
       "classe": "autoral",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 315,
+      "classe": "autoral",
       "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 316,
+      "linha": 317,
       "classe": "autoral",
       "texto": "## Como publicar",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 318,
+      "linha": 319,
       "classe": "autoral",
       "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 319,
+      "linha": 320,
       "classe": "autoral",
       "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 320,
+      "linha": 321,
       "classe": "autoral",
       "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 321,
+      "linha": 322,
       "classe": "autoral",
       "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 323,
+      "linha": 324,
       "classe": "autoral",
       "texto": "## Documentação",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 325,
+      "linha": 326,
       "classe": "autoral",
       "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 326,
+      "linha": 327,
       "classe": "autoral",
       "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 327,
+      "linha": 328,
       "classe": "autoral",
       "texto": "actions → legacy-impact → regression-watch).",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 328,
+      "linha": 329,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

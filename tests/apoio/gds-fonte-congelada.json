@@ -1,0 +1,128 @@
+{
+  "esquema": "gds-fonte-congelada/1",
+  "feature": "023-saude-do-idoso-gds",
+  "acao": "T001",
+  "geradoPor": "scripts/congelar-fonte-gds.mts",
+  "aviso": "ARQUIVO GERADO — não editar à mão. Regerar exige a cópia datada da fonte em `referencias/saude-do-idoso/`, que o .gitignore exclui; `git diff` vazio prova que a origem não mudou, e `git diff` com conteúdo é LEITURA HUMANA OBRIGATÓRIA.",
+  "porQueExiste": "Oráculo de transcrição de D-09. A chave de pontuação da escala não está no texto: a fonte a publica pela cor da célula (MD-0038), e é o ponto exato em que a transcrição de instrumentos erra. Congelada a chave por cadeia própria, a suíte julga o domínio contra a fonte em vez de contra a memória de quem o transcreveu.",
+  "oQueEleNaoProva": "Que a página publicada continua igual à cópia. Essa conferência é manual (MD-0039); o sha256 abaixo apenas reprova a troca silenciosa da cópia local.",
+  "consumidores": [
+    "tests/unit/dominio-depressao-geriatrica/transcricao.test.ts (T005)",
+    "tests/unit/textos/citacao.test.ts (T004, isenção nominal de MD-0027)"
+  ],
+  "fonte": {
+    "arquivo": "referencias/saude-do-idoso/escala-de-depressao-geriatrica-linhas-de-cuidado-ms-20260730.html",
+    "sha256": "bb74f9bc285f9ae2d235cf41d42e6ac04691dfe617f2ecff3fe4fdf4e04802ef",
+    "url": "https://linhasdecuidado.saude.gov.br/portal/tabagismo/escala-depressao-geriatrica/",
+    "lidaEm": "2026-07-30",
+    "publicadaPor": "Linhas de Cuidado, Ministério da Saúde",
+    "marcacaoQuePontua": "bg-table-light-grey",
+    "sobreAMarcacao": "A célula que pontua traz a classe CSS acima. O texto extraído da página NÃO carrega essa informação, e por isso quem reconferir a transcrição precisa saber onde olhar."
+  },
+  "comoLerNoTeste": "Cada item do domínio tem de bater, byte a byte, com o enunciado e a resposta que pontua do item de mesmo número; os três rótulos de faixa e os seus cortes, com as avaliações; e a providência do domínio tem de ocorrer no parágrafo congelado.",
+  "dados": {
+    "itens": [
+      {
+        "numero": 1,
+        "texto": "Está satisfeito(a) com sua vida?",
+        "respostaQuePontua": "nao"
+      },
+      {
+        "numero": 2,
+        "texto": "Interrompeu muitas de suas atividades?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 3,
+        "texto": "Acha sua vida vazia?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 4,
+        "texto": "Aborrece-se com frequência?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 5,
+        "texto": "Sente-se bem com a vida na maior parte do tempo?",
+        "respostaQuePontua": "nao"
+      },
+      {
+        "numero": 6,
+        "texto": "Teme que algo ruim lhe aconteça?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 7,
+        "texto": "Sente-se alegre a maior parte do tempo?",
+        "respostaQuePontua": "nao"
+      },
+      {
+        "numero": 8,
+        "texto": "Sente-se desamparado com frequência?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 9,
+        "texto": "Prefere ficar em casa a sair e fazer coisas novas?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 10,
+        "texto": "Acha que tem mais problemas de memória que outras pessoas?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 11,
+        "texto": "Acha que é maravilhoso estar vivo(a)?",
+        "respostaQuePontua": "nao"
+      },
+      {
+        "numero": 12,
+        "texto": "Sente-se inútil?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 13,
+        "texto": "Sente-se cheio(a) de energia?",
+        "respostaQuePontua": "nao"
+      },
+      {
+        "numero": 14,
+        "texto": "Sente-se sem esperança?",
+        "respostaQuePontua": "sim"
+      },
+      {
+        "numero": 15,
+        "texto": "Acha que os outros têm mais sorte que você?",
+        "respostaQuePontua": "sim"
+      }
+    ],
+    "instrucaoDePontuacao": "Considerar 1 ponto quando os itens em cinza (sim ou não) estiverem marcados.",
+    "avaliacoes": [
+      {
+        "texto": "Uma pontuação entre 0 e 5 se considera normal",
+        "de": 0,
+        "ate": 5,
+        "rotulo": "se considera normal"
+      },
+      {
+        "texto": "6 a 10 indica depressão leve",
+        "de": 6,
+        "ate": 10,
+        "rotulo": "indica depressão leve"
+      },
+      {
+        "texto": "11 a 15 depressão severa",
+        "de": 11,
+        "ate": 15,
+        "rotulo": "depressão severa"
+      }
+    ],
+    "providencia": {
+      "paragrafo": "Providências com os achados/resultados: escores elevados sugerem encaminhamento para avaliação neuropsicológica específica.",
+      "recomendacao": "escores elevados sugerem encaminhamento para avaliação neuropsicológica específica."
+    },
+    "referenciaBibliografica": "Fonte: J Psychiatr Res. 1982-1983; 17(1): 37-49 e Arq Neuropsiquiatr. 1999; 57(2-B): 421-426"
+  }
+}
