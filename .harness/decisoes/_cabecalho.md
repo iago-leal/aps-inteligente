@@ -1,1 +1,0 @@
-# Microdecisões do Projeto

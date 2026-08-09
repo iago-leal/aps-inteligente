@@ -354,7 +354,7 @@
         "pages, pages/api/v1/status, infra/{database,saude}.ts, scripts/**",
         "git log (features 015-022)",
         "_reversa_sdd/addenda/015-022",
-        ".harness/decisoes/MD-0001..MD-0033",
+        ".vscode/vscode-kanban.json, cartoes MD-0001..MD-0033",
         ".reversa/principles.md (principio IX) e docs/redacao.md"
       ],
       "regeneracao_re4": "domain.md reescrito para 6 units clinicos + 1 nao clinico e 76 regras (43-60 puericultura, 61-70 consulta SOAP, 71-76 contribuicao); invariantes passam a declarar ALCANCE por linha (a familia deixou de ser homogenea); §10.2 reescrita (L-07 ENCERRADA: logoComoTitulo -> comInicio; + coluna do corpo da 021); §10.3 nova (norma de redacao, principio IX); state-machines ganha EstadoCrescimento, a tela SEM maquina (consulta derivada), o painel PIX e o estado do banco visto pelo healthcheck; permissions confirma ausencia de RBAC contra as tres features que mais se aproximaram de muda-lo (019 pagamento, 020 dados de terceiro, 022 I/O real)",
@@ -540,6 +540,7 @@
   },
   "engines": [
     "claude-code",
+    "gemini-cli",
     "antigravity"
   ],
   "agents": [
@@ -596,7 +597,15 @@
     "reversa-selo-generativo",
     "reversa-highcharts-visualizer",
     "reversa-especialista-d3",
-    "reversa-image-prompt-json"
+    "reversa-image-prompt-json",
+    "reversa-refactor",
+    "reversa-restructure",
+    "reversa-modularize",
+    "reversa-decouple",
+    "reversa-optimize",
+    "reversa-simplify",
+    "reversa-standardize",
+    "reversa-prune"
   ],
   "created_files": [
     ".claude/skills/reversa",
@@ -727,6 +736,23 @@
     ".reversa/config.user.toml",
     ".reversa/plan.md",
     ".reversa/version",
-    ".reversa/_config/manifest.yaml"
+    ".reversa/_config/manifest.yaml",
+    ".claude/skills/reversa-refactor",
+    ".agents/skills/reversa-refactor",
+    ".claude/skills/reversa-restructure",
+    ".agents/skills/reversa-restructure",
+    ".claude/skills/reversa-modularize",
+    ".agents/skills/reversa-modularize",
+    ".claude/skills/reversa-decouple",
+    ".agents/skills/reversa-decouple",
+    ".claude/skills/reversa-optimize",
+    ".agents/skills/reversa-optimize",
+    ".claude/skills/reversa-simplify",
+    ".agents/skills/reversa-simplify",
+    ".claude/skills/reversa-standardize",
+    ".agents/skills/reversa-standardize",
+    ".claude/skills/reversa-prune",
+    ".agents/skills/reversa-prune",
+    "GEMINI.md"
   ]
 }

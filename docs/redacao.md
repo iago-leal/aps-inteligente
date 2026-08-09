@@ -348,8 +348,8 @@ A norma diz qual é qual justamente para que a segunda lista não se disfarce de
 
 ## 8. Quando esta norma muda
 
-Ela muda por decisão registrada, como qualquer outra fonte de verdade deste projeto: ficha
-em `.harness/decisoes/`, e o princípio IX revisado se o que mudar for o princípio e não a
-regra. Alterar o guia sem alterar o verificador correspondente deixa a norma mentindo, o
+Ela muda por decisão registrada, como qualquer outra fonte de verdade deste projeto: cartão
+no quadro `.vscode/vscode-kanban.json`, e o princípio IX revisado se o que mudar for o
+princípio e não a regra. Alterar o guia sem alterar o verificador correspondente deixa a norma mentindo, o
 que é pior do que não a ter escrito.
 

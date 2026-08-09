@@ -226,7 +226,7 @@ linha antes de virar commit. O mesmo vale para o oráculo de escore z congelado 
 
 Os coeficientes do INTERGROWTH-21st (curvas de pré-termo, 27 a 64 semanas pós-menstruais) não
 vêm de planilha: são seis expressões publicadas em Villar 2015, transcritas à mão e conferidas
-coeficiente a coeficiente contra a tabela impressa (`.harness/decisoes/MD-0002.md`).
+coeficiente a coeficiente contra a tabela impressa (`MD-0002`, no quadro do projeto).
 
 **Exceção declarada aos tetos do mantenedor:** seis desses módulos passam de 400 linhas (o maior
 tem 728), e é a única exceção da base. Ela vale **só** para `models/puericultura/oms/tabelas/`,

@@ -8,7 +8,8 @@
 // artefato do Reversa e de documentação, nenhum dos quais chega ao build. Em
 // 28/07/2026 a nota do projeto arrastava por quatro sessões uma pendência de
 // "produção defasada" que era falso alarme: a produção estava no último commit
-// de aplicação, e os commits à frente só tocavam `.harness/`.
+// de aplicação, e os commits à frente só tocavam a governança da sessão, que na
+// época morava em `.harness/` e hoje mora no quadro, em `.vscode/`.
 //
 // A RÉGUA, e ela é conservadora de propósito. Conta como aplicação **tudo**,
 // exceto os diretórios de governança nomeados em GOVERNANCA. Arquivo novo de
@@ -44,7 +45,7 @@ const TEMPO_LIMITE_MS = 10_000;
 
 /** Diretórios cujo conteúdo jamais chega ao build servido (ver A RÉGUA, acima). */
 const GOVERNANCA = [
-  ".harness",
+  ".vscode",
   ".reversa",
   ".claude",
   ".agents",

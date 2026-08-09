@@ -1,3 +1,30 @@
+# O quadro é o registro do projeto
+
+Trabalho aberto e decisões tomadas moram num lugar só: **`.vscode/vscode-kanban.json`**,
+lido pela extensão `mkloubert.vscode-kanban` e versionado em git. Leia-o ao retomar o
+projeto, antes de decidir o que fazer, e registre nele o desfecho ao terminar. A skill
+`kanban` conduz a escrita e traz o script que preserva o formato do arquivo.
+
+Duas naturezas convivem nas colunas, e a diferença importa na leitura:
+
+- **Cartões de trabalho** — pendências, dívidas e entregas. Em `todo` está o que ainda é
+  verdade; em `done`, o que deixou de ser. Um cartão só cruza quando a afirmação que ele
+  faz sobre o mundo se torna falsa, nunca porque alguém trabalhou nele.
+- **Microdecisões `MD-00NN`** — as 42 fichas de decisão do projeto, em `done`, no formato
+  `D · PORQUÊ · DESCARTADO · ESTADO`. O identificador do cartão coincide com o número da
+  ficha, de modo que `MD-0014` é o cartão 14. Elas são citadas por identificador em código
+  de produção, em teste e nos artefatos do Reversa: `MD-0008` justifica as fontes fora do
+  versionamento, `MD-0014` fixa o que decide a classe de um literal, `MD-0027` governa a
+  isenção de subárvore no congelamento da citação.
+
+Até 09/08/2026 esse registro vivia em `.harness/`, sob a maquinaria do Harness. O
+diretório, o shim `./harness`, o `harness.toml`, os dois hooks de `.claude/settings.json` e
+a skill `encerrar-sessao` foram removidos; o conteúdo inteiro está no quadro. Caminho da
+forma `.harness/decisoes/MD-00NN.md` em artefato antigo do Reversa é registro histórico, e
+resolve-se hoje pelo cartão de mesmo número.
+
+---
+
 # Reversa
 
 > Framework de Engenharia Reversa instalado neste projeto.

@@ -15,8 +15,7 @@ test-results/
 
 # Fontes clínicas (PDFs fora do versionamento — MD-0008)
 referencias/
-.harness/sync-cache.json
 
-# Bytecode Python das skills do Harness
+# Bytecode Python das skills
 __pycache__/
 *.pyc
