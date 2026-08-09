@@ -6186,14 +6186,14 @@
     },
     {
       "arquivo": "interface/inicio/tela.tsx",
-      "linha": 19,
+      "linha": 80,
       "classe": "autoral",
       "texto": "APS Inteligente",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/inicio/tela.tsx",
-      "linha": 20,
+      "linha": 81,
       "classe": "autoral",
       "texto": "Calculadoras clínicas para a Atenção Primária à Saúde · Cálculo 100% no navegador",
       "especie": "StringLiteral"

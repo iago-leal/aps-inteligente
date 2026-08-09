@@ -31,7 +31,15 @@ import { MAPA as MODELS_INSULINA } from "./classes/models-insulina.mts";
 import { MAPA as MODELS_DEPRESSAO_GERIATRICA } from "./classes/models-depressao-geriatrica.mts";
 import { MAPA as MODELS_DEMAIS } from "./classes/models-demais.mts";
 import { MAPA as INTERFACE_SAUDE_DO_IDOSO } from "./classes/interface-saude-do-idoso.mts";
-import { MAPA as INTERFACE } from "./classes/interface.mts";
+import { MAPA as INTERFACE_CALCULADORA } from "./classes/interface-calculadora.mts";
+import { MAPA as INTERFACE_CARDIOLOGIA } from "./classes/interface-cardiologia.mts";
+import { MAPA as INTERFACE_COMUM } from "./classes/interface-comum.mts";
+import { MAPA as INTERFACE_CONTRIBUICAO } from "./classes/interface-contribuicao.mts";
+import { MAPA as INTERFACE_GESTACAO } from "./classes/interface-gestacao.mts";
+import { MAPA as INTERFACE_INICIO } from "./classes/interface-inicio.mts";
+import { MAPA as INTERFACE_PUERICULTURA_CONSULTA } from "./classes/interface-puericultura-consulta.mts";
+import { MAPA as INTERFACE_PUERICULTURA } from "./classes/interface-puericultura.mts";
+import { MAPA as INTERFACE_RISCO_CARDIOVASCULAR } from "./classes/interface-risco-cardiovascular.mts";
 import {
   MAPA as PAGES_E_ARQUIVOS,
   UNIFORMES,
@@ -109,9 +117,9 @@ const MODULOS: ReadonlyArray<{
     mapa: MODELS_DEMAIS,
     cobre: (a) => a.startsWith("models/"),
   },
-  // Feature 023 (D-11): começa a partição que a dívida 3 pede. O predicado alcança a tela e a
-  // casca da sua rota, e por isso vem ANTES tanto de `interface.mts` quanto de
-  // `pages-e-arquivos.mts` — a ordem é o que faz a mensagem de erro apontar o módulo certo.
+  // Feature 023 (D-11): começou aqui a partição que a dívida 3 pedia. O predicado alcança a
+  // tela e a casca da sua rota, e por isso vem ANTES de `pages-e-arquivos.mts` — a ordem é o
+  // que faz a mensagem de erro apontar o módulo certo.
   {
     nome: "scripts/textos/classes/interface-saude-do-idoso.mts",
     mapa: INTERFACE_SAUDE_DO_IDOSO,
@@ -119,9 +127,67 @@ const MODULOS: ReadonlyArray<{
       a.startsWith("interface/saude-do-idoso/") ||
       a.startsWith("pages/saude-do-idoso/"),
   },
+  // OPP-20260730-R8FJ: a partição se completou, e `interface.mts` deixou de existir. Um
+  // módulo por unit, no molde que a 023 estreou e que `models/**` já seguia. O que se ganha
+  // não é só o arquivo abaixo de 400 linhas: é a razão de cada classe passar a morar ao lado
+  // dos literais que ela explica, em vez de num preâmbulo comum a nove assuntos.
   {
-    nome: "scripts/textos/classes/interface.mts",
-    mapa: INTERFACE,
+    nome: "scripts/textos/classes/interface-calculadora.mts",
+    mapa: INTERFACE_CALCULADORA,
+    cobre: (a) => a.startsWith("interface/calculadora/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-cardiologia.mts",
+    mapa: INTERFACE_CARDIOLOGIA,
+    cobre: (a) => a.startsWith("interface/cardiologia/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-comum.mts",
+    mapa: INTERFACE_COMUM,
+    cobre: (a) => a.startsWith("interface/comum/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-contribuicao.mts",
+    mapa: INTERFACE_CONTRIBUICAO,
+    cobre: (a) => a.startsWith("interface/contribuicao/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-gestacao.mts",
+    mapa: INTERFACE_GESTACAO,
+    cobre: (a) => a.startsWith("interface/gestacao/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-inicio.mts",
+    mapa: INTERFACE_INICIO,
+    cobre: (a) => a.startsWith("interface/inicio/"),
+  },
+  // Mesma precedência que rege os dois módulos de `models/puericultura`, e pela mesma razão:
+  // `interface/puericultura/consulta/**` casa com os dois predicados, e quem responde é o
+  // primeiro. Invertidos, o gerador mandaria declarar o rótulo de uma ficha no módulo da
+  // avaliação antropométrica.
+  {
+    nome: "scripts/textos/classes/interface-puericultura-consulta.mts",
+    mapa: INTERFACE_PUERICULTURA_CONSULTA,
+    cobre: (a) => a.startsWith("interface/puericultura/consulta/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-puericultura.mts",
+    mapa: INTERFACE_PUERICULTURA,
+    cobre: (a) => a.startsWith("interface/puericultura/"),
+  },
+  {
+    nome: "scripts/textos/classes/interface-risco-cardiovascular.mts",
+    mapa: INTERFACE_RISCO_CARDIOVASCULAR,
+    cobre: (a) => a.startsWith("interface/risco-cardiovascular/"),
+  },
+  // Rede de arrasto de `interface/**`, e ela declara VAZIO de propósito. Nenhum literal se
+  // declara aqui: o mapa vazio existe para que o unit novo — que não casa com nenhum
+  // predicado acima — receba a instrução de ganhar módulo próprio, em vez de a mensagem
+  // genérica de caminho não coberto. É o que impede o monólito de renascer por acréscimo,
+  // que foi exatamente como ele nasceu.
+  {
+    nome: "scripts/textos/classes/interface-<unit>.mts (unit novo: crie o módulo, no molde dos irmãos, e registre-o em `MODULOS`)",
+    mapa: {},
     cobre: (a) => a.startsWith("interface/"),
   },
   {
