@@ -3,22 +3,6 @@
     {
       "assignedTo": "",
       "creation_time": "2026-08-09T14:55:42.000Z",
-      "id": "43",
-      "prio": 3,
-      "references": [],
-      "title": "A feature 023 está codada e pushada, e a extração não a conhece",
-      "description": {
-        "content": "A GDS saiu em `0f5e897` sem que `/reversa-sync` rodasse. `_reversa_sdd/addenda/` não tem o adendo da 023, de modo que a extração ignora o sexto domínio clínico e a quinta seção da plataforma.",
-        "mime": "text/markdown"
-      },
-      "details": {
-        "content": "## O que falta\n\n`/reversa-sync` destila a feature entregue em um adendo dentro de\n`_reversa_sdd/addenda/`, e é o que mantém a extração representativa do sistema entre\nduas re-extrações. A 023 pulou esse passo: o código está no repositório e no remoto,\nos artefatos do ciclo forward estão completos em\n`_reversa_forward/023-saude-do-idoso-gds/`, e o adendo não existe.\n\n## Por que importa\n\nA extração é a fonte de verdade de quem retoma o projeto depois de meses. Enquanto o\nadendo não existe, `_reversa_sdd/` descreve uma plataforma de quatro seções e cinco\ndomínios clínicos, e o repositório tem cinco seções e seis domínios. Quem ler a\nextração para decidir onde uma feature nova encaixa decidirá sobre um sistema que já\nnão é este.\n\nEste será o primeiro adendo a convergir sobre a re-extração nº 4, de 28/07/2026.\n\n## Entradas\n\n- `_reversa_forward/023-saude-do-idoso-gds/requirements.md`\n- `_reversa_forward/023-saude-do-idoso-gds/legacy-impact.md`, com 32 arquivos tocados\n- `_reversa_forward/023-saude-do-idoso-gds/regression-watch.md`, com W001 a W018\n\n## Fecha quando\n\n`_reversa_sdd/addenda/023-saude-do-idoso-gds.md` existir e estiver marcado como\nvigente, e não quando `/reversa-sync` houver rodado.",
-        "mime": "text/markdown"
-      }
-    },
-    {
-      "assignedTo": "",
-      "creation_time": "2026-08-09T14:55:42.000Z",
       "id": "44",
       "prio": 3,
       "references": [],
@@ -929,6 +913,22 @@
       },
       "details": {
         "content": "## Como se confere\n\n`scripts/conferir-producao.mts` compara o SHA que a rota de saúde publica com o HEAD do\nremoto, e sabe descontar commits que só tocam infraestrutura de sessão. Produção está em\nhttps://apsinteligente.app, e a saúde em `/api/v1/status`.\n\n## O que está por confirmar\n\n| Commit | O que entregou |\n|---|---|\n| `13c87d6` | correção de BUG-20260728-ZAHV, proveniência fora do texto copiado |\n| `0f5e897` | feature 023, a GDS e a quinta seção da plataforma |\n| `e71140c` | encerramento de sessão, sem código de aplicação |\n\nO último não muda o comportamento da plataforma, mas muda o SHA que a rota publica.\n\n## Por que não é formalidade\n\nA plataforma publica conteúdo clínico. Saber que o que está no ar é o que está no\nrepositório é o mínimo, e a rota de saúde existe justamente para responder a isso sem\nque ninguém precise abrir o painel da Vercel.\n\n## Fecha quando\n\n`/api/v1/status` publicar o SHA do HEAD de `aps-inteligente/main`, com a data da\nconferência registrada.\n\n\n## Desfecho de 2026-08-09\n\nConferido com `node scripts/conferir-producao.mts`, que devolveu **EM DIA** e saída 0:\n\n```\n  produção  e71140c · v0.1.0 · 390 ms\n            publicado há 9 dias · ambiente producao · banco íntegro\n  local     e71140c (último commit de aplicação)\n```\n\nO SHA publicado coincide com o último commit de aplicação do repositório, de modo que\n`13c87d6`, `0f5e897` e `e71140c` chegaram todos à Vercel. O CI passou, e a defasagem que o\nregistro de sessão arrastava era falso alarme, exatamente o padrão que levou este script a\nexistir.\n\nUma ressalva para a próxima leitura: o corpo declara `publicado há 9 dias`, o que não bate\ncom a data do commit. O SHA é o que decide o veredito, e ele confere; `publicado_em` merece\numa olhada quando alguém tocar a rota de saúde, e não vale cartão próprio por ora.",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": "",
+      "creation_time": "2026-08-09T14:55:42.000Z",
+      "id": "43",
+      "prio": 0,
+      "references": [],
+      "title": "Adendo 023 escrito: a extração volta a conhecer o sistema, com ressalva parcial",
+      "description": {
+        "content": "A GDS saíra em `0f5e897` sem que `/reversa-sync` rodasse, e por dez dias a extração ignorou o sexto unit clínico e a quinta seção. O adendo em `_reversa_sdd/addenda/` foi escrito em 09/08/2026, com 22 impactos, e é parcial: a conferência clínica segue no cartão 44.",
+        "mime": "text/markdown"
+      },
+      "details": {
+        "content": "## O que falta\n\n`/reversa-sync` destila a feature entregue em um adendo dentro de\n`_reversa_sdd/addenda/`, e é o que mantém a extração representativa do sistema entre\nduas re-extrações. A 023 pulou esse passo: o código está no repositório e no remoto,\nos artefatos do ciclo forward estão completos em\n`_reversa_forward/023-saude-do-idoso-gds/`, e o adendo não existe.\n\n## Por que importa\n\nA extração é a fonte de verdade de quem retoma o projeto depois de meses. Enquanto o\nadendo não existe, `_reversa_sdd/` descreve uma plataforma de quatro seções e cinco\ndomínios clínicos, e o repositório tem cinco seções e seis domínios. Quem ler a\nextração para decidir onde uma feature nova encaixa decidirá sobre um sistema que já\nnão é este.\n\nEste será o primeiro adendo a convergir sobre a re-extração nº 4, de 28/07/2026.\n\n## Entradas\n\n- `_reversa_forward/023-saude-do-idoso-gds/requirements.md`\n- `_reversa_forward/023-saude-do-idoso-gds/legacy-impact.md`, com 32 arquivos tocados\n- `_reversa_forward/023-saude-do-idoso-gds/regression-watch.md`, com W001 a W018\n\n## Fecha quando\n\n`_reversa_sdd/addenda/023-saude-do-idoso-gds.md` existir e estiver marcado como\nvigente, e não quando `/reversa-sync` houver rodado.\n\n\n## Desfecho de 2026-08-09\n\n`_reversa_sdd/addenda/023-saude-do-idoso-gds.md` existe e está marcado como vigente, que\nera o critério escrito aqui. O adendo registra **22 impactos** sobre nove artefatos da\nextração, e a leitura que ele instala é a de que `_reversa_sdd/` descreve uma plataforma de\nquatro seções e sete units enquanto o repositório tem cinco e oito.\n\nÉ **sincronização parcial**, por decisão tomada no ato: T033 e T034 seguem abertas em\n`actions.md` porque dependem de pessoa, e esperá-las manteria a extração defasada por prazo\nindeterminado. O que a conferência clínica pode mudar é o conteúdo da tela, não a topologia\nque o adendo registra. Quando ela ocorrer, uma reexecução do `/reversa-sync` acrescenta uma\nseção `## Atualização` ao final, sem tocar no que já está escrito.\n\nTrês coisas apuradas na redação corrigem números que a extração carregava: `prettier --check`\nreprova 674 arquivos e não 655; a dívida 3 não só encolheu como foi levada a termo depois,\npor `OPP-20260730-R8FJ`; e a cobertura de ramos do unit novo, 87,5%, entra em `gaps.md` como\ndívida declarada, e não como omissão.\n\nO intervalo que ficou descoberto está registrado no próprio adendo: dez dias entre o commit\n`0f5e897`, de 30/07, e a redação de hoje, com a extração defasada sem aviso.",
         "mime": "text/markdown"
       }
     }
