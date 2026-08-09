@@ -3,22 +3,6 @@
     {
       "assignedTo": "",
       "creation_time": "2026-08-09T14:55:42.000Z",
-      "id": "44",
-      "prio": 3,
-      "references": [],
-      "title": "A indicação clínica da GDS não foi conferida por médico",
-      "description": {
-        "content": "T033 e T034 do `actions.md` da 023 seguem `[ ]` de propósito: esperam por pessoa. A transcrição dos quinze itens está garantida por oráculo, mas ninguém abriu a fonte ao lado da tela para chancelar o instrumento.",
-        "mime": "text/markdown"
-      },
-      "details": {
-        "content": "## As duas ações\n\nAmbas em `_reversa_forward/023-saude-do-idoso-gds/actions.md`, na fase que `MD-0023`\nsepara justamente por esperar por humano:\n\n- **T033** — abrir a fonte ao lado da tela, conferir os quinze itens um a um e a frase\n  que ocupa o lugar da faixa etária, que a fonte não publica.\n- **T034** — dar o aval estético da rota `/saude-do-idoso/depressao-gds`.\n\nCapturas de tela foram geradas na sessão de implementação e ficaram no scratchpad\ndaquela sessão, de modo que provavelmente terão de ser regeradas.\n\n## O que já está garantido, e o que não está\n\nGarantido por máquina: a **transcrição**. `scripts/congelar-fonte-gds.mts` extrai a\nchave de pontuação da cópia datada da fonte e a congela em\n`tests/apoio/gds-fonte-congelada.json`; `transcricao.test.ts` julga o domínio contra o\ncongelado, e foi visto reprovar por inversão deliberada do item 7.\n\nNão garantido por máquina: a **indicação clínica**. Nenhum teste sabe se o instrumento\né o certo para a população que a tela nomeia, nem se a redação das Linhas de Cuidado do\nMinistério da Saúde é a que se quer publicar.\n\n## Por que não se marca como feito\n\nMarcar `[X]` no que ninguém conferiu converte o gate em formalidade, e o gate existe\njustamente porque a plataforma publica conteúdo clínico. O custo de deixar aberto é\nlembrar; o custo de fechar cedo é publicar sem revisão e não saber.\n\n## Fecha quando\n\nOs quinze itens houverem sido conferidos contra a fonte por pessoa, com o desfecho e a\ndata registrados no `actions.md`.",
-        "mime": "text/markdown"
-      }
-    },
-    {
-      "assignedTo": "",
-      "creation_time": "2026-08-09T14:55:42.000Z",
       "id": "45",
       "prio": 3,
       "references": [],
@@ -929,6 +913,22 @@
       },
       "details": {
         "content": "## O que falta\n\n`/reversa-sync` destila a feature entregue em um adendo dentro de\n`_reversa_sdd/addenda/`, e é o que mantém a extração representativa do sistema entre\nduas re-extrações. A 023 pulou esse passo: o código está no repositório e no remoto,\nos artefatos do ciclo forward estão completos em\n`_reversa_forward/023-saude-do-idoso-gds/`, e o adendo não existe.\n\n## Por que importa\n\nA extração é a fonte de verdade de quem retoma o projeto depois de meses. Enquanto o\nadendo não existe, `_reversa_sdd/` descreve uma plataforma de quatro seções e cinco\ndomínios clínicos, e o repositório tem cinco seções e seis domínios. Quem ler a\nextração para decidir onde uma feature nova encaixa decidirá sobre um sistema que já\nnão é este.\n\nEste será o primeiro adendo a convergir sobre a re-extração nº 4, de 28/07/2026.\n\n## Entradas\n\n- `_reversa_forward/023-saude-do-idoso-gds/requirements.md`\n- `_reversa_forward/023-saude-do-idoso-gds/legacy-impact.md`, com 32 arquivos tocados\n- `_reversa_forward/023-saude-do-idoso-gds/regression-watch.md`, com W001 a W018\n\n## Fecha quando\n\n`_reversa_sdd/addenda/023-saude-do-idoso-gds.md` existir e estiver marcado como\nvigente, e não quando `/reversa-sync` houver rodado.\n\n\n## Desfecho de 2026-08-09\n\n`_reversa_sdd/addenda/023-saude-do-idoso-gds.md` existe e está marcado como vigente, que\nera o critério escrito aqui. O adendo registra **22 impactos** sobre nove artefatos da\nextração, e a leitura que ele instala é a de que `_reversa_sdd/` descreve uma plataforma de\nquatro seções e sete units enquanto o repositório tem cinco e oito.\n\nÉ **sincronização parcial**, por decisão tomada no ato: T033 e T034 seguem abertas em\n`actions.md` porque dependem de pessoa, e esperá-las manteria a extração defasada por prazo\nindeterminado. O que a conferência clínica pode mudar é o conteúdo da tela, não a topologia\nque o adendo registra. Quando ela ocorrer, uma reexecução do `/reversa-sync` acrescenta uma\nseção `## Atualização` ao final, sem tocar no que já está escrito.\n\nTrês coisas apuradas na redação corrigem números que a extração carregava: `prettier --check`\nreprova 674 arquivos e não 655; a dívida 3 não só encolheu como foi levada a termo depois,\npor `OPP-20260730-R8FJ`; e a cobertura de ramos do unit novo, 87,5%, entra em `gaps.md` como\ndívida declarada, e não como omissão.\n\nO intervalo que ficou descoberto está registrado no próprio adendo: dez dias entre o commit\n`0f5e897`, de 30/07, e a redação de hoje, com a extração defasada sem aviso.",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": "",
+      "creation_time": "2026-08-09T14:55:42.000Z",
+      "id": "44",
+      "prio": 3,
+      "references": [],
+      "title": "A indicação clínica da GDS não foi conferida por médico",
+      "description": {
+        "content": "Conferida em 09/08/2026: o prescritor comparou os quinze itens com a fonte e aprovou também a indicação do instrumento e a estética da tela, sem pedir alteração. T033 e T034 fechadas, e a sincronização da 023 deixa de ser parcial.",
+        "mime": "text/markdown"
+      },
+      "details": {
+        "content": "## As duas ações\n\nAmbas em `_reversa_forward/023-saude-do-idoso-gds/actions.md`, na fase que `MD-0023`\nsepara justamente por esperar por humano:\n\n- **T033** — abrir a fonte ao lado da tela, conferir os quinze itens um a um e a frase\n  que ocupa o lugar da faixa etária, que a fonte não publica.\n- **T034** — dar o aval estético da rota `/saude-do-idoso/depressao-gds`.\n\nCapturas de tela foram geradas na sessão de implementação e ficaram no scratchpad\ndaquela sessão, de modo que provavelmente terão de ser regeradas.\n\n## O que já está garantido, e o que não está\n\nGarantido por máquina: a **transcrição**. `scripts/congelar-fonte-gds.mts` extrai a\nchave de pontuação da cópia datada da fonte e a congela em\n`tests/apoio/gds-fonte-congelada.json`; `transcricao.test.ts` julga o domínio contra o\ncongelado, e foi visto reprovar por inversão deliberada do item 7.\n\nNão garantido por máquina: a **indicação clínica**. Nenhum teste sabe se o instrumento\né o certo para a população que a tela nomeia, nem se a redação das Linhas de Cuidado do\nMinistério da Saúde é a que se quer publicar.\n\n## Por que não se marca como feito\n\nMarcar `[X]` no que ninguém conferiu converte o gate em formalidade, e o gate existe\njustamente porque a plataforma publica conteúdo clínico. O custo de deixar aberto é\nlembrar; o custo de fechar cedo é publicar sem revisão e não saber.\n\n## Fecha quando\n\nOs quinze itens houverem sido conferidos contra a fonte por pessoa, com o desfecho e a\ndata registrados no `actions.md`.\n\n\n## Desfecho de 2026-08-09\n\n**Conferido e aprovado pelo prescritor, sem alteração pedida.** O médico comparou a tela\ncom a fonte aberta ao lado e as quinze perguntas conferem. Aprovou junto as outras duas\nmetades que a ação previa: a **indicação do instrumento**, isto é, a prosa que diz a quem\na escala se dirige e que aqui ocupa o lugar de uma regra de recusa, e o **aval estético**\nda rota `/saude-do-idoso/depressao-gds`. Nenhum literal, nenhuma regra e nenhum arquivo\nde aplicação mudaram por força da conferência.\n\nEra exatamente o que faltava. O que o cartão afirmava — que a indicação clínica não fora\nconferida por médico — deixou de ser verdade, e é por isso, e não pelo trabalho da\nsessão, que ele fecha.\n\n### Uma imprecisão do próprio cartão, corrigida\n\nA seção \"As duas ações\" atribuía a T034 o aval estético. Não é o que `actions.md` diz:\no aval estético é a terceira metade de **T033**, e **T034** é o registro do desfecho, com\ndata. Fica anotado para quem reler, porque a diferença importa: T034 não era conferência\nalguma, era a exigência de que a conferência deixasse rastro.\n\n### Onde o rastro ficou\n\n- `_reversa_forward/023-saude-do-idoso-gds/actions.md` — T033 e T034 em `[X]`, a nota de\n  execução reescrita com o desfecho e uma linha nova no histórico de alterações.\n- `_reversa_forward/023-saude-do-idoso-gds/progress.jsonl` — duas linhas, ambas `done`.\n- `_reversa_sdd/addenda/023-saude-do-idoso-gds.md` — seção `## Atualização 2026-08-09`,\n  que levanta a parcialidade declarada na criação do adendo. A sincronização da 023 passa\n  a ser integral, e a observação `O-023-06` cai com ela.\n\nAs capturas de tela que o cartão dava por perdidas não precisaram ser regeradas: a\nconferência se fez contra a tela, não contra a captura.",
         "mime": "text/markdown"
       }
     }

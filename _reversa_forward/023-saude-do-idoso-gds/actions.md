@@ -81,8 +81,8 @@ que o resultado da conferência tenha onde ser registrado, mesmo quando for "nad
 | T030 | Acrescentar a calculadora e a sua fonte ao `README.md`, com o nome publicado exatamente como o domínio o declara, para não repetir o drift que a 018 encontrou | T023 | `[//]` | `README.md` | 🟡 | `[X]` |
 | T031 | Ver o oráculo reprovar: inverter temporariamente a resposta que pontua de um item, confirmar que T005 falha nomeando-o, e desfazer. Teste que nunca foi visto vermelho não é guarda, é decoração | T005, T011 | - | `models/depressao-geriatrica/itens.ts` | 🟢 | `[X]` |
 | T032 | Verificação mecânica completa: `lint`, `typecheck`, suíte padrão com cobertura de `models/**` acima de 90%, inventário sem parar, e os dois roteiros e2e. Registrar as cifras, que a re-extração há de citar como medidas e não transcritas (`MD-0033`) | T026, T027, T028, T029 | - | — | 🟢 | `[X]` |
-| T033 | **Espera por humano.** Conferência clínica pelo prescritor: comparar a tela com a fonte aberta ao lado, item a item, mais a leitura da prosa que diz a quem o instrumento se dirige, que aqui substitui uma regra de recusa, e o aval estético da tela | T032 | - | — | 🟡 | `[ ]` |
-| T034 | Registrar o desfecho de T033: aplicar o que a conferência pedir ou anotar que nada mudou, com a data. Conferência sem registro é conferência que não aconteceu | T033 | - | `_reversa_forward/023-saude-do-idoso-gds/actions.md` | 🟢 | `[ ]` |
+| T033 | **Espera por humano.** Conferência clínica pelo prescritor: comparar a tela com a fonte aberta ao lado, item a item, mais a leitura da prosa que diz a quem o instrumento se dirige, que aqui substitui uma regra de recusa, e o aval estético da tela | T032 | - | — | 🟡 | `[X]` |
+| T034 | Registrar o desfecho de T033: aplicar o que a conferência pedir ou anotar que nada mudou, com a data. Conferência sem registro é conferência que não aconteceu | T033 | - | `_reversa_forward/023-saude-do-idoso-gds/actions.md` | 🟢 | `[X]` |
 
 ## Notas de execução
 
@@ -115,9 +115,12 @@ reformatações foram revertidas: o diff de `catalogo.ts` é, ao fim, **estritam
 `prettier --check` (655 arquivos), de modo que formatar por arrasto misturaria dívida
 antiga com entrega nova.
 
-**T033 e T034 permanecem abertas**, por dependerem de pessoa: a conferência clínica item a
-item contra a fonte, a leitura da prosa que diz a quem o instrumento se dirige, e o aval
-estético da tela.
+**T033 conferida e T034 registrada em 2026-08-09.** O prescritor comparou a tela com a
+fonte aberta ao lado, item a item, e as quinze perguntas conferem. Chancelou também as duas
+outras metades que a ação previa: a indicação do instrumento, isto é, a prosa que diz a quem
+a escala se dirige e que aqui faz as vezes de regra de recusa, e o aval estético da tela.
+**Nada pediu alteração**, de modo que esta nota é o desfecho inteiro: nenhum literal,
+nenhuma regra e nenhum arquivo mudaram por força da conferência.
 
 ## Histórico de alterações
 
@@ -125,3 +128,4 @@ estético da tela.
 |------|-----------|-------|
 | 2026-07-30 | Versão inicial gerada por `/reversa-to-do` | reversa |
 | 2026-07-30 | Execução de T001 a T032 por `/reversa-coding`; notas de execução acrescentadas | reversa |
+| 2026-08-09 | Conferência clínica de T033 aprovada pelo prescritor, sem alteração pedida; T033 e T034 fechadas | iagoleal |

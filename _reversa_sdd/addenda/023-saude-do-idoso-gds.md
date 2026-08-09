@@ -138,3 +138,25 @@ registro histórico e resolvem-se pelo cartão de mesmo número.
 - `_reversa_forward/023-saude-do-idoso-gds/progress.jsonl`
 - Microdecisões `MD-0018`, `MD-0027`, `MD-0029`, `MD-0038`, `MD-0039`, `MD-0040` e `MD-0041`, hoje
   cartões 18, 27, 29, 38, 39, 40 e 41 do quadro
+
+## Atualização 2026-08-09
+
+**A sincronização deixa de ser parcial.** As duas ações que faltavam fecharam no mesmo dia em que
+este adendo foi escrito, e fecharam pela via que o gate previa: pessoa, não automação. O prescritor
+comparou a tela com a fonte aberta ao lado, item a item, e as quinze perguntas conferem; chancelou
+a indicação do instrumento, isto é, a prosa que diz a quem a escala se dirige e que nesta entrega
+faz as vezes de regra de recusa; e deu o aval estético da tela. **34 de 34 ações concluídas.**
+
+Nada pediu alteração, de modo que o desfecho não tem delta a registrar: nenhum literal, nenhuma
+regra e nenhum arquivo de aplicação mudaram por força da conferência. A tabela de impacto acima
+permanece exata, e os watch items `W001` a `W018` seguem como estavam. O que muda é o estatuto do
+documento: o que se lia como ponte provisória sobre um gate aberto passa a descrever a entrega
+completa.
+
+Cai com isso a observação `O-023-06`, que existia só para lembrar que T033 e T034 dependiam de
+pessoa. `O-023-01` permanece, porque a conferência da página publicada contra a cópia datada
+continua manual e independe desta aprovação.
+
+O registro do desfecho vive em `_reversa_forward/023-saude-do-idoso-gds/actions.md`, nas notas de
+execução e no histórico de alterações, mais duas linhas em `progress.jsonl`. Era o que T034 exigia:
+conferência sem registro é conferência que não aconteceu.
