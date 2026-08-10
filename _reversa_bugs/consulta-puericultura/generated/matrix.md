@@ -1,4 +1,4 @@
-<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-fix em 2026-07-28T22:30:00Z a partir de 2 bugs -->
+<!-- GENERATED, DO NOT EDIT: regenerado por /reversa-debugger-fix em 2026-08-09T19:00:00Z a partir de 2 bugs -->
 
 # Matriz de relações BUG↔BUG — contexto `consulta-puericultura`
 
@@ -8,10 +8,14 @@ Lista esparsa de arestas (`origem | tipo | destino | state | evidência`).
 |---|---|---|---|---|
 | BUG-20260728-ZAHV | related-to | BUG-20260728-C6LN | proposed | — |
 
-A aresta **permanece `proposed`** depois do fechamento do ZAHV em 28/07: a correção não produziu
-evidência a favor nem contra ela, e promover uma relação por ter corrigido uma das pontas seria
-confundir vizinhança com causa. O ZAHV está travado por `DONE.md`, mas a aresta segue legível pelas
-duas leituras — o registro do C6LN continua a incluí-la.
+A aresta **permanece `proposed`** depois do fechamento das DUAS pontas — o ZAHV em 28/07, o C6LN em
+09/08. Nenhuma das correções produziu evidência a favor ou contra ela, e promover uma relação por
+ter corrigido ambas as pontas seria confundir vizinhança com causa. A investigação do C6LN, aliás,
+deu à aresta o seu argumento mais forte de permanecer fraca: os dois nasceram do mesmo print e da
+mesma tela, mas o ZAHV nascia da **spec** (a regra 7 do contrato do registro) e o C6LN, da
+**composição** (uma prop que não existia). Causas de naturezas diferentes.
+
+As duas pastas estão travadas por `DONE.md`, e a aresta segue legível pelas duas leituras.
 
 ## Inversas derivadas
 
@@ -29,7 +33,9 @@ entrega, não achado.
 ## Clusters
 
 Um só, por convergência de componente: ambos tocam `interface/puericultura/consulta/`. Os arquivos
-alcançados são disjuntos — `app.tsx` e `ficha.tsx` num, `formatar-registro.ts` no outro.
+alcançados são disjuntos — `app.tsx`, `ficha.tsx` e `consulta-puericultura.css` num,
+`formatar-registro.ts` e `registro.ts` no outro. A previsão de que as correções podiam correr em
+paralelo sem conflito de edição **se confirmou na prática**, com onze dias entre uma e outra.
 
 ## Cruzamento com outros contextos
 

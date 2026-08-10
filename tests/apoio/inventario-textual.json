@@ -6200,42 +6200,42 @@
     },
     {
       "arquivo": "interface/puericultura/consulta/app.tsx",
-      "linha": 191,
+      "linha": 208,
       "classe": "autoral",
       "texto": "Avaliar crescimento",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/puericultura/consulta/ficha.tsx",
-      "linha": 54,
+      "linha": 56,
       "classe": "identificador",
       "texto": "campo-radios consulta-campo",
       "especie": "StringLiteral"
     },
     {
       "arquivo": "interface/puericultura/consulta/ficha.tsx",
-      "linha": 65,
+      "linha": 67,
       "classe": "autoral",
       "texto": "Não",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/puericultura/consulta/ficha.tsx",
-      "linha": 74,
+      "linha": 76,
       "classe": "autoral",
       "texto": "Sim",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/puericultura/consulta/ficha.tsx",
-      "linha": 115,
+      "linha": 117,
       "classe": "autoral",
       "texto": "Complemento",
       "especie": "JsxText"
     },
     {
       "arquivo": "interface/puericultura/consulta/ficha.tsx",
-      "linha": 140,
+      "linha": 142,
       "classe": "identificador",
       "texto": "campo consulta-campo",
       "especie": "StringLiteral"

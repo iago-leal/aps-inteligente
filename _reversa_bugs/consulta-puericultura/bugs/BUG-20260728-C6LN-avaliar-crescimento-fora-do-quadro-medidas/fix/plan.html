@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de correção · BUG-20260728-C6LN</title>
+<style>
+  /* Plano de correção gerado por /reversa-debugger-fix em 2026-08-09, ANTES de qualquer
+     escrita em código. Tokens portados de interface/estilos/globais.css, iguais aos do
+     graph.html do contexto e aos do plan.html do BUG-20260728-ZAHV; não alterar valores. */
+  :root {
+    --fundo: #efeee9; --cartao: #ffffff; --campo: #fdfdfb; --tinta: #22302e;
+    --tinta2: #3b4744; --sec: #5a6663; --mudo: #8a918e; --borda: #dfdcd2;
+    --borda2: #eceae2; --suave: #faf9f5; --bordacampo: #c9c5b9;
+    --acento-texto: #0e5f53; --verde-texto: #1c6b4c; --verde-suave: #e7f2ec;
+    --verde-borda: #c4e0d2; --painel-verde: #f2f7f4; --pronto-borda: #7fb89a;
+    --ambar-bg: #fcf6e8; --ambar-borda: #e8d9ae; --ambar-texto: #7a5b12;
+    --alerta-texto: #6e2e1f; --alerta-borda: #e3b8aa; --alerta-bg: #fbf1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #161c1a; --cartao: #1f2624; --campo: #171e1c; --tinta: #e6ebe8;
+      --tinta2: #c2ccc7; --sec: #93a09a; --mudo: #6f7b76; --borda: #37413d;
+      --borda2: #2c3532; --suave: #242c29; --bordacampo: #46524d;
+      --acento-texto: #58bba6; --verde-texto: #7ecda9; --verde-suave: #1e332a;
+      --verde-borda: #35594a; --painel-verde: #20302c; --pronto-borda: #3e7a5e;
+      --ambar-bg: #332b18; --ambar-borda: #665728; --ambar-texto: #e0c577;
+      --alerta-texto: #ebb39f; --alerta-borda: #6e4237; --alerta-bg: #362320;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--fundo); color: var(--tinta);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif; line-height: 1.55;
+  }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.92em; }
+  .cabecalho {
+    background: var(--cartao); border-bottom: 1px solid var(--borda);
+    padding: 18px 32px; display: flex; align-items: baseline;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .cabecalho h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .cabecalho p { margin: 0; font-size: 13px; color: var(--sec); }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 18px; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; }
+  .card {
+    flex: 1; min-width: 150px; background: var(--painel-verde);
+    border: 1px solid var(--verde-borda); border-radius: 10px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  .card .valor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 24px;
+    font-weight: 600; color: var(--acento-texto); text-transform: none; letter-spacing: normal;
+  }
+  .card.neutro { background: var(--suave); border-color: var(--borda2); }
+  .card.alerta { background: var(--alerta-bg); border-color: var(--alerta-borda); }
+  .card.alerta .valor { color: var(--alerta-texto); }
+  .card.ambar { background: var(--ambar-bg); border-color: var(--ambar-borda); }
+  .card.ambar .valor { color: var(--ambar-texto); }
+  .cartao {
+    background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px;
+    padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .cartao h2 {
+    margin: 0; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sec);
+  }
+  .cartao h3 { margin: 6px 0 0; font-size: 14px; font-weight: 700; color: var(--tinta); }
+  .cartao p { margin: 0; font-size: 14px; color: var(--tinta2); }
+  .cartao ul, .cartao ol { margin: 0; padding-left: 20px; font-size: 14px; color: var(--tinta2); }
+  .cartao li { margin-bottom: 5px; }
+  a { color: var(--acento-texto); }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { border: 1px solid var(--borda); padding: 9px 12px; text-align: left; vertical-align: top; color: var(--tinta2); }
+  th {
+    background: var(--suave); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--sec);
+  }
+  pre {
+    background: var(--campo); border: 1px solid var(--bordacampo); border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px; line-height: 1.5; color: var(--tinta2); margin: 0;
+  }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .duas { grid-template-columns: 1fr; } main { padding: 20px 16px 40px; } .cabecalho { padding: 16px 20px; } }
+  .selo {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .selo.corta { background: var(--alerta-bg); color: var(--alerta-texto); border: 1px solid var(--alerta-borda); }
+  .selo.mantem { background: var(--verde-suave); color: var(--verde-texto); border: 1px solid var(--verde-borda); }
+  .selo.decide { background: var(--ambar-bg); color: var(--ambar-texto); border: 1px solid var(--ambar-borda); }
+  .aberto { background: var(--ambar-bg); border-color: var(--ambar-borda); }
+  svg text { font-family: "IBM Plex Sans", -apple-system, sans-serif; }
+  svg .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .rodape { font-size: 12px; color: var(--mudo); border-top: 1px solid var(--borda2); padding-top: 12px; }
+</style>
+</head>
+<body>
+  <header class="cabecalho">
+    <h1>Plano de correção · <code>BUG-20260728-C6LN</code></h1>
+    <p>Bug #2 · contexto <code>consulta-puericultura</code> · 2026-08-09 ·
+    <strong>medium · P2</strong> · fase <code>diagnosing</code> → aguardando aprovação do plano</p>
+  </header>
+
+  <main>
+
+    <div class="cards">
+      <span class="card alerta">Quadros entre a medida e o comando<span class="valor">4</span></span>
+      <span class="card neutro">Causa raiz<span class="valor">confirmed</span></span>
+      <span class="card neutro">Risco da mudança<span class="valor">baixa</span></span>
+      <span class="card neutro">Arquivos de código tocados<span class="valor">3</span></span>
+      <span class="card ambar">Decisão aberta<span class="valor">1</span></span>
+    </div>
+
+    <section class="cartao">
+      <h2>O defeito</h2>
+      <p>O comando &ldquo;Avaliar crescimento&rdquo; consome três medidas — perímetro cefálico, peso e
+      comprimento —, e as três moram no primeiro quadro da ficha, &ldquo;1. Medidas&rdquo;. O comando,
+      porém, é renderizado depois do <em>último</em> quadro, em largura total, logo acima do bloco
+      &ldquo;Registro em SOAP&rdquo;. Quem preenche as medidas percorre a ficha inteira até encontrar o
+      botão que as avalia, e nada na tela liga um ao outro.</p>
+
+      <h3>Reprodução (cápsula em <a href="../evidence/reproduction.md"><code>evidence/reproduction.md</code></a>)</h3>
+      <p>Determinística, 1/1, sobre o commit <code>c3db432</code>. O teste renderiza
+      <code>AppConsulta</code>, identifica sexo e as duas datas, localiza o comando por papel e nome
+      acessível e pergunta em que <code>fieldset</code> ele está. A resposta é mais dura do que o
+      relato:</p>
+      <pre>[repro] fieldset do comando: NENHUM
+[repro] pai do comando: consulta-regioes DIV
+[repro] medidas contém o comando? false</pre>
+      <p>O comando não está no quadro errado: está fora de <strong>qualquer</strong> quadro. Pende
+      direto do <code>div.consulta-regioes</code>, irmão da <code>&lt;section class="consulta-ficha"&gt;</code>
+      que abriga os dez <code>fieldset</code>, e depois dela na ordem do documento.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Causa raiz · estado <code>confirmed</code></h2>
+      <p><strong>Não é defeito de lógica: é uma fronteira de composição que nunca teve porta.</strong>
+      <code>FichaPreenchivel</code> (<code>interface/puericultura/consulta/ficha.tsx:209</code>) projeta
+      as seções a partir do dado da ficha e <em>não aceita conteúdo de fora</em>: seu contrato de props
+      tem quatro entradas, todas de dado, e nenhuma de composição. Como não há por onde inserir nada
+      dentro de um <code>fieldset</code>, quem montou a tela pôs o comando onde cabia — irmão da ficha,
+      em <code>app.tsx:186</code>.</p>
+
+      <h3>Evidências que fecham o caminho causal</h3>
+      <ol>
+        <li>A cápsula reproduz 1/1 e imprime o pai real do nó: <code>div.consulta-regioes</code>. Não há
+        condicional, estado ou corrida no caminho — a posição vem da ordem do JSX.</li>
+        <li><code>PropsFichaPreenchivel</code> declara <code>ficha</code>, <code>sexo</code>,
+        <code>preenchimento</code> e <code>onResposta</code>. Nenhuma aceita <code>ReactNode</code>, de
+        modo que a impossibilidade é do <em>tipo</em>, não do uso.</li>
+        <li>O corpo do <code>fieldset</code> em <code>ficha.tsx:220-227</code> é um único
+        <code>map</code> sobre <code>camposAplicaveis</code>. Nada mais pode entrar ali.</li>
+      </ol>
+
+      <h3>Não é regressão</h3>
+      <p>A posição é a original da feature 020: o comando nasceu irmão da ficha e nunca esteve dentro
+      dela. Não existe commit bom conhecido, e <code>git bisect</code> apontaria o commit que
+      <em>introduziu a funcionalidade</em>, não o que a quebrou — inaplicável, portanto.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Uma apuração que muda o desenho</h2>
+      <p>O registro afirmava, por leitura de código, que as dez fichas têm a seção 1 com o título
+      &ldquo;Medidas&rdquo;. A varredura de <code>models/puericultura/consulta/fichas/*.ts</code>
+      confirma, e estabelece algo mais forte: <strong>cada ficha tem exatamente uma seção com campos de
+      natureza <code>medida</code>, e é sempre a de número 1</strong>. Não há ficha sem medidas nem
+      ficha com medidas espalhadas por dois quadros.</p>
+      <div class="wrap">
+      <table>
+        <tr><th>Ficha</th><th>Seções com campo <code>medida</code></th><th>Ficha</th><th>Seções com campo <code>medida</code></th></tr>
+        <tr><td><code>primeira-semana</code></td><td>1. Medidas (3)</td><td><code>nono-mes</code></td><td>1. Medidas (3)</td></tr>
+        <tr><td><code>primeiro-mes</code></td><td>1. Medidas (3)</td><td><code>decimo-segundo-mes</code></td><td>1. Medidas (3)</td></tr>
+        <tr><td><code>segundo-mes</code></td><td>1. Medidas (3)</td><td><code>decimo-oitavo-mes</code></td><td>1. Medidas (3)</td></tr>
+        <tr><td><code>quarto-mes</code></td><td>1. Medidas (3)</td><td><code>vigesimo-quarto-mes</code></td><td>1. Medidas (4)</td></tr>
+        <tr><td><code>sexto-mes</code></td><td>1. Medidas (3)</td><td><code>trigesimo-sexto-mes</code></td><td>1. Medidas (4)</td></tr>
+      </table>
+      </div>
+      <p>Nas duas últimas o quarto campo é o IMC, que a página imprime e a calculadora deriva. Nenhum
+      campo de medida traz restrição de sexo, de modo que <code>secao.campos</code> e
+      <code>camposAplicaveis(secao, sexo)</code> concordam para efeito do predicado.</p>
+      <p><strong>Consequência:</strong> a regra pode ser escrita por <em>predicado</em> — &ldquo;a seção
+      que contém campos de medida&rdquo; — em vez de por título, sem caso especial e sem ambiguidade. É
+      a formulação que os Agent Notes do bug pediam, e ela sobrevive a uma edição da caderneta que
+      renomeie a seção.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Estratégia · correção direta</h2>
+      <p>Sem debate multiagente. O debate serve a hipóteses concorrentes de diagnóstico ou a estratégias
+      concorrentes sob risco alto, e aqui não há nem uma nem outra: a causa é <code>confirmed</code>, o
+      risco é baixo e o desfecho visual está fixado pelo usuário desde 28/07.</p>
+
+      <h3>Das duas saídas do registro, a primeira — reformulada</h3>
+      <p>O <code>bug.md</code> enumerava duas, e imputava um custo a cada uma:</p>
+      <div class="wrap">
+      <table>
+        <tr><th>Saída</th><th>Custo que o registro lhe atribuía</th><th>Veredito</th></tr>
+        <tr>
+          <td><strong>1.</strong> <code>ficha.tsx</code> ganha ponto de extensão</td>
+          <td>&ldquo;abrir a estrutura da projeção a um consumidor que ela não previa&rdquo;</td>
+          <td><span class="selo mantem">escolhida</span> o custo se evita com um ponto de extensão <strong>cego</strong></td>
+        </tr>
+        <tr>
+          <td><strong>2.</strong> a projeção se acopla a um comando de aplicação</td>
+          <td>&ldquo;a projeção deixa de ser função pura da fonte&rdquo;</td>
+          <td><span class="selo corta">descartada</span> o custo é real e não tem contorno</td>
+        </tr>
+      </table>
+      </div>
+      <p><strong>Cego</strong> quer dizer que a ficha aceita <em>um nó qualquer</em> ao fim de cada
+      quadro e não sabe o que é: <code>rodapeDaSecao?: (secao) =&gt; ReactNode</code>. Ela continua
+      ignorando que existe um comando de crescimento. Quem decide <em>em qual</em> quadro o botão entra é
+      <code>app.tsx</code>, que já conhece os dois lados, aplicando o predicado da seção com medidas.</p>
+      <p>A repartição resultante é a que a arquitetura do projeto pede: a <strong>projeção da fonte
+      clínica permanece função pura do dado</strong>, e a <strong>regra de posição de um comando de
+      aplicação fica na camada de aplicação</strong>, que é a dona dela. O acoplamento não desaparece —
+      ele muda de lado, e vai para o lado que já estava acoplado.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Correction Change Set proposto</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>CHG</th><th>Tipo</th><th>Artefato</th><th>Propósito</th></tr>
+        <tr>
+          <td><code>CHG-001</code></td><td><code>code</code></td>
+          <td><code>interface/puericultura/consulta/ficha.tsx</code></td>
+          <td>Prop opcional <code>rodapeDaSecao?: (secao: SecaoDaFicha) =&gt; ReactNode</code>, renderizada
+          ao fim de cada <code>fieldset</code>, depois dos campos. Sem a prop, a ficha desenha exatamente
+          o que desenha hoje.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-002</code></td><td><code>code</code></td>
+          <td><code>interface/puericultura/consulta/app.tsx</code></td>
+          <td>O <code>&lt;Button&gt;</code> deixa de ser irmão de <code>&lt;FichaPreenchivel&gt;</code> e passa
+          a chegar pelo rodapé, na seção cujo <code>campos</code> tem natureza <code>medida</code>. O
+          <code>ref</code>, o rótulo e o <code>onClick</code> não mudam.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-003</code></td><td><code>code</code></td>
+          <td><code>interface/estilos/consulta-puericultura.css</code></td>
+          <td>Respiro do comando dentro do quadro. <strong>Condicional:</strong> só entra se a inspeção
+          visual mostrar que o botão encosta no último campo. Se não for preciso, o change set fica com
+          dois arquivos de código.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-004</code></td><td><code>specification</code></td>
+          <td><code>_reversa_sdd/addenda/bug-BUG-20260728-C6LN-v001.md</code></td>
+          <td>Adendo aditivo do veredito <code>spec-gap</code>: a spec da unit
+          <code>interface-puericultura-consulta</code> ganha, pela primeira vez, a regra de ancoragem do
+          gatilho. Redigida por predicado.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-005</code></td><td><code>test</code></td>
+          <td><code>tests/integration/interface/consulta-puericultura.test.tsx</code></td>
+          <td>Reprodução e regressão de interface: onde o comando mora, e que ele continua lá depois de
+          trocar a ficha pelo seletor.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-006</code></td><td><code>test</code></td>
+          <td><code>tests/unit/…/fichas.test.ts</code> (arquivo a confirmar)</td>
+          <td>Regressão da <em>premissa</em>: cada uma das dez fichas tem exatamente uma seção com campos
+          de medida. É o que garante que o predicado seleciona um quadro, e só um.</td>
+        </tr>
+        <tr>
+          <td><code>CHG-007</code></td><td><code>test</code></td>
+          <td><code>e2e/consulta-puericultura.spec.ts</code></td>
+          <td>Regressão de foco: fechado o painel, o foco volta ao gatilho <em>inclusive depois de trocar
+          a ficha</em>, que é o modo de falha que a remontagem do quadro cria.</td>
+        </tr>
+      </table>
+      </div>
+      <p>Nada mais é tocado. Motor de crescimento, catálogo das dez fichas, projeção em texto e o
+      contrato do registro em SOAP ficam intactos; <strong>nenhum literal novo nasce</strong>, e o
+      inventário textual não se move.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Testes planejados</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Papel</th><th>Onde</th><th>O que prova</th></tr>
+        <tr>
+          <td><strong>Reprodução</strong></td>
+          <td>integração</td>
+          <td>Que o comando está dentro do <code>fieldset</code> que contém os campos de medida. Hoje
+          reprova em <code>expect(quadroDoComando).not.toBeNull()</code>, porque não há
+          <code>fieldset</code> nenhum acima dele.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 1</strong></td>
+          <td>integração</td>
+          <td>Que trocar de ficha pelo seletor não devolve o comando para fora do quadro. Guarda a
+          remontagem, que é por onde a correção poderia se desfazer sem aviso.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 2</strong></td>
+          <td>unidade, sobre o domínio</td>
+          <td>Que cada ficha tem exatamente uma seção com campos de medida. Sem essa invariante o
+          predicado de <code>app.tsx</code> pode selecionar dois quadros, ou nenhum, numa ficha futura —
+          e a falha seria silenciosa: dois botões, ou botão nenhum.</td>
+        </tr>
+        <tr>
+          <td><strong>Regressão 3</strong></td>
+          <td>e2e</td>
+          <td>Que o foco retorna ao gatilho depois de trocar a ficha. O <code>ref</code> sobrevive à
+          remontagem por identidade de objeto, mas isso é comportamento de framework, e comportamento de
+          framework se guarda com prova.</td>
+        </tr>
+      </table>
+      </div>
+      <p>Os três testes vigentes que tocam o comando —
+      <code>consulta-puericultura.test.tsx:119</code>, <code>e2e:89</code> e <code>e2e:144</code> — o
+      alcançam por papel e nome acessível, nunca por posição. Devem permanecer verdes sem emenda, e o
+      fato de nenhum deles cair é a prova de que a posição jamais foi contratada.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Riscos · <code>change_risk: baixa</code></h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Eixo</th><th>Avaliação</th></tr>
+        <tr><td>Blast radius</td><td>Duas telas: a consulta de puericultura e nada mais. <code>FichaPreenchivel</code> tem um único consumidor.</td></tr>
+        <tr><td>Contrato externo</td><td>Nenhum. A prop nova é opcional, e sem ela o componente se comporta como hoje.</td></tr>
+        <tr><td>Dados</td><td>Nenhum. A tela não persiste (ADR 0002), e não há estado histórico a reparar.</td></tr>
+        <tr><td>Concorrência</td><td>Nenhuma.</td></tr>
+        <tr><td>Reversibilidade</td><td>Total. Três arquivos, diff pequeno, sem migração.</td></tr>
+      </table>
+      </div>
+
+      <h3>O que fica de fora, de propósito</h3>
+      <ul>
+        <li><strong>Acessibilidade do <code>fieldset</code>.</strong> Um <code>&lt;button&gt;</code> dentro
+        de <code>fieldset</code> com <code>legend</code> é HTML válido e reforça a ligação que falta.
+        A varredura axe da rota continua sendo exigida em zero, mas não se acrescenta guarda nova.</li>
+        <li><strong>Geometria da coluna e da ficha</strong>, guardada pelas provas e2e da feature 021:
+        permanece como está, e o plano não a toca.</li>
+        <li><strong>Taxonomia do bug.</strong> Os Agent Notes propõem <code>module:
+        interface-puericultura-consulta</code> e <code>feature: consulta-puericultura-soap</code>, hoje
+        ausentes de <code>taxonomy.yaml</code>. Editar o vocabulário controlado é decisão de registro,
+        não de correção, e fica para o <code>/reversa-debugger-graph</code>.</li>
+      </ul>
+    </section>
+
+    <section class="cartao aberto">
+      <h2>A decisão aberta</h2>
+      <p><strong>O <code>CHG-003</code> existe?</strong> Hoje o botão herda a largura total do
+      <code>flex-direction: column</code> de <code>.consulta-regioes</code>. Dentro do
+      <code>fieldset</code> ele volta a ser <code>inline-block</code>, que é o padrão do
+      <code>Button</code> do Primer, e provavelmente encostará no último campo de medida. A proposta é
+      uma única regra de <code>margin-block-start</code> na folha da tela, decidida por inspeção depois
+      de o botão estar no lugar — e declarada aqui para que ela não entre como contrabando.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Mini-grafo do bug</h2>
+      <div class="wrap">
+      <svg viewBox="0 0 760 210" width="100%" height="210" role="img"
+           aria-label="BUG-20260728-C6LN ao centro, ligado a BUG-20260728-ZAHV por aresta related-to em estado proposed">
+        <defs>
+          <marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <g color="var(--mudo)">
+          <line x1="250" y1="105" x2="470" y2="105" stroke="currentColor" stroke-width="1.5"
+                stroke-dasharray="5 4" marker-start="url(#seta)" marker-end="url(#seta)" />
+        </g>
+        <text x="360" y="94" text-anchor="middle" font-size="12" fill="var(--sec)">related-to</text>
+        <text x="360" y="126" text-anchor="middle" font-size="11" fill="var(--mudo)" class="mono">proposed</text>
+
+        <a href="../bug.md">
+          <rect x="40" y="55" width="210" height="100" rx="10"
+                fill="var(--ambar-bg)" stroke="var(--ambar-borda)" stroke-width="2" />
+          <text x="145" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ambar-texto)" class="mono">BUG-20260728-C6LN</text>
+          <text x="145" y="106" text-anchor="middle" font-size="12" fill="var(--tinta2)">#2 · comando fora do quadro</text>
+          <text x="145" y="127" text-anchor="middle" font-size="11" fill="var(--sec)" class="mono">open · medium · P2</text>
+        </a>
+
+        <a href="../../BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md">
+          <rect x="470" y="55" width="250" height="100" rx="10"
+                fill="var(--verde-suave)" stroke="var(--verde-borda)" stroke-width="1.5" />
+          <text x="595" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="var(--verde-texto)" class="mono">BUG-20260728-ZAHV</text>
+          <text x="595" y="106" text-anchor="middle" font-size="12" fill="var(--tinta2)">#3 · proveniência no texto copiado</text>
+          <text x="595" y="127" text-anchor="middle" font-size="11" fill="var(--sec)" class="mono">resolved · fixed</text>
+        </a>
+      </svg>
+      </div>
+      <p>A única aresta do bug é fraca de propósito: os dois nasceram do mesmo print de 28/07 e da mesma
+      tela, mas não compartilham causa. O ZAHV nascia da <em>spec</em> (regra 7 do contrato do registro);
+      este nasce da <em>composição</em>. Corrigir um não move o outro, e é por isso que a aresta segue
+      <code>proposed</code> em vez de subir a <code>supported</code>.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Matriz de relações</h2>
+      <div class="wrap">
+      <table>
+        <tr><th>Origem</th><th>Tipo</th><th>Destino</th><th>Estado</th><th>Onde está declarada</th></tr>
+        <tr>
+          <td><a href="../../BUG-20260728-ZAHV-notas-de-proveniencia-no-texto-copiado/bug.md"><code>BUG-20260728-ZAHV</code></a></td>
+          <td><code>related-to</code></td>
+          <td><a href="../bug.md"><code>BUG-20260728-C6LN</code></a></td>
+          <td><span class="selo decide">proposed</span></td>
+          <td>front matter do ZAHV</td>
+        </tr>
+      </table>
+      </div>
+      <p>Nenhuma aresta <code>blocked-by</code>, <code>caused-by</code> ou <code>duplicate-of</code>
+      incide sobre este bug, e <code>blocking</code> está vazio. Não há ordem de correção a derivar: é
+      o único aberto do projeto.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Veredito de spec previsto</h2>
+      <p><span class="selo decide">spec-gap</span> A spec efetiva não fixa a posição do gatilho.
+      <code>interface-puericultura-consulta/requirements.md#requisitos-funcionais</code> enumera em RF-01
+      as partes a compor — moldura, aviso, identificação, seletor, ficha, painel e registro — sem dizer
+      onde o gatilho se ancora; e a RF-09 da feature 020 trata do que o painel <em>recebe</em>, não de
+      onde o comando mora. Não havendo regra, não há divergência: há lacuna.</p>
+      <p>O adendo será <strong>aditivo</strong> — especifica pela primeira vez, sem fingir que altera
+      seção inexistente — e a regra será redigida por predicado, e não por título de seção. A decisão do
+      veredito é sua, e entra no fluxo depois dos dois gates.</p>
+    </section>
+
+    <p class="rodape">Gerado por <code>/reversa-debugger-fix</code> em 2026-08-09, sobre o commit
+    <code>c3db432</code>, antes de qualquer escrita em código de aplicação. Nenhum arquivo fora de
+    <code>_reversa_bugs/</code> foi tocado até aqui.</p>
+
+  </main>
+</body>
+</html>

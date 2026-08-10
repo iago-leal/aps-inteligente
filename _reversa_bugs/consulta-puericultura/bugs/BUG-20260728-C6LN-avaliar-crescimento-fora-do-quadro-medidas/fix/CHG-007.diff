@@ -1,0 +1,41 @@
+diff --git a/e2e/consulta-puericultura.spec.ts b/e2e/consulta-puericultura.spec.ts
+index 46c7d41..c25a1b8 100644
+--- a/e2e/consulta-puericultura.spec.ts
++++ b/e2e/consulta-puericultura.spec.ts
+@@ -98,6 +98,36 @@ test("teclado: a ficha longa é percorrível e o painel devolve o foco ao gatilh
+   await expect(gatilho).toBeFocused();
+ });
+ 
++// Regressão de BUG-20260728-C6LN. Levar o gatilho para dentro do quadro das medidas o põe
++// dentro de uma árvore que se REMONTA a cada troca de ficha, e o retorno de foco depende de
++// um `ref` que sobreviva a essa remontagem. Sobrevive por identidade de objeto, mas isso é
++// comportamento de framework, e comportamento de framework se guarda com prova: o dia em que
++// alguém trocar o `useRef` por um `ref` de callback criado no corpo do render, o foco passa a
++// cair no `<body>` depois de trocar a ficha, sem que nenhum outro teste reprove.
++test("teclado: o foco volta ao gatilho mesmo depois de trocar a ficha (BUG-20260728-C6LN)", async ({
++  page,
++}) => {
++  await page.goto("/puericultura/consulta");
++  await identifica(page);
++
++  await page.getByRole("button", { name: /consulta do 4º mês/i }).click();
++  await page
++    .getByRole("menuitemradio", { name: /consulta do 6º mês/i })
++    .click();
++  await expect(
++    page.getByRole("button", { name: /consulta do 6º mês/i }),
++  ).toBeVisible();
++
++  const gatilho = page.getByRole("button", { name: /avaliar crescimento/i });
++  await gatilho.focus();
++  await page.keyboard.press("Enter");
++  await expect(page.getByRole("dialog")).toBeVisible();
++
++  await page.keyboard.press("Escape");
++  await expect(page.getByRole("dialog")).toHaveCount(0);
++  await expect(gatilho).toBeFocused();
++});
++
+ test("acessibilidade: a ficha de consulta nasce em zero violação axe", async ({
+   page,
+ }, testInfo) => {

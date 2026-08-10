@@ -64,6 +64,14 @@
   margin-block: var(--stack-gap-condensed, 0.5rem);
 }
 
+/* BUG-20260728-C6LN: o comando de crescimento passou a morar dentro do quadro cujas medidas
+   ele consome. Fora do quadro ele herdava o `gap` da coluna de regiões; dentro, encostaria no
+   último campo, porque `.consulta-campo` dá 0,5rem de cada lado e o botão não dá nenhum. O
+   respiro é maior que o entre-campos de propósito: o comando não é mais um campo da lista. */
+.consulta-comando-da-secao {
+  margin-block-start: var(--stack-gap-normal, 1rem);
+}
+
 /* O seletor entre as dez fichas fica acima da ficha e abaixo da identificação: a ordem de
    leitura acompanha a da consulta, em que a idade precede a escolha da ficha (RF-03). */
 .consulta-seletor {

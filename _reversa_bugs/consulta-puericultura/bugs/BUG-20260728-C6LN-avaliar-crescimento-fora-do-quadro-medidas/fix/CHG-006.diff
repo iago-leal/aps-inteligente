@@ -1,0 +1,46 @@
+diff --git a/tests/unit/dominio-puericultura/consulta-selecao.test.ts b/tests/unit/dominio-puericultura/consulta-selecao.test.ts
+index 272f049..3eae708 100644
+--- a/tests/unit/dominio-puericultura/consulta-selecao.test.ts
++++ b/tests/unit/dominio-puericultura/consulta-selecao.test.ts
+@@ -47,6 +47,41 @@ describe("Faixas das dez fichas (RN-02)", () => {
+   );
+ });
+ 
++// Regressão de BUG-20260728-C6LN. A tela ancora o comando "Avaliar crescimento" no quadro
++// que CONTÉM campos de medida, e não no de título "Medidas": a formulação por predicado
++// sobrevive a uma edição da caderneta que renomeie a seção. O predicado, porém, só é bem
++// definido enquanto a invariante abaixo valer — e a falha seria silenciosa, porque uma ficha
++// com medidas em dois quadros produziria DOIS comandos, e uma sem medidas, nenhum.
++//
++// A invariante mora aqui, e não na interface, porque é propriedade do acervo: quem quebra é
++// quem edita uma ficha, e é a essa pessoa que o teste precisa falar.
++describe("Exatamente um quadro de medidas por ficha (BUG-20260728-C6LN)", () => {
++  it.each(FICHAS.map((f) => [f.id, f] as const))(
++    "a ficha %s tem uma única seção com campos de medida",
++    (_id, ficha) => {
++      const comMedida = ficha.secoes.filter((secao) =>
++        secao.campos.some((campo) => campo.natureza === "medida"),
++      );
++      expect(
++        comMedida.map((secao) => `${secao.numero}. ${secao.titulo}`),
++      ).toHaveLength(1);
++    },
++  );
++
++  it("nenhum campo de medida é restrito por sexo", () => {
++    // Se algum fosse, `camposAplicaveis` poderia esvaziar de medidas o quadro que a tela
++    // escolheu pelo dado bruto, e o comando ficaria num quadro sem medida nenhuma.
++    for (const ficha of FICHAS) {
++      for (const secao of ficha.secoes) {
++        for (const campo of secao.campos) {
++          if (campo.natureza !== "medida") continue;
++          expect(campo.sexos, `${ficha.id} · ${campo.id}`).toBeUndefined();
++        }
++      }
++    }
++  });
++});
++
+ describe("Idade entre duas consultas previstas (RN-04)", () => {
+   it("cai na ficha imediatamente anterior", () => {
+     // Sete meses não é consulta prevista: a fonte imprime 6.º e 9.º, e nada entre eles.

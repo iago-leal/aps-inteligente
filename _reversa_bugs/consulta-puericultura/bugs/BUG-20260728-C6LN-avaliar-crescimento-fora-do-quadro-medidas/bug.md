@@ -3,12 +3,12 @@ schema_version: 1
 id: BUG-20260728-C6LN
 display_number: 2
 title: Comando "Avaliar crescimento" fica fora do quadro "1. Medidas", que é o que ele consome
-status: open
-phase: triaging
+status: resolved
+phase: resolved
 severity: medium
 priority: P2
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-09
 
 origin:
   type: manual-report
@@ -24,8 +24,16 @@ security_suspected: false
 
 reproduction:
   classification: deterministic
-  rate: "1/1 observado em produção (apsinteligente.app/puericultura/consulta, print de 28/07)"
+  rate: "1/1 observado em produção (apsinteligente.app/puericultura/consulta, print de 28/07); 1/1 na cápsula isolada (evidence/reproduction.md, commit base c3db432)"
   suspected_triggers: []
+
+change_risk:
+  level: baixa
+  reasons:
+    - "blast radius de um consumidor: FichaPreenchivel só é usada por app.tsx"
+    - "sem contrato externo: a prop nova é opcional e a ausência dela reproduz o comportamento atual"
+    - "sem dados: a tela não persiste (ADR 0002), não há estado histórico a reparar"
+    - "sem concorrência; reversível por completo, três arquivos e nenhuma migração"
 
 blocking: []
 
@@ -40,18 +48,70 @@ traceability:
     - "interface/puericultura/consulta/app.tsx:186-192 — o gatilho nasce irmão da ficha, depois dela na ordem de composição"
     - "interface/puericultura/consulta/ficha.tsx:216-230 — cada seção é um fieldset com legend, e a ficha não recebe conteúdo de fora"
     - "interface/estilos/consulta-puericultura.css — grade das seções e largura do comando"
-  root_cause: null
-  reproduction_tests: []
-  regression_tests: []
+  root_cause:
+    state: confirmed
+    where: "interface/puericultura/consulta/ficha.tsx:202-207 (PropsFichaPreenchivel) e :220-227 (o corpo do fieldset). A consequência aparece em interface/puericultura/consulta/app.tsx:186-192."
+    born: "feature 020, na composição original da tela. Não é regressão: o comando nasceu irmão da ficha e nunca esteve dentro dela. Bisect inaplicável — não existe commit bom conhecido."
+    summary: >-
+      Não é defeito de lógica: é uma fronteira de composição que nunca teve porta.
+      `FichaPreenchivel` projeta as seções a partir do dado da ficha e não aceita conteúdo de
+      fora — seu contrato de props tem quatro entradas, todas de dado, e o corpo de cada
+      `fieldset` é um único `map` sobre `camposAplicaveis`. Como não há por onde inserir nada
+      dentro de um quadro, quem montou a tela pôs o comando onde cabia: irmão da ficha, depois
+      dela na ordem do JSX. A impossibilidade é do tipo, não do uso.
+    evidence:
+      - "evidence/reproduction.md — cápsula determinística 1/1 sobre o commit c3db432; o diagnóstico impresso dá o pai real do nó, `div.consulta-regioes`, e mostra que não há fieldset algum acima do comando"
+      - "ficha.tsx:202-207 — PropsFichaPreenchivel declara ficha, sexo, preenchimento e onResposta; nenhuma aceita ReactNode"
+      - "ficha.tsx:220-227 — o corpo do fieldset é um único map sobre camposAplicaveis, sem ponto de inserção"
+      - "os três testes vigentes que tocam o comando o alcançam por papel e nome acessível, nunca por posição, o que prova que a posição nunca foi contratada"
+  reproduction_tests:
+    - "tests/integration/interface/consulta-puericultura.test.tsx — describe 'O comando de crescimento mora no quadro das medidas (BUG-20260728-C6LN)', caso 'é filho do fieldset que contém os campos de medida' (vermelho em c3db432; Gate 1 aprovado 2026-08-09)"
+  regression_tests:
+    - "tests/integration/interface/consulta-puericultura.test.tsx — mesmo describe: ordem no documento, ficha de quatro medidas com comando único, e o painel que continua abrindo de onde o comando está"
+    - "tests/unit/dominio-puericultura/consulta-selecao.test.ts — describe 'Exatamente um quadro de medidas por ficha (BUG-20260728-C6LN)': a invariante que torna o predicado bem definido, verificada nas dez fichas, mais a ausência de medida restrita por sexo"
+    - "e2e/consulta-puericultura.spec.ts — 'teclado: o foco volta ao gatilho mesmo depois de trocar a ficha': guarda o modo de falha que a correção CRIA, o ref caindo no vazio depois da remontagem do quadro"
+    - "Vizinhança intacta: os três testes vigentes que tocam o comando permaneceram verdes sem emenda, porque o alcançam por papel e nome acessível"
 
-spec_verdict: null
+spec_verdict:
+  verdict: spec-gap
+  addendum: "_reversa_sdd/addenda/bug-BUG-20260728-C6LN-v001.md"
+  decided_by: iago
+  decided_at: 2026-08-09
 
-change_set: []
+change_set:
+  - id: CHG-001
+    kind: code
+    artifact: "interface/puericultura/consulta/ficha.tsx"
+    diff: "fix/CHG-001.diff"
+  - id: CHG-002
+    kind: code
+    artifact: "interface/puericultura/consulta/app.tsx"
+    diff: "fix/CHG-002.diff"
+  - id: CHG-003
+    kind: code
+    artifact: "interface/estilos/consulta-puericultura.css"
+    diff: "fix/CHG-003.diff"
+  - id: CHG-004
+    kind: specification
+    artifact: "_reversa_sdd/addenda/bug-BUG-20260728-C6LN-v001.md"
+    diff: null
+  - id: CHG-005
+    kind: test
+    artifact: "tests/integration/interface/consulta-puericultura.test.tsx"
+    diff: "fix/CHG-005.diff"
+  - id: CHG-006
+    kind: test
+    artifact: "tests/unit/dominio-puericultura/consulta-selecao.test.ts"
+    diff: "fix/CHG-006.diff"
+  - id: CHG-007
+    kind: test
+    artifact: "e2e/consulta-puericultura.spec.ts"
+    diff: "fix/CHG-007.diff"
 
 closure:
   policy: local-software
-  satisfied: false
-resolution_kind: null
+  satisfied: true
+resolution_kind: fixed
 ---
 
 # Comando "Avaliar crescimento" fica fora do quadro "1. Medidas", que é o que ele consome
@@ -157,3 +217,81 @@ Três implicações a considerar no fix, nenhuma resolvida aqui:
   nenhum literal novo nasce daqui.
 - **Proposta de taxonomia** (não aplicada): `module: interface-puericultura-consulta` e
   `feature: consulta-puericultura-soap`, hoje ausentes de `taxonomy.yaml`.
+
+## Resolution
+
+> Encerrado em 2026-08-09 por `/reversa-debugger-fix`, closure policy `local-software`
+> satisfeita: regressão passando e veredito de spec decidido.
+
+### Causa raiz, estado final `confirmed`
+
+Uma fronteira de composição sem porta. `FichaPreenchivel` projetava as seções a partir do dado da
+ficha e não aceitava conteúdo de fora: quatro props, todas de dado, e o corpo de cada `fieldset`
+reduzido a um `map` sobre `camposAplicaveis`. A impossibilidade era do **tipo**, não do uso, e por
+isso quem montou a tela pôs o comando onde cabia — irmão da ficha, depois dela na ordem do JSX.
+
+A cápsula determinística mostrou que o defeito era pior que o relato: o comando não estava no quadro
+errado, estava fora de **qualquer** quadro, pendurado em `div.consulta-regioes`.
+
+### Veredito de spec
+
+`spec-gap`, decidido pelo usuário em 2026-08-09. A spec não descrevia posição alguma para o gatilho,
+e a prova é que os três testes vigentes que tocam o comando o alcançam por papel e nome acessível:
+se a posição estivesse contratada, algum deles teria caído. Nenhum caiu. O adendo aditivo está em
+`_reversa_sdd/addenda/bug-BUG-20260728-C6LN-v001.md`, e cria RN-13 (a ancoragem, por predicado) e
+RN-14 (a invariante de que existe uma e uma só seção com medidas por ficha).
+
+### Correction Change Set
+
+| CHG | Tipo | Artefato | O que mudou |
+|---|---|---|---|
+| `CHG-001` | `code` | `interface/puericultura/consulta/ficha.tsx` | Prop opcional `rodapeDaSecao?: (secao: SecaoDaFicha) => ReactNode`, renderizada ao fim do `fieldset`. Ponto de extensão **cego**: a ficha não sabe o que recebe. Sem a prop, desenha o que desenhava. |
+| `CHG-002` | `code` | `interface/puericultura/consulta/app.tsx` | O `<Button>` deixa de ser irmão da ficha e chega pelo rodapé, filtrado por `temMedida(secao)`. `ref`, rótulo e `onClick` inalterados. |
+| `CHG-003` | `code` | `interface/estilos/consulta-puericultura.css` | Regra `.consulta-comando-da-secao` com `margin-block-start`. Condicionada no plano a inspeção visual, e a inspeção a confirmou necessária. |
+| `CHG-004` | `specification` | `_reversa_sdd/addenda/bug-BUG-20260728-C6LN-v001.md` | Adendo aditivo do veredito `spec-gap`. |
+| `CHG-005` | `test` | `tests/integration/interface/consulta-puericultura.test.tsx` | Reprodução e três regressões de interface. |
+| `CHG-006` | `test` | `tests/unit/dominio-puericultura/consulta-selecao.test.ts` | A invariante que torna o predicado bem definido, nas dez fichas. |
+| `CHG-007` | `test` | `e2e/consulta-puericultura.spec.ts` | Foco de volta ao gatilho depois de trocar a ficha. |
+
+Diffs em `fix/CHG-00N.diff`. **Nada além disso foi tocado**: motor de crescimento, catálogo das dez
+fichas, projeção em texto e contrato do registro em SOAP permanecem como estavam.
+
+### Prova vermelho → verde
+
+Antes do change set, com os testes já aplicados sobre `c3db432`:
+
+```
+FAIL … > é filho do fieldset que contém os campos de medida
+  AssertionError: expected null not to be null
+FAIL … > vem depois dos campos de medida, e não antes deles
+  TypeError: Expected container to be an Element … but got null
+FAIL … > acompanha as medidas na ficha de quatro campos, e continua único na tela
+  AssertionError: expected null not to be null
+
+Test Files  1 failed | 1 passed (2)
+     Tests  3 failed | 42 passed (45)
+```
+
+Depois:
+
+| Portão | Resultado |
+|---|---|
+| `eslint` | limpo |
+| `tsc --noEmit` | exit 0 |
+| vitest | **935/935** em 73 arquivos (eram 920 antes das 15 novas) |
+| e2e da rota | **10/10**, `axe` em zero violação |
+| inventário textual | 1 245 literais; o diff do congelado só desloca números de linha |
+| inspeção visual | comando dentro de "1. Medidas", depois de Comprimento, com respiro; grade das seis seções intacta |
+
+### A dívida que a correção não criou
+
+A ancoragem por predicado tem um modo de falha silencioso próprio: numa ficha nova com medidas em
+dois quadros nasceriam **dois** comandos, e numa sem medidas, **nenhum** — sem que teste algum de
+interface reprovasse, porque a tela renderizaria sem erro. `CHG-006` fecha exatamente essa porta, e
+fala a quem edita uma ficha, que é quem pode quebrá-la.
+
+### O que ficou de fora, e por quê
+
+A taxonomia proposta nos Agent Notes — `module: interface-puericultura-consulta` e
+`feature: consulta-puericultura-soap` — continua ausente de `taxonomy.yaml`. Editar o vocabulário
+controlado é decisão de registro, não de correção, e pertence ao `/reversa-debugger-graph`.

@@ -257,3 +257,79 @@ describe("Supressão declarada na ficha feminina (RF-05, `MD-0026`)", () => {
     expect(screen.getByRole("group", { name: "Criptorquidia" })).toBeDefined();
   });
 });
+
+// BUG-20260728-C6LN — o comando mora no quadro cujas medidas ele consome.
+//
+// O primeiro caso é o de REPRODUÇÃO: antes da correção ele reprova já na primeira asserção,
+// porque o comando não está no quadro errado — está fora de QUALQUER quadro, irmão da ficha
+// e depois dela na ordem do documento.
+//
+// Os dois seguintes são de REGRESSÃO, e o modo de falha que vigiam é o da volta silenciosa:
+// a ancoragem é feita por PREDICADO ("a seção que tem campos de medida"), de modo que uma
+// ficha nova sem medidas, ou com medidas em dois quadros, quebraria a correção sem quebrar
+// nenhum outro teste. O caso das duas fichas contrastantes cobre isso pela interface; a
+// invariante do domínio, que é a premissa do predicado, mora em
+// `tests/unit/dominio-puericultura/consulta-selecao.test.ts`.
+describe("O comando de crescimento mora no quadro das medidas (BUG-20260728-C6LN)", () => {
+  /** 132 dias: a idade do cenário de aceite, que indica a ficha do 4.º Mês. */
+  const NASCIMENTO_QUARTO_MES = "2026-03-10";
+  /** 1 200 dias: acima de 1 096, indica a ficha do 36.º Mês, a de quatro medidas. */
+  const NASCIMENTO_TRIGESIMO_SEXTO_MES = "2023-04-07";
+
+  function abrirPor(nascimento: string) {
+    render(<AppConsulta copiar={copiaQueFunciona()} dataDeHoje={CONSULTA} />);
+    fireEvent.click(screen.getByRole("radio", { name: "Masculino" }));
+    fireEvent.change(screen.getByLabelText("Data de nascimento"), {
+      target: { value: nascimento },
+    });
+    fireEvent.change(screen.getByLabelText("Data da consulta"), {
+      target: { value: CONSULTA },
+    });
+    return screen.getByRole("button", { name: /avaliar crescimento/i });
+  }
+
+  it("é filho do fieldset que contém os campos de medida", () => {
+    const comando = abrirPor(NASCIMENTO_QUARTO_MES);
+
+    const quadro = comando.closest("fieldset");
+    expect(quadro).not.toBeNull();
+
+    // O quadro é o das medidas por CONTEÚDO, e não pelo título: é o que a regra promete.
+    expect(within(quadro!).getByLabelText(/^Peso \(g\)$/)).toBeDefined();
+    expect(within(quadro!).getByLabelText(/^PC \(cm\)$/)).toBeDefined();
+    expect(
+      within(quadro!).getByLabelText(/^Comprimento \(cm\)$/),
+    ).toBeDefined();
+  });
+
+  it("vem depois dos campos de medida, e não antes deles", () => {
+    const comando = abrirPor(NASCIMENTO_QUARTO_MES);
+    const quadro = comando.closest("fieldset");
+    const peso = within(quadro!).getByLabelText(/^Peso \(g\)$/);
+
+    // DOCUMENT_POSITION_FOLLOWING: o comando vem depois do último campo na ordem do documento,
+    // que é a ordem em que o leitor de tela o encontra.
+    expect(
+      peso.compareDocumentPosition(comando) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("acompanha as medidas na ficha de quatro campos, e continua único na tela", () => {
+    const comando = abrirPor(NASCIMENTO_TRIGESIMO_SEXTO_MES);
+    const quadro = comando.closest("fieldset");
+    expect(quadro).not.toBeNull();
+
+    // A ficha do 36.º Mês troca "Comprimento" por "Estatura" e acrescenta o IMC.
+    expect(within(quadro!).getByLabelText(/^Estatura \(cm\)$/)).toBeDefined();
+    expect(within(quadro!).getByLabelText(/^IMC \(kg\/m²\)$/)).toBeDefined();
+    expect(
+      screen.getAllByRole("button", { name: /avaliar crescimento/i }),
+    ).toHaveLength(1);
+  });
+
+  it("continua abrindo o painel de onde está", async () => {
+    const comando = abrirPor(NASCIMENTO_QUARTO_MES);
+    fireEvent.click(comando);
+    expect(await screen.findByRole("dialog")).toBeDefined();
+  });
+});

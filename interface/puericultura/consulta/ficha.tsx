@@ -13,6 +13,7 @@
 //
 // A tela NÃO decide o que exibir: `camposAplicaveis` e `rotuloDoCampo` moram no domínio, e a
 // supressão de `MD-0026` está declarada no dado (D-05). Aqui só se desenha.
+import type { ReactNode } from "react";
 import { FormControl, Radio, TextInput, Textarea } from "@primer/react";
 import {
   camposAplicaveis,
@@ -27,6 +28,7 @@ import type {
   Ficha,
   Preenchimento,
   Resposta,
+  SecaoDaFicha,
 } from "models/puericultura/consulta/tipos";
 import type { Sexo } from "models/puericultura/tipos";
 
@@ -204,6 +206,13 @@ export interface PropsFichaPreenchivel {
   sexo: Sexo;
   preenchimento: Preenchimento;
   onResposta: (idDoCampo: string, resposta: Resposta | undefined) => void;
+  /**
+   * Ponto de extensão CEGO (BUG-20260728-C6LN): o que a função devolver entra ao fim do
+   * quadro, depois dos campos. A ficha não sabe o que recebe, e continua sem conhecer
+   * comando algum da aplicação — quem decide em qual seção pendurar o quê é quem compõe a
+   * tela. Sem a prop, a ficha desenha exatamente o que desenhava antes.
+   */
+  rodapeDaSecao?: (secao: SecaoDaFicha) => ReactNode;
 }
 
 export function FichaPreenchivel({
@@ -211,6 +220,7 @@ export function FichaPreenchivel({
   sexo,
   preenchimento,
   onResposta,
+  rodapeDaSecao,
 }: PropsFichaPreenchivel) {
   return (
     <section className="consulta-ficha" aria-label={ficha.titulo}>
@@ -226,6 +236,7 @@ export function FichaPreenchivel({
               onResposta={(resposta) => onResposta(campo.id, resposta)}
             />
           ))}
+          {rodapeDaSecao?.(secao)}
         </fieldset>
       ))}
     </section>

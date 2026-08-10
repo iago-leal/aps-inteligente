@@ -24,6 +24,7 @@ import type {
   ContextoDaConsulta,
   Ficha,
   Resposta,
+  SecaoDaFicha,
 } from "models/puericultura/consulta/tipos";
 import type {
   PosicaoDaMedicao,
@@ -43,6 +44,21 @@ const PainelDeCrescimento = dynamic(
   () => import("./painel-crescimento").then((m) => m.PainelDeCrescimento),
   { ssr: false },
 );
+
+/**
+ * BUG-20260728-C6LN: o comando de crescimento mora no quadro cujas medidas ele consome.
+ *
+ * A regra é de POSIÇÃO DE UM COMANDO DE APLICAÇÃO, e por isso vive aqui, e não na ficha:
+ * `FichaPreenchivel` continua sendo projeção pura da fonte clínica, cega ao que pendura.
+ *
+ * Escolher por PREDICADO, e não pelo título "Medidas", sobrevive a uma edição da caderneta
+ * que renomeie a seção. A invariante de que existe uma e uma só seção assim, em cada uma das
+ * dez fichas, é guardada por teste em `consulta-selecao.test.ts` — sem ela o predicado
+ * penduraria dois comandos, ou nenhum, e a falha seria silenciosa.
+ */
+function temMedida(secao: SecaoDaFicha): boolean {
+  return secao.campos.some((campo) => campo.natureza === "medida");
+}
 
 function dataLocalDoDispositivo(): string {
   const agora = new Date();
@@ -181,15 +197,20 @@ export function AppConsulta({
             sexo={contexto.sexo}
             preenchimento={preenchimento}
             onResposta={aoResponder}
+            rodapeDaSecao={(secao) =>
+              temMedida(secao) ? (
+                <div className="consulta-comando-da-secao">
+                  <Button
+                    ref={refDoPainel}
+                    type="button"
+                    onClick={() => setPainelAberto(true)}
+                  >
+                    Avaliar crescimento
+                  </Button>
+                </div>
+              ) : null
+            }
           />
-
-          <Button
-            ref={refDoPainel}
-            type="button"
-            onClick={() => setPainelAberto(true)}
-          >
-            Avaliar crescimento
-          </Button>
 
           {painelAberto ? (
             <PainelDeCrescimento
