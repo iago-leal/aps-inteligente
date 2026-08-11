@@ -242,9 +242,8 @@ e não migrado: a reprovação de estatística fora de formato passou a emitir l
 de lançar, com causa `consulta`, host mascarado e as colunas reprovadas, jamais os valores, e a
 disciplina virou teste que afere também a ausência de URL, credencial e texto de consulta.
 
-**3. Nada foi commitado nem publicado, e isto permanece.** O código segue na árvore de trabalho, de
-modo que a produção continua servindo o corpo da feature 022 e a **D-11 segue sem resposta**: o
-`W013` só se lê depois do deploy.
+**3. Nada foi commitado nem publicado** quando esta seção foi escrita. Deixou de valer no mesmo dia:
+ver "Publicação de 2026-08-11", ao final.
 
 ### Números que substituem os do "Resumo da entrega"
 
@@ -269,3 +268,29 @@ Permanece pendente, e fora do escopo desta feature, o que a tabela já registrav
 `_reversa_sdd/pages-api-v1-status/contracts.md` segue documentando `"banco": { "estado": "integro" }`
 de uma chave só, e só a re-extração reconcilia. O `next-env.d.ts` voltou sozinho ao conteúdo
 versionado durante o `npm run build`.
+
+---
+
+## Publicação de 2026-08-11 — a D-11 respondida pelo próprio campo
+
+Commit `08636e3` em `aps-inteligente/main`, CI verde nos três jobs, incluindo o de contrato contra
+build de produção, e deploy concluído. `GET /api/v1/status` em `apsinteligente.app` devolve:
+
+```json
+"banco":{"estado":"integro","teto_de_conexoes":112,"conexoes_abertas":1,"versao":"17.10"}
+```
+
+**A D-11 sobe a 🟢.** O teto é 112, casa da centena baixa e não milhar, de modo que a rota fala com a
+instância de cálculo da Neon: os dois números descrevem a mesma camada, e a ressalva da RN-08
+permanece como precaução escrita, não como suspeita ativa. O valor ainda diz algo por si: 112 não é
+o padrão de fábrica do Postgres, que é 100, o que confirma que ele nasce de `current_setting` no
+servidor real, e não de constante nem da pilha de conexões da aplicação, que é cinco.
+
+O `W013` continua vigente no `regression-watch.md` da feature, com o objeto trocado: deixa de
+esperar a primeira leitura e passa a vigiar mudança de ordem de grandeza, que sinalizaria agrupador
+entrando no caminho. Com isso, **a vigência deste adendo é plena e sem ressalva pendente**.
+
+Registre-se ainda uma observação de operação, sem peso de contrato: horas antes do deploy a produção
+respondia `degradado (conexao)`, e depois dele responde `integro`. A instância gerenciada suspende
+por ociosidade, de modo que o estado do banco em produção diz respeito ao ciclo de suspensão, e não
+à saúde do produto — que é exatamente o que a `MD-0031` decidiu ao manter 200 em todo estado.
