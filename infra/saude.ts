@@ -6,18 +6,31 @@
 // rota não é lugar de política de falha. Único importador de `saude()` em produção, o que
 // mantém `infra/database.ts` como ponto de acesso exclusivo ao banco.
 //
+// Feature 024 (RF-04, RF-06; RN-02; D-04, D-06). Contrato desta revisão:
+// _reversa_forward/024-status-conexoes-do-banco/interfaces/conexao-banco.md §2.
+//
 // O que este módulo NÃO faz, e isso é tão importante quanto o que faz: não formata
-// mensagem, não lê ambiente, não compõe resposta. Só traduz desfecho em estado.
-import { ErroDeBanco, saude, type CausaDeErroDeBanco } from "./database";
+// mensagem, não lê ambiente, não compõe resposta. Desde a 024 também não INTERPRETA os
+// números que transporta: não calcula proporção, não classifica ocupação, não decide se
+// o banco está cheio. Só traduz desfecho em estado, e leva a leitura junto.
+import {
+  ErroDeBanco,
+  saude,
+  type CausaDeErroDeBanco,
+  type LeituraDeSaude,
+} from "./database";
 
+// A assimetria entre os ramos é o mecanismo, e não um efeito colateral: os três valores
+// vivem onde poderiam ter sido apurados, de modo que a RN-02 fica garantida por tipo, e
+// nenhuma condicional em runtime precisa afirmá-la.
 export type EstadoDoBanco =
-  | { readonly estado: "integro" }
+  | ({ readonly estado: "integro" } & LeituraDeSaude)
   | { readonly estado: "degradado"; readonly causa: CausaDeErroDeBanco };
 
 export async function verificarBanco(tetoMs?: number): Promise<EstadoDoBanco> {
   try {
-    await saude(tetoMs === undefined ? undefined : { tetoMs });
-    return { estado: "integro" };
+    const leitura = await saude(tetoMs === undefined ? undefined : { tetoMs });
+    return { estado: "integro", ...leitura };
   } catch (origem) {
     if (origem instanceof ErroDeBanco) {
       return { estado: "degradado", causa: origem.causa };

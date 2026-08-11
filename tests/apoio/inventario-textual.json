@@ -10,9 +10,9 @@
     "tests/unit/textos/descricao-plataforma.test.ts"
   ],
   "totais": {
-    "literais": 1245,
+    "literais": 1259,
     "porClasse": {
-      "autoral": 680,
+      "autoral": 694,
       "citacao": 498,
       "identificador": 67
     },
@@ -21,7 +21,7 @@
       "interface": 401,
       "pages": 43,
       "manifesto": 3,
-      "readme": 224
+      "readme": 238
     }
   },
   "literais": [
@@ -7366,7 +7366,7 @@
     },
     {
       "arquivo": "pages/api/v1/status.ts",
-      "linha": 37,
+      "linha": 46,
       "classe": "autoral",
       "texto": "Método não permitido; use GET.",
       "especie": "StringLiteral"
@@ -9013,229 +9013,327 @@
       "arquivo": "README.md",
       "linha": 289,
       "classe": "autoral",
-      "texto": "- `banco` traz `{\"estado\":\"integro\"}` ou `{\"estado\":\"degradado\",\"causa\":…}`, com a causa em",
+      "texto": "- `banco` traz `{\"estado\":\"degradado\",\"causa\":…}`, com a causa em vocabulário fechado",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 290,
       "classe": "autoral",
-      "texto": "vocabulário fechado (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`).",
+      "texto": "(`conexao`, `consulta`, `configuracao`, `tempo_esgotado`), ou, de pé, quatro chaves:",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 291,
+      "classe": "autoral",
+      "texto": "`{\"estado\":\"integro\",\"teto_de_conexoes\":100,\"conexoes_abertas\":3,\"versao\":\"17.10\"}`. As",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 292,
       "classe": "autoral",
-      "texto": "**Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis",
+      "texto": "três últimas vieram com a 024 e existem **só** no estado íntegro; no degradado ficam",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 293,
       "classe": "autoral",
-      "texto": "calculadoras é integralmente no navegador, de modo que elas seguem servindo com a",
+      "texto": "ausentes, nunca zeradas, porque zero é leitura possível do mundo e diria o que não se",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 294,
       "classe": "autoral",
-      "texto": "dependência caída, e é por isso que o código permanece `200` em todo estado do banco: um",
+      "texto": "apurou. A versão sai só como número, sem o nome do produto.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 295,
       "classe": "autoral",
-      "texto": "`503` afirmaria queda de uma plataforma que está no ar. Quem quiser a degradação refletida",
+      "texto": "- Os dois números não medem o mesmo universo: `teto_de_conexoes` é a configuração do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 296,
       "classe": "autoral",
-      "texto": "no código de saída usa `--exigir-saudavel`; sem ele, os códigos seguem respondendo à",
+      "texto": "**servidor**, que pode hospedar outros bancos, e `conexoes_abertas` conta o **banco",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 297,
       "classe": "autoral",
-      "texto": "defasagem, que é a pergunta do comando.",
+      "texto": "corrente**. A razão entre eles é indicativa, e não uma taxa exata de ocupação. Some-se",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 298,
+      "classe": "autoral",
+      "texto": "que a rota se conta: a própria requisição mantém uma conexão aberta enquanto apura, de",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 299,
       "classe": "autoral",
-      "texto": "O teto da verificação é de 3 000 ms e sai de `APS_TIMEOUT_SAUDE_MS` (gabarito em",
+      "texto": "modo que `conexoes_abertas` nunca vale zero, e um significa banco ocioso, não banco vazio.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 300,
       "classe": "autoral",
-      "texto": "`.env.example`). Ele acomoda o despertar da instância suspensa do plano gratuito, que um",
+      "texto": "- `npm run status:conferir` exibe a ocupação ao lado do estado, no molde",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 301,
       "classe": "autoral",
-      "texto": "teto curto reprovaria como se fosse defeito; estourado, a causa é `tempo_esgotado`, distinta",
+      "texto": "`banco íntegro · 3/100 conexões`. Contra um deploy anterior à 024, que não publica os",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 302,
       "classe": "autoral",
-      "texto": "de `conexao` justamente para que ociosidade não se leia como banco fora.",
+      "texto": "campos, a ocupação sai como",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 303,
+      "classe": "autoral",
+      "texto": "`ocupação desconhecida`, e a conferência não falha por isso: ausência de campo posterior",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 304,
       "classe": "autoral",
-      "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
-      "especie": "Markdown"
-    },
-    {
-      "arquivo": "README.md",
-      "linha": 305,
-      "classe": "autoral",
-      "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
+      "texto": "à feature 002 é desconhecido, jamais erro de contrato.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 306,
       "classe": "autoral",
-      "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
+      "texto": "**Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 307,
       "classe": "autoral",
-      "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
+      "texto": "calculadoras é integralmente no navegador, de modo que elas seguem servindo com a",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 308,
       "classe": "autoral",
-      "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
+      "texto": "dependência caída, e é por isso que o código permanece `200` em todo estado do banco: um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 309,
       "classe": "autoral",
-      "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
+      "texto": "`503` afirmaria queda de uma plataforma que está no ar. Quem quiser a degradação refletida",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 310,
       "classe": "autoral",
-      "texto": "não existia.",
+      "texto": "no código de saída usa `--exigir-saudavel`; sem ele, os códigos seguem respondendo à",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 312,
+      "linha": 311,
       "classe": "autoral",
-      "texto": "A raiz (`/`) deve renderizar a home com as cinco seções, e cada calculadora deve abrir na",
+      "texto": "defasagem, que é a pergunta do comando.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 313,
       "classe": "autoral",
-      "texto": "sua rota. Roteiro completo:",
+      "texto": "O teto da verificação é de 3 000 ms e sai de `APS_TIMEOUT_SAUDE_MS` (gabarito em",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 314,
       "classe": "autoral",
-      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
+      "texto": "`.env.example`). Ele acomoda o despertar da instância suspensa do plano gratuito, que um",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 315,
       "classe": "autoral",
-      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "texto": "teto curto reprovaria como se fosse defeito; estourado, a causa é `tempo_esgotado`, distinta",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
-      "linha": 317,
+      "linha": 316,
       "classe": "autoral",
-      "texto": "## Como publicar",
+      "texto": "de `conexao` justamente para que ociosidade não se leia como banco fora.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 318,
+      "classe": "autoral",
+      "texto": "**Atenção à régua, porque a intuitiva é errada.** Não se espera que `commit` seja igual ao",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 319,
       "classe": "autoral",
-      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "texto": "SHA do `HEAD` de `main`: o `HEAD` carrega commits de encerramento de sessão e de artefato do",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 320,
       "classe": "autoral",
-      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "texto": "Reversa, que nunca chegam ao build. A pergunta certa é se o publicado **contém** o último",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 321,
       "classe": "autoral",
-      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "texto": "commit que toca aplicação; é ela que `npm run status:conferir` responde, tratando o",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 322,
       "classe": "autoral",
-      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "texto": "publicado à frente por commits de governança como estar em dia. Comparar com o `HEAD` foi o",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 323,
+      "classe": "autoral",
+      "texto": "que sustentou, por quatro sessões de julho de 2026, uma pendência de \"produção defasada\" que",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 324,
       "classe": "autoral",
-      "texto": "## Documentação",
+      "texto": "não existia.",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 326,
       "classe": "autoral",
-      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "texto": "A raiz (`/`) deve renderizar a home com as cinco seções, e cada calculadora deve abrir na",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 327,
       "classe": "autoral",
-      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "texto": "sua rota. Roteiro completo:",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 328,
       "classe": "autoral",
-      "texto": "actions → legacy-impact → regression-watch).",
+      "texto": "`_reversa_forward/002-producao-pagina-e-api-status/onboarding.md` e",
       "especie": "Markdown"
     },
     {
       "arquivo": "README.md",
       "linha": 329,
+      "classe": "autoral",
+      "texto": "`_reversa_forward/007-idade-gestacional-e-home/onboarding.md`.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 331,
+      "classe": "autoral",
+      "texto": "## Como publicar",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 333,
+      "classe": "autoral",
+      "texto": "Push em `main` → CI (`.github/workflows/ci.yml`): verificação → contrato contra o build",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 334,
+      "classe": "autoral",
+      "texto": "de produção → deploy na Vercel. O auto-deploy por push está desligado (`vercel.json`);",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 335,
+      "classe": "autoral",
+      "texto": "**o CI é o único caminho para produção** e exige os secrets `VERCEL_TOKEN`,",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 336,
+      "classe": "autoral",
+      "texto": "`VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` no repositório GitHub.",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 338,
+      "classe": "autoral",
+      "texto": "## Documentação",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 340,
+      "classe": "autoral",
+      "texto": "- Specs e extração reversa: `_reversa_sdd/` (arquitetura, domínio, ADRs, ERD).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 341,
+      "classe": "autoral",
+      "texto": "- Ciclo forward por feature: `_reversa_forward/<feature>/` (requirements → roadmap →",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 342,
+      "classe": "autoral",
+      "texto": "actions → legacy-impact → regression-watch).",
+      "especie": "Markdown"
+    },
+    {
+      "arquivo": "README.md",
+      "linha": 343,
       "classe": "autoral",
       "texto": "- Registro de bugs: `_reversa_bugs/`.",
       "especie": "Markdown"

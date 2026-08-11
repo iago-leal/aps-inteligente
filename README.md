@@ -286,8 +286,22 @@ da feature 002 e não mudaram de nome nem de significado; os três últimos vier
   muda a cada consulta, o segundo é idêntico enquanto o deploy for o mesmo.
 - `ambiente` vale `producao`, `pre-visualizacao` ou `local`, em vocabulário próprio: o nome
   do provedor jamais é repassado cru.
-- `banco` traz `{"estado":"integro"}` ou `{"estado":"degradado","causa":…}`, com a causa em
-  vocabulário fechado (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`).
+- `banco` traz `{"estado":"degradado","causa":…}`, com a causa em vocabulário fechado
+  (`conexao`, `consulta`, `configuracao`, `tempo_esgotado`), ou, de pé, quatro chaves:
+  `{"estado":"integro","teto_de_conexoes":100,"conexoes_abertas":3,"versao":"17.10"}`. As
+  três últimas vieram com a 024 e existem **só** no estado íntegro; no degradado ficam
+  ausentes, nunca zeradas, porque zero é leitura possível do mundo e diria o que não se
+  apurou. A versão sai só como número, sem o nome do produto.
+- Os dois números não medem o mesmo universo: `teto_de_conexoes` é a configuração do
+  **servidor**, que pode hospedar outros bancos, e `conexoes_abertas` conta o **banco
+  corrente**. A razão entre eles é indicativa, e não uma taxa exata de ocupação. Some-se
+  que a rota se conta: a própria requisição mantém uma conexão aberta enquanto apura, de
+  modo que `conexoes_abertas` nunca vale zero, e um significa banco ocioso, não banco vazio.
+- `npm run status:conferir` exibe a ocupação ao lado do estado, no molde
+  `banco íntegro · 3/100 conexões`. Contra um deploy anterior à 024, que não publica os
+  campos, a ocupação sai como
+  `ocupação desconhecida`, e a conferência não falha por isso: ausência de campo posterior
+  à feature 002 é desconhecido, jamais erro de contrato.
 
 **Degradado significa banco fora, não produto fora** (`MD-0031`). O cálculo das seis
 calculadoras é integralmente no navegador, de modo que elas seguem servindo com a

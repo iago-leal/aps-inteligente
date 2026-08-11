@@ -1,8 +1,11 @@
 openapi: 3.1.0
-# Re-extração 4 (2026-07-28). Contrato de GET /api/v1/status (features 002 e 022).
+# Feature 024 (2026-08-10). Contrato de GET /api/v1/status (features 002, 022 e 024).
 # Fonte: pages/api/v1/status.ts e infra/saude.ts; espelha pages-api-v1-status/contracts.md.
-# Delta desta passagem: o corpo passou de três para SEIS chaves, por acréscimo — nenhum campo
-# existente mudou de nome ou de semântica, e por isso o caminho continua em /api/v1.
+# Delta desta passagem: o ramo íntegro de banco passou de UMA chave para QUATRO, por acréscimo de
+# teto_de_conexoes, conexoes_abertas e versao, os três obrigatórios (D-09). As seis chaves da raiz
+# e o ramo degradado seguem idênticos em nome, tipo e semântica, e por isso o caminho continua em
+# /api/v1. A passagem anterior, a re-extração 4 de 2026-07-28, foi a que levou a raiz de três
+# para seis chaves.
 info:
   title: APS Inteligente — API de status
   version: v1
@@ -46,18 +49,21 @@ paths:
                   summary: Banco íntegro
                   value:
                     atualizado_em: "2026-07-28T23:41:07.412Z"
-                    versao: "1.0.0"
-                    commit: "a422b60"
+                    versao: "0.1.0"
+                    commit: "84738fe563b59c78849250e9992bd7a2f5b33569"
                     publicado_em: "2026-07-28T23:38:00.000Z"
                     ambiente: producao
                     banco:
                       estado: integro
+                      teto_de_conexoes: 100
+                      conexoes_abertas: 3
+                      versao: "17.10"
                 degradado:
                   summary: Banco fora do ar
                   value:
                     atualizado_em: "2026-07-28T23:41:07.412Z"
-                    versao: "1.0.0"
-                    commit: "a422b60"
+                    versao: "0.1.0"
+                    commit: "84738fe563b59c78849250e9992bd7a2f5b33569"
                     publicado_em: "2026-07-28T23:38:00.000Z"
                     ambiente: producao
                     banco:
@@ -67,12 +73,15 @@ paths:
                   summary: Execução local, sem variáveis de deploy
                   value:
                     atualizado_em: "2026-07-28T20:12:44.008Z"
-                    versao: "1.0.0"
+                    versao: "0.1.0"
                     commit: local
                     publicado_em: null
                     ambiente: local
                     banco:
                       estado: integro
+                      teto_de_conexoes: 100
+                      conexoes_abertas: 1
+                      versao: "17.10"
         "405":
           description: Método não permitido (apenas GET)
           headers:
@@ -121,11 +130,32 @@ components:
         propertyName: estado
     BancoIntegro:
       type: object
-      required: [estado]
+      required: [estado, teto_de_conexoes, conexoes_abertas, versao]
       properties:
         estado:
           type: string
           const: integro
+        teto_de_conexoes:
+          type: integer
+          minimum: 1
+          description: >-
+            max_connections do servidor alcançado, apurado na mesma ida ao banco que
+            decide o estado. O escopo é o do servidor: outras bases da instância
+            consomem deste teto sem entrar na contagem abaixo, de modo que a razão
+            entre os dois números é indicativa, e não taxa exata de ocupação.
+        conexoes_abertas:
+          type: integer
+          minimum: 1
+          description: >-
+            Conexões abertas contra o banco corrente no instante da consulta. Nunca
+            vale zero, porque a própria requisição se conta enquanto apura: um vale um
+            significa banco ocioso, e não banco vazio.
+        versao:
+          type: string
+          description: >-
+            Versão do servidor de banco, apenas o prefixo numérico, no molde "17.10".
+            A cadeia completa nomeia produto, arquitetura e compilador, e a denylist de
+            privacidade a proíbe (feature 024, RN-06).
       additionalProperties: false
     BancoDegradado:
       type: object

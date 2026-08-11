@@ -9,6 +9,12 @@
 // statement_timeout. É o único mecanismo que cancela de fato — o temporizador do driver
 // deixaria a consulta viva e o cliente voltaria ao pool com resposta pendente, que é o
 // modo de transformar degradação em indisponibilidade.
+//
+// Feature 024 (RF-01, RF-02, RF-03, RF-05, RF-07; RN-01, RN-03, RN-06, RN-08, RN-09;
+// D-01 a D-03, D-05): `saude()` devolve a leitura completa, e não mais um booleano de
+// valor único. Muda a largura da linha que a consulta traz, e nada além disso: segue
+// uma ida só, sob o mesmo teto e sem retentativa. Contrato desta revisão em
+// _reversa_forward/024-status-conexoes-do-banco/interfaces/conexao-banco.md §1.
 import { Pool, type PoolClient, type QueryResultRow } from "pg";
 
 const TETO_PADRAO_MS = 3_000;
@@ -259,21 +265,108 @@ async function devolver(
   }
 }
 
-export async function saude(opcoes: { tetoMs?: number } = {}): Promise<{
-  ok: true;
-}> {
-  const linhas = await query<{ ok: number }>(
-    "SELECT $1::int AS ok",
-    [1],
-    opcoes,
-  );
+/** O que a verificação de saúde apura, numa ida só (feature 024; RF-01, RF-02, RF-03,
+ *  RF-05). O teto é o do servidor alcançado; a contagem é a do banco corrente, e inclui
+ *  a própria requisição, de modo que o piso é um.
+ *
+ *  Os campos grafam-se em `snake_case`, contra o camelCase do restante do módulo, e a
+ *  exceção é deliberada: este tipo **é a forma do fio**. `infra/saude.ts` o espalha no
+ *  ramo íntegro de `EstadoDoBanco`, que o handler serializa inteiro sem remapear (D-08),
+ *  de modo que renomear aqui renomearia o corpo público. Ou o nome do fio vive neste
+ *  tipo, ou algum módulo do caminho vira tradutor, e nenhum deles quer sê-lo. */
+export type LeituraDeSaude = {
+  readonly teto_de_conexoes: number;
+  readonly conexoes_abertas: number;
+  readonly versao: string;
+};
+
+// Quatro colunas numa linha, e uma viagem só (D-01): repetir a ida dobraria o custo da
+// única rota de observabilidade do sistema. A contagem filtra pelo banco corrente
+// porque a instância pode hospedar outros (D-02, RN-08).
+const CONSULTA_DE_SAUDE = `SELECT $1::int AS ok,
+       current_setting('max_connections')::int AS teto_de_conexoes,
+       (SELECT count(*) FROM pg_stat_activity
+         WHERE datname = current_database())::int AS conexoes_abertas,
+       current_setting('server_version') AS versao`;
+
+/** Prefixo numérico da versão, ancorado no início. Imagens derivadas de Debian anexam
+ *  sufixo entre parênteses ao `server_version`, e o contrato público promete só o
+ *  número (D-03, RN-06). */
+const PREFIXO_DE_VERSAO = /^\d+(?:\.\d+)*/;
+
+/** Converte a coluna numérica, ou devolve `undefined` quando ela reprova o formato. O
+ *  piso é parâmetro porque teto e contagem são grandezas distintas que por ora coincidem
+ *  no limite inferior. Devolve valor, e não booleano, para que o estreitamento de tipo
+ *  sobreviva à checagem conjunta lá embaixo. */
+function inteiroAPartirDe(valor: unknown, piso: number): number | undefined {
+  const inteiro =
+    typeof valor === "number" && Number.isInteger(valor) && valor >= piso;
+  return inteiro ? valor : undefined;
+}
+
+/** Extrai o número da versão. Devolve `undefined` quando não há prefixo numérico, que
+ *  é o que reprova a leitura. Jamais usa `version()`: aquela cadeia nomeia o produto, a
+ *  arquitetura e o compilador, e cairia na denylist do corpo público (D-03). */
+function versaoNumerica(bruta: unknown): string | undefined {
+  if (typeof bruta !== "string") return undefined;
+  return PREFIXO_DE_VERSAO.exec(bruta.trim())?.[0];
+}
+
+export async function saude(
+  opcoes: { tetoMs?: number } = {},
+): Promise<LeituraDeSaude> {
+  const linhas = await query<{
+    ok: unknown;
+    teto_de_conexoes: unknown;
+    conexoes_abertas: unknown;
+    versao: unknown;
+  }>(CONSULTA_DE_SAUDE, [1], opcoes);
   if (linhas.length !== 1 || linhas[0].ok !== 1) {
     throw new ErroDeBanco(
       "consulta",
       "verificação de saúde retornou resultado inesperado",
     );
   }
-  return { ok: true };
+
+  // Feature 024 (D-05, RN-03): coluna fora do formato reprova a verificação inteira, e
+  // com a mesma causa de sempre. `consulta` já significa "a conexão abriu e a consulta
+  // de saúde não devolveu o resultado esperado"; uma quinta causa diria a quem lê o
+  // healthcheck algo que ele não pode acionar.
+  const teto = inteiroAPartirDe(linhas[0].teto_de_conexoes, 1);
+  const abertas = inteiroAPartirDe(linhas[0].conexoes_abertas, 1);
+  const numero = versaoNumerica(linhas[0].versao);
+
+  if (teto === undefined || abertas === undefined || numero === undefined) {
+    const reprovadas = [
+      teto === undefined ? "teto_de_conexoes" : undefined,
+      abertas === undefined ? "conexoes_abertas" : undefined,
+      numero === undefined ? "versao" : undefined,
+    ].filter((coluna): coluna is string => coluna !== undefined);
+    // Esta é a única degradação que não nasce de exceção do driver, e por isso a única
+    // que passaria sem rastro se o log ficasse a cargo de `classificar`. A RN-03 aceita
+    // que a falta de permissão de leitura degrade TODA requisição, e degradação perpétua
+    // sem log seria indistinguível de banco fora. O log nomeia a coluna, jamais o valor.
+    console.error(
+      JSON.stringify({
+        nivel: "erro",
+        origem: "infra/database",
+        causa: "consulta",
+        erro: "estatísticas de conexão fora do formato esperado",
+        colunas: reprovadas,
+        host: hostMascarado(),
+      }),
+    );
+    throw new ErroDeBanco(
+      "consulta",
+      `verificação de saúde reprovou a leitura em: ${reprovadas.join(", ")}`,
+    );
+  }
+
+  return {
+    teto_de_conexoes: teto,
+    conexoes_abertas: abertas,
+    versao: numero,
+  };
 }
 
 export async function encerrar(): Promise<void> {

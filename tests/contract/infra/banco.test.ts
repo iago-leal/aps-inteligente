@@ -1,13 +1,54 @@
 import { afterEach, describe, expect, test } from "vitest";
-import { ErroDeBanco, encerrar, query, saude } from "../../../infra/database";
+import {
+  ErroDeBanco,
+  encerrar,
+  query,
+  saude,
+  type LeituraDeSaude,
+} from "../../../infra/database";
 
 // Contrato da conexão com o banco (feature 003; RF-02, RF-04; RN-03, RN-05;
 // _reversa_forward/003-banco-de-dados-psql-pg/interfaces/conexao-banco.md).
 // Exige DATABASE_URL apontando para um banco de pé — local: `npm run db:up`;
 // CI: service container do job de contrato. O contrato de GET /api/v1/status
 // não é tocado por este arquivo (W006): saúde do banco é verificação separada.
+//
+// Feature 024 (RF-01, RF-02, RF-03; RN-06, RN-08, RN-09; D-01 a D-03;
+// _reversa_forward/024-status-conexoes-do-banco/interfaces/conexao-banco.md §1):
+// `saude()` deixou de devolver um booleano de valor único. Contra um banco real, o que
+// se afere aqui é a forma da linha e a plausibilidade dos números; a coluna malformada
+// fica com a suíte de unidade, porque servidor algum a produz.
 
 const URL_ORIGINAL = process.env.DATABASE_URL;
+
+/** Conferência de forma da leitura, aplicada a toda chamada bem-sucedida deste arquivo.
+ *  Os números são aferidos por plausibilidade, e não por valor: teto e contagem dependem
+ *  da instância que atendeu, e prendê-los a constantes tornaria o teste refém do
+ *  ambiente. A quarta coluna, `ok`, prova-se por ausência de erro: valesse outra coisa,
+ *  a chamada teria rejeitado antes de chegar aqui. */
+function conferirLeitura(leitura: LeituraDeSaude): void {
+  expect(Object.keys(leitura).sort()).toEqual([
+    "conexoes_abertas",
+    "teto_de_conexoes",
+    "versao",
+  ]);
+
+  expect(Number.isInteger(leitura.teto_de_conexoes)).toBe(true);
+  expect(leitura.teto_de_conexoes).toBeGreaterThanOrEqual(1);
+
+  // O piso é um porque a própria consulta se conta (RN-08, e a premissa P-03 do plano).
+  expect(Number.isInteger(leitura.conexoes_abertas)).toBe(true);
+  expect(leitura.conexoes_abertas).toBeGreaterThanOrEqual(1);
+
+  // Os dois universos diferem — a contagem filtra pelo banco corrente, o teto é do
+  // servidor —, mas o primeiro jamais ultrapassa o segundo.
+  expect(leitura.conexoes_abertas).toBeLessThanOrEqual(
+    leitura.teto_de_conexoes,
+  );
+
+  // RN-06: só o número. A cadeia completa nomearia o produto e cairia na denylist.
+  expect(leitura.versao).toMatch(/^\d+(?:\.\d+)*$/);
+}
 
 describe("saúde do banco (infra/database)", () => {
   afterEach(async () => {
@@ -19,8 +60,21 @@ describe("saúde do banco (infra/database)", () => {
     await encerrar();
   });
 
-  test("saude() responde { ok: true } com o banco de pé", async () => {
-    await expect(saude()).resolves.toEqual({ ok: true });
+  test("saude() devolve teto, conexões abertas e versão com o banco de pé", async () => {
+    conferirLeitura(await saude());
+  });
+
+  test("a versão publicada é o prefixo numérico do que o servidor reporta", async () => {
+    const [linha] = await query<{ bruta: string }>(
+      "SELECT current_setting('server_version') AS bruta",
+    );
+    const { versao } = await saude();
+
+    // A sanitização se afere aqui contra a cadeia real da imagem em uso, e não contra
+    // uma cadeia inventada: o que a unidade prova é a regra, o que este teste prova é
+    // que a regra alcança o servidor que de fato responde (D-03).
+    expect(linha.bruta.startsWith(versao)).toBe(true);
+    expect(versao).not.toMatch(/postgres/i);
   });
 
   test("consulta parametrizada retorna o valor ecoado (RF-02)", async () => {
@@ -96,12 +150,12 @@ describe("saúde do banco (infra/database)", () => {
     // transformaria degradação em indisponibilidade. Dez chamadas seguidas provam
     // que o pool continua entregando conexão.
     for (let i = 0; i < 10; i += 1) {
-      await expect(saude()).resolves.toEqual({ ok: true });
+      conferirLeitura(await saude());
     }
   }, 20_000);
 
   test("teto explícito não contamina a chamada seguinte, que volta ao padrão", async () => {
-    await expect(saude({ tetoMs: 200 })).resolves.toEqual({ ok: true });
+    conferirLeitura(await saude({ tetoMs: 200 }));
     await expect(query("SELECT pg_sleep(0.5)")).resolves.toHaveLength(1);
   }, 20_000);
 });

@@ -1,10 +1,17 @@
 {
   "schema-version": 1,
-  "feature-dir": "_reversa_forward/023-saude-do-idoso-gds",
-  "feature-id": "023",
-  "short-name": "saude-do-idoso-gds",
-  "started-at": "2026-07-30T12:34:31Z",
-  "current-stage": "coding",
-  "stages-completed": ["requirements", "clarify", "plan", "to-do", "coding"],
+  "feature-dir": "_reversa_forward/024-status-conexoes-do-banco",
+  "feature-id": "024",
+  "short-name": "status-conexoes-do-banco",
+  "started-at": "2026-08-10T23:06:00Z",
+  "current-stage": "done",
+  "stages-completed": [
+    "requirements",
+    "clarify",
+    "plan",
+    "to-do",
+    "coding",
+    "sync"
+  ],
   "paused-features": []
 }

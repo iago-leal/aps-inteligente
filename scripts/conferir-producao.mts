@@ -34,6 +34,12 @@
 // apuração" justamente quando precisa dizer "defasada". Ausência é desconhecido,
 // nunca erro de contrato.
 //
+// A FEATURE 024 acrescentou três campos ao ramo íntegro de `banco`, a saber o teto
+// de conexões do servidor, quantas estão abertas no banco corrente e a versão, e
+// eles entram por essa mesma porta (D-10). A saída ganha a ocupação ao lado do
+// estado; faltando os campos, ela sai como desconhecida, e nada muda nos códigos
+// de saída, que seguem respondendo à defasagem, que é a pergunta do comando.
+//
 // Uso:  node scripts/conferir-producao.mts [--url <origem>] [--json] [--exigir-saudavel]
 //       npm run status:conferir
 //       (a origem também sai de APS_URL_PRODUCAO; o padrão é a produção.)
@@ -104,6 +110,13 @@ function exclusoes(): readonly string[] {
 interface EstadoDoBanco {
   readonly estado: string;
   readonly causa?: string;
+  /** Campos da feature 024, que só o ramo íntegro do contrato traz. Opcionais aqui
+   *  pela mesma razão dos de 022 (D-10): o deploy consultado pode ser anterior a
+   *  eles, e ausência é desconhecido. Os nomes são os do corpo publicado, porque o
+   *  `--json` reemite este objeto tal como o leu. */
+  readonly teto_de_conexoes?: number;
+  readonly conexoes_abertas?: number;
+  readonly versao?: string;
 }
 
 interface Status {
@@ -122,12 +135,35 @@ function textoOpcional(valor: unknown): string | null {
   return typeof valor === "string" && valor.length > 0 ? valor : null;
 }
 
+/** Contagem opcional. Número fora da forma esperada é desconhecido, e não falha de
+ *  contrato: a régua é a mesma de `textoOpcional`. */
+function inteiroOpcional(valor: unknown): number | undefined {
+  return typeof valor === "number" && Number.isInteger(valor) && valor >= 0
+    ? valor
+    : undefined;
+}
+
+/** As chaves ausentes permanecem ausentes, e não viram `null`, porque o `--json`
+ *  reemite este objeto: publicar `null` afirmaria "apurado como nada" onde a
+ *  verdade é "não publicado por este deploy". */
 function bancoOpcional(valor: unknown): EstadoDoBanco | null {
   if (typeof valor !== "object" || valor === null) return null;
-  const estado = (valor as Record<string, unknown>).estado;
+  const campos = valor as Record<string, unknown>;
+  const estado = campos.estado;
   if (typeof estado !== "string") return null;
-  const causa = (valor as Record<string, unknown>).causa;
-  return typeof causa === "string" ? { estado, causa } : { estado };
+
+  const causa = textoOpcional(campos.causa);
+  const teto = inteiroOpcional(campos.teto_de_conexoes);
+  const abertas = inteiroOpcional(campos.conexoes_abertas);
+  const versao = textoOpcional(campos.versao);
+
+  return {
+    estado,
+    ...(causa === null ? {} : { causa }),
+    ...(teto === undefined ? {} : { teto_de_conexoes: teto }),
+    ...(abertas === undefined ? {} : { conexoes_abertas: abertas }),
+    ...(versao === null ? {} : { versao }),
+  };
 }
 
 /** Há quanto tempo o deploy subiu, em unidade legível. Desconhecido é resposta. */
@@ -152,11 +188,26 @@ function fraseDeIdade(publicadoEm: string | null): string {
     : `publicado há ${idade}`;
 }
 
+/** A ocupação sai como razão, `abertas/teto`, e nunca como percentual: os dois
+ *  números descrevem universos diferentes, o teto sendo do servidor e a contagem
+ *  do banco corrente, de modo que a razão é indicativa e a divisão mentiria. Um
+ *  deploy anterior à 024 é íntegro sem trazê-los, e aí a ocupação é desconhecida. */
+function fraseDeOcupacao(banco: EstadoDoBanco): string {
+  const abertas = banco.conexoes_abertas;
+  const teto = banco.teto_de_conexoes;
+  return abertas === undefined || teto === undefined
+    ? "ocupação desconhecida"
+    : `${abertas}/${teto} conexões`;
+}
+
 /** O estado vira prosa; a causa permanece o termo do contrato, entre parênteses,
- *  porque é valor de vocabulário fechado e não frase. */
+ *  porque é valor de vocabulário fechado e não frase. A ocupação acompanha só o
+ *  estado íntegro, que é o único onde o contrato permite que os campos existam:
+ *  dizê-la desconhecida no estado degradado seria relatar como falta de apuração o
+ *  que é ausência devida. */
 function descreveBanco(banco: EstadoDoBanco | null): string {
   if (banco === null) return "desconhecido";
-  if (banco.estado === "integro") return "íntegro";
+  if (banco.estado === "integro") return `íntegro · ${fraseDeOcupacao(banco)}`;
   if (banco.estado !== "degradado") return banco.estado;
   return banco.causa ? `degradado (${banco.causa})` : "degradado";
 }
